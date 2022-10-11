@@ -66,7 +66,7 @@ obj:
 			@mkdir -p $(OBJ_DIR)
 
 leak:		obj $(NAME)
-			@valgrind --suppressions=ignore_rdl_leaks.txt -leak-check=full --show-leak-kinds=all --trace-children=yes --track-fds=yes ./minishell
+			@valgrind --suppressions=ignore_rdl_leaks.txt --leak-check=full --show-leak-kinds=all --trace-children=yes --track-fds=yes ./minishell
 
 clean:
 			@$(RM) $(OBJ_DIR)
