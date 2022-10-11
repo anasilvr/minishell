@@ -30,7 +30,8 @@ BUILTIN_F	=	\
 ENGINE_F	=
 
 MAIN_F		=	\
-	main.c
+	intro.c \
+	main.c 
 
 PARSE_F	=
 

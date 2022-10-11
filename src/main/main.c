@@ -6,42 +6,25 @@
 /*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:44:57 by anarodri          #+#    #+#             */
-/*   Updated: 2022/10/11 15:34:51 by anarodri         ###   ########.fr       */
+/*   Updated: 2022/10/11 17:38:37 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	print_intro(void)
-{
-	printf("\033[1;95m");
-	printf("  █   █\n\
-   █   █\n\
-   █   █\n\
-    ███            █████ 　　　\n\
-  █▒░░█         ██▓▒▒▓██ ☆\n\
- █▒░●░░█    ██▓▒██▓▒▒▓█　　 ★\n\
- █▒░█░░██  ██▓▒██▓▒░▒▓█\n\
-  ██▒░░░█ ██▓▒░██▓▒░▒▓█ 　　　★\n\
-     █▒░░███▓▓▒░░ ████▓█\n\
-    █▒▒░░░███▓▓▒▒░░░██ 　 ★★\n\
-     █▒▒░░░██████████████\n\
-      █▒▒▒▒▒▒▒▒▒▒▒▒▒▒░█\n\
-       ██████████████████.•°*”˜҈.•°*”˜҈..•°*”˜҈.•°*”˜҈..•°*”˜҈.•°*”˜҈.\
-	What the shell!?\n\n");
-	printf("\033[0m");
-}
-
-
 int	main(int argc, char **argv, char **envp)
 {
-	char *line;
+	t_data	data;
+	t_cmd	*cmd;
+	int	i = 0;
 
+	data.envp_cp = backup_env(envp);
 	print_intro();
 	while (1)
 	{
-		line = rl_gets();
-		if (!line)
+		//signal_handling();
+		data.prompt_line = rl_gets();
+		if (!data.prompt_line)
 			exit (0);
 	}
 	return (0);
