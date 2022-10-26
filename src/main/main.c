@@ -6,37 +6,84 @@
 /*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:44:57 by anarodri          #+#    #+#             */
-/*   Updated: 2022/10/12 13:40:08 by anarodri         ###   ########.fr       */
+/*   Updated: 2022/10/25 16:20:38 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+static	void err_msg(bool to_exit, char *msg, char *tok)
+{
+	write(2, msg, ft_strlen(msg));
+	write(2, tok, 1);
+	if (to_exit == true)
+		exit (g_status);
+	else
+		return ;
+}
 int	main(int argc, char **argv, char **envp)
 {
-	t_data	data;
-	t_cmd	*cmd;
-	int	i = 0;
+	t_data		*data;
 
-	data.envp_cp = backup_env(envp);
+	data = NULL;
+	if (argc > 1)
+	{
+		ft_putstr_fd("Error: Program call doesn't support any flags or arguments.\
+		Try again. Ex.: \"./minishell\"\n", STDERR_FILENO);
+		exit(EXIT_FAILURE);
+	}
+	if (!envp)
+	{
+		ft_putstr_fd("Error: ENVP missing. \
+		Please restart your terminal before trying again.\n", STDERR_FILENO);
+		exit(EXIT_FAILURE);
+	}
+	argv = NULL;
+	data = init_data(envp, data);
 	print_intro();
+	wtshell(data);
+	clean_exit(data);
+	exit (g_status);
+}
+
+void	wtshell(t_data *data)
+{
 	while (1)
 	{
-		//signal_handling();
-		data.prompt_line = rl_gets();
-		if (!data.prompt_line)
-			exit (0);
+		//handle_signals();
+		data->input = rl_gets();
+		if (!data->input)
+			clean_exit(data);
+		g_status = lexer(data, data->input);
+		if (data->syntax_err) // check flags to specify other errors later
+			err_msg(false, "Error: Unclosed quotes. Try again.\n", NULL);
+
 	}
-	return (0);
+/*		g_status = parser(data);
+		//execute things;
+		g_status = executor(data);
+		//clean up for next; */
 }
 
 char	*rl_gets(void)
 {
-	char *line;
+	char	*line;
 
 	line = (char *) NULL;
-	line = readline("\033[0;97m\xF0\x9F\x90\x8CWTS$\033[0m ");
+	line = readline(WTS);
 	if (line && *line)
 		add_history(line);
 	return (ft_strjoin_free(line, "\n"));
 }
+
+/*t_cmd	*new_lst(char *str)
+{
+	int 	i;
+	t_cmd	*new;
+
+	i = 0;
+	new = (t_cmd *)ft_xcalloc(sizeof(t_cmd));
+	new->cmd = str;
+	new->next = NULL;
+	return (new);
+}*/

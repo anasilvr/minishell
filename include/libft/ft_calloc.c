@@ -6,7 +6,7 @@
 /*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 10:44:52 by anarodri          #+#    #+#             */
-/*   Updated: 2021/11/15 10:11:37 by anarodri         ###   ########.fr       */
+/*   Updated: 2022/10/14 16:22:06 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ void	*ft_calloc(size_t num, size_t size)
 
 	ptr = malloc(num * size);
 	if (ptr == NULL)
+	{
 		return (NULL);
+	}
 	ft_bzero(ptr, (num * size));
 	return (ptr);
 }

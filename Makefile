@@ -3,8 +3,8 @@ NAME		=	minishell
 HEADER_F	=	minishell.h
 
 CC			=	gcc
-CFLAGS		=	-g
-#CFLAGS		=	-Wall -Wextra -Werror
+#CFLAGS		=	-g
+CFLAGS		=	-Wall -Wextra -Werror
 RM			=	RM -rf
 
 # FOLDER PATHS #
@@ -24,16 +24,23 @@ SIGNAL_DIR	=	$(SRC_DIR)signals/
 OBJ_DIR		=	obj/
 
 # FILES #
-BUILTIN_F	=	\
+BUILTIN_F	=		\
 	builtin.c
 
 ENGINE_F	=
 
-MAIN_F		=	\
-	intro.c \
-	main.c 
+MAIN_F		=		\
+	exit.c			\
+	init.c			\
+	intro.c			\
+	main.c
 
-PARSE_F	=
+PARSE_F	=			\
+	backup_envp.c	\
+	lexer_utils.c	\
+	lexer.c			\
+	safesplit.c		\
+	token_utils.c	\
 
 SIGNAL_F	=
 
