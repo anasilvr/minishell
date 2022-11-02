@@ -48,32 +48,27 @@ typedef enum e_builtins
 	E_EXIT = 6
 }	t_builtin;
 
-typedef	enum e_type
+typedef enum e_type
 {
-	BUILTIN,
-	CMD,
-	FLAG,
-	STR,
-	ENVVAR,
+	NOTSET,
+	WORD,
 	PIPE,
 	HEREDOC,
-	REDIR,
+	INVALID,
 }	t_type;
 
 typedef struct s_cmd
 {
 	char		*cmd; // input[0]
-	char 		**args; // input[1...until pipe or EOL]
-	char		*input;
-	char		*output;
-	int			fd_in; // Default =  STDIN_FILENO
-	int			fd_out; // Default = STDOUT_FILENO
+	char		**args; // input[1...until pipe or EOL]
+	char		*path;
+	int			fd[2]; // Default =  STDIN_FILENO
 	int			err; // do i need it? can i always store on global?
 	t_cmd		*prev; // first one = NULL
 	t_cmd		*next; // input[first after redir];
 }	t_cmd;
 
-typedef	struct s_tok
+typedef struct s_tok
 {
 	char		*token;
 	t_type		type;
@@ -89,10 +84,8 @@ typedef struct s_data
 	char		*input; // return of rl_gets;
 	t_tok		*token;
 	int			nb_toks;
-	char		*errtok; // which token returned an error, might not implement
 	t_cmd		*cmd_lst; // linked list where every cmd of input is split on a node with its own arguments and flags
 	int			nb_cmds; // size of cmd_lst;
-	int			*pipe;
 	int			nb_pipes;
 	bool		heredoc_f;
 	bool		syntax_err;
@@ -114,6 +107,13 @@ char	**init_path(t_data *data);
 // intro.c
 void	print_intro(void);
 
+// list_utils.c
+void	free_toklist(t_tok **lst);
+void	del_token(t_tok *lst);
+t_tok	*new_toklist(char *tok);
+void	addback_toklist(t_tok **toklist, t_tok *new);
+t_tok	*get_lasttok(t_tok *node);
+
 // main.c
 void	wtshell(t_data *data);
 char	*rl_gets(void);
@@ -130,11 +130,10 @@ t_tok	*tokenize(t_data *data, char *str);
 int		tok_len(char *str, int len);
 void	token_redir(t_tok *lst, char **str);
 
-t_tok	*new_toklist(char *tok);
-void	addback_toklist(t_tok **toklist, t_tok *new);
-t_tok	*get_lasttok(t_tok *node);
 int		lenght_til_match(char *str, char c);
 void	id_tokens(t_tok **lst);
+bool	is_pipe(char *tok);
+bool	is_word(char *tok);
 // SIGNALS
 void	handle_signal(int sig);
 

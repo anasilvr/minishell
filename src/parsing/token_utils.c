@@ -12,8 +12,8 @@ int	tok_len(char *str, int len)
 		{
 			if (i == 0 && (is_set(str[i], QUOTES)))
 				i = (1 + lenght_til_match(str, str[i]));
-//			if (i == 0 && (is_set(str[i], REDIRCHAR) && is_set(str[i + 1], REDIRCHAR)))
-//				manage_meta(); // criar uma função pra lidar com multi metachars >> << ou erro
+			if (i == 0 && (is_set(str[i], REDIRCHAR) && is_set(str[i + 1], REDIRCHAR)))
+				manage_meta(); // criar uma função pra lidar com multi metachars >> <<
 			else if (i == 0)
 				i = 1;
 			break ;
@@ -22,10 +22,13 @@ int	tok_len(char *str, int len)
 	}
 	return (i);
 }
+// https://www.notion.so/tchalifour91/Gestion-du-projet-826479dbb4bf46cdb4c42c87ab64fc36
+// create function manage_meta to beter segment line and facilitate later verification.
+//DO NOT FALL INTO THE TRAP OF DOING TOO MUCH TOO SOON.
 
 int	lenght_til_match(char *str, char c)
 {
-	int i;
+	int	i;
 
 	if (!str)
 		return (0);
@@ -33,35 +36,64 @@ int	lenght_til_match(char *str, char c)
 	while (str[i])
 	{
 		if (is_set(str[i], &c))
-			break ;
+		{
+			if (!is_set(str[i + 1], WHITESPACE))
+				i++;
+			else
+				break ;
+		}
 		i++;
 	}
 	return (i);
 }
 
-/*void	id_tokens(t_tok **list)
+void	id_tokens(t_tok **list)
 {
 	t_tok *node;
 
 	node = *list;
 	while (node)
 	{
-		if (is_builtin(node->token)) // strcmp with builtin's names
-			node->type = BUILTIN;
-		else if (is_cmd (node->token)) // absolute first node or first after a pipe + access
-			node->type = CMD;
-		else if (is_flag(node->token)) // if the node->prev was set as CMD and this one starts with -
-			node->type = FLAG;
-		else if (is_envvar(node->token)) // check for $
-			node->type = ENVVAR;
-		else if (is_pipe(node->token)) // checks for | WITHOUT QUOTES
+		if (is_pipe(node->token)) // checks for | WITHOUT QUOTES
 			node->type = PIPE;
-		else if (is_heredoc(node->token)) // checks for <<
-			node->type = HEREDOC;
-		else if (is_redir(node->token)) // isolated < >
-			node->type = REDIR;
+//		else if (is_heredoc(node->token)) // checks for <<
+//			node->type = HEREDOC;
+//		else if (is_redir(node->token)) // isolated < >
+//			node->type = INVALID;
 		else
-			node->type = STR;
+			node->type = WORD;
 		node = node->next;
 	}
+}
+
+bool	is_pipe(char *tok)
+{
+	if (!ft_strcmp(tok, "|"))
+		return (true);
+	else
+		return (false);
+}
+
+bool	is_envvar(char *tok)
+{
+	if (!ft_strcmp(tok, "$") && *(tok + 1) )
+		return (true);
+	else
+		return (false);
+}
+
+/*bool	is_word(char *tok)
+{
+	bool	quoted;
+
+	if ((is_set(*tok, QUOTES)))
+		quoted = true;
+	else
+		quoted = false;
+
+	while (*tok)
+	{
+		if(is_set(*tok, METACHAR))
+	}
+	return(false);
 }*/

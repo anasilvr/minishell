@@ -33,7 +33,8 @@ MAIN_F		=		\
 	exit.c			\
 	init.c			\
 	intro.c			\
-	main.c
+	list_utils.c	\
+	main.c			\
 
 PARSE_F	=			\
 	backup_envp.c	\

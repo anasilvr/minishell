@@ -6,7 +6,7 @@
 /*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:44:57 by anarodri          #+#    #+#             */
-/*   Updated: 2022/10/25 16:20:38 by anarodri         ###   ########.fr       */
+/*   Updated: 2022/11/02 14:41:58 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,19 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_data		*data;
 
-	data = NULL;
-	if (argc > 1)
-	{
-		ft_putstr_fd("Error: Program call doesn't support any flags or arguments.\
-		Try again. Ex.: \"./minishell\"\n", STDERR_FILENO);
-		exit(EXIT_FAILURE);
-	}
-	if (!envp)
+	if (!envp || !(*envp))
 	{
 		ft_putstr_fd("Error: ENVP missing. \
 		Please restart your terminal before trying again.\n", STDERR_FILENO);
 		exit(EXIT_FAILURE);
 	}
+	if (argc > 1)
+	{
+		ft_putstr_fd("Error: Program call doesn't support any flags or arguments.\
+		Try again.\n", STDERR_FILENO);
+		exit(EXIT_FAILURE);
+	}
+	data = NULL;
 	argv = NULL;
 	data = init_data(envp, data);
 	print_intro();
@@ -75,15 +75,3 @@ char	*rl_gets(void)
 		add_history(line);
 	return (ft_strjoin_free(line, "\n"));
 }
-
-/*t_cmd	*new_lst(char *str)
-{
-	int 	i;
-	t_cmd	*new;
-
-	i = 0;
-	new = (t_cmd *)ft_xcalloc(sizeof(t_cmd));
-	new->cmd = str;
-	new->next = NULL;
-	return (new);
-}*/

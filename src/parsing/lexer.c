@@ -10,17 +10,16 @@ int	lexer(t_data *data, char *input)
 	if (data->syntax_err == true)
 		return (EXIT_FAILURE);
 	data->token = tokenize(data, input);
-//	id_tokens(&data->token);
+	id_tokens(&data->token);
 	print_toklist(&data->token);
 	return (0);
 }
-//do i strip quotes BEFORE tokenizing or after?
+
 t_tok	*tokenize(t_data *data, char *str)
 {
 	t_tok	*lst;
 
 	lst = NULL;
-	skip_whitespaces(&str);
 	while (*str)
 	{
 		data->token->toksize = tok_len(str, ft_strlen(str));
