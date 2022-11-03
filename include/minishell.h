@@ -54,6 +54,9 @@ typedef enum e_type
 	WORD,
 	PIPE,
 	HEREDOC,
+	REDIR_IN,
+	REDIR_OUT,
+	APPEND,
 	INVALID,
 }	t_type;
 
@@ -130,9 +133,11 @@ t_tok	*tokenize(t_data *data, char *str);
 int		tok_len(char *str, int len);
 void	token_redir(t_tok *lst, char **str);
 
+int	lenght_til_set(char *str, char *set);
 int		lenght_til_match(char *str, char c);
 void	id_tokens(t_tok **lst);
-bool	is_pipe(char *tok);
+int		is_valid(char *tok);
+int		is_redir(char* tok);
 bool	is_word(char *tok);
 // SIGNALS
 void	handle_signal(int sig);

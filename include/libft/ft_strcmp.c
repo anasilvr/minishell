@@ -6,7 +6,7 @@
 /*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 15:56:26 by anarodri          #+#    #+#             */
-/*   Updated: 2022/11/02 16:06:02 by anarodri         ###   ########.fr       */
+/*   Updated: 2022/11/03 17:23:36 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_strcmp(const char *str1, const char *str2)
 {
-	while (*str1 || *str2)
+	while (*str1 && *str2)
 	{
 		if (*str1 != *str2)
 			return ((unsigned char) *str1 - (unsigned char) *str2);

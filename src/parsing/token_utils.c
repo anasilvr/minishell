@@ -2,18 +2,23 @@
 
 int	tok_len(char *str, int len)
 {
-	int i;
+	int	i;
+
 	if (!str)
 		return (0);
-	i = 0; // handle dollar somewhere around here so it doesnt get split maybe?
+	i = 0;
 	while (i < len)
 	{
-		if (is_set(str[i], METACHAR) || is_set(str[i], QUOTES))
+		if (is_set(str[i], METACHAR)
+			|| is_set(str[i], QUOTES)
+			|| is_set(str[i], "$"))
 		{
-			if (i == 0 && (is_set(str[i], QUOTES)))
+			if (i == 0 && ((is_set(str[i], QUOTES))))
 				i = (1 + lenght_til_match(str, str[i]));
-			if (i == 0 && (is_set(str[i], REDIRCHAR) && is_set(str[i + 1], REDIRCHAR)))
-				manage_meta(); // criar uma função pra lidar com multi metachars >> <<
+			if (i == 0 && (is_set(str[i], METACHAR)))
+				i = (1 + lenght_til_set(str, WHITESPACE));
+			if (i == 0 && (is_set(str[i], "$")))
+				i = (1 + lenght_til_set(str, WHITESPACE));
 			else if (i == 0)
 				i = 1;
 			break ;
@@ -22,9 +27,28 @@ int	tok_len(char *str, int len)
 	}
 	return (i);
 }
-// https://www.notion.so/tchalifour91/Gestion-du-projet-826479dbb4bf46cdb4c42c87ab64fc36
-// create function manage_meta to beter segment line and facilitate later verification.
-//DO NOT FALL INTO THE TRAP OF DOING TOO MUCH TOO SOON.
+//ATTENTION WHILE CHECKING $: CHECK RAW INPUT FOR SPACES BETWEEN WORDS
+// problema quando meu meta está ligado direto à uma letra qualquer.
+// os metas em sequencia devem ficar juntos pra validação depois, mas devem se separar caso:
+// encontrem espaços (OK) ou outro char não meta (KO)
+// |a| == [0]=| [1]=a [2]=|
+// atualmente, |a| == [0]=|a|
+
+int	lenght_til_set(char *str, char *set)
+{
+	int	i;
+
+	if (!str || !set)
+		return (0);
+	i = 1;
+	while (str[i])
+	{
+		if (is_set(str[i], set) ||)
+			break ;
+		i++;
+	}
+	return (i);
+}
 
 int	lenght_til_match(char *str, char c)
 {
@@ -35,13 +59,10 @@ int	lenght_til_match(char *str, char c)
 	i = 1;
 	while (str[i])
 	{
-		if (is_set(str[i], &c))
-		{
-			if (!is_set(str[i + 1], WHITESPACE))
-				i++;
-			else
-				break ;
-		}
+		if (is_set(str[i], &c) && is_set(str[i + 1], &c))
+			i++;
+		else if (is_set(str[i], &c))
+			break ;
 		i++;
 	}
 	return (i);
@@ -49,29 +70,39 @@ int	lenght_til_match(char *str, char c)
 
 void	id_tokens(t_tok **list)
 {
-	t_tok *node;
+	t_tok	*node;
 
 	node = *list;
 	while (node)
 	{
-		if (is_pipe(node->token)) // checks for | WITHOUT QUOTES
-			node->type = PIPE;
-//		else if (is_heredoc(node->token)) // checks for <<
-//			node->type = HEREDOC;
-//		else if (is_redir(node->token)) // isolated < >
-//			node->type = INVALID;
-		else
-			node->type = WORD;
+		if (is_redir(node->token)) // isolated < >
+			node->type = is_redir(node->token);
+		if (node->type == NOTSET)
+			node->type = is_valid(node->token);
 		node = node->next;
 	}
 }
 
-bool	is_pipe(char *tok)
+int	is_valid(char *tok)
 {
-	if (!ft_strcmp(tok, "|"))
-		return (true);
+	printf("Gettinghere with %s\n", tok);
+	return (0);
+}
+
+int	is_redir(char* tok)
+{
+	if (!ft_strcmp(tok, "|") && ft_strlen(tok) == 2)
+		return (PIPE);
+	else if (!ft_strcmp(tok, "<<") && ft_strlen(tok) == 3)
+		return(HEREDOC);
+	else if (!ft_strcmp(tok, ">") && ft_strlen(tok) == 2)
+		return (REDIR_OUT);
+	else if (!ft_strcmp(tok, "<") && ft_strlen(tok) == 2)
+		return (REDIR_IN);
+	else if (!ft_strcmp(tok, ">>") && ft_strlen(tok) == 3)
+		return (APPEND);
 	else
-		return (false);
+		return (0);
 }
 
 bool	is_envvar(char *tok)
