@@ -22,12 +22,12 @@
 # define PIPE_READ 0
 # define PIPE_WRITE 1
 # define WHITESPACE " \n\t\v\r\f"
-# define METACHAR "|<> \n\t\v\r\f"
-# define REDIRCHAR "<>"
+# define METACHAR "|<>"
 # define QUOTES "\'\""
 
-# define ERR_SYNTAX "Syntax error near unexpected token: "
-# define ERR_CMD ": command not found"
+# define ERR_QUOTES "Error: Unclosed quotes. Try again." // $? = 1
+# define ERR_SYNTAX "Syntax error near unexpected token: " // $? = 258
+# define ERR_CMD ": command not found" // $? = 127
 # define ERR_OPEN ": no such file or directory"
 # define ERR_ACCESS ": permission denied"
 
@@ -57,16 +57,18 @@ typedef enum e_type
 	REDIR_IN,
 	REDIR_OUT,
 	APPEND,
+	DOLLAR,
 	INVALID,
 }	t_type;
 
 typedef struct s_cmd
 {
-	char		*cmd; // input[0]
-	char		**args; // input[1...until pipe or EOL]
+	char		**cmdline; // input[0 - pipe or EOL]
 	char		*path;
-	int			fd[2]; // Default =  STDIN_FILENO
+	int			fd[2]; // Default =  STDIN_FILENO // to be changed depending on token list
 	int			err; // do i need it? can i always store on global?
+	bool		expand;
+	bool		heredoc;
 	t_cmd		*prev; // first one = NULL
 	t_cmd		*next; // input[first after redir];
 }	t_cmd;
@@ -84,13 +86,13 @@ typedef struct s_data
 {
 	char		**envp_cp;
 	char		**path;
-	char		*input; // return of rl_gets;
+	char		*pwd;
+	char		*input;
 	t_tok		*token;
 	int			nb_toks;
 	t_cmd		*cmd_lst; // linked list where every cmd of input is split on a node with its own arguments and flags
 	int			nb_cmds; // size of cmd_lst;
 	int			nb_pipes;
-	bool		heredoc_f;
 	bool		syntax_err;
 }	t_data;
 
@@ -106,42 +108,47 @@ void	clean_exit(t_data *data);
 t_data	*get_data(void);
 t_data	*init_data(char **envp, t_data *data);
 char	**init_path(t_data *data);
+char	**backup_env(char **envp);
 
 // intro.c
 void	print_intro(void);
 
 // list_utils.c
-void	free_toklist(t_tok **lst);
-void	del_token(t_tok *lst);
 t_tok	*new_toklist(char *tok);
 void	addback_toklist(t_tok **toklist, t_tok *new);
 t_tok	*get_lasttok(t_tok *node);
+void	del_token(t_tok *lst);
+void	free_toklist(t_tok **lst);
 
 // main.c
 void	wtshell(t_data *data);
 char	*rl_gets(void);
 
 // PARSING
-char	**backup_env(char **envp);
-char	**safesplit(char const *s, char c); // split that conserves all characters, including delimiter
+//lexer_utils.c
 void	skip_whitespaces(char **str);
 int		is_set(char s, char *set);
+void	print_toklist(t_tok **list);
 
+//lexer.c
 int		lexer(t_data *data, char *input);
-void	valid_quotation(t_data *data);
 t_tok	*tokenize(t_data *data, char *str);
-int		tok_len(char *str, int len);
-void	token_redir(t_tok *lst, char **str);
 
-int	lenght_til_set(char *str, char *set);
+//token_utils.c
+int		tok_len(char *str, int len);
+int		lenght_for_dollar(char *str);
+int		lenght_til_set(char *str, char *set);
 int		lenght_til_match(char *str, char c);
-void	id_tokens(t_tok **lst);
+
+//token_check.c
+int		id_tokens(t_tok **lst);
+int		is_redir(char *tok);
 int		is_valid(char *tok);
-int		is_redir(char* tok);
-bool	is_word(char *tok);
+
 // SIGNALS
 void	handle_signal(int sig);
 
-void	print_toklist(t_tok **list);
+//extra
+char	**safesplit(char const *s, char c); // split that conserves all characters, including delimiter
 
 #endif

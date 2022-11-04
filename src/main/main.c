@@ -6,21 +6,37 @@
 /*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:44:57 by anarodri          #+#    #+#             */
-/*   Updated: 2022/11/02 14:41:58 by anarodri         ###   ########.fr       */
+/*   Updated: 2022/11/04 17:31:15 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static	void err_msg(bool to_exit, char *msg, char *tok)
+static void	err_msg(void)
 {
-	write(2, msg, ft_strlen(msg));
-	write(2, tok, 1);
-	if (to_exit == true)
-		exit (g_status);
+	if (g_status == 90)
+	{
+		write(2, ERR_QUOTES, ft_strlen(ERR_QUOTES));
+		write(2, "\n", 1);
+		g_status = 1;
+	}
+	else if (g_status == 127)
+	{
+//		write(2, s, ft_strlen(s));
+		write(2, ERR_CMD, ft_strlen(ERR_CMD));
+		write(2, "\n", 1);
+	}
+	else if (g_status == 258)
+	{
+		write(2, ERR_SYNTAX, ft_strlen(ERR_SYNTAX));
+//		write(2, s, ft_strlen(s));
+		write(2, "\n", 1);
+	}
 	else
-		return ;
+		write(2, "Error\n", 7);
+	return ;
 }
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_data		*data;
@@ -48,21 +64,27 @@ int	main(int argc, char **argv, char **envp)
 
 void	wtshell(t_data *data)
 {
+	g_status = 0;
 	while (1)
 	{
 		//handle_signals();
 		data->input = rl_gets();
 		if (!data->input)
 			clean_exit(data);
-		g_status = lexer(data, data->input);
-		if (data->syntax_err) // check flags to specify other errors later
-			err_msg(false, "Error: Unclosed quotes. Try again.\n", NULL);
-
-	}
-/*		g_status = parser(data);
+		else
+		{
+			g_status = lexer(data, data->input);
+			if (g_status)
+				err_msg();
+//		g_status = parser();
+//		if(g_status)
+//			err_msg(NULL);
+/*
 		//execute things;
 		g_status = executor(data);
 		//clean up for next; */
+		}
+	}
 }
 
 char	*rl_gets(void)

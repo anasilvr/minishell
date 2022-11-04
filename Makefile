@@ -37,10 +37,10 @@ MAIN_F		=		\
 	main.c			\
 
 PARSE_F	=			\
-	backup_envp.c	\
 	lexer_utils.c	\
 	lexer.c			\
 	safesplit.c		\
+	token_check.c	\
 	token_utils.c	\
 
 SIGNAL_F	=

@@ -31,30 +31,3 @@ void	reset(t_data *data)
 	xfree(data->input);
 	free_toklist(&data->token);
 }
-
-void	free_toklist(t_tok **lst)
-{
-	t_tok	*tmp;
-	t_tok	*current;
-
-	if (!lst && !*lst)
-		return ;
-	current = *lst;
-	while (current)
-	{
-		tmp = current->prev;
-		tmp->next = current->next;
-		(tmp->next)->prev = tmp;
-		del_token(current);
-		*lst = tmp;
-	}
-	*lst = NULL;
-}
-
-void	del_token(t_tok *lst)
-{
-	if (!lst)
-		return ;
-	xfree(lst->token);
-	xfree(lst);
-}

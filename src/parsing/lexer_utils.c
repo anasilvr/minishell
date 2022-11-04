@@ -9,7 +9,7 @@ void	skip_whitespaces(char **str)
 	return ;
 }
 
-int		is_set(char s, char *set)
+int	is_set(char s, char *set)
 {
 	int	i;
 
@@ -32,7 +32,6 @@ void	print_toklist(t_tok **list)
 
 	node = *list;
 	i = 0;
-
 	while (node)
 	{
 		if (!node)

@@ -53,7 +53,7 @@ char	**safesplit(char const *s, char c)
 		return (NULL);
 	while (s[i] != '\0')
 	{
-		while (s[i] == c  )
+		while (s[i] == c)
 			i++;
 		j = i;
 		while (s[i] != '\0' && s[i] != c)
