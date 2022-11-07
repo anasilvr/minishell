@@ -6,9 +6,11 @@
 /*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:01:02 by tchalifo          #+#    #+#             */
-/*   Updated: 2022/11/07 09:42:20 by tchalifo         ###   ########.fr       */
+/*   Updated: 2022/11/07 14:43:03 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../../include/minishell.h"
 
 /* Pipe management file for the shell program.
  */
