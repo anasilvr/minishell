@@ -4,7 +4,7 @@ HEADER_F	=	minishell.h
 
 CC			=	gcc
 #CFLAGS		=	-g
-CFLAGS		=	-Wall -Wextra -Werror
+CFLAGS		=	-Wall -Wextra -Werror -g
 RM			=	RM -rf
 
 # FOLDER PATHS #

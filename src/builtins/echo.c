@@ -8,7 +8,7 @@ int check_echo_var(char *instruct, char **env)
     i = 0;
     j = 0;
     if (instruct[i] == '$')
-    {   
+    {
         i++;
         while (env[j] != NULL)
         {
@@ -64,6 +64,7 @@ void ft_echo(char **arg, char **env, int i)
         while (env[k][++j] != '\0')
         {
             c = env[k][j];
+			// ft_putchar_fd(c, fd)
             write(1, &c, 1);
         }
     }

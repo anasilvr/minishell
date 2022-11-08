@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:34:45 by tchalifo          #+#    #+#             */
-/*   Updated: 2022/11/07 15:24:56 by tchalifo         ###   ########.fr       */
+/*   Updated: 2022/11/08 17:18:55 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
  * - Open the file, if is not present create im or if i dont have permission
  *   on it return the error code -1.
 */
-int	redirect_to_file(char *filepath)
+int	file_opening(char *filepath, int flag)
 {
 	int	file_fd;
 
@@ -37,6 +37,58 @@ int	redirect_to_file(char *filepath)
 	if (file_fd == -1)
 		return (-1);
 	return (file_fd);
+}
+/* Puisque je trouve tout les infos sur la string retourné par
+ * readline dans la struct token, j'ai utilisé les champs de la
+ * list chainée Token.
+ * La variable type m'indique si je rencontre un chevrons < en autre qui est
+ * l'enum de valeur 4.
+ * Donc, ici si je rencontre un chevrons, le nom du fichier devrait
+ * le précéder.
+ */
+void	input_setup(t_data *data)
+{
+	if (data->token->type == REDIR_IN)
+	{
+		while (data->token->next != '\0')
+		{
+			if (ft_strcmp(data->token->type, '<') == 0)
+				break;
+			data->token = data->token->next;
+		}
+		file_opening(data->token->prev->token, "");
+	}
+}
+
+/* Puisque je trouve tout les infos sur la string retourné par
+ * readline dans la struct token, j'ai utilisé les champs de la
+ * list chainée Token.
+ * La variable type m'indique si je rencontre un chevrons > en autre qui est
+ * l'enum de valeur 5.
+ * Donc, ici si je rencontre un chevrons, le nom du fichier devrait le suivre.
+ */
+void	output_setup(t_data *data)
+{
+	if (data->token->type == REDIR_OUT)
+	{
+		while (data->token->next != '\0')
+		{
+			if (ft_strcmp(data->token->type, '>') == 0)
+				break;
+			data->token = data->token->next;
+		}
+		file_opening(data->token->next->token, "");
+	if (data->token->type == APPEND)
+	{
+		while (data->token->next != '\0')
+		{
+			if (ft_strcmp(data->token->type, '>>') == 0)
+				break;
+			data->token = data->token->next;
+		}
+		file_opening(data->token->next->token, "APPEND");
+	}
+	}
 }
 
 /* Case cmd << EOL --> Redirect a bunch of lines to the stdin. This is called
@@ -55,7 +107,6 @@ void	heredoc()
 	readlen = 1;
 	while (readlen > 0)
 		content = read();
-
 
 }
 
