@@ -52,11 +52,11 @@ int	lexer(t_data *data, char *input)
 	if (g_status)
 		return (g_status); // $? = 1 for unclosed quotes
 	data->token = tokenize(data, input);
-	print_toklist(&data->token);
 	g_status = id_tokens(&data->token);
-	print_toklist(&data->token);
 	if (g_status)
 		return (g_status); // $? = 258 for syntax errors
+	verify_dollartype(&data->token);
+	print_toklist(&data->token);
 	return (0);
 }
 
@@ -65,6 +65,7 @@ t_tok	*tokenize(t_data *data, char *str)
 	t_tok	*lst;
 
 	lst = NULL;
+	skip_whitespaces(&str);
 	while (*str)
 	{
 		data->token->toksize = tok_len(str, ft_strlen(str));

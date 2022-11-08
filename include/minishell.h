@@ -58,6 +58,9 @@ typedef enum e_type
 	REDIR_OUT,
 	APPEND,
 	DOLLAR,
+	D_EMPTY,
+	D_PID,
+	D_RETURN,
 	INVALID,
 }	t_type;
 
@@ -144,6 +147,7 @@ int		lenght_til_match(char *str, char c);
 int		id_tokens(t_tok **lst);
 int		is_redir(char *tok);
 int		is_valid(char *tok);
+void	verify_dollartype(t_tok **list);
 
 // SIGNALS
 void	handle_signal(int sig);

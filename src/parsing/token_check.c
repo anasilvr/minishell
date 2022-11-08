@@ -7,8 +7,7 @@ int	id_tokens(t_tok **list)
 	node = *list;
 	while (node)
 	{
-		if (is_redir(node->token))
-			node->type = is_redir(node->token);
+		node->type = is_redir(node->token);
 		if (node->type == NOTSET)
 			node->type = is_valid(node->token);
 		if (node->type == INVALID)
@@ -42,4 +41,32 @@ int	is_valid(char *tok)
 		return (DOLLAR);
 	else
 		return (WORD);
+}
+
+void	verify_dollartype(t_tok **list)
+{
+	t_tok	*node;
+
+	node = *list;
+	while (node)
+	{
+		if (node->type == DOLLAR)
+		{
+			if (ft_strlen (node->token) == 1)
+				node->type = WORD;
+			if (ft_strlen(node->token) >= 2)
+			{
+				if (node->token[1] == '?')
+					node->type = D_RETURN;
+				else if (node->token[1] == '$')
+					node->type = D_PID;
+				else if (is_set(node->token[1], QUOTES) \
+					|| is_set(node->token[1], WHITESPACE) \
+					|| !ft_isalpha(node->token[1]))
+					node->type = WORD;
+			}
+		}
+		node = node->next;
+	}
+	return ;
 }
