@@ -25,12 +25,12 @@ OBJ_DIR		=	obj/
 
 # FILES #
 BUILTIN_F	=	\
-	builtin.c
+	builtin.c echo.c pwd.c utils.c export.c env.c unset.c
 
 ENGINE_F	=
 
 MAIN_F		=	\
-	main.c
+	main.c boot.c
 
 PARSE_F	=
 
