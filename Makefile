@@ -3,8 +3,8 @@ NAME		=	minishell
 HEADER_F	=	minishell.h
 
 CC			=	gcc
-CFLAGS		=	-g
-#CFLAGS		=	-Wall -Wextra -Werror
+#CFLAGS		=	-g
+CFLAGS		=	-Wall -Wextra -Werror
 RM			=	RM -rf
 
 # FOLDER PATHS #
@@ -25,14 +25,29 @@ OBJ_DIR		=	obj/
 
 # FILES #
 BUILTIN_F	=	\
-	builtin.c echo.c pwd.c utils.c export.c env.c unset.c
+	builtin.c \
+  echo.c    \
+  pwd.c     \
+  utils.c   \
+  export.c  \
+  env.c     \
+  unset.c   \
 
 ENGINE_F	=
 
-MAIN_F		=	\
-	main.c boot.c
+MAIN_F		=		\
+	exit.c			\
+	init.c			\
+	intro.c			\
+	list_utils.c	\
+	main.c			\
 
-PARSE_F	=
+PARSE_F	=			\
+	lexer_utils.c	\
+	lexer.c			\
+	safesplit.c		\
+	token_check.c	\
+	token_utils.c	\
 
 SIGNAL_F	=
 

@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_realloc.c                                       :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/04 12:32:52 by anarodri          #+#    #+#             */
-/*   Updated: 2022/10/14 16:25:25 by anarodri         ###   ########.fr       */
+/*   Created: 2022/11/02 15:56:26 by anarodri          #+#    #+#             */
+/*   Updated: 2022/11/03 17:23:36 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_realloc(void *ptr, size_t size)
+int	ft_strcmp(const char *str1, const char *str2)
 {
-	char	*new;
-
-	new = NULL;
-	if (!ptr)
-		new = malloc(size);
-	if (!size && ptr != NULL)
+	while (*str1 && *str2)
 	{
-		new = malloc(1);
-		free(ptr);
+		if (*str1 != *str2)
+			return ((unsigned char) *str1 - (unsigned char) *str2);
+		str1++;
+		str2++;
 	}
-	if (!new)
-		return (NULL);
-	ft_memcpy(new, ptr, size);
-	return (new);
+	return (0);
 }

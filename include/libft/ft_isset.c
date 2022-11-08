@@ -1,31 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_realloc.c                                       :+:      :+:    :+:   */
+/*   ft_isset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/04 12:32:52 by anarodri          #+#    #+#             */
-/*   Updated: 2022/10/14 16:25:25 by anarodri         ###   ########.fr       */
+/*   Created: 2022/11/04 17:28:17 by anarodri          #+#    #+#             */
+/*   Updated: 2022/11/04 17:28:20 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_realloc(void *ptr, size_t size)
+int	ft_isset(const char c, const char *set)
 {
-	char	*new;
+	int	i;
 
-	new = NULL;
-	if (!ptr)
-		new = malloc(size);
-	if (!size && ptr != NULL)
+	if (!c || !set)
+		return (0);
+	i = 0;
+	while (set[i])
 	{
-		new = malloc(1);
-		free(ptr);
+		if (set[i] == c)
+			return (1);
+		i++;
 	}
-	if (!new)
-		return (NULL);
-	ft_memcpy(new, ptr, size);
-	return (new);
+	return (0);
 }

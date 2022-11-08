@@ -1,31 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_realloc.c                                       :+:      :+:    :+:   */
+/*   ft_xcalloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/04 12:32:52 by anarodri          #+#    #+#             */
-/*   Updated: 2022/10/14 16:25:25 by anarodri         ###   ########.fr       */
+/*   Created: 2022/11/02 17:38:39 by anarodri          #+#    #+#             */
+/*   Updated: 2022/11/02 17:38:41 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_realloc(void *ptr, size_t size)
-{
-	char	*new;
+void	*ft_xcalloc(size_t mem_size)
 
-	new = NULL;
+{
+	void	*ptr;
+
+	ptr = malloc(mem_size);
 	if (!ptr)
-		new = malloc(size);
-	if (!size && ptr != NULL)
 	{
-		new = malloc(1);
-		free(ptr);
+		write(STDERR_FILENO, "Memory allocation error: Aborting.", 35);
+		exit(EXIT_FAILURE);
 	}
-	if (!new)
-		return (NULL);
-	ft_memcpy(new, ptr, size);
-	return (new);
+	ft_bzero(ptr, (mem_size));
+	return (ptr);
 }
