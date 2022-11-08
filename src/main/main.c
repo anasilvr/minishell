@@ -87,3 +87,15 @@ void	wtshell(t_data *data)
 		}
 	}
 }
+
+char    *rl_gets(void)
+{
+    char *line;
+
+    line = (char *) NULL;
+    line = readline("\033[0;97m\xF0\x9F\x90\x8CWTS$\033[0m ");
+    if (line && *line)
+        add_history(line);
+    return (line);
+//  return (ft_strjoin_free(line, "\n"));
+}
