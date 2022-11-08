@@ -24,8 +24,14 @@ SIGNAL_DIR	=	$(SRC_DIR)signals/
 OBJ_DIR		=	obj/
 
 # FILES #
-BUILTIN_F	=		\
-	builtin.c
+BUILTIN_F	=	\
+	builtin.c \
+  echo.c    \
+  pwd.c     \
+  utils.c   \
+  export.c  \
+  env.c     \
+  unset.c   \
 
 ENGINE_F	=
 
