@@ -1,3 +1,4 @@
+
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -85,15 +86,4 @@ void	wtshell(t_data *data)
 		//clean up for next; */
 		}
 	}
-}
-
-char	*rl_gets(void)
-{
-	char	*line;
-
-	line = (char *) NULL;
-	line = readline(WTS);
-	if (line && *line)
-		add_history(line);
-	return (ft_strjoin_free(line, "\n"));
 }
