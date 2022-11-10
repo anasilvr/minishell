@@ -102,6 +102,11 @@ typedef struct s_data
 enum    e_bultins {echo, cd, pwd, export, unset, env};
 void    ft_echo(char **arg, char **env, int i);
 void    echo_handler(char **instruct, char **env);
+void	pwd_handler(char **instruct, char **env);
+char	**unset_handler(char **intruct, char **env);
+char    **export_handler(char **instruct, char **env);
+void	env_handler(char **instruct, char **env);
+char	**cd_handler(char **instruct, char **env);
 int     print_directory(char **env);
 char    **builtins_checker(char **instruct, char **env);
 char    **cpy_env(char **envp, int line);
@@ -109,9 +114,10 @@ int     ft_cmp_env(char *str1, char *str2, size_t n);
 void    print_env(char **env);
 void	free_tab(char **old_tab);
 int     check_env_var(char **env, char *var);
-char    **unset_handler(char **env, char *var);
 char    **cpy_unset(char **env, int line);
-char    **export_handler(char **instruct, char **env);
+char    **unset_dup(char **env, char *var);
+char	**update_oldpwd(char **env);
+char	**new_pwd(char **env);
 
 // ENGINE
 
@@ -147,6 +153,7 @@ int     check_n(char *intruct);
 int     export_pars(char *n_var, char **env);
 int     check_echo_var(char *instruct, char **env);
 int     env_dup(char *n_var, char **env);
+char    *var_trim(char *n_var);
 
 //lexer_utils.c
 void	skip_whitespaces(char **str);

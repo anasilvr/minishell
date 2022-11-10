@@ -4,7 +4,7 @@ HEADER_F	=	minishell.h
 
 CC			=	gcc
 #CFLAGS		=	-g
-CFLAGS		=	-Wall -Wextra -Werror
+CFLAGS		=	-Wall -Wextra -Werror -g
 RM			=	RM -rf
 
 # FOLDER PATHS #
@@ -32,6 +32,7 @@ BUILTIN_F	=	\
   export.c  \
   env.c     \
   unset.c   \
+  cd.c		\
 
 ENGINE_F	=
 
@@ -41,6 +42,7 @@ MAIN_F		=		\
 	intro.c			\
 	list_utils.c	\
 	main.c			\
+#	main-jas.c		\
 
 PARSE_F	=			\
 	lexer_utils.c	\

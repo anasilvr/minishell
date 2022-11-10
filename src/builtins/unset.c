@@ -21,14 +21,22 @@ int check_env_var(char **env, char *var)
     return (i);
 }
 
-char    **unset_handler(char **env, char *var)
+char **unset_handler(char **instruct, char **env)
 {
+    int     i;
     int     r_check;
     char    **r_env;
 
-    if ((r_check = check_env_var(env, var)) != -1)
-        printf("Variable trouvée! À la ligne : %d\n", r_check);
-    r_env = cpy_unset(env, r_check);
+    i = 0;
+    r_env = env;
+	if (ft_cmp_builtin(instruct[i] , "unset", 5) == 0 && instruct[i + 1] != NULL)
+    {
+        while (instruct[++i] != NULL)
+        {
+            r_check = check_env_var(env, instruct[i]);
+            r_env = cpy_unset(r_env, r_check);
+        }
+    }
     return (r_env);
 }
 
@@ -57,4 +65,14 @@ char **cpy_unset(char **env, int line)
 	}
 	r_env[k] = NULL;
 	return (r_env);
+}
+
+char    **unset_dup(char **env, char *var)
+{
+    int     r_check;
+    char    **r_env;
+
+    r_check = check_env_var(env, var);
+    r_env = cpy_unset(env, r_check);
+    return (r_env);
 }
