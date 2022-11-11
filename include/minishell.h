@@ -129,9 +129,6 @@ t_data	*init_data(char **envp, t_data *data);
 char	**init_path(t_data *data);
 char	**backup_env(char **envp);
 
-// intro.c
-void	print_intro(void);
-
 // list_utils.c
 t_tok	*new_toklist(char *tok);
 void	addback_toklist(t_tok **toklist, t_tok *new);
@@ -142,7 +139,12 @@ void	free_toklist(t_tok *lst);
 // main.c
 void	wtshell(t_data *data);
 char	*rl_gets(void);
+
+// print_utils.c
 void	print_intro(void);
+void	print_toklist(t_tok **list);
+void	print_cmdlines(t_cmd *list);
+void	cmdlist_details(t_cmd *cmdlst);
 
 // PARSING
 
@@ -155,14 +157,14 @@ int		env_dup(char *n_var, char **env);
 //lexer_utils.c
 void	skip_whitespaces(char **str);
 int		is_set(char s, char *set);
-void	print_toklist(t_tok **list);
+bool	is_empty(char *str);
 
 //lexer.c
 void	lexer(t_data *data, char *input);
 t_tok	*tokenize(t_data *data, char *str);
 
 // parser.c
-int		parser(t_data *data);
+t_cmd	*parser(t_data *data);
 
 //token_utils.c
 int		tok_len(char *str, int len);

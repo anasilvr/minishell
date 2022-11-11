@@ -24,7 +24,6 @@ void	clean_exit(t_data *data)
 }
 void	free_cmdlist(t_cmd *lst)
 {
-	printf("\tEntering free_cmdlist\n");
 	t_cmd	*tmp;
 
 	if (!lst)
@@ -36,12 +35,10 @@ void	free_cmdlist(t_cmd *lst)
 		lst = tmp->next;
 	}
 	lst = NULL;
-	printf("\tQuitting free_cmdlist\n");
 }
 
 void	reset(t_data *data)
 {
-	printf("\tReseting input and tokens\n");
 	xfree(data->input);
 	data->input = NULL;
 	data->nb_pipes = 0;
@@ -49,5 +46,5 @@ void	reset(t_data *data)
 	data->token = ft_xcalloc(sizeof(t_tok));
 	free_cmdlist(data->cmd_lst);
 	data->cmd_lst = ft_xcalloc(sizeof(t_cmd));
-	data->syntax_err = 0;
+//	data->syntax_err = 0;
 }

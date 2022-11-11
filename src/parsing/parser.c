@@ -6,24 +6,7 @@ void	addback_cmdline(t_cmd **cmdlist, t_cmd *line);
 t_cmd	*get_lastcmd(t_cmd *node);
 char	*get_singlecmd(t_tok **toklist);
 
-static void	print_cmdlines(t_cmd *list)
-{
-	t_cmd	*node;
-	int		i;
-
-	node = list;
-	i = 0;
-	while (node)
-	{
-		if (!node)
-			return ;
-		printf("cmdline[%d] = %s\n", i, node->cmdline);
-		node = node->next;
-		i++;
-	}
-}
-
-int	parser(t_data *data)
+t_cmd 	*parser(t_data *data)
 {
 	t_tok	*tok;
 	t_cmd	*cmd;
@@ -32,23 +15,23 @@ int	parser(t_data *data)
 	tok = data->token;
 	if (!tok)
 		return (0);
-	cmd = data->cmd_lst;
+	cmd = NULL;
+//	print_cmdlines(cmd);
 	while (tok && data->nb_pipes > 0)
 	{
-		printf("\t\t\t\t\tGetting here :)\n");
 		line = get_cmdline(&tok);
 		addback_cmdline(&cmd, new_cmdline(line));
 		data->nb_pipes--;
-		free(line);
+	//	xfree(line);
 	}
 	if (data->nb_pipes == 0)
 	{
 		line = get_singlecmd(&tok);
 		addback_cmdline(&cmd, new_cmdline(line));
-		free(line);
+	//	xfree(line);
 	}
 	print_cmdlines(cmd);
-	return (g_status);
+	return (cmd);
 }
 
 char	*get_singlecmd(t_tok **toklist)
@@ -96,32 +79,36 @@ char	*get_cmdline(t_tok **toklist)
 	return (NULL);
 }
 
+//add flags to set expand and heredoc booleans (char *line, bool expand, bool heredoc)
+//could also be something to help with fds?
 t_cmd	*new_cmdline(char *line)
 {
 	t_cmd	*new;
 
 	new = (t_cmd *)ft_xcalloc(sizeof(*new));
 	new->prev = NULL;
-	new->next = NULL;
 	new->cmdline = ft_strdup(line);
+	new->next = NULL;
 	return (new);
 }
 
 void	addback_cmdline(t_cmd **cmdlist, t_cmd *line)
 {
-	printf ("line received at addback: %s\n", line->cmdline);
 	t_cmd	*tmp;
 
 	if (!line)
 		return ;
-	if (!*cmdlist)
+	tmp = NULL;
+	if (*cmdlist)
 	{
-		*cmdlist = line;
-		return ;
+		tmp = get_lastcmd(*cmdlist);
+		tmp->next = line;
+		line->prev = tmp;
+		line->next = NULL;
 	}
-	tmp = get_lastcmd(*cmdlist);
-	tmp->next = line;
-	printf ("line returned at addback: %s\n", line->cmdline);
+	else
+		*cmdlist = line;
+	return ;
 }
 
 t_cmd	*get_lastcmd(t_cmd *node)
@@ -130,5 +117,6 @@ t_cmd	*get_lastcmd(t_cmd *node)
 		return (NULL);
 	while (node->next)
 		node = node->next;
+	printf("returning: %s\n", node->cmdline);
 	return (node);
 }

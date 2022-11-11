@@ -17,6 +17,8 @@ void	addback_toklist(t_tok **toklist, t_tok *new)
 	t_tok	*current;
 	t_tok	*last;
 
+	if (!new)
+		return ;
 	if (*toklist)
 	{
 		current = *toklist;

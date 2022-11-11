@@ -2,7 +2,6 @@
 
 int	id_tokens(t_tok **list, t_data *data)
 {
-	printf("\tStarting to ID tokens...\n");
 	t_tok	*node;
 	t_tok	*head;
 	t_tok	*tail;

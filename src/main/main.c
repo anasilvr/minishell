@@ -13,43 +13,31 @@
 
 #include "../../include/minishell.h"
 
-static bool is_empty(char *str)
-{
-	int	i;
-
-	if (!str)
-		return (true);
-	skip_whitespaces(&str);
-	i = ft_strlen(str);
-	if (i > 0)
-		return (false);
-	return (true);
-}
-
 static void	err_msg(t_data *data)
 {
 	if (data->syntax_err == 1)
 	{
-		printf("[%d] %s\n", g_status, ERR_QUOTES);
+		printf("[%d / %d] %s\n", g_status, data->syntax_err, ERR_QUOTES);
 //		write(2, ERR_QUOTES, ft_strlen(ERR_QUOTES));
 //		write(2, "\n", 1);
 	}
 	else if (data->syntax_err == 127)
 	{
-		printf("[%d] %s\n", g_status, ERR_CMD);
+		printf("[%d / %d] %s\n", g_status, data->syntax_err, ERR_CMD);
 //		write(2, s, ft_strlen(s));
 //		write(2, ERR_CMD, ft_strlen(ERR_CMD));
 //		write(2, "\n", 1);
 	}
 	else if (data->syntax_err == 258)
 	{
-		printf("[%d] %s\n", g_status, ERR_SYNTAX);
+		printf("[%d / %d] %s\n", g_status, data->syntax_err, ERR_SYNTAX);
 //		write(2, ERR_SYNTAX, ft_strlen(ERR_SYNTAX));
 //		write(2, s, ft_strlen(s));
 //		write(2, "\n", 1);
 	}
-//	else
-//		write(2, "Error\n", 7);
+	else
+		printf("[%d / %d] Error\n", g_status, data->syntax_err);
+	data->syntax_err = 0;
 	return ;
 }
 
@@ -91,12 +79,19 @@ void	wtshell(t_data *data)
 		{
 			lexer(data, data->input);
 			if (data->syntax_err || !data->token)
+			{
+				printf("Lexer error, exiting loop.[%d / %d]\n", g_status, data->syntax_err);
 				break ;
-			parser(data);
+			}
+			data->cmd_lst = parser(data);
 			if (data->syntax_err || !data->cmd_lst)
+			{
+				printf("Parser error, exiting loop.[%d / %d]\n", g_status, data->syntax_err);
 				break ;
+			}
 			reset(data);
-			printf("\tData reset. :)\n");
+			printf("\tEnd of loop without errors. [%d / %d] :)\n", g_status, data->syntax_err);
+			print_cmdlines(data->cmd_lst);
 		}
 		if (data->syntax_err)
 			err_msg(data);

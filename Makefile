@@ -24,23 +24,23 @@ SIGNAL_DIR	=	$(SRC_DIR)signals/
 OBJ_DIR		=	obj/
 
 # FILES #
-BUILTIN_F	=	\
-	builtin.c \
-  echo.c    \
-  pwd.c     \
-  utils.c   \
-  export.c  \
-  env.c     \
-  unset.c   \
+BUILTIN_F	=		\
+	builtin.c		\
+	echo.c			\
+	pwd.c			\
+	utils.c			\
+	export.c		\
+	env.c			\
+	unset.c			\
 
 ENGINE_F	=
 
 MAIN_F		=		\
 	exit.c			\
 	init.c			\
-	intro.c			\
 	list_utils.c	\
 	main.c			\
+	print_utils.c	\
 
 PARSE_F	=			\
 	lexer_utils.c	\
