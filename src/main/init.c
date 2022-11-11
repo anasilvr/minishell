@@ -23,7 +23,7 @@ t_data	*init_data(char **envp, t_data *data)
 	data->token->next = NULL;
 	data->nb_toks = 0;
 	data->cmd_lst = ft_xcalloc(sizeof(t_cmd));
-	data->cmd_lst->cmdline = NULL;
+//	data->cmd_lst->cmdline = NULL;
 	data->cmd_lst->path = NULL;
 	data->cmd_lst->fd[0] = STDIN_FILENO;
 	data->cmd_lst->fd[1] = STDOUT_FILENO;

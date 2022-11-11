@@ -17,19 +17,16 @@ void	addback_toklist(t_tok **toklist, t_tok *new)
 	t_tok	*current;
 	t_tok	*last;
 
-	if (new)
+	if (*toklist)
 	{
-		if (*toklist)
-		{
-			current = *toklist;
-			last = get_lasttok(*toklist);
-			new->prev = last;
-			last->next = new;
-			new->next = NULL;
-		}
-		else
-			*toklist = new;
+		current = *toklist;
+		last = get_lasttok(*toklist);
+		new->prev = last;
+		last->next = new;
+		new->next = NULL;
 	}
+	else
+		*toklist = new;
 }
 
 t_tok	*get_lasttok(t_tok *node)
@@ -49,21 +46,19 @@ void	del_token(t_tok *lst)
 	xfree(lst);
 }
 
-void	free_toklist(t_tok **lst)
+void	free_toklist(t_tok *lst)
 {
+//	printf("Entering free_toklist\n");
 	t_tok	*tmp;
-	t_tok	*current;
 
-	if (!lst && !*lst)
+	if (!lst)
 		return ;
-	current = *lst;
-	while (current)
+	while (lst)
 	{
-		tmp = current->prev;
-		tmp->next = current->next;
-		(tmp->next)->prev = tmp;
-		del_token(current);
-		*lst = tmp;
+		tmp = lst;
+		xfree(lst);
+		lst = tmp->next;
 	}
-	*lst = NULL;
+	lst = NULL;
+//	printf("Quitting free_toklist\n");
 }

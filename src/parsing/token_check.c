@@ -1,18 +1,33 @@
 #include "../../include/minishell.h"
 
-int	id_tokens(t_tok **list)
+int	id_tokens(t_tok **list, t_data *data)
 {
+	printf("\tStarting to ID tokens...\n");
 	t_tok	*node;
+	t_tok	*head;
+	t_tok	*tail;
 
 	node = *list;
+	head = *list;
+	tail = get_lasttok(node);
 	while (node)
 	{
 		node->type = is_redir(node->token);
+		if (node->type == PIPE)
+			data->nb_pipes++;
 		if (node->type == NOTSET)
 			node->type = is_valid(node->token);
 		if (node->type == INVALID)
+		{
+			data->syntax_err = 258;
 			return (258);
+		}
 		node = node->next;
+	}
+	if (is_set(*head->token, "|") || is_set(*tail->token, METACHAR))
+	{
+		data->syntax_err = 258;
+		return (258);
 	}
 	return (0);
 }

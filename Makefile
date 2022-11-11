@@ -45,6 +45,7 @@ MAIN_F		=		\
 PARSE_F	=			\
 	lexer_utils.c	\
 	lexer.c			\
+	parser.c		\
 	safesplit.c		\
 	token_check.c	\
 	token_utils.c	\
