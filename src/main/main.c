@@ -13,28 +13,43 @@
 
 #include "../../include/minishell.h"
 
-static void	err_msg(void)
+static bool is_empty(char *str)
 {
-	if (g_status == 90)
+	int	i;
+
+	if (!str)
+		return (true);
+	skip_whitespaces(&str);
+	i = ft_strlen(str);
+	if (i > 0)
+		return (false);
+	return (true);
+}
+
+static void	err_msg(t_data *data)
+{
+	if (data->syntax_err == 1)
 	{
-		write(2, ERR_QUOTES, ft_strlen(ERR_QUOTES));
-		write(2, "\n", 1);
-		g_status = 1;
+		printf("[%d] %s\n", g_status, ERR_QUOTES);
+//		write(2, ERR_QUOTES, ft_strlen(ERR_QUOTES));
+//		write(2, "\n", 1);
 	}
-	else if (g_status == 127)
+	else if (data->syntax_err == 127)
 	{
+		printf("[%d] %s\n", g_status, ERR_CMD);
 //		write(2, s, ft_strlen(s));
-		write(2, ERR_CMD, ft_strlen(ERR_CMD));
-		write(2, "\n", 1);
+//		write(2, ERR_CMD, ft_strlen(ERR_CMD));
+//		write(2, "\n", 1);
 	}
-	else if (g_status == 258)
+	else if (data->syntax_err == 258)
 	{
-		write(2, ERR_SYNTAX, ft_strlen(ERR_SYNTAX));
+		printf("[%d] %s\n", g_status, ERR_SYNTAX);
+//		write(2, ERR_SYNTAX, ft_strlen(ERR_SYNTAX));
 //		write(2, s, ft_strlen(s));
-		write(2, "\n", 1);
+//		write(2, "\n", 1);
 	}
-	else
-		write(2, "Error\n", 7);
+//	else
+//		write(2, "Error\n", 7);
 	return ;
 }
 
@@ -65,37 +80,38 @@ int	main(int argc, char **argv, char **envp)
 
 void	wtshell(t_data *data)
 {
-	g_status = 0;
 	while (1)
 	{
 		//handle_signals();
 		data->input = rl_gets();
-		if (!data->input)
-			clean_exit(data);
-		else
+		printf("\tGetting input with rl_gets...\n");
+		if (!data->input || !*data->input)
+			reset(data);
+		while (!data->syntax_err && !is_empty(data->input))
 		{
-			g_status = lexer(data, data->input);
-			if (g_status)
-				err_msg();
-//		g_status = parser();
-//		if(g_status)
-//			err_msg(NULL);
-/*
-		//execute things;
-		g_status = executor(data);
-		//clean up for next; */
+			lexer(data, data->input);
+			if (data->syntax_err || !data->token)
+				break ;
+			parser(data);
+			if (data->syntax_err || !data->cmd_lst)
+				break ;
+			reset(data);
+			printf("\tData reset. :)\n");
 		}
+		if (data->syntax_err)
+			err_msg(data);
+		reset(data);
 	}
+	return ;
 }
 
-char    *rl_gets(void)
+char	*rl_gets(void)
 {
-    char *line;
+	char	*line;
 
-    line = (char *) NULL;
-    line = readline("\033[0;97m\xF0\x9F\x90\x8CWTS$\033[0m ");
-    if (line && *line)
-        add_history(line);
-    return (line);
-//  return (ft_strjoin_free(line, "\n"));
+	line = (char *) NULL;
+	line = readline("\033[0;97m\xF0\x9F\x90\x8CWTS$\033[0m ");
+	if (line && *line)
+		add_history(line);
+	return (ft_strjoin_free(line, "\n"));
 }
