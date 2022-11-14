@@ -73,6 +73,8 @@ typedef struct s_cmd
 	int			err; // do i need it? can i always store on global?
 	bool		expand;
 	bool		heredoc;
+	int			prev_toktype; // Needed for execution
+	int			next_toktype; // Needed for execution
 	t_cmd		*prev; // first one = NULL
 	t_cmd		*next; // input[first after redir];
 }	t_cmd;
