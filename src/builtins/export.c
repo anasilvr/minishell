@@ -1,5 +1,42 @@
 #include "minishell.h"
 
+char    **add_var(char **env, char *n_var)
+{
+    int i;
+    int j;
+
+    j = -1;
+    i = -1;
+    env = cpy_env(env, 1);
+    while (env[++i] != NULL)
+        ;
+    free(env[i]);
+    env[i] = malloc(sizeof(char) * (ft_strlen(n_var) + 1));
+    while (n_var[++j] != '\0')
+        env[i][j] = n_var[j];
+    env[i][j] = '\0';
+    i++;
+    env[i] = NULL;
+    return (env);
+}
+
+char    *var_trim(char *n_var)
+{
+    int     i;
+    char    *r_var;
+
+    i = -1;
+    while (n_var[++i] != '=')
+        ;
+    r_var = malloc(sizeof(char) * (i + 1));
+    i= -1;
+    while (n_var[++i] != '=')
+        r_var[i] = n_var[i];
+    r_var[i] = '\0';
+    free(n_var);
+    return (r_var);
+}
+
 int env_dup(char *n_var, char **env)
 {
     int i;
@@ -17,37 +54,26 @@ int env_dup(char *n_var, char **env)
             j++;
         }
         else if (n_var[i] == '=' && env[j][i] == '=')
-            return (1);
+            return (j);
     }
-    return (0);
+    return (-1);
 }
 
 int export_pars(char *n_var, char **env)
 {
     int i;
-    int j;
 
     i = 0;
     while (n_var[i] != '=' && n_var[i] != '\0')
         i++;
     if (n_var[i] == '=')
-    {
-        j = -1;
-        while (env[++j] != NULL)
-            if (env_dup(n_var, env) != 0)
-                return (1);
-        return (0);
-    }
-    return (1);
+        return (env_dup(n_var, env));
+    return (-2);
 }
-
-// Faire le check dup pour éviter d'avoir 2 fois la même variable
 
 char **export_handler(char **instruct, char **env)
 {
     int     i;
-    int     j;
-    int     k;
     char    **r_env;
 
     i = 0;
@@ -56,20 +82,12 @@ char **export_handler(char **instruct, char **env)
     {
         while (instruct[++i] != NULL)
         {
-            j = -1;
-            if (export_pars(instruct[i], env) == 0)
+            if (export_pars(instruct[i], r_env) == -1)
+                r_env = add_var(r_env, instruct[i]);
+            else if (export_pars(instruct[i], r_env) >= 0)
             {
-                r_env = cpy_env(r_env, 1);
-                while (r_env[++j] != NULL)
-                    ;
-                free(r_env[j]);
-                r_env[j] = malloc(sizeof(char) * (ft_strlen(instruct[i]) + 1));
-                k = -1;
-                while (instruct[i][++k] != '\0')
-                    r_env[j][k] = instruct[i][k];
-                r_env[j][k] = '\0';
-                j++;
-                r_env[j] = NULL;
+                r_env = unset_dup(r_env, var_trim(instruct[i]));
+                r_env = add_var(r_env, instruct[i]);
             }
         }
     }

@@ -37,34 +37,43 @@ static int	valid_quotation(t_data *data)
 	i++;
 	}
 	if (trigger == true)
-		return (90);
+	{
+		data->syntax_err = 90;
+		return (1);
+	}
 	else
 		return (0);
 }
 
-int	lexer(t_data *data, char *input)
+void	lexer(t_data *data, char *input)
 {
+//	printf ("\tStarting lexer...\n");
 	if (!data)
-		return (EXIT_FAILURE); //$? = 1 catchall for general errors
-	if (!input || !*input || *input == '\n')
-		return (EXIT_SUCCESS);
+		return ; //$? = 1 catchall for g eneral errors
+	if (!input || !*input)
+		return ;
 	g_status = valid_quotation(data);
 	if (g_status)
-		return (g_status); // $? = 1 for unclosed quotes
+		return ; // $? = 1 for unclosed quotes
 	data->token = tokenize(data, input);
-	print_toklist(&data->token);
-	g_status = id_tokens(&data->token);
-	print_toklist(&data->token);
+	if (!data->token)
+		return ;
+	g_status = id_tokens(&data->token, data);
 	if (g_status)
-		return (g_status); // $? = 258 for syntax errors
-	return (0);
+		return ; // $? = 258 for syntax errors
+	verify_dollartype(&data->token);
+//	print_toklist(&data->token);
+//	printf ("\tQuiting lexer successfully...\n");
+	return ;
 }
 
 t_tok	*tokenize(t_data *data, char *str)
 {
+//	printf("\tStarting tokenization...\n");
 	t_tok	*lst;
 
 	lst = NULL;
+	skip_whitespaces(&str);
 	while (*str)
 	{
 		data->token->toksize = tok_len(str, ft_strlen(str));
@@ -73,5 +82,6 @@ t_tok	*tokenize(t_data *data, char *str)
 		str += data->token->toksize;
 		skip_whitespaces(&str);
 	}
+//	printf("\tTokens created...\n");
 	return (lst);
 }

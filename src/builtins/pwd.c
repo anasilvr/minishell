@@ -1,5 +1,14 @@
 #include "minishell.h"
 
+void pwd_handler(char **instruct, char **env)
+{
+    int i;
+
+    i = 0;
+    if (ft_cmp_builtin(instruct[i], "pwd", 3) == 0)
+        print_directory(env);
+}
+
 int print_directory(char **env)
 {
     int     i;

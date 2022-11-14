@@ -25,19 +25,15 @@ int	is_set(char s, char *set)
 	return (0);
 }
 
-void	print_toklist(t_tok **list)
+bool	is_empty(char *str)
 {
-	t_tok	*node;
-	int		i;
+	int	i;
 
-	node = *list;
-	i = 0;
-	while (node)
-	{
-		if (!node)
-			return ;
-		printf("token[%d] = %s \t\t type = %u\n", i, node->token, node->type);
-		node = node->next;
-		i++;
-	}
+	if (!str)
+		return (true);
+	skip_whitespaces(&str);
+	i = ft_strlen(str);
+	if (i > 0)
+		return (false);
+	return (true);
 }

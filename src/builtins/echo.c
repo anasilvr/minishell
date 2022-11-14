@@ -45,7 +45,6 @@ void echo_handler(char **instruct, char **env)
             while (instruct[++i] != NULL)
                 ft_echo(instruct, env, i);
         }
-
     }
 }
 
