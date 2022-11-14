@@ -24,6 +24,7 @@ SIGNAL_DIR	=	$(SRC_DIR)signals/
 OBJ_DIR		=	obj/
 
 # FILES #
+
 BUILTIN_F	=	\
 	builtin.c \
   echo.c    \
@@ -39,14 +40,15 @@ ENGINE_F	=
 MAIN_F		=		\
 	exit.c			\
 	init.c			\
-	intro.c			\
 	list_utils.c	\
 	main.c			\
 #	main-jas.c		\
+	print_utils.c	\
 
 PARSE_F	=			\
 	lexer_utils.c	\
 	lexer.c			\
+	parser.c		\
 	safesplit.c		\
 	token_check.c	\
 	token_utils.c	\

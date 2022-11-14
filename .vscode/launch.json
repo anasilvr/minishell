@@ -10,8 +10,7 @@
 			"name": "Debug",
 			"program": "${workspaceFolder}/minishell",
 			"args": [],
-			"cwd": "${workspaceFolder}",
-			"stopOnEntry": true
+			"cwd": "${workspaceFolder}"
 		}
 	]
 }

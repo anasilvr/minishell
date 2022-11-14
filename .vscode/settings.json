@@ -1,8 +1,6 @@
 {
+	"C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools",
 	"files.associations": {
-		"minishell.h": "c",
-		"type_traits": "c",
-		"__node_handle": "c",
-		"typeinfo": "c"
+		"ostream": "c"
 	}
 }
