@@ -1,7 +1,11 @@
 {
 	"C_Cpp.default.configurationProvider": "ms-vscode.makefile-tools",
 	"files.associations": {
+<<<<<<< HEAD
 		"__config": "c",
 		"locale": "c"
+=======
+		"ostream": "c"
+>>>>>>> a5a20866695976cf5d79eb7e1f7f4413c3d0c9cb
 	}
 }

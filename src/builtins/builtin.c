@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 int	ft_cmp_builtin(const char *str1, const char *str2, size_t n)
@@ -16,6 +15,7 @@ int	ft_cmp_builtin(const char *str1, const char *str2, size_t n)
 	return (-1);
 }
 
+<<<<<<< HEAD
 static int	external_cmds_exec(char **cmd, char **envp)
 {
 	if (execve(cmd[0], cmd, envp) == -1)
@@ -28,9 +28,15 @@ static int	external_cmds_exec(char **cmd, char **envp)
 }
 
 char **builtins_checker(char **instruct, char **env)
+=======
+void	exit_handler(char **instruct)
+>>>>>>> a5a20866695976cf5d79eb7e1f7f4413c3d0c9cb
 {
-	int i;
+    if (ft_cmp_builtin(instruct[0], "exit", 4) == 0)
+		exit(EXIT_SUCCESS);
+}
 
+<<<<<<< HEAD
 	i = 0;
 	while (instruct[i] != NULL)
 	{
@@ -74,4 +80,16 @@ char **builtins_checker(char **instruct, char **env)
 		i++;
 	}
 	return(env);
+=======
+char **builtins_checker(char **instruct, char **env)
+{
+	echo_handler(instruct, env);
+	pwd_handler(instruct, env);
+	env_handler(instruct, env);
+	env = cd_handler(instruct, env);
+	env = export_handler(instruct, env);
+	env = unset_handler(instruct, env);
+	exit_handler(instruct);
+	return (env);
+>>>>>>> a5a20866695976cf5d79eb7e1f7f4413c3d0c9cb
 }

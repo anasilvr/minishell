@@ -1,5 +1,11 @@
 #include "minishell.h"
 
+void	env_handler(char **instruct, char **env)
+{
+	if (ft_cmp_builtin(instruct[0], "env", 3) == 0)
+		print_env(env);
+}
+
 void print_env(char **env)
 {
     int     i;
@@ -30,7 +36,7 @@ char **cpy_env(char **envp, int line)
 	i = -1;
 	while (envp[++i] != NULL)
 		;
-	r_env = malloc(sizeof(char *) * i + 1 + line);
+	r_env = malloc(sizeof(char *) * (i + 1 + line));
 	i = -1;
 	while (envp[++i] != NULL)
 	{
