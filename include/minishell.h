@@ -118,6 +118,7 @@ char    **cpy_unset(char **env, int line);
 char    **unset_dup(char **env, char *var);
 char	**update_oldpwd(char **env);
 char	**new_pwd(char **env);
+char	**add_var(char **env, char *n_var);
 
 // ENGINE
 
