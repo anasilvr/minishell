@@ -6,38 +6,42 @@
 /*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:34:45 by tchalifo          #+#    #+#             */
-/*   Updated: 2022/11/08 17:18:55 by tchalifo         ###   ########.fr       */
+/*   Updated: 2022/11/14 12:15:53 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-/* RETURN VALUE of functions
- * - redirect_to_file()
- *   Return the file descriptor of the opened file. Return -1 and set errno
- *   if the file can't be open.
+/* MiniMan of the functions in this file.
+ * PROTOTYPE:
+ *   int	file_opening(char *filepath, int additional_flag)
+ * PARAM VALUE:
+ *   - (char *filepath) is the path to the file to be open.
+ *   - (int additional_flag) is the additional flag needed for an APPEND case ">>".
+ * RETURN VALUE:
+ * it return the file descriptor of the file opened. If is an error with the
+ * opening, it return -1 and set errno.
  *
- * - redirect_from_file()
  *
- * */
+ */
 
 
-/* Case cmd > file --> Redirect the standard output (stdout) of cmd to a file
+/* MEMORY ZONE OF THOMAS FISH
+ * Case cmd > file --> Redirect the standard output (stdout) of cmd to a file
  * and replace all the content for the new one.
  * Case cmd >> file --> Append the standard output (stdout) of cmd to a file.
- * So i need to
- * - Open the file, if is not present create im or if i dont have permission
- *   on it return the error code -1.
-*/
-int	file_opening(char *filepath, int flag)
+ */
+
+int	file_opening(char *filepath, int additional_flag)
 {
 	int	file_fd;
 
-	file_fd = open(filepath, O_CREAT);
+	file_fd = open(filepath, additional_flag, additional_flag, O_CREAT);
 	if (file_fd == -1)
 		return (-1);
 	return (file_fd);
 }
+
 /* Puisque je trouve tout les infos sur la string retourné par
  * readline dans la struct token, j'ai utilisé les champs de la
  * list chainée Token.
@@ -60,9 +64,9 @@ void	input_setup(t_data *data)
 	}
 }
 
-/* Puisque je trouve tout les infos sur la string retourné par
- * readline dans la struct token, j'ai utilisé les champs de la
- * list chainée Token.
+/* Puisque je trouve tout les infos sur la string créée par
+ * readline dans la struct liste chainée token, j'ai utilisé les champs de
+ * celle-ci.
  * La variable type m'indique si je rencontre un chevrons > en autre qui est
  * l'enum de valeur 5.
  * Donc, ici si je rencontre un chevrons, le nom du fichier devrait le suivre.
@@ -77,7 +81,7 @@ void	output_setup(t_data *data)
 				break;
 			data->token = data->token->next;
 		}
-		file_opening(data->token->next->token, "");
+		file_opening(data->token->next->token, 0);
 	if (data->token->type == APPEND)
 	{
 		while (data->token->next != '\0')
@@ -86,7 +90,7 @@ void	output_setup(t_data *data)
 				break;
 			data->token = data->token->next;
 		}
-		file_opening(data->token->next->token, "APPEND");
+		file_opening(data->token->next->token, APPEND);
 	}
 	}
 }

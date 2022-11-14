@@ -69,7 +69,7 @@ typedef struct s_cmd
 {
 	char		*cmdline; // input[0 - pipe or EOL]
 	char		*path;
-	int			fd[2]; // Default =  STDIN_FILENO // to be changed depending on token list
+	int			fd[2]; // input=fd0, output=fd1     // Default =  STDIN_FILENO // to be changed depending on token list
 	int			err; // do i need it? can i always store on global?
 	bool		expand;
 	bool		heredoc;
@@ -103,23 +103,23 @@ typedef struct s_data
 
 // BUILTINS
 
-enum    e_bultins {echo, cd, pwd, export, unset, env};
-void    ft_echo(char **arg, char **env, int i);
-void    echo_handler(char **instruct, char **env);
-void	pwd_handler(char **instruct, char **env);
+enum	e_bultins {echo, cd, pwd, export, unset, env};
+//void    ft_echo(char **arg, char **env, int i); // now static
+void	echo_handler(char **instruct, char **env, int *fd);
+void	pwd_handler(char **instruct, char **env, int *fd);
 char	**unset_handler(char **intruct, char **env);
-char    **export_handler(char **instruct, char **env);
-void	env_handler(char **instruct, char **env);
+char	**export_handler(char **instruct, char **env);
+void	env_handler(char **instruct, char **env, int *fd);
 char	**cd_handler(char **instruct, char **env);
-int     print_directory(char **env);
+//int     print_directory(char **env); // now static
 char    **builtins_checker(char **instruct, char **env);
 char    **cpy_env(char **envp, int line);
 int     ft_cmp_env(char *str1, char *str2, size_t n);
-void    print_env(char **env);
+//void    print_env(char **env); // now static
 void	free_tab(char **old_tab);
-int     check_env_var(char **env, char *var);
-char    **cpy_unset(char **env, int line);
-char    **unset_dup(char **env, char *var);
+int		check_env_var(char **env, char *var);
+char	**cpy_unset(char **env, int line);
+char	**unset_dup(char **env, char *var);
 char	**update_oldpwd(char **env);
 char	**new_pwd(char **env);
 char	**add_var(char **env, char *n_var);
@@ -156,12 +156,12 @@ void	cmdlist_details(t_cmd *cmdlst);
 
 // PARSING
 
-int     ft_cmp_builtin(const char *str1, const char *str2, size_t n);
-int     check_n(char *intruct);
-int     export_pars(char *n_var, char **env);
-int     check_echo_var(char *instruct, char **env);
-int     env_dup(char *n_var, char **env);
-char    *var_trim(char *n_var);
+int		ft_cmp_builtin(const char *str1, const char *str2, size_t n);
+//int     check_n(char *intruct); // now static
+int		export_pars(char *n_var, char **env);
+//int     check_echo_var(char *instruct, char **env); // now static
+int		env_dup(char *n_var, char **env);
+char	*var_trim(char *n_var);
 
 //lexer_utils.c
 void	skip_whitespaces(char **str);

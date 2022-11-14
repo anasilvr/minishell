@@ -1,5 +1,22 @@
 #include "minishell.h"
 
+static int	external_cmds_exec(char **cmd, char **envp)
+{
+	if (execve(cmd[0], cmd, envp) == -1)
+	{
+		// Need a standard for exit function after error (clear mem, ect..)
+		perror(NULL);
+		ft_putstr_fd(strerror(errno), 2);
+		// exit(errno);
+	}
+}
+
+
+
+
+
+
+
 int	ft_cmp_builtin(const char *str1, const char *str2, size_t n)
 {
 	unsigned int	i;
@@ -15,16 +32,6 @@ int	ft_cmp_builtin(const char *str1, const char *str2, size_t n)
 	return (-1);
 }
 
-static int	external_cmds_exec(char **cmd, char **envp)
-{
-	if (execve(cmd[0], cmd, envp) == -1)
-	{
-		// Need a standard for exit function after error (clear mem, ect..)
-		perror(NULL);
-		ft_putstr_fd(strerror(errno), 2);
-		// exit(errno);
-	}
-}
 
 void	exit_handler(char **instruct)
 {
