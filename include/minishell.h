@@ -17,6 +17,7 @@
 # include <errno.h>
 # include <term.h>
 # include <stdlib.h>
+# include <unistd.h>
 
 // MACROS, GLOBAL VARIABLE AND STRUCTS
 # define WTS "\033[1;95m\xF0\x9F\x90\x8CWTS$\033[a \033[0m"
@@ -31,6 +32,9 @@
 # define ERR_CMD ": command not found" // $? = 127
 # define ERR_OPEN ": no such file or directory"
 # define ERR_ACCESS ": permission denied"
+
+# define READ_ENDPIPE 0
+# define WRITE_ENDPIPE 1
 
 int							g_status;
 
@@ -67,14 +71,14 @@ typedef enum e_type
 
 typedef struct s_cmd
 {
-	char		*cmdline; // input[0 - pipe or EOL]
+	char		*cmdline; // echo bonjour
 	char		*path;
-	int			fd[2]; // input=fd0, output=fd1     // Default =  STDIN_FILENO // to be changed depending on token list
+	int			cmdio_fd[2]; // input=fd0, output=fd1     // Default =  STDIN_FILENO // to be changed depending on token list
+	int			fork_pid;
 	int			err; // do i need it? can i always store on global?
 	bool		expand;
 	bool		heredoc;
-	int			prev_toktype; // Needed for execution
-	int			next_toktype; // Needed for execution
+	t_type		io_flag; // Retirer avant push !
 	t_cmd		*prev; // first one = NULL
 	t_cmd		*next; // input[first after redir];
 }	t_cmd;
@@ -101,6 +105,7 @@ typedef struct s_data
 	int			nb_cmds; // size of cmd_lst;
 	int			nb_pipes;
 	int			syntax_err;
+	int			pipe_fd[2]; // AJOUT DOIT ETRE INITIALISÉ
 }	t_data;
 
 // BUILTINS
@@ -126,7 +131,8 @@ char	**update_oldpwd(char **env);
 char	**new_pwd(char **env);
 char	**add_var(char **env, char *n_var);
 
-// ENGINE
+// EXECUTION
+int	open_to_write(char *filepath, int additional_flag);
 
 // MAIN
 // exit.c

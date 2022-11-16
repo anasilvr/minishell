@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../../minishell.h"
 
 static int	external_cmds_exec(char **cmd, char **envp)
 {

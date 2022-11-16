@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:34:45 by tchalifo          #+#    #+#             */
-/*   Updated: 2022/11/15 20:54:06 by tchalifo         ###   ########.fr       */
+/*   Updated: 2022/11/16 15:32:25 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,28 +32,18 @@
  * Case cmd >> file --> Append the standard output (stdout) of cmd to a file.
  */
 
-int	file_opening(char *filepath, int additional_flag)
+int	open_to_read(char *filepath)
 {
 	int	file_fd;
 
-	file_fd = open(filepath, additional_flag, O_CREAT);
-	if (file_fd == -1)
-		return (-1);
-	return (file_fd);
-}
-
-int	open_to_readwrite(char *filepath)
-{
-	int	file_fd;
-
-	if (access(filepath, R_OK) == -1)
+	if (access(filepath, R_OK) == -1 && errno != ENOENT)
 	{
 		perror(NULL);
 		return (-1);
 	}
 	else
 	{
-		file_fd = open(filepath, O_RDONLY, O_WRONLY);
+		file_fd = open(filepath, O_RDONLY);
 		if (file_fd == -1)
 		{
 			perror(NULL);
@@ -63,21 +53,19 @@ int	open_to_readwrite(char *filepath)
 	return (0);
 }
 
-void	open_to_write(char *filepath, int *additional_flag)
+int	open_to_write(char *filepath, int additional_flag)
 {
 	int	file_fd;
 
-	if (access(filepath, W_OK) == -1 && errno != ENOENT)
+	if (access(filepath, R_OK | W_OK) == -1)
 	{
 		perror(NULL);
 		exit(errno);
 	}
-	else if (prog_data->here_doc_flag == 1)
-		file_fd = open(filepath, O_WRONLY | O_APPEND | O_CREAT, \
-				S_IWUSR | S_IWGRP | S_IWOTH | S_IRUSR | S_IRGRP | S_IROTH);
 	else
-		file_fd = open(filepath, O_WRONLY | O_TRUNC | O_CREAT, \
+		file_fd = open(filepath, O_WRONLY | additional_flag | O_CREAT, \
 				S_IWUSR | S_IWGRP | S_IWOTH | S_IRUSR | S_IRGRP | S_IROTH);
+	return (file_fd);
 }
 
 /* Puisque je trouve tout les infos sur la string retourné par
