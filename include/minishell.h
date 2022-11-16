@@ -71,8 +71,8 @@ typedef struct s_cmd
 	char		*path;
 	int			fd[2]; // Default =  STDIN_FILENO // to be changed depending on token list
 	int			err; // do i need it? can i always store on global?
+	int			io_flag;
 	bool		expand;
-	bool		heredoc;
 	t_cmd		*prev; // first one = NULL
 	t_cmd		*next; // input[first after redir];
 }	t_cmd;
@@ -174,7 +174,7 @@ void	lexer(t_data *data, char *input);
 t_tok	*tokenize(t_data *data, char *str);
 
 // parser.c
-t_cmd	*parser(t_data *data);
+void	parser(t_data *data);
 
 //token_utils.c
 int		tok_len(char *str, int len);

@@ -83,7 +83,8 @@ void	wtshell(t_data *data)
 				printf("Lexer error, exiting loop.[%d / %d]\n", g_status, data->syntax_err);
 				break ;
 			}
-			data->cmd_lst = parser(data);
+			parser(data);
+			print_cmdlines(data->cmd_lst);
 			if (data->syntax_err || !data->cmd_lst)
 			{
 				printf("Parser error, exiting loop.[%d / %d]\n", g_status, data->syntax_err);
@@ -91,7 +92,6 @@ void	wtshell(t_data *data)
 			}
 			reset(data);
 			printf("\tEnd of loop without errors. [%d / %d] :)\n", g_status, data->syntax_err);
-			print_cmdlines(data->cmd_lst);
 		}
 		if (data->syntax_err)
 			err_msg(data);
