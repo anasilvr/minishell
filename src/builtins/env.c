@@ -1,6 +1,12 @@
 #include "../../include/minishell.h"
 
-static void print_env(char **env, int *fd)
+void	env_handler(char **instruct, t_data *data)
+{
+	if (ft_cmp_builtin(instruct[0], "env", 3) == 0)
+		print_env(data->envp_cp);
+}
+
+void print_env(char **env)
 {
     int     i;
     int     j;

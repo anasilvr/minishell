@@ -39,14 +39,23 @@ void	exit_handler(char **instruct)
 		exit(EXIT_SUCCESS);
 }
 
-char **builtins_checker(char **instruct, char **env)
+t_data *builtins_checker(t_data *data)
 {
-	echo_handler(instruct, env);
-	pwd_handler(instruct, env);
-	env_handler(instruct, env);
-	env = cd_handler(instruct, env);
-	env = export_handler(instruct, env);
-	env = unset_handler(instruct, env);
-	exit_handler(instruct);
-	return (env);
+	char **instruct;
+
+	instruct = NULL;
+	while (data->cmd_lst != NULL)
+	{
+		instruct = ft_split(data->cmd_lst->cmdline, 0x20);
+		echo_handler(instruct, data);
+		pwd_handler(instruct);
+		env_handler(instruct, data);
+		cd_handler(instruct, data);
+		export_handler(instruct, data);
+		unset_handler(instruct, data);
+		exit_handler(instruct);
+		data->cmd_lst = data->cmd_lst->next;
+		free(instruct);
+	}
+	return (data);
 }

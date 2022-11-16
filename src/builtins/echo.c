@@ -1,39 +1,6 @@
 #include "../../include/minishell.h"
 
-static void ft_echo(char **arg, char **env, int i, int *fd)
-{
-    int     j;
-    int     k;
-    char    c;
-
-    j = -1;
-    k = check_echo_var(arg[i], env);
-    if (k >= 0)
-    {
-        while (env[k][++j] != '=')
-            ;
-        while (env[k][++j] != '\0')
-        {
-            c = env[k][j];
-			ft_putchar_fd(c, fd[0]);
-            // write(1, &c, 1);
-        }
-    }
-    if (k == -1)
-    {
-        while (arg[i][++j] != '\0')
-        {
-            c = arg[i][j];
-			ft_putchar_fd(c, fd[0]);
-            // write(1, &c, 1);
-        }
-    }
-    if (arg[i + 1] != NULL && k >= -1)
-        ft_putchar_fd(' ', fd[0]);
-		// write(1, " ", 1);
-}
-
-static int check_echo_var(char *instruct, char **env)
+int check_echo_var(char *instruct, char **env)
 {
     int i;
     int j;
@@ -57,7 +24,60 @@ static int check_echo_var(char *instruct, char **env)
     return (j);
 }
 
-static int check_n(char *instruct)
+void echo_handler(char **instruct, t_data *data)
+{
+    int i;
+
+    i = -1;
+    if (ft_cmp_builtin(instruct[++i], "echo", 4) == 0)
+    {
+        if (check_n(instruct[++i]) == 1)
+        {
+            while (instruct[i] != NULL)
+            {
+                ft_echo(instruct, data->envp_cp, i);
+                i++;
+            }
+			ft_putchar_fd('\n', fd[0]);
+            // write(1, "\n", 1);
+        }
+        else if (check_n(instruct[i]) == 0)
+        {
+            while (instruct[++i] != NULL)
+                ft_echo(instruct, data->envp_cp, i);
+        }
+    }
+}
+
+void ft_echo(char **arg, char **env, int i)
+{
+    int     j;
+    int     k;
+    char    c;
+
+    j = -1;
+    k = check_echo_var(arg[i], env);
+    if (k >= 0)
+    {
+        while (env[k][++j] != '=')
+            ;
+        while (env[k][++j] != '\0')
+        {
+            c = env[k][j];
+            write(1, &c, 1);
+        }
+    }
+    if (k == -1)
+    {
+        while (arg[i][++j] != '\0')
+        {
+            c = arg[i][j];
+            write(1, &c, 1);
+        }
+    }
+}
+
+int check_n(char *instruct)
 {
     int i;
 
@@ -72,29 +92,4 @@ static int check_n(char *instruct)
             return (0);
     }
     return (1);
-}
-
-void echo_handler(char **instruct, char **env, int *fd)
-{
-    int i;
-
-    i = -1;
-    if (ft_cmp_builtin(instruct[++i], "echo", 4) == 0)
-    {
-        if (check_n(instruct[++i]) == 1)
-        {
-            while (instruct[i] != NULL)
-            {
-                ft_echo(instruct, env, i, fd);
-                i++;
-            }
-			ft_putchar_fd('\n', fd[0]);
-            // write(1, "\n", 1);
-        }
-        else if (check_n(instruct[i]) == 0)
-        {
-            while (instruct[++i] != NULL)
-                ft_echo(instruct, env, i, fd);
-        }
-    }
 }
