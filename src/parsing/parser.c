@@ -19,7 +19,6 @@ void	parser(t_data *data)
 	{
 		line = get_cmdline(&data->token, io);
 		addback_cmdline(&cmd, new_cmdline(line), io);
-		printf("\t\t\tGetting here too [%u]!", cmd->io_flag);
 		*io = 0;
 		xfree(line);
 	}
@@ -56,7 +55,6 @@ char	*get_cmdline(t_tok **toklist, t_type *io)
 }
 
 //add flags to set expand and heredoc booleans (char *line, bool expand, bool heredoc)
-//could also be something to help with fds?
 t_cmd	*new_cmdline(char *line)
 {
 	t_cmd	*new;
@@ -94,6 +92,5 @@ t_cmd	*get_lastcmd(t_cmd *node)
 		return (NULL);
 	while (node->next)
 		node = node->next;
-	printf("returning: %s\n", node->cmdline);
 	return (node);
 }

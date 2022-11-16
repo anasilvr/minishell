@@ -84,7 +84,7 @@ void	wtshell(t_data *data)
 				break ;
 			}
 			parser(data);
-			print_cmdlines(data->cmd_lst);
+			//print_cmdlines(data->cmd_lst);
 			if (data->syntax_err || !data->cmd_lst)
 			{
 				printf("Parser error, exiting loop.[%d / %d]\n", g_status, data->syntax_err);

@@ -178,9 +178,9 @@ void	parser(t_data *data);
 
 //token_utils.c
 int		tok_len(char *str, int len);
-int		lenght_for_dollar(char *str);
-int		lenght_til_set(char *str, char *set);
-int		lenght_til_match(char *str, char c);
+int		length_for_dollar(char *str);
+int		length_til_set(char *str, char *set);
+int		length_til_match(char *str, char c);
 
 //token_check.c
 int		id_tokens(t_tok **list, t_data *data);

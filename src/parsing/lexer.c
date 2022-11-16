@@ -62,7 +62,7 @@ void	lexer(t_data *data, char *input)
 	if (g_status)
 		return ; // $? = 258 for syntax errors
 	verify_dollartype(&data->token);
-//	print_toklist(&data->token);
+	print_toklist(&data->token);
 //	printf ("\tQuiting lexer successfully...\n");
 	return ;
 }
@@ -77,6 +77,7 @@ t_tok	*tokenize(t_data *data, char *str)
 	while (*str)
 	{
 		data->token->toksize = tok_len(str, ft_strlen(str));
+		printf("TOKSIZE: %d\n", data->token->toksize);
 		addback_toklist(&lst, \
 			new_toklist(ft_substr(str, 0, data->token->toksize)));
 		str += data->token->toksize;

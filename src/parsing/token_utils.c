@@ -13,14 +13,14 @@ int	tok_len(char *str, int len)
 			|| is_set(str[i], "$"))
 		{
 			if (i == 0 && ((is_set(str[i], QUOTES))))
-				i = (1 + lenght_til_match(str, str[i]));
+				i = (1 + length_til_match(str, str[i]));
 			if (i == 0 && (is_set(str[i], METACHAR)))
-				i = (lenght_til_set(str, WHITESPACE));
+				i = (length_til_set(str, WHITESPACE));
 			if (i == 0 && (is_set(str[i], "$")))
-				i = (lenght_for_dollar(str));
+				i = (length_for_dollar(str));
 			else if (i == 0)
 				i = 1;
-			return (i) ;
+			return (i);
 		}
 		else if (is_set(str[i], WHITESPACE))
 			break ;
@@ -33,7 +33,7 @@ int	tok_len(char *str, int len)
 //ALSO CHECK FOR REPETIONS (EX.: $??? or $$$$) WHILE MANAGING EXPANSION. (Probably Thomas)
 //SUB PARSING NEEDED AT THIS TIME.
 
-int	lenght_for_dollar(char *str)
+int	length_for_dollar(char *str)
 {
 	int	i;
 
@@ -48,18 +48,19 @@ int	lenght_for_dollar(char *str)
 	}
 	else if (is_set(str[i], QUOTES))
 	{
-		i = (2 + lenght_til_match(&str[i], str[i]));
+		i = (2 + length_til_match(&str[i], str[i]));
 		return (i);
 	}
 	else
 	{
-		while (str[i] && (!is_set(str[i],WHITESPACE) && !is_set(str[i],METACHAR)))
+		while (str[i] && (!is_set(str[i],WHITESPACE) && \
+			!is_set(str[i], METACHAR)))
 			i++;
 	}
 	return (i);
 }
 
-int	lenght_til_set(char *str, char *set)
+int	length_til_set(char *str, char *set)
 {
 	int	i;
 
@@ -75,7 +76,7 @@ int	lenght_til_set(char *str, char *set)
 	return (i);
 }
 
-int	lenght_til_match(char *str, char c)
+int	length_til_match(char *str, char c)
 {
 	int	i;
 
@@ -84,7 +85,7 @@ int	lenght_til_match(char *str, char c)
 	i = 1;
 	while (str[i])
 	{
-		if (is_set(str[i], &c))
+		if ((str[i]) == c)
 			break ;
 		i++;
 	}
