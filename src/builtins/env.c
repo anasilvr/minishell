@@ -65,9 +65,3 @@ int ft_cmp_env(char *str1, char *str2, size_t n)
         return (0);
 	return (-1);
 }
-
-void	env_handler(char **instruct, char **env, int *fd)
-{
-	if (ft_cmp_builtin(instruct[0], "env", 3) == 0)
-		print_env(env, fd);
-}
