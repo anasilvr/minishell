@@ -75,6 +75,8 @@ void ft_echo(char **arg, char **env, int i)
             write(1, &c, 1);
         }
     }
+    if (arg[i + 1] != NULL && k >= -1)
+        write(1, " ", 1);
 }
 
 int check_n(char *instruct)
