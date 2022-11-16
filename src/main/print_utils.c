@@ -70,7 +70,7 @@ void	cmdlist_details(t_cmd *cmdlst)
 		printf("\t[fds] %d %d\n", lst->fd[0], cmdlst->fd[1]);
 		printf("\t[err] %d\n", lst->err);
 		printf("\t[expand] %d\n", lst->expand);
-		printf("\t[heredoc] %d\n", lst->heredoc);
+		printf("\t[io_flag] %d\n", lst->io_flag);
 		printf("\t[prev] %p\n", &lst->prev);
 		printf("\t[next]  %p\n\n", &lst->next);
 		i++;

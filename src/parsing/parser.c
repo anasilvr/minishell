@@ -1,40 +1,33 @@
 #include "../../include/minishell.h"
 
-char	*get_cmdline(t_tok **toklist);
+char	*get_cmdline(t_tok **toklist, t_type *io);
 t_cmd	*new_cmdline(char *line);
-void	addback_cmdline(t_cmd **cmdlist, t_cmd *line);
+void	addback_cmdline(t_cmd **cmdlist, t_cmd *line, t_type *io);
 t_cmd	*get_lastcmd(t_cmd *node);
-char	*get_singlecmd(t_tok **toklist);
 
 void	parser(t_data *data)
 {
-	t_tok	*tok;
 	t_cmd	*cmd;
 	char	*line;
+	t_type	*io;
 
-	tok = data->token;
-	if (!tok)
+	if (!data->token)
 		return ;
 	cmd = NULL;
-//	print_cmdlines(cmd);
-	while (tok && data->nb_pipes > 0)
+	io = ft_xcalloc(sizeof(t_type));
+	while (data->token)
 	{
-		line = get_cmdline(&tok);
-		addback_cmdline(&cmd, new_cmdline(line));
-		data->nb_pipes--;
-	//	xfree(line);
+		line = get_cmdline(&data->token, io);
+		addback_cmdline(&cmd, new_cmdline(line), io);
+		printf("\t\t\tGetting here too [%u]!", cmd->io_flag);
+		*io = 0;
+		xfree(line);
 	}
-	if (data->nb_pipes == 0)
-	{
-		line = get_singlecmd(&tok);
-		addback_cmdline(&cmd, new_cmdline(line));
-	//	xfree(line);
-	}
-	//print_cmdlines(cmd);
 	data->cmd_lst = cmd;
+	xfree(io);
 }
 
-char	*get_singlecmd(t_tok **toklist)
+char	*get_cmdline(t_tok **toklist, t_type *io)
 {
 	t_tok	*current;
 	char	*line;
@@ -45,34 +38,17 @@ char	*get_singlecmd(t_tok **toklist)
 		line = ft_strdup("");
 		while (current && current->token)
 		{
+			if (current->type >= 2 && current->type <= 6)
+			{
+				*io = current->type;
+				current = current->next;
+				*toklist = current;
+				return (line);
+			}
 			line = ft_strjoin_free(line, current->token);
 			line = ft_strjoin_free(line, " ");
 			current = current->next;
-		}
-		return (line);
-	}
-	return (NULL);
-}
-
-char	*get_cmdline(t_tok **toklist)
-{
-	t_tok	*current;
-	char	*line;
-
-	if (*toklist)
-	{
-		current = *toklist;
-		line = ft_strdup("");
-		while (current && current->type != PIPE)
-		{
-			line = ft_strjoin_free(line, current->token);
-			line = ft_strjoin_free(line, " ");
-			*current = *current->next;
-		}
-		if (current->type == PIPE)
-		{
-			line = ft_strjoin_free(line, current->token);
-			*current = *current->next;
+			*toklist = current;
 		}
 		return (line);
 	}
@@ -92,13 +68,14 @@ t_cmd	*new_cmdline(char *line)
 	return (new);
 }
 
-void	addback_cmdline(t_cmd **cmdlist, t_cmd *line)
+void	addback_cmdline(t_cmd **cmdlist, t_cmd *line, t_type *io)
 {
 	t_cmd	*tmp;
 
 	if (!line)
 		return ;
 	tmp = NULL;
+	line->io_flag = *io;
 	if (*cmdlist)
 	{
 		tmp = get_lastcmd(*cmdlist);
