@@ -24,7 +24,7 @@ int check_echo_var(char *instruct, char **env)
     return (j);
 }
 
-void echo_handler(char **instruct, char **env)
+void echo_handler(char **instruct, t_data *data)
 {
     int i;
 
@@ -35,7 +35,7 @@ void echo_handler(char **instruct, char **env)
         {
             while (instruct[i] != NULL)
             {
-                ft_echo(instruct, env, i);
+                ft_echo(instruct, data->envp_cp, i);
                 i++;
             }
             write(1, "\n", 1);
@@ -43,7 +43,7 @@ void echo_handler(char **instruct, char **env)
         else if (check_n(instruct[i]) == 0)
         {
             while (instruct[++i] != NULL)
-                ft_echo(instruct, env, i);
+                ft_echo(instruct, data->envp_cp, i);
         }
     }
 }

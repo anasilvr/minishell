@@ -11,3 +11,14 @@ void	free_tab(char **old_tab)
 		free(old_tab[i]);
 	free(old_tab);
 }
+
+int ft_free_strlen(char *str)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i] != '\0')
+		;
+	free(str);
+	return(i);
+}

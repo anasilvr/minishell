@@ -43,7 +43,8 @@ MAIN_F		=		\
 	list_utils.c	\
 	main.c			\
 	print_utils.c	\
-#	main-jas.c		\
+#	main-jas.c
+
 
 PARSE_F	=			\
 	lexer_utils.c	\
