@@ -4,7 +4,7 @@ HEADER_F	=	minishell.h
 
 CC			=	gcc
 #CFLAGS		=	-g
-CFLAGS		=	-Wall -Wextra -Werror
+CFLAGS		=	-Wall -Wextra -Werror -g
 RM			=	RM -rf
 
 # FOLDER PATHS #
@@ -24,14 +24,16 @@ SIGNAL_DIR	=	$(SRC_DIR)signals/
 OBJ_DIR		=	obj/
 
 # FILES #
-BUILTIN_F	=		\
-	builtin.c		\
-	echo.c			\
-	pwd.c			\
-	utils.c			\
-	export.c		\
-	env.c			\
-	unset.c			\
+
+BUILTIN_F	=	\
+	builtin.c \
+  echo.c    \
+  pwd.c     \
+  utils.c   \
+  export.c  \
+  env.c     \
+  unset.c   \
+  cd.c		\
 
 ENGINE_F	=
 
@@ -40,6 +42,7 @@ MAIN_F		=		\
 	init.c			\
 	list_utils.c	\
 	main.c			\
+#	main-jas.c		\
 	print_utils.c	\
 
 PARSE_F	=			\
