@@ -11,12 +11,6 @@ static int	external_cmds_exec(char **cmd, char **envp)
 	}
 }
 
-
-
-
-
-
-
 int	ft_cmp_builtin(const char *str1, const char *str2, size_t n)
 {
 	unsigned int	i;
@@ -32,44 +26,18 @@ int	ft_cmp_builtin(const char *str1, const char *str2, size_t n)
 	return (-1);
 }
 
-<<<<<<< HEAD
-
 void	exit_handler(char **instruct)
-=======
-<<<<<<< HEAD
-static int	external_cmds_exec(char **cmd, char **envp)
-{
-	if (execve(cmd[0], cmd, envp) == -1)
-	{
-		// Need a standard for exit function after error (clear mem, ect..)
-		perror(NULL);
-		ft_putstr_fd(strerror(errno), 2);
-		// exit(errno);
-	}
-}
-
-char **builtins_checker(char **instruct, char **env)
-=======
-void	exit_handler(char **instruct)
->>>>>>> a5a20866695976cf5d79eb7e1f7f4413c3d0c9cb
->>>>>>> main
 {
     if (ft_cmp_builtin(instruct[0], "exit", 4) == 0)
 		exit(EXIT_SUCCESS);
 }
 
-<<<<<<< HEAD
 t_data *builtins_checker(t_data *data)
 {
 	char **instruct;
 
 	instruct = NULL;
 	while (data->cmd_lst != NULL)
-=======
-<<<<<<< HEAD
-	i = 0;
-	while (instruct[i] != NULL)
->>>>>>> main
 	{
 		instruct = ft_split(data->cmd_lst->cmdline, 0x20);
 		echo_handler(instruct, data);
@@ -82,21 +50,5 @@ t_data *builtins_checker(t_data *data)
 		data->cmd_lst = data->cmd_lst->next;
 		free(instruct);
 	}
-<<<<<<< HEAD
 	return (data);
-=======
-	return(env);
-=======
-char **builtins_checker(char **instruct, char **env)
-{
-	echo_handler(instruct, env);
-	pwd_handler(instruct, env);
-	env_handler(instruct, env);
-	env = cd_handler(instruct, env);
-	env = export_handler(instruct, env);
-	env = unset_handler(instruct, env);
-	exit_handler(instruct);
-	return (env);
->>>>>>> a5a20866695976cf5d79eb7e1f7f4413c3d0c9cb
->>>>>>> main
 }
