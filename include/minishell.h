@@ -17,6 +17,7 @@
 # include <errno.h>
 # include <term.h>
 # include <stdlib.h>
+# include <unistd.h>
 
 // MACROS, GLOBAL VARIABLE AND STRUCTS
 # define WTS "\033[1;95m\xF0\x9F\x90\x8CWTS$\033[a \033[0m"
@@ -31,6 +32,9 @@
 # define ERR_CMD ": command not found" // $? = 127
 # define ERR_OPEN ": no such file or directory"
 # define ERR_ACCESS ": permission denied"
+
+# define READ_ENDPIPE 0
+# define WRITE_ENDPIPE 1
 
 int							g_status;
 
@@ -67,9 +71,10 @@ typedef enum e_type
 
 typedef struct s_cmd
 {
-	char		*cmdline; // input[0 - pipe or EOL]
+	char		*cmdline; // echo bonjour
 	char		*path;
-	int			fd[2]; // Default =  STDIN_FILENO // to be changed depending on token list
+	int			cmdio_fd[2]; // input=fd0, output=fd1     // Default =  STDIN_FILENO // to be changed depending on token list
+	int			fork_pid;
 	int			err; // do i need it? can i always store on global?
 	int			io_flag;
 	bool		expand;
@@ -99,6 +104,7 @@ typedef struct s_data
 	int			nb_cmds; // size of cmd_lst;
 	int			nb_pipes;
 	int			syntax_err;
+	int			pipe_fd[2]; // AJOUT DOIT ETRE INITIALISÉ
 	bool		is_builtin;
 }	t_data;
 
@@ -115,16 +121,17 @@ t_data	*cd_handler(char **instruct, t_data *data);
 t_data	*builtins_checker(t_data *data);
 char    **cpy_env(char **envp, int line);
 int     ft_cmp_env(char *str1, char *str2, size_t n);
-void    print_env(char **env);
+//void    print_env(char **env); // now static
 void	free_tab(char **old_tab);
-int     check_env_var(char **env, char *var);
-char    **cpy_unset(char **env, int line);
-char    **unset_dup(char **env, char *var);
+int		check_env_var(char **env, char *var);
+char	**cpy_unset(char **env, int line);
+char	**unset_dup(char **env, char *var);
 char	**update_oldpwd(char **env);
 char	**new_pwd(char **env);
 char	**add_var(char **env, char *n_var);
 
-// ENGINE
+// EXECUTION
+int	open_to_write(char *filepath, int additional_flag);
 
 // MAIN
 // exit.c
