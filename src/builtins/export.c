@@ -71,13 +71,13 @@ int export_pars(char *n_var, char **env)
     return (-2);
 }
 
-char **export_handler(char **instruct, char **env)
+t_data *export_handler(char **instruct, t_data *data)
 {
     int     i;
     char    **r_env;
 
     i = 0;
-    r_env = env;
+    r_env = data->envp_cp;
     if (ft_cmp_builtin(instruct[i], "export", 6) == 0)
     {
         while (instruct[++i] != NULL)
@@ -91,5 +91,5 @@ char **export_handler(char **instruct, char **env)
             }
         }
     }
-    return (r_env);
+    return (data);
 }

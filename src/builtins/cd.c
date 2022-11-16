@@ -24,7 +24,7 @@ char **new_pwd(char **env)
     return(env);
 }
 
-char **cd_handler(char **instruct, char **env)
+t_data *cd_handler(char **instruct, t_data *data)
 {
     int     i;
     int     j;
@@ -35,11 +35,11 @@ char **cd_handler(char **instruct, char **env)
     n_path = NULL;
     if (ft_cmp_builtin(instruct[i], "cd", 2) == 0)
     {
-        env = update_oldpwd(env);
+        data->envp_cp = update_oldpwd(data->envp_cp);
         if (chdir(instruct[++i]) == 0)
-            env = new_pwd(env);
+            data->envp_cp = new_pwd(data->envp_cp);
     }
-    return(env);
+    return(data);
 }
 
 char **update_oldpwd(char **env)

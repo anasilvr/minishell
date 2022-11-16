@@ -99,20 +99,20 @@ typedef struct s_data
 	int			nb_cmds; // size of cmd_lst;
 	int			nb_pipes;
 	int			syntax_err;
+	bool		is_builtin;
 }	t_data;
 
 // BUILTINS
 
 enum    e_bultins {echo, cd, pwd, export, unset, env};
 void    ft_echo(char **arg, char **env, int i);
-void    echo_handler(char **instruct, char **env);
-void	pwd_handler(char **instruct, char **env);
-char	**unset_handler(char **intruct, char **env);
-char    **export_handler(char **instruct, char **env);
-void	env_handler(char **instruct, char **env);
-char	**cd_handler(char **instruct, char **env);
-int     print_directory(char **env);
-char    **builtins_checker(char **instruct, char **env);
+void    echo_handler(char **instruct, t_data *data);
+void	pwd_handler(char **instruct);
+t_data	*unset_handler(char **intruct, t_data *data);
+t_data  *export_handler(char **instruct, t_data *data);
+void	env_handler(char **instruct, t_data *data);
+t_data	*cd_handler(char **instruct, t_data *data);
+t_data	*builtins_checker(t_data *data);
 char    **cpy_env(char **envp, int line);
 int     ft_cmp_env(char *str1, char *str2, size_t n);
 void    print_env(char **env);
@@ -162,6 +162,7 @@ int     export_pars(char *n_var, char **env);
 int     check_echo_var(char *instruct, char **env);
 int     env_dup(char *n_var, char **env);
 char    *var_trim(char *n_var);
+int		ft_free_strlen(char *str);
 
 //lexer_utils.c
 void	skip_whitespaces(char **str);
