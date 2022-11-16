@@ -6,7 +6,7 @@ void	addback_cmdline(t_cmd **cmdlist, t_cmd *line);
 t_cmd	*get_lastcmd(t_cmd *node);
 char	*get_singlecmd(t_tok **toklist);
 
-t_cmd 	*parser(t_data *data)
+void	parser(t_data *data)
 {
 	t_tok	*tok;
 	t_cmd	*cmd;
@@ -14,7 +14,7 @@ t_cmd 	*parser(t_data *data)
 
 	tok = data->token;
 	if (!tok)
-		return (0);
+		return ;
 	cmd = NULL;
 //	print_cmdlines(cmd);
 	while (tok && data->nb_pipes > 0)
@@ -30,8 +30,8 @@ t_cmd 	*parser(t_data *data)
 		addback_cmdline(&cmd, new_cmdline(line));
 	//	xfree(line);
 	}
-	print_cmdlines(cmd);
-	return (cmd);
+	//print_cmdlines(cmd);
+	data->cmd_lst = cmd;
 }
 
 char	*get_singlecmd(t_tok **toklist)
