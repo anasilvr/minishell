@@ -9,34 +9,6 @@
  *
  */
 
-// Ma conclusion sur la chaine d'execution.
-
-/* Premier token de la chaine d'execution :
- * 1.  Si le token présent est une commande, elle sera executé.
- * ---
- * 2.  Si le token présent est une redirection d'input ( > ), il créer le
- * fichier avec pour nom le token suivant sans plus. (Voir doc sur
- * "Les redirections").
- * ---
- * 3.  Si le token présent est quelque chose d'autre qu'une commande ou une
- * redirection d'input, il y aura un retour d'erreur (command not found).
- */
-/* Deuxieme token et ceux en millieu de chaine d'execution :
- * 1 Si le token présent est une commande :
- *  1.1 Et que le token précédent est :
- *   1.1.1 Une commande, le token précédent sera executé avec pour arguments
- *         le ou les token(s) qui suive(nt). Donc tout les tokens suivant la commande
- *         executée sont traité comme argument tant qu'un autre type de token ne sera
- *         pas rencontré (redirection ou pipe).
- *         des commande(s) tant qu'une redirection ou
- *     un pipe n'aura pas étét rencontré.
- * 1.2 Si le token précédent est :
- * 1.2.1 Si le précédent token est une redirection
- *
- *1.2 et que le token suivant
- *
- */
-
 /* Un exemple de chaine d'execution possible
  * file1 > echo | cat > file2 > file3 > cat | cat | cat >> file4
  *
@@ -55,3 +27,24 @@
 
 
 */
+
+void	exec_chain(void)
+{
+	while (cmd_chain != NULL)
+	{
+		if (cmd_chain_name == '|')
+		{
+
+		}
+		else if(cmd_chain_name == '>')
+		{}
+		else if(cmd_chain_name == '<')
+		{}
+		else if(cmd_chain_name == '>>')
+		{}
+		else if(cmd_chain_name == '<<')
+		{}
+		else if(cmd_chain_name == cmd(cmd_chain_name))
+		cmd_chain = cmd_chain->next
+	}
+}
