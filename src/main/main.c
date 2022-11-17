@@ -116,6 +116,7 @@ void	wtshell(t_data *data)
 				printf("Parser error, exiting loop.[%d / %d]\n", g_status, data->syntax_err);
 				break ;
 			}
+			execution(data);
 			reset(data);
 			printf("\tEnd of loop without errors. [%d / %d] :)\n", g_status, data->syntax_err);
 		}

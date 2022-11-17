@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../../include/minishell.h"
 
 void	env_handler(char **instruct, t_data *data)
 {
@@ -20,10 +20,12 @@ void print_env(char **env)
     while (env[i] != NULL)
     {
         while (env[i][++j] != '\0')
-            write(1, &env[i][j], 1);
+			ft_putchar_fd('\n', fd[0]);
+            //write(1, &env[i][j], 1);
         j = -1;
 		i++;
-        write(1, "\n", 1);
+		ft_putchar_fd('\n', fd[0]);
+        //write(1, "\n", 1);
     }
 }
 
@@ -56,7 +58,7 @@ int ft_cmp_env(char *str1, char *str2, size_t n)
 	i = 0;
 	if (n == 0 || str1[0] == '\0' || !str2)
 		return (-1);
-	while (str1[i] == str2[i] && i < (n - 1) && 
+	while (str1[i] == str2[i] && i < (n - 1) &&
         (str1[i] != '=' && str2[i] != '\0'))
 		i++;
     if (str2[i + 1] == '\0' && str1[i + 1] == '=')
