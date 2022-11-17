@@ -129,6 +129,7 @@ char	**add_var(char **env, char *n_var);
 // MAIN
 // exit.c
 void	clean_exit(t_data *data);
+void	free_cmdlist(t_cmd *lst);
 void	reset(t_data *data);
 
 // init.c
