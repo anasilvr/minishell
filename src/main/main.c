@@ -13,6 +13,31 @@
 
 #include "../../include/minishell.h"
 
+static	void	signal_handler(int sig)
+{
+	t_data *data;
+
+	data = get_data();
+	if (sig == SIGINT)
+	{
+		printf("\n");
+		rl_replace_line("", 1);
+		rl_on_new_line();
+		if (!data->cmd_lst)
+		{
+			rl_redisplay();
+		}
+	}
+}
+
+static void	readline_exit(t_data *data)
+{
+	clean_exit(data);
+	data = NULL;
+	printf("exit\n");
+	exit(0);
+}
+
 static void	err_msg(t_data *data)
 {
 	if (data->syntax_err == 1)
@@ -70,11 +95,12 @@ void	wtshell(t_data *data)
 {
 	while (1)
 	{
-		//handle_signals();
+		signal(SIGINT, signal_handler);
+		signal(SIGQUIT, SIG_IGN);
 		data->input = rl_gets();
 		printf("\tGetting input with rl_gets...\n");
 		if (!data->input || !*data->input)
-			reset(data);
+			readline_exit(data);
 		while (!data->syntax_err && !is_empty(data->input))
 		{
 			lexer(data, data->input);
@@ -90,6 +116,7 @@ void	wtshell(t_data *data)
 				printf("Parser error, exiting loop.[%d / %d]\n", g_status, data->syntax_err);
 				break ;
 			}
+		//	execution(data);
 			reset(data);
 			printf("\tEnd of loop without errors. [%d / %d] :)\n", g_status, data->syntax_err);
 		}
