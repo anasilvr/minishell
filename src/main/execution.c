@@ -34,27 +34,26 @@ void	exec_manager(t_data *prog_data)
 {
 	while (prog_data->cmd_lst != NULL)
 	{
-		if (prog_data->cmd_lst->io_flag > 1 && prog_data->cmd_lst->io_flag < 7)
+
+		if (prog_data->cmd_lst->io_flag == 4) //if is an input redirect <
 		{
-			if (prog_data->cmd_lst->io_flag == 4) //if is an input redirect <
-			{
-				prog_data->cmd_lst->cmdio_fd[1] = open_to_read \
-				(prog_data->cmd_lst->next->cmdline);
-			}
-			else if (prog_data->cmd_lst->io_flag == 5) //if is an output redirect > (Open file and put the fd into struct in int *cmdio_fd)
-			{
-				prog_data->cmd_lst->cmdio_fd[1] = open_to_write \
-				(prog_data->cmd_lst->next->cmdline, O_TRUNC);
-			}
-			else if (prog_data->cmd_lst->io_flag == 6) //if is an output redirect in append mode >> (Open file and put the fd into struct in int *cmdio_fd)
-			{
-				prog_data->cmd_lst->cmdio_fd[1] = open_to_write \
-				(prog_data->cmd_lst->next->cmdline, O_APPEND);
-			}
-			setupio(prog_data);
+			prog_data->cmd_lst->cmdio_fd[1] = open_to_read \
+			(prog_data->cmd_lst->next->cmdline);
 		}
+		else if (prog_data->cmd_lst->io_flag == 5) //if is an output redirect > (Open file and put the fd into struct in int *cmdio_fd)
+		{
+			prog_data->cmd_lst->cmdio_fd[1] = open_to_write \
+			(prog_data->cmd_lst->next->cmdline, O_TRUNC);
+		}
+		else if (prog_data->cmd_lst->io_flag == 6) //if is an output redirect in append mode >> (Open file and put the fd into struct in int *cmdio_fd)
+		{
+			prog_data->cmd_lst->cmdio_fd[1] = open_to_write \
+			(prog_data->cmd_lst->next->cmdline, O_APPEND);
+		}
+		setupio(prog_data);
+		}
+		exec_time(prog_data);
 	}
-	exec_time(prog_data);
 }
 
 void	exec_time(t_data *prog_data)
@@ -64,6 +63,8 @@ void	exec_time(t_data *prog_data)
 		execve();
 }
 
+
+// HOLD
 void	exec_chain(t_data *prog_data)
 {
 	int	file_fd;

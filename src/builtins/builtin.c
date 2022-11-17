@@ -7,7 +7,7 @@ static int	external_cmds_exec(char **cmd, char **envp)
 		// Need a standard for exit function after error (clear mem, ect..)
 		perror(NULL);
 		ft_putstr_fd(strerror(errno), 2);
-		// exit(errno);
+		exit(errno);
 	}
 }
 
