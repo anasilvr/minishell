@@ -8,7 +8,7 @@ int check_echo_var(char *instruct, char **env)
     i = 0;
     j = 0;
     if (instruct[i] == '$')
-    {   
+    {
         i++;
         while (env[j] != NULL)
         {
@@ -38,7 +38,8 @@ void echo_handler(char **instruct, t_data *data)
                 ft_echo(instruct, data->envp_cp, i);
                 i++;
             }
-            write(1, "\n", 1);
+	//		ft_putchar_fd('\n', fd[0]);
+            // write(1, "\n", 1);
         }
         else if (check_n(instruct[i]) == 0)
         {
@@ -73,7 +74,6 @@ void ft_echo(char **arg, char **env, int i)
             c = arg[i][j];
             write(1, &c, 1);
         }
-
     }
     if (arg[i + 1] != NULL && k >= -1)
         write(1, " ", 1);

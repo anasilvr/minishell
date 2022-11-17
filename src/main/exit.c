@@ -12,16 +12,15 @@ void	clean_exit(t_data *data)
 	while (data->path[i++])
 		xfree(data->path[i]);
 	xfree(data->path);
+	xfree(data->pwd);
 	xfree(data->input);
-/*	xfree(data->cmd_list->ref);
-	xfree(data->cmd_list->cmd);
-	i = 0;
-	while (data->cmd_list->cmd_args[i++])
-		xfree(data->cmd_list->cmd_args[i]);
-	xfree(data->cmd_list->cmd_args);
-	xfree(data->cmd_list);*/
+	free_toklist(data->token);
+	xfree(data->token);
+	free_cmdlist(data->cmd_lst);
+	xfree(data->cmd_lst);
 	xfree(data);
 }
+
 void	free_cmdlist(t_cmd *lst)
 {
 	t_cmd	*tmp;

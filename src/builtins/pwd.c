@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../../include/minishell.h"
 
 void    pwd_handler(char **instruct)
 {
@@ -15,6 +15,6 @@ void    pwd_handler(char **instruct)
         while (pwd[++j] != '\0')
             write(1 , &pwd[j], 1);
         write(1, "\n", 1);
-        free(pwd);
+        xfree(pwd);
     }
 }
