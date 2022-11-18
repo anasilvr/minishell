@@ -132,6 +132,13 @@ char	**add_var(char **env, char *n_var);
 
 // EXECUTION
 int	open_to_write(char *filepath, int additional_flag);
+void	execution_manager(t_data *prog_data);
+void	setupio(t_data *prog_data);
+void	redirect_manager(t_data *prog_data);
+void	reset_iocpy(t_data *prog_data);
+void	pipe_manager(t_data *prog_data)
+void	setup_pipe_in(t_data *prog_data);
+void	setup_pipe_out(t_data *prog_data);
 
 // MAIN
 // exit.c

@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:34:45 by tchalifo          #+#    #+#             */
-/*   Updated: 2022/11/16 15:32:25 by tchalifo         ###   ########.fr       */
+/*   Updated: 2022/11/17 11:13:55 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
  *
  */
 
+// sed 's/bib/lol/' file.txt > file2.txt
 
 /* MEMORY ZONE OF THOMAS FISH
  * Case cmd > file --> Redirect the standard output (stdout) of cmd to a file
@@ -32,9 +33,10 @@
  * Case cmd >> file --> Append the standard output (stdout) of cmd to a file.
  */
 
-int	open_to_read(char *filepath)
+static int	open_to_read(char *filepath, int *additional_flag)
 {
 	int	file_fd;
+	(void) additional_flag;
 
 	if (access(filepath, R_OK) == -1 && errno != ENOENT)
 	{
@@ -47,25 +49,49 @@ int	open_to_read(char *filepath)
 		if (file_fd == -1)
 		{
 			perror(NULL);
-			exit(errno);
+			return (-1);
 		}
 	}
-	return (0);
+	return (file_fd);
 }
 
-int	open_to_write(char *filepath, int additional_flag)
+static int	open_to_readwrite(char *filepath, int *additional_flag)
 {
 	int	file_fd;
 
 	if (access(filepath, R_OK | W_OK) == -1)
 	{
 		perror(NULL);
-		exit(errno);
+		return (-1);
 	}
 	else
-		file_fd = open(filepath, O_WRONLY | additional_flag | O_CREAT, \
+		file_fd = open(filepath, O_WRONLY | additional_flag[] | O_CREAT, \
 				S_IWUSR | S_IWGRP | S_IWOTH | S_IRUSR | S_IRGRP | S_IROTH);
+		if (file_fd == -1)
+		{
+			perror(NULL);
+			return (-1);
+		}
 	return (file_fd);
+}
+
+void	redirect_manager(t_data *prog_data)
+{
+	if (prog_data->cmd_lst->io_flag == 4) //if is an input redirect <
+	{
+		prog_data->cmd_lst->cmdio_fd[0] = open_to_read \
+		(prog_data->cmd_lst->next->cmdline);
+	}
+	else if (prog_data->cmd_lst->io_flag == 5) //if is an output redirect > (Open file and put the fd into struct in int *cmdio_fd)
+	{
+		prog_data->cmd_lst->cmdio_fd[1] = open_to_write \
+		(prog_data->cmd_lst->next->cmdline, O_TRUNC);
+	}
+	else if (prog_data->cmd_lst->io_flag == 6) //if is an output redirect in append mode >> (Open file and put the fd into struct in int *cmdio_fd)
+	{
+		prog_data->cmd_lst->cmdio_fd[1] = open_to_write \
+		(prog_data->cmd_lst->next->cmdline, O_APPEND);
+	}
 }
 
 /* Puisque je trouve tout les infos sur la string retourné par
@@ -76,19 +102,19 @@ int	open_to_write(char *filepath, int additional_flag)
  * Donc, ici si je rencontre un chevrons, le nom du fichier devrait
  * le précéder.
  */
-void	input_setup(t_data *data)
-{
-	if (data->token->type == REDIR_IN)
-	{
-		while (data->token->next != '\0')
-		{
-			if (ft_strcmp(data->token->type, '<') == 0)
-				break;
-			data->token = data->token->next;
-		}
-		file_opening(data->token->prev->token, "");
-	}
-}
+// void	input_setup(t_data *data)
+// {
+// 	if (data->token->type == REDIR_IN)
+// 	{
+// 		while (data->token->next != '\0')
+// 		{
+// 			if (ft_strcmp(data->token->type, '<') == 0)
+// 				break;
+// 			data->token = data->token->next;
+// 		}
+// 		file_opening(data->token->prev->token, "");
+// 	}
+// }
 
 /* Puisque je trouve tout les infos sur la string créée par
  * readline dans la struct liste chainée token, j'ai utilisé les champs de
@@ -96,30 +122,30 @@ void	input_setup(t_data *data)
  * La variable type m'indique si je rencontre un chevrons > en autre qui est
  * l'enum de valeur 5.
  * Donc, ici si je rencontre un chevrons, le nom du fichier devrait le suivre.
- */
-void	output_setup(t_data *data)
-{
-	if (data->token->type == REDIR_OUT)
-	{
-		while (data->token->next != '\0')
-		{
-			if (ft_strcmp(data->token->type, '>') == 0)
-				break;
-			data->token = data->token->next;
-		}
-		file_opening(data->token->next->token, 0);
-	if (data->token->type == APPEND)
-	{
-		while (data->token->next != '\0')
-		{
-			if (ft_strcmp(data->token->type, '>>') == 0)
-				break;
-			data->token = data->token->next;
-		}
-		file_opening(data->token->next->token, APPEND);
-	}
-	}
-}
+*/
+// void	output_setup(t_data *data)
+// {
+// 	if (data->token->type == REDIR_OUT)
+// 	{
+// 		while (data->token->next != '\0')
+// 		{
+// 			if (ft_strcmp(data->token->type, '>') == 0)
+// 				break;
+// 			data->token = data->token->next;
+// 		}
+// 		file_opening(data->token->next->token, 0);
+// 	if (data->token->type == APPEND)
+// 	{
+// 		while (data->token->next != '\0')
+// 		{
+// 			if (ft_strcmp(data->token->type, '>>') == 0)
+// 				break;
+// 			data->token = data->token->next;
+// 		}
+// 		file_opening(data->token->next->token, APPEND);
+// 	}
+// 	}
+// }
 
 /* Case cmd << EOL --> Redirect a bunch of lines to the stdin. This is called
  * a here-document.
