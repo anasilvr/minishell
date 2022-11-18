@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:01:02 by tchalifo          #+#    #+#             */
-/*   Updated: 2022/11/17 11:12:54 by tchalifo         ###   ########.fr       */
+/*   Updated: 2022/11/18 17:30:37 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ void	pipe_manager(t_data *prog_data)
 		else if (prog_data->cmd_lst->fork_pid == 0) // INTO CHILD PROCESS
 		{
 			setup_pipe_out(prog_data);
-			if (execve(prog_data->cmds_list->var_data->absolute_path, \
-				prog_data->cmds_list->var_data->cmd_argument, envp) == -1)
+			execution_time(prog_data);
 		}
 		waitpid(0, NULL, 0);
 		prog_data->cmd_lst = prog_data->cmd_lst->next;
@@ -43,3 +42,5 @@ void	pipe_manager(t_data *prog_data)
 	execution_manager(prog_data); // Retour at exec_manager for complete last cmd after last pipe
 }
 
+// cat | cat | cat > file1.txt
+// echo bonjour | cat
