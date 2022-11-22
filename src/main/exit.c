@@ -17,7 +17,7 @@ void	clean_exit(t_data *data)
 	if (data->token)
 		free_toklist(data->token);
 	if (data->cmd_lst)
-		free_cmdlist(data->cmd_lst);
+	free_cmdlist(data->cmd_lst);
 	xfree(data);
 }
 
@@ -29,11 +29,9 @@ void	free_toklist(t_tok *lst)
 		return ;
 	while (lst)
 	{
-		tmp = lst;
+		tmp = lst->next;
 		xfree(lst);
-		if (!tmp->next)
-			break ;
-		lst = tmp->next;
+		lst = tmp;
 	}
 }
 
@@ -45,11 +43,9 @@ void	free_cmdlist(t_cmd *lst)
 		return ;
 	while (lst)
 	{
-		tmp = lst;
+		tmp = lst->next;
 		xfree(lst);
-		if (!tmp->next)
-			break ;
-		lst = tmp->next;
+		lst = tmp;
 	}
 }
 
