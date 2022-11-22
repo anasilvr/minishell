@@ -180,7 +180,7 @@ bool	is_empty(char *str);
 
 // parser.c and parser_utils.c
 void	parser(t_data *data);
-void	assign_flags(t_cmd *cmd_lst, t_tok *token);
+void	assign_flags(t_cmd *cmd_lst, t_tok *token, t_type *io, bool *expand);
 void	check_flags(t_type *toktype, t_type *io, bool *expand);
 t_cmd	*create_cmdlist(t_data *data);
 t_cmd	*new_cmdline(char *line);

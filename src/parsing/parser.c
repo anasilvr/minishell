@@ -4,20 +4,21 @@
 // the way we're doing right now makes it nearly impossible to format the whitespaces the right way.
 void	parser(t_data *data)
 {
-	data->cmd_lst = create_cmdlist(data);
-	assign_flags(data->cmd_lst, data->token);
-}
-
-void	assign_flags(t_cmd *cmd_lst, t_tok *token)
-{
 	t_type *io;
 	bool *expand;
 
 	io = ft_xcalloc(sizeof(t_type));
 	expand = ft_xcalloc(sizeof(bool));
-	if (!cmd_lst || !token)
-		return ;
-	while (cmd_lst)
+
+	data->cmd_lst = create_cmdlist(data);
+	assign_flags(data->cmd_lst, data->token, io, expand);
+	xfree(io);
+	xfree(expand);
+}
+
+void	assign_flags(t_cmd *cmd_lst, t_tok *token, t_type *io, bool *expand)
+{
+	while (cmd_lst && token)
 	{
 		while (token)
 		{
