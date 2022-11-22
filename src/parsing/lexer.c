@@ -20,10 +20,10 @@ static int	valid_quotation(t_data *data)
 	bool	trigger;
 	char	quote;
 
-	i = 0;
+	i = -1;
 	trigger = false;
 	quote = 0;
-	while (data->input[i])
+	while (data->input[++i])
 	{
 		if (data->input[i] == '\'' || data->input[i] == '\"')
 		{
@@ -34,35 +34,36 @@ static int	valid_quotation(t_data *data)
 			if (!data->input[i])
 				break ;
 		}
-	i++;
 	}
 	if (trigger == true)
-	{
-		data->syntax_err = 90;
 		return (1);
-	}
 	else
 		return (0);
 }
 
+//$? = 1 catchall for g eneral errors and unclosed quotes
+//$? = 258 for syntax errors
 void	lexer(t_data *data, char *input)
 {
 //	printf ("\tStarting lexer...\n");
 	if (!data)
-		return ; //$? = 1 catchall for g eneral errors
+		return ;
 	if (!input || !*input)
 		return ;
 	g_status = valid_quotation(data);
 	if (g_status)
-		return ; // $? = 1 for unclosed quotes
+	{
+		data->syntax_err = 90;
+		return ;
+	}
 	data->token = tokenize(data, input);
 	if (!data->token)
 		return ;
 	g_status = id_tokens(&data->token, data);
 	if (g_status)
-		return ; // $? = 258 for syntax errors
+		return ;
 	verify_dollartype(&data->token);
-	print_toklist(&data->token);
+//	print_toklist(data->token);
 //	printf ("\tQuiting lexer successfully...\n");
 	return ;
 }
@@ -77,7 +78,6 @@ t_tok	*tokenize(t_data *data, char *str)
 	while (*str)
 	{
 		data->token->toksize = tok_len(str, ft_strlen(str));
-		printf("TOKSIZE: %d\n", data->token->toksize);
 		addback_toklist(&lst, \
 			new_toklist(ft_substr(str, 0, data->token->toksize)));
 		str += data->token->toksize;

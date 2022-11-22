@@ -29,10 +29,6 @@ int	tok_len(char *str, int len)
 	return (i);
 }
 
-//ATENTION WHILE WORKING WITH $: CHECK RAW INPUT FOR SPACES BETWEEN $ AND WORDS. (Ana)
-//ALSO CHECK FOR REPETIONS (EX.: $??? or $$$$) WHILE MANAGING EXPANSION. (Probably Thomas)
-//SUB PARSING NEEDED AT THIS TIME.
-
 int	length_for_dollar(char *str)
 {
 	int	i;
@@ -40,22 +36,23 @@ int	length_for_dollar(char *str)
 	if (!str)
 		return (0);
 	i = 1;
-
-	if (str[i] == '$' || str[i] == '?' || is_set(str[i], WHITESPACE))
-	{
-		i++;
-		return (i);
-	}
-	else if (is_set(str[i], QUOTES))
+	if (is_set(str[i], QUOTES))
 	{
 		i = (2 + length_til_match(&str[i], str[i]));
 		return (i);
 	}
 	else
 	{
-		while (str[i] && (!is_set(str[i],WHITESPACE) && \
-			!is_set(str[i], METACHAR)))
+		while (str[i] && (!is_set(str[i], WHITESPACE) && \
+			!is_set(str[i], METACHAR) && str[i] != '?'))
+		{
 			i++;
+		}
+		if (str[i] && str[i] == '?')
+		{
+			i++;
+			return (i);
+		}
 	}
 	return (i);
 }

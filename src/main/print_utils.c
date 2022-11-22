@@ -20,34 +20,29 @@ What the shell!?\n\n");
 	printf("\033[0m");
 }
 
-void	print_toklist(t_tok **list)
+void	print_toklist(t_tok *list)
 {
-	t_tok	*node;
 	int		i;
 
-	node = *list;
 	i = 0;
-	while (node)
+	while (list)
 	{
-		if (!node)
-			return ;
-		printf("token[%d] = %s \t\t type = %u\n", i, node->token, node->type);
-		node = node->next;
+		printf("token[%d] [type = %u] [ %s ]\n", i, list->type, list->token);
+		list = list->next;
 		i++;
 	}
+	printf("\n");
 }
 
 void	print_cmdlines(t_cmd *list)
 {
-	t_cmd	*node;
 	int		i;
 
-	node = list;
 	i = 0;
-	while (node)
+	while (list)
 	{
-		printf("cmdline[%d] = %s\n", i, node->cmdline);
-		node = node->next;
+		printf("cmdline[%d] = %s\n", i, list->cmdline);
+		list = list->next;
 		i++;
 	}
 	cmdlist_details(list);
@@ -67,12 +62,11 @@ void	cmdlist_details(t_cmd *cmdlst)
 	{
 		printf("\n\t[cmdline %d] %s\n", i, lst->cmdline);
 		printf("\t[path] %s\n", lst->path);
-		printf("\t[fds] %d %d\n", lst->fd[0], cmdlst->fd[1]);
 		printf("\t[err] %d\n", lst->err);
 		printf("\t[expand] %d\n", lst->expand);
 		printf("\t[io_flag] %d\n", lst->io_flag);
-		printf("\t[prev] %p\n", &lst->prev);
-		printf("\t[next]  %p\n\n", &lst->next);
+		printf("\t[prev] %p\n", lst->prev);
+		printf("\t[next]  %p\n\n", lst->next);
 		i++;
 		lst = lst->next;
 	}

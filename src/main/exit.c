@@ -4,21 +4,37 @@ void	clean_exit(t_data *data)
 {
 	int	i;
 
-	i = 0;
-	while (data->envp_cp[i++])
+	i = -1;
+	while (data->envp_cp[++i])
 		xfree(data->envp_cp[i]);
 	xfree(data->envp_cp);
-	i = 0;
-	while (data->path[i++])
+	i = -1;
+	while (data->path[++i])
 		xfree(data->path[i]);
 	xfree(data->path);
 	xfree(data->pwd);
 	xfree(data->input);
-	free_toklist(data->token);
-	xfree(data->token);
-	free_cmdlist(data->cmd_lst);
-	xfree(data->cmd_lst);
+	if (data->token)
+		free_toklist(data->token);
+	if (data->cmd_lst)
+		free_cmdlist(data->cmd_lst);
 	xfree(data);
+}
+
+void	free_toklist(t_tok *lst)
+{
+	t_tok	*tmp;
+
+	if (!lst)
+		return ;
+	while (lst)
+	{
+		tmp = lst;
+		xfree(lst);
+		if (!tmp->next)
+			break ;
+		lst = tmp->next;
+	}
 }
 
 void	free_cmdlist(t_cmd *lst)
@@ -31,19 +47,26 @@ void	free_cmdlist(t_cmd *lst)
 	{
 		tmp = lst;
 		xfree(lst);
+		if (!tmp->next)
+			break ;
 		lst = tmp->next;
 	}
-	lst = NULL;
 }
 
 void	reset(t_data *data)
 {
 	xfree(data->input);
-	data->input = NULL;
+	data->input = (char *) NULL;
+	data->nb_cmds = 0;
 	data->nb_pipes = 0;
-	free_toklist(data->token);
-	data->token = ft_xcalloc(sizeof(t_tok));
-	free_cmdlist(data->cmd_lst);
-	data->cmd_lst = ft_xcalloc(sizeof(t_cmd));
-//	data->syntax_err = 0;
+	if (data->token)
+	{
+		free_toklist(data->token);
+		data->token = ft_xcalloc(sizeof(t_tok));
+	}
+	if (data->cmd_lst)
+	{
+		free_cmdlist(data->cmd_lst);
+		data->cmd_lst = ft_xcalloc(sizeof(t_cmd));
+	}
 }

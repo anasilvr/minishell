@@ -8,7 +8,6 @@ t_tok	*new_toklist(char *tok)
 	new->prev = NULL;
 	new->next = NULL;
 	new->token = tok;
-//	free(tok);
 	return (new);
 }
 
@@ -46,21 +45,4 @@ void	del_token(t_tok *lst)
 		return ;
 	xfree(lst->token);
 	xfree(lst);
-}
-
-void	free_toklist(t_tok *lst)
-{
-//	printf("Entering free_toklist\n");
-	t_tok	*tmp;
-
-	if (!lst)
-		return ;
-	while (lst)
-	{
-		tmp = lst;
-		xfree(lst);
-		lst = tmp->next;
-	}
-	lst = NULL;
-//	printf("Quitting free_toklist\n");
 }

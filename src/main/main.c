@@ -23,17 +23,14 @@ static	void	signal_handler(int sig)
 		printf("\n");
 		rl_replace_line("", 1);
 		rl_on_new_line();
-		if (!data->cmd_lst)
-		{
+	//	if (!data->cmd_lst)
 			rl_redisplay();
-		}
 	}
 }
 
 static void	readline_exit(t_data *data)
 {
 	clean_exit(data);
-	data = NULL;
 	printf("exit\n");
 	exit(0);
 }
@@ -98,27 +95,19 @@ void	wtshell(t_data *data)
 		signal(SIGINT, signal_handler);
 		signal(SIGQUIT, SIG_IGN);
 		data->input = rl_gets();
-		printf("\tGetting input with rl_gets...\n");
 		if (!data->input || !*data->input)
 			readline_exit(data);
 		while (!data->syntax_err && !is_empty(data->input))
 		{
 			lexer(data, data->input);
 			if (data->syntax_err || !data->token)
-			{
-				printf("Lexer error, exiting loop.[%d / %d]\n", g_status, data->syntax_err);
 				break ;
-			}
 			parser(data);
-			//print_cmdlines(data->cmd_lst);
 			if (data->syntax_err || !data->cmd_lst)
-			{
-				printf("Parser error, exiting loop.[%d / %d]\n", g_status, data->syntax_err);
 				break ;
-			}
+			cmdlist_details(data->cmd_lst);
 		//	execution(data);
 			reset(data);
-			printf("\tEnd of loop without errors. [%d / %d] :)\n", g_status, data->syntax_err);
 		}
 		if (data->syntax_err)
 			err_msg(data);
@@ -137,3 +126,5 @@ char	*rl_gets(void)
 		add_history(line);
 	return (ft_strjoin_free(line, "\n"));
 }
+
+// TO DO: I'd like to print the token that created the error in the message error...

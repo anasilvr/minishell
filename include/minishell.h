@@ -63,23 +63,25 @@ typedef enum e_type
 	REDIR_OUT,
 	APPEND,
 	DOLLAR,
-	D_EMPTY,
-	D_PID,
+	D_EXPAND,
+	D_LITERAL,
 	D_RETURN,
 	INVALID,
 }	t_type;
 
+//Metachars are used as reference to change io_flag and are not included in the cmdline.
+//If a metachar is encountered inside cmdline, it should be treated as a literal character.
 typedef struct s_cmd
 {
 	char		*cmdline; // echo bonjour
 	char		*path;
 	int			cmdio_fd[2]; // input=fd0, output=fd1     // Default =  STDIN_FILENO // to be changed depending on token list
 	int			fork_pid;
-	int			err; // do i need it? can i always store on global?
-	int			io_flag;
-	bool		expand;
-	t_cmd		*prev; // first one = NULL
-	t_cmd		*next; // input[first after redir];
+	int			err; // save exit code of cmd;
+	int			io_flag; // determines if there's a redirection to be done by checking token t_type
+	bool		expand; // there might be multiple expansions to be done when the flag is true. a lot of edge cases to be accounted for here when printing!
+	t_cmd		*prev;
+	t_cmd		*next;
 }	t_cmd;
 
 typedef struct s_tok
@@ -99,29 +101,27 @@ typedef struct s_data
 	char		*input;
 	t_tok		*token;
 	char		*err_tok;
-	int			nb_toks;
-	t_cmd		*cmd_lst; // linked list where every cmd of input is split on a node with its own arguments and flags
-	int			nb_cmds; // size of cmd_lst;
+	t_cmd		*cmd_lst;
+	int			nb_cmds;
 	int			nb_pipes;
 	int			syntax_err;
-	int			pipe_fd[2]; // AJOUT DOIT ETRE INITIALISÉ
+	int			pipe_fd[2]; // Init at [0]STDIN [1]STDOUT as default
 	bool		is_builtin;
 }	t_data;
 
+// FUNCTIONS
 // BUILTINS
-
-enum    e_bultins {echo, cd, pwd, export, unset, env};
-void    ft_echo(char **arg, char **env, int i);
-void    echo_handler(char **instruct, t_data *data);
+enum	e_bultins {echo, cd, pwd, export, unset, env};
+void	ft_echo(char **arg, char **env, int i);
+void	echo_handler(char **instruct, t_data *data);
 void	pwd_handler(char **instruct);
 t_data	*unset_handler(char **intruct, t_data *data);
-t_data  *export_handler(char **instruct, t_data *data);
+t_data	*export_handler(char **instruct, t_data *data);
 void	env_handler(char **instruct, t_data *data);
 t_data	*cd_handler(char **instruct, t_data *data);
 t_data	*builtins_checker(t_data *data);
-char    **cpy_env(char **envp, int line);
-int     ft_cmp_env(char *str1, char *str2, size_t n);
-//void    print_env(char **env); // now static
+char	**cpy_env(char **envp, int line);
+int		ft_cmp_env(char *str1, char *str2, size_t n);
 void	free_tab(char **old_tab);
 int		check_env_var(char **env, char *var);
 char	**cpy_unset(char **env, int line);
@@ -131,7 +131,7 @@ char	**new_pwd(char **env);
 char	**add_var(char **env, char *n_var);
 
 // EXECUTION
-int	open_to_write(char *filepath, int additional_flag);
+int		open_to_write(char *filepath, int additional_flag);
 
 // MAIN
 // exit.c
@@ -158,31 +158,34 @@ char	*rl_gets(void);
 
 // print_utils.c
 void	print_intro(void);
-void	print_toklist(t_tok **list);
+void	print_toklist(t_tok *list);
 void	print_cmdlines(t_cmd *list);
 void	cmdlist_details(t_cmd *cmdlst);
 
 // PARSING
-
-int     ft_cmp_builtin(const char *str1, const char *str2, size_t n);
-int     check_n(char *intruct);
-int     export_pars(char *n_var, char **env);
-int     check_echo_var(char *instruct, char **env);
-int     env_dup(char *n_var, char **env);
-char    *var_trim(char *n_var);
+int		ft_cmp_builtin(const char *str1, const char *str2, size_t n);
+int		check_n(char *intruct);
+int		export_pars(char *n_var, char **env);
+int		check_echo_var(char *instruct, char **env);
+int		env_dup(char *n_var, char **env);
+char	*var_trim(char *n_var);
 int		ft_free_strlen(char *str);
 
-//lexer_utils.c
+//lexer.c and lexer_utils.c
+void	lexer(t_data *data, char *input);
+t_tok	*tokenize(t_data *data, char *str);
 void	skip_whitespaces(char **str);
 int		is_set(char s, char *set);
 bool	is_empty(char *str);
 
-//lexer.c
-void	lexer(t_data *data, char *input);
-t_tok	*tokenize(t_data *data, char *str);
-
-// parser.c
+// parser.c and parser_utils.c
 void	parser(t_data *data);
+void	assign_flags(t_cmd *cmd_lst, t_tok *token);
+void	check_flags(t_type *toktype, t_type *io, bool *expand);
+t_cmd	*create_cmdlist(t_data *data);
+t_cmd	*new_cmdline(char *line);
+void	addback_cmdline(t_cmd **cmdlist, t_cmd *line);
+t_cmd	*get_lastcmd(t_cmd *node);
 
 //token_utils.c
 int		tok_len(char *str, int len);
