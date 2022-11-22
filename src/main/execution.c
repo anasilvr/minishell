@@ -48,21 +48,25 @@ void	execution_manager(t_data *prog_data)
 	{
 		if (prog_data->cmd_lst->io_flag > 2 && prog_data->cmd_lst->io_flag < 7) // Redirection
 		{
-			file_opening_manager();
+			redirect_manager();
 			if (prog_data->cmd_lst->cmdio_fd[1] == -1 || \
 			prog_data->cmd_lst->cmdio_fd[0] == -1)
-				exit (errno); // NEED A PROPER EXIT CMD (CLOSE FD & CLEAR MEM)
+				// Need a standard for exit function after error (clear mem, ect..)
+				exit (errno);
 		}
 		if (prog_data->cmd_lst->io_flag == PIPE) // Pipe
 		{
 			pipe_manager(prog_data);
 		}
-		if (prog_data->cmd_lst->prev != NULL && \
-		prog_data->cmd_lst->prev->io_flag == PIPE) // For setup last time input to pipe for the node after the last pipe node.
-			setup_pipe_in(prog_data);
+		// Already doing this into pipe_manager() line 32-43-44 in pipe.c
+		// if (prog_data->cmd_lst->prev != NULL && \
+		// prog_data->cmd_lst->prev->io_flag == PIPE) // For setup last time input to pipe for the node after the last pipe node.
+		// 	setup_pipe_in(prog_data);
 		if (prog_data->cmd_lst->cmdline != NULL) // Check if it is an only io_flag node. For this case ex: < cat | cat file1
 			execution_time(prog_data);
 		prog_data->cmd_lst = prog_data->cmd_lst->next;
 		reset_iocpy(prog_data);
 	}
 }
+
+cat | cat | cat > file1.txt

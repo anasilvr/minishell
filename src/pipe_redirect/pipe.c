@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:01:02 by tchalifo          #+#    #+#             */
-/*   Updated: 2022/11/18 17:30:37 by tchalifo         ###   ########.fr       */
+/*   Updated: 2022/11/22 13:55:26 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,11 @@ void	pipe_manager(t_data *prog_data)
 		waitpid(0, NULL, 0);
 		prog_data->cmd_lst = prog_data->cmd_lst->next;
 	}
+	if (prog_data->cmd_lst->prev != NULL || \
+	prog_data->cmd_lst->prev->io_flag == PIPE)
+		setup_pipe_in(prog_data);
 	execution_manager(prog_data); // Retour at exec_manager for complete last cmd after last pipe
 }
 
-// cat | cat | cat > file1.txt
+cat | cat | cat > file1.txt
 // echo bonjour | cat
