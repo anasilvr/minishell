@@ -2,9 +2,9 @@
 
 void	skip_whitespaces(char **str)
 {
-	if (!str || !*str)
+	if (!*str || !**str)
 		return ;
-	while (**str && is_set(**str, WHITESPACE))
+	while (*str && **str && is_set(**str, WHITESPACE))
 		*str += 1;
 	return ;
 }

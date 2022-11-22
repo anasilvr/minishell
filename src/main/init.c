@@ -16,7 +16,7 @@ t_data	*init_data(char **envp, t_data *data)
 	data->path = init_path(data);
 	data->input = NULL;
 	data->token = ft_xcalloc(sizeof(t_tok));
-	data->cmd_lst = (t_cmd *)ft_xcalloc(sizeof(t_cmd));
+	data->cmd_lst = ft_xcalloc(sizeof(t_cmd));
 	data->nb_cmds = 0;
 	data->nb_pipes = 0;
 	data->syntax_err = false;

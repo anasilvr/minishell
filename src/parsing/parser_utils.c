@@ -9,10 +9,10 @@ int	cmd_len(char *str, int len)
 	i = 0;
 	while (i < len)
 	{
-		if (is_set(str[i], QUOTES))
-			i += length_til_match(&str[i], str[i]);
 		if (is_set(str[i], METACHAR))
 			return (i);
+		else if (is_set(str[i], QUOTES))
+			i += length_til_match(&str[i], str[i]);
 		i++;
 	}
 	return (i);
@@ -22,7 +22,7 @@ t_cmd	*create_cmdlist(t_data *data)
 {
 	int		len;
 	t_cmd	*cmdlst;
-	char *str;
+	char	*str;
 
 	len = 0;
 	cmdlst = NULL;
