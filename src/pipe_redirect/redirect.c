@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:34:45 by tchalifo          #+#    #+#             */
-/*   Updated: 2022/11/17 11:13:55 by tchalifo         ###   ########.fr       */
+/*   Updated: 2022/11/22 15:58:53 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int	open_to_readwrite(char *filepath, int *additional_flag)
 {
 	int	file_fd;
 
-	if (access(filepath, R_OK | W_OK) == -1)
+	if (access(filepath, R_OK | W_OK) == -1) // check if is checking the exwistance iof the file
 	{
 		perror(NULL);
 		return (-1);
@@ -84,12 +84,12 @@ void	redirect_manager(t_data *prog_data)
 	}
 	else if (prog_data->cmd_lst->io_flag == 5) //if is an output redirect > (Open file and put the fd into struct in int *cmdio_fd)
 	{
-		prog_data->cmd_lst->cmdio_fd[1] = open_to_write \
-		(prog_data->cmd_lst->next->cmdline, O_TRUNC);
+		prog_data->cmd_lst->cmdio_fd[1] = open_to_readwrite \
+		(prog_data->cmd_lst->next->cmdline, O_TRUNC); // voir a supprimer le contenue completemnet a chaque fois
 	}
 	else if (prog_data->cmd_lst->io_flag == 6) //if is an output redirect in append mode >> (Open file and put the fd into struct in int *cmdio_fd)
 	{
-		prog_data->cmd_lst->cmdio_fd[1] = open_to_write \
+		prog_data->cmd_lst->cmdio_fd[1] = open_to_readwrite \
 		(prog_data->cmd_lst->next->cmdline, O_APPEND);
 	}
 }
@@ -173,3 +173,20 @@ void	redirect_from_file(char *filepath)
 {
 
 }
+
+
+
+tchalifo@c2r1p11 minishell % echo salut >> file.txt > toto.sh
+tchalifo@c2r1p11 minishell % cat file.txt
+bob
+salut
+salut
+tchalifo@c2r1p11 minishell % cat toto.sh
+salut
+tchalifo@c2r1p11 minishell % echo salut >> file.txt >> toto.sh
+tchalifo@c2r1p11 minishell % cat toto.sh
+salut
+salut
+tchalifo@c2r1p11 minishell % echo salut >> file.txt > toto.sh
+tchalifo@c2r1p11 minishell % cat toto.sh
+salut

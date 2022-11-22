@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:01:02 by tchalifo          #+#    #+#             */
-/*   Updated: 2022/11/22 13:55:26 by tchalifo         ###   ########.fr       */
+/*   Updated: 2022/11/22 17:23:41 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	pipe_manager(t_data *prog_data)
 		else if (prog_data->cmd_lst->fork_pid == 0) // INTO CHILD PROCESS
 		{
 			setup_pipe_out(prog_data);
-			execution_time(prog_data);
+			execution_time(prog_data, prog_data->cmd_lst);
 		}
 		waitpid(0, NULL, 0);
 		prog_data->cmd_lst = prog_data->cmd_lst->next;
