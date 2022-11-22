@@ -118,7 +118,7 @@ t_data	*unset_handler(char **intruct, t_data *data);
 t_data  *export_handler(char **instruct, t_data *data);
 void	env_handler(char **instruct, t_data *data);
 t_data	*cd_handler(char **instruct, t_data *data);
-t_data	*builtins_checker(t_data *data);
+t_data	*builtins_checker(t_data *data, t_cmd *cmdnode);
 char    **cpy_env(char **envp, int line);
 int     ft_cmp_env(char *str1, char *str2, size_t n);
 //void    print_env(char **env); // now static
@@ -133,7 +133,7 @@ char	**add_var(char **env, char *n_var);
 // EXECUTION
 int	open_to_write(char *filepath, int additional_flag);
 void	execution_manager(t_data *prog_data);
-void	execution_time(t_data *prog_data);
+void	execution_time(t_data *prog_data, t_cmd *cmdnode);
 void	setupio(t_data *prog_data);
 void	redirect_manager(t_data *prog_data);
 void	reset_iocpy(t_data *prog_data);

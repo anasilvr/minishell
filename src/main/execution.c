@@ -10,11 +10,6 @@
 
 static int	external_bin_exec(char *binpath, char **argv, char **envp)
 {
-	int	pid;
-
-	pid = fork();
-	if (pid == -1)
-		return ()
 	if (execve(binpath, argv, envp) == -1)
 	{
 		// Need a standard for exit function after error (clear mem, ect..)
@@ -24,7 +19,7 @@ static int	external_bin_exec(char *binpath, char **argv, char **envp)
 	}
 }
 
-void	execution_time(t_data *prog_data)
+void	execution_time(t_data *prog_data, t_cmd *cmdnode)
 {
 	char **splitted_args;
 
@@ -32,21 +27,27 @@ void	execution_time(t_data *prog_data)
 	if (prog_data->cmd_lst->fork_pid != 0) // Alredy into a child process because of pipe
 	{
 		prog_data->cmd_lst->fork_pid = fork();
+		if (prog_data->cmd_lst->fork_pid == -1)
+			perror(NULL);
 	}
-	builtins_checker(prog_data);
-	if (if_buildtin == false)
+	if (prog_data->cmd_lst->fork_pid == 0)
 	{
-		splitted_args = ft_split(prog_data->cmd_lst->cmdline, ' ');
-		external_bin_exec \
-		(prog_data->cmd_lst->path, splitted_args, prog_data->envp_cp);
+		if (builtins_checker(prog_data, cmdnode) == -1)
+		{
+		// if (if_buildtin == false)
+			splitted_args = ft_split(prog_data->cmd_lst->cmdline, ' ');
+			external_bin_exec \
+			(cmdnode->path, splitted_args, prog_data->envp_cp);
+		}
 	}
+	waitpid(0, NULL, 0);
 }
 
 void	execution_manager(t_data *prog_data)
 {
 	while (prog_data->cmd_lst != NULL)
 	{
-		if (prog_data->cmd_lst->io_flag > 2 && prog_data->cmd_lst->io_flag < 7) // Redirection
+		if (prog_data->cmd_lst->io_flag > 1 && prog_data->cmd_lst->io_flag < 7) // Redirection
 		{
 			file_opening_manager();
 			if (prog_data->cmd_lst->cmdio_fd[1] == -1 || \
@@ -61,8 +62,10 @@ void	execution_manager(t_data *prog_data)
 		prog_data->cmd_lst->prev->io_flag == PIPE) // For setup last time input to pipe for the node after the last pipe node.
 			setup_pipe_in(prog_data);
 		if (prog_data->cmd_lst->cmdline != NULL) // Check if it is an only io_flag node. For this case ex: < cat | cat file1
-			execution_time(prog_data);
+			execution_time(prog_data, prog_data->cmd_lst);
 		prog_data->cmd_lst = prog_data->cmd_lst->next;
 		reset_iocpy(prog_data);
 	}
 }
+
+cat | cat | cat > file1.txt
