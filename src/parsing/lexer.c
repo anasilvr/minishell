@@ -72,20 +72,18 @@ t_tok	*tokenize(t_data *data, char *str)
 {
 //	printf("\tStarting tokenization...\n");
 	t_tok	*lst;
-	char *tok;
 
 	lst = NULL;
-	tok = NULL;
 	skip_whitespaces(&str);
 	while (*str)
 	{
 		data->token->toksize = tok_len(str, ft_strlen(str));
-		tok = ft_substr(str, 0, data->token->toksize);
-		addback_toklist(&lst, new_toklist(tok));
+		addback_toklist(&lst, \
+			new_toklist(ft_substr(str, 0, data->token->toksize)));
 		str += data->token->toksize;
 		skip_whitespaces(&str);
 	}
-	xfree(tok);
+	free_toklist(data->token);
 //	printf("\tTokens created...\n");
 	return (lst);
 }

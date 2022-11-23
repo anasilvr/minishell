@@ -14,9 +14,7 @@ void	clean_exit(t_data *data)
 	xfree(data->path);
 	xfree(data->pwd);
 	xfree(data->input);
-	if (data->token)
-		free_toklist(data->token);
-	if (data->cmd_lst)
+	free_toklist(data->token);
 	free_cmdlist(data->cmd_lst);
 	xfree(data);
 }
@@ -29,6 +27,7 @@ void	free_toklist(t_tok *lst)
 		return ;
 	while (lst)
 	{
+		xfree(lst->token);
 		tmp = lst->next;
 		xfree(lst);
 		lst = tmp;
@@ -43,6 +42,7 @@ void	free_cmdlist(t_cmd *lst)
 		return ;
 	while (lst)
 	{
+		xfree(lst->cmdline);
 		tmp = lst->next;
 		xfree(lst);
 		lst = tmp;

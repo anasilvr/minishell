@@ -4,7 +4,16 @@ void	skip_whitespaces(char **str)
 {
 	if (!*str || !**str)
 		return ;
-	while (*str && **str && is_set(**str, WHITESPACE))
+	while (**str && is_set(**str, WHITESPACE))
+		*str += 1;
+	return ;
+}
+
+void	skip_meta(char **str)
+{
+	if (!*str || !**str)
+		return ;
+	while (**str && is_set(**str, METACHAR))
 		*str += 1;
 	return ;
 }

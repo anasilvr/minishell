@@ -175,6 +175,7 @@ int		ft_free_strlen(char *str);
 void	lexer(t_data *data, char *input);
 t_tok	*tokenize(t_data *data, char *str);
 void	skip_whitespaces(char **str);
+void	skip_meta(char **str);
 int		is_set(char s, char *set);
 bool	is_empty(char *str);
 

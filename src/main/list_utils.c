@@ -6,8 +6,8 @@ t_tok	*new_toklist(char *tok)
 
 	new = (t_tok *)ft_xcalloc(sizeof(*new));
 	new->prev = NULL;
-	new->next = NULL;
 	new->token = tok;
+	new->next = NULL;
 	return (new);
 }
 
