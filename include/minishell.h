@@ -137,7 +137,7 @@ void	execution_time(t_data *prog_data, t_cmd *cmdnode);
 void	setupio(t_data *prog_data);
 void	redirect_manager(t_data *prog_data);
 void	reset_iocpy(t_data *prog_data);
-void	pipe_manager(t_data *prog_data)
+void	pipe_manager(t_data *prog_data);
 void	setup_pipe_in(t_data *prog_data);
 void	setup_pipe_out(t_data *prog_data);
 

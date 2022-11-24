@@ -2,22 +2,24 @@
 
 char    **add_var(char **env, char *n_var)
 {
-    int i;
-    int j;
+    int     i;
+    int     j;
+    char    **r_env;
 
     j = -1;
     i = -1;
-    env = cpy_env(env, 1);
+    r_env = cpy_env(env, 1);
     while (env[++i] != NULL)
         ;
-    free(env[i]);
-    env[i] = malloc(sizeof(char) * (ft_strlen(n_var) + 1));
+    free(r_env[i]);
+    r_env[i] = malloc(sizeof(char) * (ft_strlen(n_var) + 1));
     while (n_var[++j] != '\0')
-        env[i][j] = n_var[j];
-    env[i][j] = '\0';
+        r_env[i][j] = n_var[j];
+    r_env[i][j] = '\0';
     i++;
-    env[i] = NULL;
-    return (env);
+    r_env[i] = NULL;
+    free_tab(env);
+    return (r_env);
 }
 
 char    *var_trim(char *n_var)
@@ -74,20 +76,18 @@ int export_pars(char *n_var, char **env)
 t_data *export_handler(char **instruct, t_data *data)
 {
     int     i;
-    char    **r_env;
 
     i = 0;
-    r_env = data->envp_cp;
     if (ft_cmp_builtin(instruct[i], "export", 6) == 0)
     {
         while (instruct[++i] != NULL)
         {
-            if (export_pars(instruct[i], r_env) == -1)
-                r_env = add_var(r_env, instruct[i]);
-            else if (export_pars(instruct[i], r_env) >= 0)
+            if (export_pars(instruct[i], data->envp_cp) == -1)
+                data->envp_cp = add_var(data->envp_cp, instruct[i]);
+            else if (export_pars(instruct[i], data->envp_cp) >= 0)
             {
-                r_env = unset_dup(r_env, var_trim(instruct[i]));
-                r_env = add_var(r_env, instruct[i]);
+                data->envp_cp = unset_dup(data->envp_cp, var_trim(instruct[i]));
+                data->envp_cp = add_var(data->envp_cp, instruct[i]);
             }
         }
     }

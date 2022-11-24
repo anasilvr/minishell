@@ -28,11 +28,9 @@ t_data *cd_handler(char **instruct, t_data *data)
 {
     int     i;
     int     j;
-    char    *n_path;
 
     i = 0;
     j = -1;
-    n_path = NULL;
     if (ft_cmp_builtin(instruct[i], "cd", 2) == 0)
     {
         data->envp_cp = update_oldpwd(data->envp_cp);
