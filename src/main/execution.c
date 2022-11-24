@@ -1,103 +1,73 @@
 #include "../../include/minishell.h"
-/* Les différents possibilitées de traitement des redirections par Bash
- * bonjour > cat == ERROR zsh: command not found: bonjour && open a créé le fichier cat s'il n'existait pas
- * bonjour >> cat == ERROR zsh: command not found: bonjour && open a créé le fichier cat s'il n'existait pas
- * bonjour < cat == ERROR zsh: no such file or directory: cat
- * echo bob > cat == SUCCESS fichier cat créé avec le mot bob à l'intérieur
- * cat < file (file 1 exist)== SUCCESS Content of file are put in stdin of cat and is stdout go to terminal
- * cat < file2 (file2 not exist) == ERROR zsh: no such file or directory: file2
- *
- */
+
 
 /* Exemples de chaine d'execution possible
  * file1 > echo | cat > file2 > file3 > cat | cat | cat >> file4
  *
  * sed 's/bib/lol/' file.txt > file2.txt
  *
- * /
-
-/* 1. file1
- * 1.1 setup input to stdin (0)
-
-
  */
 
-/* Conclusions :
- * 1. Vérifier si le node est un type autre qu'un exec ou fichier. Si c'est autre execve me retournera un (voir Anna pour parsing)
-
-
-*/
-
-// Une node de cmd contiendra une commande avec ses param , le type (| < > >> <<OEF) devant la commande si il y a
-
-void	exec_manager(t_data *prog_data)
+static int	external_bin_exec(char *binpath, char **argv, char **envp)
 {
-	while (prog_data->cmd_lst != NULL)
+	if (execve(binpath, argv, envp) == -1)
 	{
-		if (prog_data->cmd_lst->io_flag > 1 && prog_data->cmd_lst->io_flag < 7)
+		// Need a standard for exit function after error (clear mem, ect..)
+		perror(NULL);
+		ft_putstr_fd(strerror(errno), 2);
+		exit(errno);
+	}
+}
+
+void	execution_time(t_data *prog_data, t_cmd *cmdnode)
+{
+	char **splitted_args;
+
+	setupio(prog_data);
+	if (prog_data->cmd_lst->fork_pid != 0) // Alredy into a child process because of pipe
+	{
+		prog_data->cmd_lst->fork_pid = fork();
+		if (prog_data->cmd_lst->fork_pid == -1)
+			perror(NULL);
+	}
+	if (prog_data->cmd_lst->fork_pid == 0)
+	{
+		if (builtins_checker(prog_data, cmdnode) == -1)
 		{
-			if (prog_data->cmd_lst->io_flag == 4) //if is an input redirect <
-			{
-				prog_data->cmd_lst->cmdio_fd[1] = open_to_read \
-				(prog_data->cmd_lst->next->cmdline);
-			}
-			else if (prog_data->cmd_lst->io_flag == 5) //if is an output redirect > (Open file and put the fd into struct in int *cmdio_fd)
-			{
-				prog_data->cmd_lst->cmdio_fd[1] = open_to_write \
-				(prog_data->cmd_lst->next->cmdline, O_TRUNC);
-			}
-			else if (prog_data->cmd_lst->io_flag == 6) //if is an output redirect in append mode >> (Open file and put the fd into struct in int *cmdio_fd)
-			{
-				prog_data->cmd_lst->cmdio_fd[1] = open_to_write \
-				(prog_data->cmd_lst->next->cmdline, O_APPEND);
-			}
-			setupio(prog_data);
+		// if (if_buildtin == false)
+			splitted_args = ft_split(prog_data->cmd_lst->cmdline, ' ');
+			external_bin_exec \
+			(cmdnode->path, splitted_args, prog_data->envp_cp);
 		}
 	}
-	exec_time(prog_data);
+	waitpid(0, NULL, 0);
 }
 
-void	exec_time(t_data *prog_data)
+void	execution_manager(t_data *prog_data)
 {
-	builtins_checker(prog_data);
-	if (if_buildtin == false)
-		execve();
-}
-
-void	exec_chain(t_data *prog_data)
-{
-	int	file_fd;
-
 	while (prog_data->cmd_lst != NULL)
 	{
-		if (prog_data->cmd_lst->next->cmdline == '|')
+		if (prog_data->cmd_lst->io_flag > 1 && prog_data->cmd_lst->io_flag < 7) // Redirection
 		{
-			setup_pipe_in(prog_data);
-			if (pipe(prog_data->pipe_fd) == -1)
-				perror(NULL);
-			prog_data->cmd_lst->fork_pid = fork();
-			if (prog_data->cmd_lst->fork_pid == -1)
-				perror(NULL);
-			else if (prog_data->cmd_lst->fork_pid == 0) // INTO CHILD PROCESS
-			{
-			setup_pipe_out(prog_data);
-			// if (execve(prog_data->cmds_list->var_data->absolute_path, \
-			// 	prog_data->cmds_list->var_data->cmd_argument, envp) == -1)
-			}
+			redirect_manager();
+			if (prog_data->cmd_lst->cmdio_fd[1] == -1 || \
+			prog_data->cmd_lst->cmdio_fd[0] == -1)
+				// Need a standard for exit function after error (clear mem, ect..)
+				exit (errno);
 		}
-		/* OUTPUT REDIRECT, si le prochain token est une redirection out ouvrir
-		 * le fichier sur un fd en write mode et executer la commande ensuite. */
-		else if (prog_data->cmd_lst->next->cmdline == '>')
+		if (prog_data->cmd_lst->io_flag == PIPE) // Pipe
 		{
-			file_fd = open_to_write(prog_data->cmd_lst->next->next->cmdline, 0);
+			pipe_manager(prog_data);
 		}
-		else if (prog_data->cmd_lst->cmdline == '<') //INTPUT REDIRECT
-		{}
-		else if (prog_data->cmd_lst->cmdline == '>>') // INPUT REDIRECT APPENDING
-		{}
-		else if (prog_data->cmd_lst->cmdline == '<<') // HEREDOC
-		{}
-		builtins_checker();
+		// Already doing this into pipe_manager() line 32-43-44 in pipe.c
+		// if (prog_data->cmd_lst->prev != NULL && \
+		// prog_data->cmd_lst->prev->io_flag == PIPE) // For setup last time input to pipe for the node after the last pipe node.
+		// 	setup_pipe_in(prog_data);
+		if (prog_data->cmd_lst->cmdline != NULL) // Check if it is an only io_flag node. For this case ex: < cat | cat file1
+			execution_time(prog_data, prog_data->cmd_lst);
 		prog_data->cmd_lst = prog_data->cmd_lst->next;
+		reset_iocpy(prog_data);
 	}
 }
+
+cat | cat | cat > file1.txt

@@ -119,9 +119,16 @@ t_data	*unset_handler(char **intruct, t_data *data);
 t_data	*export_handler(char **instruct, t_data *data);
 void	env_handler(char **instruct, t_data *data);
 t_data	*cd_handler(char **instruct, t_data *data);
+<<<<<<< HEAD
+t_data	*builtins_checker(t_data *data, t_cmd *cmdnode);
+char    **cpy_env(char **envp, int line);
+int     ft_cmp_env(char *str1, char *str2, size_t n);
+//void    print_env(char **env); // now static
+=======
 t_data	*builtins_checker(t_data *data);
 char	**cpy_env(char **envp, int line);
 int		ft_cmp_env(char *str1, char *str2, size_t n);
+>>>>>>> a22a881648533a1b5edcba86389a2d3239661b3c
 void	free_tab(char **old_tab);
 int		check_env_var(char **env, char *var);
 char	**cpy_unset(char **env, int line);
@@ -131,7 +138,19 @@ char	**new_pwd(char **env);
 char	**add_var(char **env, char *n_var);
 
 // EXECUTION
+<<<<<<< HEAD
+int	open_to_write(char *filepath, int additional_flag);
+void	execution_manager(t_data *prog_data);
+void	execution_time(t_data *prog_data, t_cmd *cmdnode);
+void	setupio(t_data *prog_data);
+void	redirect_manager(t_data *prog_data);
+void	reset_iocpy(t_data *prog_data);
+void	pipe_manager(t_data *prog_data)
+void	setup_pipe_in(t_data *prog_data);
+void	setup_pipe_out(t_data *prog_data);
+=======
 int		open_to_write(char *filepath, int additional_flag);
+>>>>>>> a22a881648533a1b5edcba86389a2d3239661b3c
 
 // MAIN
 // exit.c
