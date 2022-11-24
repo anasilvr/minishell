@@ -32,7 +32,7 @@ void	execution_time(t_data *prog_data, t_cmd *cmdnode)
 	}
 	if (prog_data->cmd_lst->fork_pid == 0)
 	{
-		if (builtins_checker(prog_data, cmdnode) == -1)
+		if (builtins_checker(prog_data, cmdnode) == -1) // Avant de rentrer, vérifier s'il y a un expand de variables
 		{
 		// if (if_buildtin == false)
 			splitted_args = ft_split(prog_data->cmd_lst->cmdline, ' ');
