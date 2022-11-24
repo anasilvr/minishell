@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:34:45 by tchalifo          #+#    #+#             */
-/*   Updated: 2022/11/22 15:58:53 by tchalifo         ###   ########.fr       */
+/*   Updated: 2022/11/23 20:16:37 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,16 +165,7 @@ void	heredoc()
 		content = read();
 
 }
-
-/* Case cmd < file --> Redirect the contents of the file to the standard
- * input (stdin) of cmd.
- */
-void	redirect_from_file(char *filepath)
-{
-
-}
-
-
+~~~~!!! NOTE , Voir si peux utiliser readline pour get line from user pour lenvoyer vers une 2d array
 
 tchalifo@c2r1p11 minishell % echo salut >> file.txt > toto.sh
 tchalifo@c2r1p11 minishell % cat file.txt
