@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:01:02 by tchalifo          #+#    #+#             */
-/*   Updated: 2022/11/22 17:23:41 by tchalifo         ###   ########.fr       */
+/*   Updated: 2022/11/24 13:53:11 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,5 @@ void	pipe_manager(t_data *prog_data)
 	execution_manager(prog_data); // Retour at exec_manager for complete last cmd after last pipe
 }
 
-cat | cat | cat > file1.txt
+// cat | cat | cat > file1.txt
 // echo bonjour | cat

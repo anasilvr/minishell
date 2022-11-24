@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:34:45 by tchalifo          #+#    #+#             */
-/*   Updated: 2022/11/23 20:16:37 by tchalifo         ###   ########.fr       */
+/*   Updated: 2022/11/24 13:57:41 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static int	open_to_readwrite(char *filepath, int *additional_flag)
 		return (-1);
 	}
 	else
-		file_fd = open(filepath, O_WRONLY | additional_flag[] | O_CREAT, \
+		file_fd = open(filepath, O_WRONLY | additional_flag[0] | O_CREAT, \
 				S_IWUSR | S_IWGRP | S_IWOTH | S_IRUSR | S_IRGRP | S_IROTH);
 		if (file_fd == -1)
 		{
@@ -77,20 +77,24 @@ static int	open_to_readwrite(char *filepath, int *additional_flag)
 
 void	redirect_manager(t_data *prog_data)
 {
+	int	open_additionals_flags[1];
+
 	if (prog_data->cmd_lst->io_flag == 4) //if is an input redirect <
 	{
 		prog_data->cmd_lst->cmdio_fd[0] = open_to_read \
-		(prog_data->cmd_lst->next->cmdline);
+		(prog_data->cmd_lst->next->cmdline, open_additionals_flags);
 	}
 	else if (prog_data->cmd_lst->io_flag == 5) //if is an output redirect > (Open file and put the fd into struct in int *cmdio_fd)
 	{
+		open_additionals_flags[0] = O_TRUNC;
 		prog_data->cmd_lst->cmdio_fd[1] = open_to_readwrite \
-		(prog_data->cmd_lst->next->cmdline, O_TRUNC); // voir a supprimer le contenue completemnet a chaque fois
+		(prog_data->cmd_lst->next->cmdline, open_additionals_flags); // voir a supprimer le contenue completemnet a chaque fois
 	}
 	else if (prog_data->cmd_lst->io_flag == 6) //if is an output redirect in append mode >> (Open file and put the fd into struct in int *cmdio_fd)
 	{
+		open_additionals_flags[0] = O_APPEND;
 		prog_data->cmd_lst->cmdio_fd[1] = open_to_readwrite \
-		(prog_data->cmd_lst->next->cmdline, O_APPEND);
+		(prog_data->cmd_lst->next->cmdline, open_additionals_flags);
 	}
 }
 
@@ -153,31 +157,31 @@ void	redirect_manager(t_data *prog_data)
  * cmd << EOL
  * line1
  * line2
- * EOL
- */
-void	heredoc()
-{
-	char *content;
-	int	readlen;
+//  * EOL
+//  */
+// void	heredoc()
+// {
+// 	char *content;
+// 	int	readlen;
 
-	readlen = 1;
-	while (readlen > 0)
-		content = read();
+// 	readlen = 1;
+// 	while (readlen > 0)
+// 		content = read();
 
-}
-~~~~!!! NOTE , Voir si peux utiliser readline pour get line from user pour lenvoyer vers une 2d array
+// }
+// ~~~~!!! NOTE , Voir si peux utiliser readline pour get line from user pour lenvoyer vers une 2d array
 
-tchalifo@c2r1p11 minishell % echo salut >> file.txt > toto.sh
-tchalifo@c2r1p11 minishell % cat file.txt
-bob
-salut
-salut
-tchalifo@c2r1p11 minishell % cat toto.sh
-salut
-tchalifo@c2r1p11 minishell % echo salut >> file.txt >> toto.sh
-tchalifo@c2r1p11 minishell % cat toto.sh
-salut
-salut
-tchalifo@c2r1p11 minishell % echo salut >> file.txt > toto.sh
-tchalifo@c2r1p11 minishell % cat toto.sh
-salut
+// tchalifo@c2r1p11 minishell % echo salut >> file.txt > toto.sh
+// tchalifo@c2r1p11 minishell % cat file.txt
+// bob
+// salut
+// salut
+// tchalifo@c2r1p11 minishell % cat toto.sh
+// salut
+// tchalifo@c2r1p11 minishell % echo salut >> file.txt >> toto.sh
+// tchalifo@c2r1p11 minishell % cat toto.sh
+// salut
+// salut
+// tchalifo@c2r1p11 minishell % echo salut >> file.txt > toto.sh
+// tchalifo@c2r1p11 minishell % cat toto.sh
+// salut

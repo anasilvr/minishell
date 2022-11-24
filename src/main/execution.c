@@ -8,7 +8,7 @@
  *
  */
 
-static int	external_bin_exec(char *binpath, char **argv, char **envp)
+static void	external_bin_exec(char *binpath, char **argv, char **envp)
 {
 	if (execve(binpath, argv, envp) == -1)
 	{
@@ -47,14 +47,18 @@ void	execution_manager(t_data *prog_data)
 {
 	while (prog_data->cmd_lst != NULL)
 	{
+		prog_data->cmd_lst->fork_pid = -2;
 		if (prog_data->cmd_lst->io_flag > 1 && prog_data->cmd_lst->io_flag < 7) // Redirection
 		{
-			redirect_manager();
+			redirect_manager(prog_data);
 			if (prog_data->cmd_lst->cmdio_fd[1] == -1 || \
 			prog_data->cmd_lst->cmdio_fd[0] == -1)
 				// Need a standard for exit function after error (clear mem, ect..)
 				exit (errno);
 		}
+		// GESTION DU EXIT ICI PUSIQUE exit > file.txt créé le fichier mais exit apres
+		// bash-3.2$ file.txt > exit
+		// file.txt: command not found
 		if (prog_data->cmd_lst->io_flag == PIPE) // Pipe
 		{
 			pipe_manager(prog_data);
@@ -65,12 +69,12 @@ void	execution_manager(t_data *prog_data)
 		// 	setup_pipe_in(prog_data);
 		if (prog_data->cmd_lst->cmdline != NULL) // Check if it is an only io_flag node. For this case ex: < cat | cat file1
 			execution_time(prog_data, prog_data->cmd_lst);
-		prog_data->cmd_lst = prog_data->cmd_lst->next;
 		reset_iocpy(prog_data);
+		prog_data->cmd_lst = prog_data->cmd_lst->next;
 	}
 }
 
-cat | cat | cat > file1.txt
+// cat | cat | cat > file1.txt
 
 
 

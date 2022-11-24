@@ -14,35 +14,39 @@ LIBFT_H		=	$(LIBFT_DIR)libft.h
 LIBRL_DIR	=	$(INC_DIR)readline/
 LIBRL_H		=	chardefs.h history.h keymaps.h readline.h rlconf.h rlstdc.h rltypedefs.h tilde.h
 
-SRC_DIR		=	src/
-BUILTIN_DIR	=	$(SRC_DIR)builtins/
-ENGINE_DIR	=	$(SRC_DIR)engine/
-MAIN_DIR	=	$(SRC_DIR)main/
-PARSE_DIR	=	$(SRC_DIR)parsing/
-SIGNAL_DIR	=	$(SRC_DIR)signals/
+SRC_DIR				=	src/
+BUILTIN_DIR			=	$(SRC_DIR)builtins/
+PIPE_REDIRECT_DIR	=	$(SRC_DIR)pipe_redirect/
+MAIN_DIR			=	$(SRC_DIR)main/
+PARSE_DIR			=	$(SRC_DIR)parsing/
+SIGNAL_DIR			=	$(SRC_DIR)signals/
 
 OBJ_DIR		=	obj/
 
 # FILES #
 
 BUILTIN_F	=	\
-	builtin.c \
-	echo.c    \
-	pwd.c     \
-	utils.c   \
-	export.c  \
-	env.c     \
-	unset.c   \
+	builtin.c	\
+	echo.c		\
+	pwd.c		\
+	utils.c		\
+	export.c	\
+	env.c		\
+	unset.c		\
 	cd.c		\
 
-ENGINE_F	=
+PIPE_REDIRECT_F	=	\
+	io.c			\
+	pipe.c			\
+	redirect.c		\
 
-MAIN_F		=		\
+MAIN_F =		\
 	exit.c			\
 	init.c			\
 	list_utils.c	\
 	main.c			\
 	print_utils.c	\
+	execution.c		\
 
 
 PARSE_F	=			\
@@ -58,18 +62,18 @@ SIGNAL_F	=
 
 # ADDPREFIX TO FILES #
 BUILTIN_SRC	=	$(addprefix $(BUILTIN_DIR), $(BUILTIN_F))
-ENGINE_SRC	=	$(addprefix $(ENGINE_DIR), $(ENGINE_F))
+PIPE_REDIRECT_SRC	=	$(addprefix $(PIPE_REDIRECT_DIR), $(PIPE_REDIRECT_F))
 MAIN_SRC	=	$(addprefix $(MAIN_DIR), $(MAIN_F))
 PARSE_SRC	=	$(addprefix $(PARSE_DIR), $(PARSE_F))
 SIGNAL_SRC	=	$(addprefix $(SIGNAL_DIR), $(SIGNAL_F))
 
 OBJS		=	$(addprefix $(OBJ_DIR), $(OBJ_FILES))
-OBJ_FILES	=	$(BUILTIN_F:.c=.o) $(ENGINE_F:.c=.o) $(MAIN_F:.c=.o) $(PARSE_F:.c=.o) $(SIGNAL_F:.c=.o)
+OBJ_FILES	=	$(BUILTIN_F:.c=.o) $(PIPE_REDIRECT_F:.c=.o) $(MAIN_F:.c=.o) $(PARSE_F:.c=.o) $(SIGNAL_F:.c=.o)
 
 RL_HEADER	=	$(addprefix $(LIBRL_DIR), $(LIBRL_H))
 HEADER		=	$(addprefix $(INC_DIR), $(HEADER_F)) $(RL_HEADER)
 
-VPATH		=	$(SRC_DIR) $(BUILTIN_DIR) $(ENGINE_DIR) $(MAIN_DIR) $(PARSE_DIR) $(SIGNAL_DIR) $(HEADER)
+VPATH		=	$(SRC_DIR) $(BUILTIN_DIR) $(PIPE_REDIRECT_DIR) $(MAIN_DIR) $(PARSE_DIR) $(SIGNAL_DIR) $(HEADER)
 
 $(OBJ_DIR)%.o: %.c $(SRC_DIR)
 	$(CC) $(CFLAGS) -I $(INC_DIR) -I $(LIBRF_DIR) $(LIBFT_H) -c $< -o $@
