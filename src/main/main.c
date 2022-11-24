@@ -107,6 +107,11 @@ void	wtshell(t_data *data)
 				break ;
 			cmdlist_details(data->cmd_lst);
 		//	execution(data);
+			while (data->cmd_lst != NULL)
+			{
+				builtins_checker(data, data->cmd_lst);
+				data->cmd_lst = data->cmd_lst->next;
+			}
 			reset(data);
 		}
 		if (data->syntax_err)

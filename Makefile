@@ -26,7 +26,7 @@ OBJ_DIR		=	obj/
 # FILES #
 
 BUILTIN_F	=	\
-#	builtin.c \
+	builtin.c \
 	echo.c    \
 	pwd.c     \
 	utils.c   \
@@ -43,7 +43,6 @@ MAIN_F		=		\
 	list_utils.c	\
 	main.c			\
 	print_utils.c	\
-#	main-jas.c
 
 
 PARSE_F	=			\
