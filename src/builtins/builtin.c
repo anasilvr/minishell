@@ -1,4 +1,4 @@
-#include "../../minishell.h"
+#include "minishell.h"
 
 int	ft_cmp_builtin(const char *str1, const char *str2, size_t n)
 {
@@ -21,23 +21,19 @@ void	exit_handler(char **instruct)
 		exit(EXIT_SUCCESS);
 }
 
-t_data *builtins_checker(t_data *data)
+int builtins_checker(t_data *data, t_cmd *cmd)
 {
 	char **instruct;
 
 	instruct = NULL;
-	while (data->cmd_lst != NULL)
-	{
-		instruct = ft_split(data->cmd_lst->cmdline, 0x20);
-		echo_handler(instruct, data);
-		pwd_handler(instruct);
-		env_handler(instruct, data);
-		cd_handler(instruct, data);
-		export_handler(instruct, data);
-		unset_handler(instruct, data);
-		exit_handler(instruct);
-		data->cmd_lst = data->cmd_lst->next;
-		free(instruct);
-	}
-	return (data);
+	instruct = ft_split(data->cmd_lst->cmdline, 0x20);
+	echo_handler(instruct, data, cmd->expand);
+	pwd_handler(instruct);
+	env_handler(instruct, data);
+	cd_handler(instruct, data);
+	export_handler(instruct, data);
+	unset_handler(instruct, data);
+	exit_handler(instruct);
+	free(instruct);
+	return (-1);
 }

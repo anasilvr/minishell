@@ -8,8 +8,8 @@ void	free_tab(char **old_tab)
 		return ;
 	i = -1;
 	while (old_tab[++i])
-		free(old_tab[i]);
-	free(old_tab);
+		xfree(old_tab[i]);
+	xfree(old_tab);
 }
 
 int ft_free_strlen(char *str)

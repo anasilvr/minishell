@@ -7,10 +7,6 @@ static void print_env(char **env)
 
     i = 0;
     j = -1;
-	while (env[i] != NULL && ft_cmp_env(env[i], "PATH", 4) != 0)
-		i++;
-	if (env[i] != NULL)
-		i = 0;
     while (env[i] != NULL)
     {
         while (env[i][++j] != '\0')
@@ -31,8 +27,8 @@ void	env_handler(char **instruct, t_data *data)
 		i = -1;
     	while (instruct[++i] != NULL)
         	xfree(instruct[i]);
-    	xfree(instruct);
-    	exit(EXIT_SUCCESS);
+/*    	xfree(instruct);
+    	exit(EXIT_SUCCESS);*/
 	}
 }
 
