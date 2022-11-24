@@ -26,14 +26,14 @@ OBJ_DIR		=	obj/
 # FILES #
 
 BUILTIN_F	=	\
-	builtin.c \
-  echo.c    \
-  pwd.c     \
-  utils.c   \
-  export.c  \
-  env.c     \
-  unset.c   \
-  cd.c		\
+#	builtin.c \
+	echo.c    \
+	pwd.c     \
+	utils.c   \
+	export.c  \
+	env.c     \
+	unset.c   \
+	cd.c		\
 
 ENGINE_F	=
 
@@ -49,6 +49,7 @@ MAIN_F		=		\
 PARSE_F	=			\
 	lexer_utils.c	\
 	lexer.c			\
+	parser_utils.c 	\
 	parser.c		\
 	safesplit.c		\
 	token_check.c	\

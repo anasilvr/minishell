@@ -13,6 +13,28 @@
 
 #include "../../include/minishell.h"
 
+static	void	signal_handler(int sig)
+{
+	t_data *data;
+
+	data = get_data();
+	if (sig == SIGINT)
+	{
+		printf("\n");
+		rl_replace_line("", 1);
+		rl_on_new_line();
+	//	if (!data->cmd_lst)
+			rl_redisplay();
+	}
+}
+
+static void	readline_exit(t_data *data)
+{
+	clean_exit(data);
+	printf("exit\n");
+	exit(0);
+}
+
 static void	err_msg(t_data *data)
 {
 	if (data->syntax_err == 1)
@@ -70,29 +92,22 @@ void	wtshell(t_data *data)
 {
 	while (1)
 	{
-		//handle_signals();
+		signal(SIGINT, signal_handler);
+		signal(SIGQUIT, SIG_IGN);
 		data->input = rl_gets();
-		printf("\tGetting input with rl_gets...\n");
-		if (!data->input || !*data->input)
-			reset(data);
+		if (!data->input)
+			readline_exit(data);
 		while (!data->syntax_err && !is_empty(data->input))
 		{
 			lexer(data, data->input);
 			if (data->syntax_err || !data->token)
-			{
-				printf("Lexer error, exiting loop.[%d / %d]\n", g_status, data->syntax_err);
 				break ;
-			}
 			parser(data);
-			//print_cmdlines(data->cmd_lst);
 			if (data->syntax_err || !data->cmd_lst)
-			{
-				printf("Parser error, exiting loop.[%d / %d]\n", g_status, data->syntax_err);
 				break ;
-			}
-			execution(data);
+			cmdlist_details(data->cmd_lst);
+		//	execution(data);
 			reset(data);
-			printf("\tEnd of loop without errors. [%d / %d] :)\n", g_status, data->syntax_err);
 		}
 		if (data->syntax_err)
 			err_msg(data);
@@ -109,5 +124,7 @@ char	*rl_gets(void)
 	line = readline("\033[0;97m\xF0\x9F\x90\x8CWTS$\033[0m ");
 	if (line && *line)
 		add_history(line);
-	return (ft_strjoin_free(line, "\n"));
+	return (ft_strjoin_free(line, ""));
 }
+
+// TO DO: I'd like to print the token that created the error in the message error...

@@ -1,96 +1,53 @@
 #include "../../include/minishell.h"
 
-char	*get_cmdline(t_tok **toklist, t_type *io);
-t_cmd	*new_cmdline(char *line);
-void	addback_cmdline(t_cmd **cmdlist, t_cmd *line, t_type *io);
-t_cmd	*get_lastcmd(t_cmd *node);
+// CAUTION: CMDLINE CREATION IS BUGGY WHEN DEALING WITH QUOTES!
 
+// change get_cmdline to something that copies data.input while cheking the token until a pipe for the flags.
+// the way we're doing right now makes it nearly impossible to format the whitespaces the right way.
 void	parser(t_data *data)
 {
-	t_cmd	*cmd;
-	char	*line;
-	t_type	*io;
+	t_type *io;
+	bool *expand;
 
-	if (!data->token)
-		return ;
-	cmd = NULL;
 	io = ft_xcalloc(sizeof(t_type));
-	while (data->token)
-	{
-		line = get_cmdline(&data->token, io);
-		addback_cmdline(&cmd, new_cmdline(line), io);
-		*io = 0;
-		xfree(line);
-	}
-	data->cmd_lst = cmd;
+	expand = ft_xcalloc(sizeof(bool));
+
+	data->cmd_lst = create_cmdlist(data);
+	assign_flags(data->cmd_lst, data->token, io, expand);
 	xfree(io);
+	xfree(expand);
 }
 
-char	*get_cmdline(t_tok **toklist, t_type *io)
+void	assign_flags(t_cmd *cmd_lst, t_tok *token, t_type *io, bool *expand)
 {
-	t_tok	*current;
-	char	*line;
-
-	if (*toklist)
+	while (cmd_lst && token)
 	{
-		current = *toklist;
-		line = ft_strdup("");
-		while (current && current->token)
+		while (token)
 		{
-			if (current->type >= 2 && current->type <= 6)
+			check_flags(&token->type, io, expand);
+			if (*expand)
 			{
-				*io = current->type;
-				current = current->next;
-				*toklist = current;
-				return (line);
+				cmd_lst->expand = *expand;
+				*expand = 0;
 			}
-			line = ft_strjoin_free(line, current->token);
-			line = ft_strjoin_free(line, " ");
-			current = current->next;
-			*toklist = current;
+			if (*io)
+			{
+				cmd_lst->io_flag = *io;
+				*io = 0;
+				token = token->next;
+				break ;
+			}
+			token = token->next;
 		}
-		return (line);
+		cmd_lst = cmd_lst->next;
 	}
-	return (NULL);
 }
 
-//add flags to set expand and heredoc booleans (char *line, bool expand, bool heredoc)
-t_cmd	*new_cmdline(char *line)
+void	check_flags(t_type *toktype, t_type *io, bool *expand)
 {
-	t_cmd	*new;
+	if (*toktype >= 2 && *toktype <= 6)
+		*io = *toktype;
+	if (*toktype == 8 || *toktype == 10)
+		*expand = true;
 
-	new = (t_cmd *)ft_xcalloc(sizeof(*new));
-	new->prev = NULL;
-	new->cmdline = ft_strdup(line);
-	new->next = NULL;
-	return (new);
-}
-
-void	addback_cmdline(t_cmd **cmdlist, t_cmd *line, t_type *io)
-{
-	t_cmd	*tmp;
-
-	if (!line)
-		return ;
-	tmp = NULL;
-	line->io_flag = *io;
-	if (*cmdlist)
-	{
-		tmp = get_lastcmd(*cmdlist);
-		tmp->next = line;
-		line->prev = tmp;
-		line->next = NULL;
-	}
-	else
-		*cmdlist = line;
-	return ;
-}
-
-t_cmd	*get_lastcmd(t_cmd *node)
-{
-	if (!node)
-		return (NULL);
-	while (node->next)
-		node = node->next;
-	return (node);
 }
