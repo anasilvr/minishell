@@ -71,3 +71,11 @@ void	execution_manager(t_data *prog_data)
 }
 
 cat | cat | cat > file1.txt
+
+
+
+
+/* Le heredoc ne doit pas expend la variable
+export cmd=echo
+$cmd lol
+lol */
