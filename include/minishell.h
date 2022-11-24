@@ -113,13 +113,13 @@ typedef struct s_data
 // BUILTINS
 enum	e_bultins {echo, cd, pwd, export, unset, env};
 void	ft_echo(char **arg, char **env, int i);
-void	echo_handler(char **instruct, t_data *data);
+void	echo_handler(char **instruct, t_data *data, bool exp);
 void	pwd_handler(char **instruct);
 t_data	*unset_handler(char **intruct, t_data *data);
 t_data	*export_handler(char **instruct, t_data *data);
 void	env_handler(char **instruct, t_data *data);
 t_data	*cd_handler(char **instruct, t_data *data);
-t_data	*builtins_checker(t_data *data);
+int		builtins_checker(t_data *data, t_cmd *cmd);
 char	**cpy_env(char **envp, int line);
 int		ft_cmp_env(char *str1, char *str2, size_t n);
 void	free_tab(char **old_tab);

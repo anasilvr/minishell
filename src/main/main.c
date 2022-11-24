@@ -107,6 +107,11 @@ void	wtshell(t_data *data)
 				break ;
 			cmdlist_details(data->cmd_lst);
 		//	execution(data);
+			while (data->cmd_lst != NULL)
+			{
+				builtins_checker(data, data->cmd_lst);
+				data->cmd_lst = data->cmd_lst->next;
+			}
 			reset(data);
 		}
 		if (data->syntax_err)
@@ -124,7 +129,7 @@ char	*rl_gets(void)
 	line = readline("\033[0;97m\xF0\x9F\x90\x8CWTS$\033[0m ");
 	if (line && *line)
 		add_history(line);
-	return (ft_strjoin_free(line, "\n"));
+	return (ft_strjoin_free(line, ""));
 }
 
 // TO DO: I'd like to print the token that created the error in the message error...
