@@ -131,7 +131,7 @@ char	**new_pwd(char **env);
 char	**add_var(char **env, char *n_var);
 
 // EXECUTION
-int		open_to_write(char *filepath, int additional_flag);
+int	open_to_write(char *filepath, int additional_flag);
 void	execution_manager(t_data *prog_data);
 void	execution_time(t_data *prog_data, t_cmd *cmdnode);
 void	setupio(t_data *prog_data);
