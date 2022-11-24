@@ -83,6 +83,7 @@ t_tok	*tokenize(t_data *data, char *str)
 		str += data->token->toksize;
 		skip_whitespaces(&str);
 	}
+	free_toklist(data->token);
 //	printf("\tTokens created...\n");
 	return (lst);
 }

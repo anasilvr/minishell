@@ -120,8 +120,8 @@ t_data	*export_handler(char **instruct, t_data *data);
 void	env_handler(char **instruct, t_data *data);
 t_data	*cd_handler(char **instruct, t_data *data);
 int		builtins_checker(t_data *data, t_cmd *cmd);
-char	**cpy_env(char **envp, int line);
-int		ft_cmp_env(char *str1, char *str2, size_t n);
+char    **cpy_env(char **envp, int line);
+int     ft_cmp_env(char *str1, char *str2, size_t n);
 void	free_tab(char **old_tab);
 int		check_env_var(char **env, char *var);
 char	**cpy_unset(char **env, int line);
@@ -132,6 +132,14 @@ char	**add_var(char **env, char *n_var);
 
 // EXECUTION
 int		open_to_write(char *filepath, int additional_flag);
+void	execution_manager(t_data *prog_data);
+void	execution_time(t_data *prog_data, t_cmd *cmdnode);
+void	setupio(t_data *prog_data);
+void	redirect_manager(t_data *prog_data);
+void	reset_iocpy(t_data *prog_data);
+void	pipe_manager(t_data *prog_data)
+void	setup_pipe_in(t_data *prog_data);
+void	setup_pipe_out(t_data *prog_data);
 
 // MAIN
 // exit.c
@@ -175,12 +183,13 @@ int		ft_free_strlen(char *str);
 void	lexer(t_data *data, char *input);
 t_tok	*tokenize(t_data *data, char *str);
 void	skip_whitespaces(char **str);
+void	skip_meta(char **str);
 int		is_set(char s, char *set);
 bool	is_empty(char *str);
 
 // parser.c and parser_utils.c
 void	parser(t_data *data);
-void	assign_flags(t_cmd *cmd_lst, t_tok *token);
+void	assign_flags(t_cmd *cmd_lst, t_tok *token, t_type *io, bool *expand);
 void	check_flags(t_type *toktype, t_type *io, bool *expand);
 t_cmd	*create_cmdlist(t_data *data);
 t_cmd	*new_cmdline(char *line);

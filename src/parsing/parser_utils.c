@@ -7,12 +7,13 @@ int	cmd_len(char *str, int len)
 	if (!str)
 		return (0);
 	i = 0;
+	printf("\t\t Getting here with: %s [%d]\n", str, len);
 	while (i < len)
 	{
 		if (is_set(str[i], QUOTES))
-			i += length_til_match(&str[i], str[i]);
+			i += (length_til_match(&str[i], str[i]));
 		if (is_set(str[i], METACHAR))
-			return (i);
+			break ;
 		i++;
 	}
 	return (i);
@@ -20,9 +21,9 @@ int	cmd_len(char *str, int len)
 
 t_cmd	*create_cmdlist(t_data *data)
 {
-	int		len;
+	size_t		len;
 	t_cmd	*cmdlst;
-	char *str;
+	char	*str;
 
 	len = 0;
 	cmdlst = NULL;
@@ -33,9 +34,11 @@ t_cmd	*create_cmdlist(t_data *data)
 		len = cmd_len(str, ft_strlen(str));
 		addback_cmdline(&cmdlst, new_cmdline(ft_substr(str, 0, len)));
 		data->nb_cmds++;
-		str += (len + 1);
+		str += (len);
 		skip_whitespaces(&str);
+		skip_meta(&str);
 	}
+	free_cmdlist(data->cmd_lst);
 	return (cmdlst);
 }
 
@@ -45,9 +48,8 @@ t_cmd	*new_cmdline(char *line)
 
 	new = (t_cmd *)ft_xcalloc(sizeof(*new));
 	new->prev = NULL;
-	new->cmdline = ft_strdup(line);
+	new->cmdline = line;
 	new->next = NULL;
-	xfree(line);
 	return (new);
 }
 
