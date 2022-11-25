@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:34:45 by tchalifo          #+#    #+#             */
-/*   Updated: 2022/11/24 13:57:41 by tchalifo         ###   ########.fr       */
+/*   Updated: 2022/11/25 12:52:36 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	open_to_read(char *filepath, int *additional_flag)
 	int	file_fd;
 	(void) additional_flag;
 
-	if (access(filepath, R_OK) == -1 && errno != ENOENT)
+	if (access(filepath, R_OK) == -1) //&& errno != ENOENT)
 	{
 		perror(NULL);
 		return (-1);
@@ -58,8 +58,8 @@ static int	open_to_read(char *filepath, int *additional_flag)
 static int	open_to_readwrite(char *filepath, int *additional_flag)
 {
 	int	file_fd;
-
-	if (access(filepath, R_OK | W_OK) == -1) // check if is checking the exwistance iof the file
+	/* In case where the file exist but no have the right on it */
+	if (access(filepath, R_OK | W_OK) == -1 && errno == EACCES)
 	{
 		perror(NULL);
 		return (-1);
@@ -74,7 +74,7 @@ static int	open_to_readwrite(char *filepath, int *additional_flag)
 		}
 	return (file_fd);
 }
-
+// cat < file.txt
 void	redirect_manager(t_data *prog_data)
 {
 	int	open_additionals_flags[1];
@@ -83,6 +83,7 @@ void	redirect_manager(t_data *prog_data)
 	{
 		prog_data->cmd_lst->cmdio_fd[0] = open_to_read \
 		(prog_data->cmd_lst->next->cmdline, open_additionals_flags);
+
 	}
 	else if (prog_data->cmd_lst->io_flag == 5) //if is an output redirect > (Open file and put the fd into struct in int *cmdio_fd)
 	{

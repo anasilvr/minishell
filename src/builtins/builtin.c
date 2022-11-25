@@ -15,11 +15,12 @@ int	ft_cmp_builtin(const char *str1, const char *str2, size_t n)
 	return (-1);
 }
 
-void	exit_handler(char **instruct)
-{
-    if (ft_cmp_builtin(instruct[0], "exit", 4) == 0)
-		exit(EXIT_SUCCESS);
-}
+// void	exit_handler(t_data *prog_data)
+// {
+// 	if (prog_data->cmd_lst->cmdline)
+//     if (ft_cmp_builtin(instruct[0], "exit", 4) == 0)
+// 		exit(EXIT_SUCCESS);
+// }
 
 int builtins_checker(t_data *data, t_cmd *cmd)
 {
@@ -33,7 +34,7 @@ int builtins_checker(t_data *data, t_cmd *cmd)
 	cd_handler(instruct, data);
 	export_handler(instruct, data);
 	unset_handler(instruct, data);
-	exit_handler(instruct);
+	// exit_handler(data);
 	free(instruct);
 	return (-1);
 }
