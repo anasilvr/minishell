@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:01:02 by tchalifo          #+#    #+#             */
-/*   Updated: 2022/11/24 13:53:11 by tchalifo         ###   ########.fr       */
+/*   Updated: 2022/11/28 09:48:36 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void	pipe_manager(t_data *prog_data)
 	if (prog_data->cmd_lst->prev != NULL || \
 	prog_data->cmd_lst->prev->io_flag == PIPE)
 		setup_pipe_in(prog_data);
+	if (prog_data->cmd_lst->io_flag == REDIR_OUT)
+		redirect_manager(prog_data);
 	execution_manager(prog_data); // Retour at exec_manager for complete last cmd after last pipe
 }
 

@@ -215,3 +215,7 @@ void	handle_signal(int sig);
 char	**safesplit(char const *s, char c); // split that conserves all characters
 
 #endif
+
+
+
+blbl"$USER"dksj
