@@ -31,6 +31,7 @@ t_data *unset_handler(char **instruct, t_data *data)
     r_env = data->envp_cp;
 	if (ft_cmp_builtin(instruct[i] , "unset", 5) == 0 && instruct[i + 1] != NULL)
     {
+		data->cmd_lst->it_builtin = true;
         while (instruct[++i] != NULL)
         {
             r_check = check_env_var(r_env, instruct[i]);

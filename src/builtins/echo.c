@@ -8,7 +8,7 @@ int check_echo_var(char *instruct, char **env)
     i = 0;
     j = 0;
     if (instruct[i] == '$')
-    {   
+    {
         i++;
         while (env[j] != NULL)
         {
@@ -31,6 +31,7 @@ void echo_handler(char **instruct, t_data *data, bool exp)
     i = -1;
     if (ft_cmp_builtin(instruct[++i], "echo", 4) == 0)
     {
+		data->cmd_lst->it_builtin = true;
         printf("Il y a %d variable a expand\n", exp);
         if (check_n(instruct[++i]) == 1)
         {
