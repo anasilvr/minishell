@@ -45,7 +45,7 @@ void	execution_time(t_data *prog_data, t_cmd *cmdnode)
 // file.txt < cat
 void	execution_manager(t_data *prog_data)
 {
-
+printf("Getting here...\n");
 	while (prog_data->cmd_lst != NULL)
 	{
 		prog_data->cmd_lst->fork_pid = -2;
