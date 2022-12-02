@@ -76,6 +76,8 @@ typedef struct s_cmd
 	char		*cmdline; // echo bonjour
 	char		**args;
 	char		*path;
+
+	bool		it_builtin;
 	int			cmdio_fd[2];
 	int			fork_pid;
 	int			err; // exit code of cmd;
@@ -109,7 +111,6 @@ typedef struct s_data
 	int			nb_pipes;
 	int			syntax_err;
 	int			pipe_fd[2];
-	bool		is_builtin;
 }	t_data;
 
 // FUNCTIONS
@@ -117,7 +118,7 @@ typedef struct s_data
 enum	e_bultins {echo, cd, pwd, export, unset, env};
 void	ft_echo(char **arg, char **env, int i);
 void	echo_handler(char **instruct, t_data *data, bool exp);
-void	pwd_handler(char **instruct);
+void	pwd_handler(t_data *data, char **instruct);
 t_data	*unset_handler(char **intruct, t_data *data);
 t_data	*export_handler(char **instruct, t_data *data);
 void	env_handler(char **instruct, t_data *data);
@@ -134,12 +135,12 @@ char	**new_pwd(char **env);
 char	**add_var(char **env, char *n_var);
 
 // EXECUTION
-int		open_to_write(char *filepath, int additional_flag);
 void	execution_manager(t_data *prog_data);
 void	execution_time(t_data *prog_data, t_cmd *cmdnode);
 void	setupio(t_data *prog_data);
-void	redirect_manager(t_data *prog_data);
 void	reset_iocpy(t_data *prog_data);
+void	redirect_manager(t_data *prog_data);
+int		open_to_write(char *filepath, int additional_flag);
 void	pipe_manager(t_data *prog_data);
 void	setup_pipe_in(t_data *prog_data);
 void	setup_pipe_out(t_data *prog_data);

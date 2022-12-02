@@ -33,6 +33,7 @@ t_data *cd_handler(char **instruct, t_data *data)
     j = -1;
     if (ft_cmp_builtin(instruct[i], "cd", 2) == 0)
     {
+		data->cmd_lst->it_builtin = true;
         data->envp_cp = update_oldpwd(data->envp_cp);
         if (chdir(instruct[++i]) == 0)
             data->envp_cp = new_pwd(data->envp_cp);
