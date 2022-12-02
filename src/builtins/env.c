@@ -25,10 +25,8 @@ void	env_handler(char **instruct, t_data *data)
 	{
 		print_env(data->envp_cp);
 		i = -1;
-    	while (instruct[++i] != NULL)
-        	xfree(instruct[i]);
-/*    	xfree(instruct);
-    	exit(EXIT_SUCCESS);*/
+    	free_tab(instruct);
+//    	exit(EXIT_SUCCESS);
 	}
 }
 
@@ -52,6 +50,7 @@ char **cpy_env(char **envp, int line)
 			r_env[i][j] = envp[i][j];
 	}
 	r_env[i] = NULL;
+	free_tab(envp);
 	return (r_env);
 }
 

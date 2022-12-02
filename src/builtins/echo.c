@@ -29,14 +29,14 @@ void echo_handler(char **instruct, t_data *data, bool exp)
     int i;
 
     i = -1;
-    if (ft_cmp_builtin(instruct[++i], "echo", 4) == 0)
+    if (ft_cmp_builtin(instruct[++i], "echo", 4) == 0 && instruct[i + 1] != NULL)
     {
         printf("Il y a %d variable a expand\n", exp);
         if (check_n(instruct[++i]) == 1)
         {
             while (instruct[i] != NULL)
             {
-                ft_echo(instruct, data->envp_cp, i);
+                ft_echo(instruct, data->envp_cp, i, exp);
                 i++;
             }
             write(1, "\n", 1);
@@ -44,17 +44,14 @@ void echo_handler(char **instruct, t_data *data, bool exp)
         else if (check_n(instruct[i]) == 0)
         {
             while (instruct[++i] != NULL)
-                ft_echo(instruct, data->envp_cp, i);
+                ft_echo(instruct, data->envp_cp, i, exp);
         }
+        free_tab(instruct);
+//        exit(EXIT_SUCCESS);
     }
-/*    i = -1;
-    while (instruct[++i] != NULL)
-        xfree(instruct[i]);
-    xfree(instruct);
-    exit(EXIT_SUCCESS);*/
 }
 
-void ft_echo(char **arg, char **env, int i)
+void ft_echo(char **arg, char **env, int i, bool exp)
 {
     int     j;
     int     k;
@@ -62,7 +59,7 @@ void ft_echo(char **arg, char **env, int i)
 
     j = -1;
     k = check_echo_var(arg[i], env);
-    if (k >= 0)
+    if (k >= 0 && exp == 1)
     {
         while (env[k][++j] != '=')
             ;

@@ -15,11 +15,8 @@ void    pwd_handler(char **instruct)
         while (pwd[++j] != '\0')
             write(1 , &pwd[j], 1);
         write(1, "\n", 1);
-        free(pwd);
+        xfree(pwd);
+        free_tab(instruct);
     }
-    i = -1;
-/*    while (instruct[++i] != NULL)
-        xfree(instruct[i]);
-    xfree(instruct);
-    exit(EXIT_SUCCESS);*/
+//    exit(EXIT_SUCCESS);
 }

@@ -73,7 +73,7 @@ int export_pars(char *n_var, char **env)
     return (-2);
 }
 
-t_data *export_handler(char **instruct, t_data *data)
+void    export_handler(char **instruct, t_data *data)
 {
     int     i;
 
@@ -90,6 +90,6 @@ t_data *export_handler(char **instruct, t_data *data)
                 data->envp_cp = add_var(data->envp_cp, instruct[i]);
             }
         }
+        free_tab(instruct);
     }
-    return (data);
 }

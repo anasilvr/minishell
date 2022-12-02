@@ -109,9 +109,11 @@ void	wtshell(t_data *data)
 		//	execution(data);
 			while (data->cmd_lst != NULL)
 			{
-				builtins_checker(data, data->cmd_lst);
-				data->cmd_lst = data->cmd_lst->next;
+					builtins_checker(data, data->cmd_lst);
+					data->cmd_lst = data->cmd_lst->next;
 			}
+			while (data->cmd_lst && data->cmd_lst->prev != NULL)
+				data->cmd_lst = data->cmd_lst->prev;
 			reset(data);
 		}
 		if (data->syntax_err)
