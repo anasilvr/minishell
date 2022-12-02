@@ -23,7 +23,7 @@ void	env_handler(char **instruct, t_data *data)
 
 	if (ft_cmp_builtin(instruct[0], "env", 3) == 0)
 	{
-		data->cmd_lst->it_builtin = true;
+		data->cmd_lst->is_builtin = true;
 		print_env(data->envp_cp);
 		i = -1;
     	free_tab(instruct);

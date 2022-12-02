@@ -118,9 +118,8 @@ typedef struct s_data
 enum	e_bultins {echo, cd, pwd, export, unset, env};
 void	ft_echo(char **arg, char **env, int i, bool exp);
 void	echo_handler(char **instruct, t_data *data, bool exp);
-
 int		builtins_checker(t_data *data, t_cmd *cmd);
-void	pwd_handler(t_data *data, char **instruct);
+void	pwd_handler(char **instruct, t_data *data);
 void	unset_handler(char **intruct, t_data *data);
 void	export_handler(char **instruct, t_data *data);
 void	env_handler(char **instruct, t_data *data);
@@ -128,17 +127,12 @@ void	cd_handler(char **instruct, t_data *data);
 char	**cpy_env(char **envp, int line);
 int		ft_cmp_env(char *str1, char *str2, size_t n);
 void	free_tab(char **old_tab);
-// int		check_env_var(char **env, char *var);
-// char	**cpy_unset(char **env, int line);
 char	**unset_dup(char **env, char *var);
-// char	**update_oldpwd(char **env);
-// char	**new_pwd(char **env);
-// char	**add_var(char **env, char *n_var);
 
 // EXECUTION
 
 void	execution_manager(t_data *prog_data);
-void	execution_time(t_data *prog_data, t_cmd *cmdnode);
+void	execution_time(t_data *prog_data);
 void	setupio(t_data *prog_data);
 void	reset_iocpy(t_data *prog_data);
 void	redirect_manager(t_data *prog_data);
@@ -180,7 +174,6 @@ void	cmdlist_details(t_cmd *cmdlst);
 int		ft_cmp_builtin(const char *str1, const char *str2, size_t n);
 int		check_n(char *intruct);
 int		export_pars(char *n_var, char **env);
-int		check_echo_var(char *instruct, char **env);
 int		env_dup(char *n_var, char **env);
 char	*var_trim(char *n_var);
 int		ft_free_strlen(char *str);

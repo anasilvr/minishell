@@ -1,6 +1,6 @@
 #include "../../include/minishell.h"
 
-int check_echo_var(char *instruct, char **env)
+static int check_echo_var(char *instruct, char **env)
 {
     int i;
     int j;
@@ -31,6 +31,7 @@ void echo_handler(char **instruct, t_data *data, bool exp)
     i = -1;
     if (ft_cmp_builtin(instruct[++i], "echo", 4) == 0 && instruct[i + 1] != NULL)
     {
+		data->cmd_lst->is_builtin = true;
         printf("Il y a %d variable a expand\n", exp);
         if (check_n(instruct[++i]) == 1)
         {
