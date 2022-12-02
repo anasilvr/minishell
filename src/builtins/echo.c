@@ -31,7 +31,6 @@ void echo_handler(char **instruct, t_data *data, bool exp)
     i = -1;
     if (ft_cmp_builtin(instruct[++i], "echo", 4) == 0 && instruct[i + 1] != NULL)
     {
-		data->cmd_lst->it_builtin = true;
         printf("Il y a %d variable a expand\n", exp);
         if (check_n(instruct[++i]) == 1)
         {
@@ -48,7 +47,6 @@ void echo_handler(char **instruct, t_data *data, bool exp)
                 ft_echo(instruct, data->envp_cp, i, exp);
         }
         free_tab(instruct);
-//        exit(EXIT_SUCCESS);
     }
 }
 
@@ -98,4 +96,19 @@ int check_n(char *instruct)
             return (0);
     }
     return (1);
+}
+
+void    ft_echo2(char *cmd, char **env, int i)
+{
+    int j;
+
+    j = -1;
+    while (cmd[++k] != '\0')
+    {
+        if (cmd[k] == 0x27)
+        {
+            while (cmd[++k] != 0x27 && cmd[k] != '\0')
+                write(1, &cmd[k], 1);
+        }
+    }
 }
