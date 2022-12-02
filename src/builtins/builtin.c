@@ -46,7 +46,7 @@ int builtins_checker(t_data *data, t_cmd *cmd)
 	instruct = NULL;
 	instruct = ft_split(data->cmd_lst->cmdline, 0x20); // voir avec ana pour le split general
 	echo_handler(instruct, data, cmd->expand);
-	pwd_handler(instruct);
+	pwd_handler(data, instruct);
 	env_handler(instruct, data);
 	cd_handler(instruct, data);
 	export_handler(instruct, data);

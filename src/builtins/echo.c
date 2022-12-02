@@ -101,14 +101,34 @@ int check_n(char *instruct)
 void    ft_echo2(char *cmd, char **env, int i)
 {
     int j;
+    int k;
+    char *val;
 
     j = -1;
-    while (cmd[++k] != '\0')
+    val = NULL;
+    while (cmd[++j] != '\0')
     {
-        if (cmd[k] == 0x27)
+        k = 1;
+        if (cmd[j] == '\'')
         {
-            while (cmd[++k] != 0x27 && cmd[k] != '\0')
-                write(1, &cmd[k], 1);
+            while (cmd[++j] != '\'' && cmd[j] != '\0')
+                write(1, &cmd[j], 1);
+        }
+        else if (cmd[j] == '"')
+        {
+            k = 1;
+            while (cmd[++j] != '"' && cmd[j] != '\0')
+            {
+                if (cmd[j] == '$')
+                {
+                    while (cmd[j + k] != '"' && ft_isspace(cmd[j + k]) != 1 && 
+                        cmd[j + k] != '\0')
+                            k++;
+                    val = ft_strncpy()
+                }
+                else if (cmd[j] != '$')
+                    write(1, &cmd[j], 1);
+            }
         }
     }
 }
