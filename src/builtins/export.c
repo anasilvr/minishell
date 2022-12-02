@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-char    **add_var(char **env, char *n_var)
+static char    **add_var(char **env, char *n_var)
 {
     int     i;
     int     j;

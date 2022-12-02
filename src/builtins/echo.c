@@ -48,7 +48,6 @@ void echo_handler(char **instruct, t_data *data, bool exp)
                 ft_echo(instruct, data->envp_cp, i, exp);
         }
         free_tab(instruct);
-//        exit(EXIT_SUCCESS);
     }
 }
 

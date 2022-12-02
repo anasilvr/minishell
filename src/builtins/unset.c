@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int check_env_var(char **env, char *var)
+static int check_env_var(char **env, char *var)
 {
     int i;
     int j;
@@ -21,25 +21,7 @@ int check_env_var(char **env, char *var)
     return (i);
 }
 
-void    unset_handler(char **instruct, t_data *data)
-{
-    int     i;
-    int     r_check;
-
-    i = 0;
-	if (ft_cmp_builtin(instruct[i] , "unset", 5) == 0 && instruct[i + 1] != NULL)
-    {
-		data->cmd_lst->it_builtin = true;
-        while (instruct[++i] != NULL)
-        {
-            r_check = check_env_var(data->envp_cp, instruct[i]);
-            data->envp_cp = cpy_unset(data->envp_cp, r_check);
-        }
-        free_tab(instruct);
-    }
-}
-
-char **cpy_unset(char **env, int line)
+static char **cpy_unset(char **env, int line)
 {
     int i;
 	int j;
@@ -66,6 +48,25 @@ char **cpy_unset(char **env, int line)
     free_tab(env);
 	return (r_env);
 }
+
+void    unset_handler(char **instruct, t_data *data)
+{
+    int     i;
+    int     r_check;
+
+    i = 0;
+	if (ft_cmp_builtin(instruct[i] , "unset", 5) == 0 && instruct[i + 1] != NULL)
+    {
+		data->cmd_lst->it_builtin = true;
+        while (instruct[++i] != NULL)
+        {
+            r_check = check_env_var(data->envp_cp, instruct[i]);
+            data->envp_cp = cpy_unset(data->envp_cp, r_check);
+        }
+        free_tab(instruct);
+    }
+}
+
 
 char    **unset_dup(char **env, char *var)
 {

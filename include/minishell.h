@@ -119,22 +119,21 @@ enum	e_bultins {echo, cd, pwd, export, unset, env};
 void	ft_echo(char **arg, char **env, int i, bool exp);
 void	echo_handler(char **instruct, t_data *data, bool exp);
 
-void	pwd_handler(char **instruct);
+int		builtins_checker(t_data *data, t_cmd *cmd);
+void	pwd_handler(t_data *data, char **instruct);
 void	unset_handler(char **intruct, t_data *data);
 void	export_handler(char **instruct, t_data *data);
-
 void	env_handler(char **instruct, t_data *data);
 void	cd_handler(char **instruct, t_data *data);
-int		builtins_checker(t_data *data, t_cmd *cmd);
 char	**cpy_env(char **envp, int line);
 int		ft_cmp_env(char *str1, char *str2, size_t n);
 void	free_tab(char **old_tab);
-int		check_env_var(char **env, char *var);
-char	**cpy_unset(char **env, int line);
+// int		check_env_var(char **env, char *var);
+// char	**cpy_unset(char **env, int line);
 char	**unset_dup(char **env, char *var);
-char	**update_oldpwd(char **env);
-char	**new_pwd(char **env);
-char	**add_var(char **env, char *n_var);
+// char	**update_oldpwd(char **env);
+// char	**new_pwd(char **env);
+// char	**add_var(char **env, char *n_var);
 
 // EXECUTION
 
