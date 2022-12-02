@@ -8,7 +8,7 @@
  *
  */
 
-static void	external_bin_exec(char *binpath, char **argv, char **envp)
+static void	external_bin_exec(t_data *prog_data, char *binpath, char **argv, char **envp)
 {
 	if (prog_data->cmd_lst->fork_pid != 0) // Alredy into a child process because of pipe
 	{
@@ -28,16 +28,16 @@ static void	external_bin_exec(char *binpath, char **argv, char **envp)
 	}
 }
 
-void	execution_time(t_data *prog_data, t_cmd *cmdnode)
+void	execution_time(t_data *prog_data)
 {
 	char **splitted_args;
 
 	setupio(prog_data);
-	if prog_data->cmd_lst->it_builtin == false)
+	if (prog_data->cmd_lst->it_builtin == false)
 	{
 		splitted_args = ft_split(prog_data->cmd_lst->cmdline, ' ');
 		external_bin_exec \
-		(cmdnode->path, splitted_args, prog_data->envp_cp);
+		(prog_data, splitted_args[0], splitted_args, prog_data->envp_cp);
 		if (prog_data->cmd_lst->fork_pid == 0)
 		{
 			clean_exit(prog_data);
@@ -51,7 +51,7 @@ void	execution_manager(t_data *prog_data)
 {
 	while (prog_data->cmd_lst != NULL)
 	{
-		data->cmd_lst->it_builtin = false;
+		prog_data->cmd_lst->it_builtin = false;
 		// prog_data->cmd_lst->fork_pid = -2;
 		if (prog_data->cmd_lst->io_flag > 1 && prog_data->cmd_lst->io_flag < 7) // Redirection
 		{
@@ -69,7 +69,7 @@ void	execution_manager(t_data *prog_data)
 			pipe_manager(prog_data);
 		}
 		if (prog_data->cmd_lst != NULL && prog_data->cmd_lst->cmdline != NULL) // Check if it is an only io_flag node. For this case ex: < cat | cat file1
-			execution_time(prog_data, prog_data->cmd_lst);
+			execution_time(prog_data);
 		/* The reset_iocpy function needed becose i dont want garbage if i dont set a fd to a custom one*/
 		reset_iocpy(prog_data);
 		prog_data->cmd_lst = prog_data->cmd_lst->next;
