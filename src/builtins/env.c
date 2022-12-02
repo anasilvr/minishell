@@ -27,7 +27,6 @@ void	env_handler(char **instruct, t_data *data)
 		print_env(data->envp_cp);
 		i = -1;
     	free_tab(instruct);
-//    	exit(EXIT_SUCCESS);
 	}
 }
 

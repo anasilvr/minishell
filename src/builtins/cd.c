@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-char **new_pwd(char **env)
+static char **new_pwd(char **env)
 {
     int i;
     int j;
@@ -24,24 +24,7 @@ char **new_pwd(char **env)
     return(env);
 }
 
-void cd_handler(char **instruct, t_data *data)
-{
-    int     i;
-    int     j;
-
-    i = 0;
-    j = -1;
-    if (ft_cmp_builtin(instruct[i], "cd", 2) == 0) // Gérer le retour à la racine avec cd
-    {
-		data->cmd_lst->it_builtin = true;
-        data->envp_cp = update_oldpwd(data->envp_cp);
-        if (chdir(instruct[++i]) == 0)
-            data->envp_cp = new_pwd(data->envp_cp);
-        free_tab(instruct);
-    }
-}
-
-char **update_oldpwd(char **env)
+static char **update_oldpwd(char **env)
 {
     char    *n_path;
     int     i;
@@ -63,4 +46,21 @@ char **update_oldpwd(char **env)
     env[i][j] = '\0';
     env[++i] = NULL;
     return (env);
+}
+
+void cd_handler(char **instruct, t_data *data)
+{
+    int     i;
+    int     j;
+
+    i = 0;
+    j = -1;
+    if (ft_cmp_builtin(instruct[i], "cd", 2) == 0) // Gérer le retour à la racine avec cd
+    {
+		data->cmd_lst->it_builtin = true;
+        data->envp_cp = update_oldpwd(data->envp_cp);
+        if (chdir(instruct[++i]) == 0)
+            data->envp_cp = new_pwd(data->envp_cp);
+        free_tab(instruct);
+    }
 }

@@ -19,5 +19,4 @@ void    pwd_handler(t_data *data, char **instruct)
         xfree(pwd);
         free_tab(instruct);
     }
-//    exit(EXIT_SUCCESS);
 }
