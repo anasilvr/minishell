@@ -21,24 +21,22 @@ int check_env_var(char **env, char *var)
     return (i);
 }
 
-t_data *unset_handler(char **instruct, t_data *data)
+void    unset_handler(char **instruct, t_data *data)
 {
     int     i;
     int     r_check;
-    char    **r_env;
 
     i = 0;
-    r_env = data->envp_cp;
 	if (ft_cmp_builtin(instruct[i] , "unset", 5) == 0 && instruct[i + 1] != NULL)
     {
 		data->cmd_lst->it_builtin = true;
         while (instruct[++i] != NULL)
         {
-            r_check = check_env_var(r_env, instruct[i]);
-            r_env = cpy_unset(r_env, r_check);
+            r_check = check_env_var(data->envp_cp, instruct[i]);
+            data->envp_cp = cpy_unset(data->envp_cp, r_check);
         }
+        free_tab(instruct);
     }
-    return (data);
 }
 
 char **cpy_unset(char **env, int line)
@@ -57,7 +55,7 @@ char **cpy_unset(char **env, int line)
 	while (env[i] != NULL)
 	{
 		j = -1;
-		r_env[k] = malloc(sizeof(char *) * ft_strlen(env[i]) + 1);
+		r_env[k] = malloc(sizeof(char) * ft_strlen(env[i]) + 1);
 		while (env[i][++j] != '\0' && i != line)
 			r_env[k][j] = env[i][j];
         if (i != line)
@@ -65,6 +63,7 @@ char **cpy_unset(char **env, int line)
         i++;
 	}
 	r_env[k] = NULL;
+    free_tab(env);
 	return (r_env);
 }
 
@@ -75,5 +74,6 @@ char    **unset_dup(char **env, char *var)
 
     r_check = check_env_var(env, var);
     r_env = cpy_unset(env, r_check);
+    free_tab(env);
     return (r_env);
 }

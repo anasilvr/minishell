@@ -116,13 +116,15 @@ typedef struct s_data
 // FUNCTIONS
 // BUILTINS
 enum	e_bultins {echo, cd, pwd, export, unset, env};
-void	ft_echo(char **arg, char **env, int i);
+void	ft_echo(char **arg, char **env, int i, bool exp);
 void	echo_handler(char **instruct, t_data *data, bool exp);
-void	pwd_handler(t_data *data, char **instruct);
-t_data	*unset_handler(char **intruct, t_data *data);
-t_data	*export_handler(char **instruct, t_data *data);
+
+void	pwd_handler(char **instruct);
+void	unset_handler(char **intruct, t_data *data);
+void	export_handler(char **instruct, t_data *data);
+
 void	env_handler(char **instruct, t_data *data);
-t_data	*cd_handler(char **instruct, t_data *data);
+void	cd_handler(char **instruct, t_data *data);
 int		builtins_checker(t_data *data, t_cmd *cmd);
 char	**cpy_env(char **envp, int line);
 int		ft_cmp_env(char *str1, char *str2, size_t n);
@@ -135,6 +137,7 @@ char	**new_pwd(char **env);
 char	**add_var(char **env, char *n_var);
 
 // EXECUTION
+
 void	execution_manager(t_data *prog_data);
 void	execution_time(t_data *prog_data, t_cmd *cmdnode);
 void	setupio(t_data *prog_data);
@@ -213,7 +216,9 @@ int		is_valid(char *tok);
 void	verify_dollartype(t_tok **list);
 
 //extra
-char	**safesplit(char const *s, char c);
+char	**safesplit(char const *s, char c); // split that conserves all characters
+char	*ft_strjoin_free2(char const *s1, char const *s2);
+
 
 #endif
 
