@@ -1,6 +1,6 @@
 #include "../../include/minishell.h"
 
-// CAUTION: CMDLINE CREATION IS BUGGY WHEN DEALING WITH QUOTES!
+// echo ana << > test  (should return syntax error)
 
 // change get_cmdline to something that copies data.input while cheking the token until a pipe for the flags.
 // the way we're doing right now makes it nearly impossible to format the whitespaces the right way.

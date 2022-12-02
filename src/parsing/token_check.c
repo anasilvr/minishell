@@ -1,14 +1,29 @@
 #include "../../include/minishell.h"
 
-int	id_tokens(t_tok **list, t_data *data)
+static int	check_syntax(t_tok **list)
 {
 	t_tok	*node;
-	t_tok	*head;
 	t_tok	*tail;
 
 	node = *list;
-	head = *list;
 	tail = get_lasttok(node);
+	if (is_set(*node->token, "|") || is_set(*tail->token, METACHAR))
+		return (1);
+	while (node)
+	{
+		if (node->type >= 2 && node->type <= 6)
+			if (node->next->type != 1)
+				return (1);
+		node = node->next;
+	}
+	return (0);
+}
+
+int	id_tokens(t_tok **list, t_data *data)
+{
+	t_tok	*node;
+
+	node = *list;
 	while (node)
 	{
 		node->type = is_redir(node->token);
@@ -23,13 +38,14 @@ int	id_tokens(t_tok **list, t_data *data)
 		}
 		node = node->next;
 	}
-	if (is_set(*head->token, "|") || is_set(*tail->token, METACHAR))
+	if (check_syntax(list))
 	{
 		data->syntax_err = 258;
 		return (258);
 	}
 	return (0);
 }
+
 
 int	is_redir(char *tok)
 {

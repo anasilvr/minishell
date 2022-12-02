@@ -23,6 +23,7 @@ void	env_handler(char **instruct, t_data *data)
 
 	if (ft_cmp_builtin(instruct[0], "env", 3) == 0)
 	{
+		data->cmd_lst->it_builtin = true;
 		print_env(data->envp_cp);
 		i = -1;
     	free_tab(instruct);
@@ -61,7 +62,7 @@ int ft_cmp_env(char *str1, char *str2, size_t n)
 	i = 0;
 	if (n == 0 || str1[0] == '\0' || !str2)
 		return (-1);
-	while (str1[i] == str2[i] && i < (n - 1) && 
+	while (str1[i] == str2[i] && i < (n - 1) &&
         (str1[i] != '=' && str2[i] != '\0'))
 		i++;
     if (str2[i + 1] == '\0' && str1[i + 1] == '=')

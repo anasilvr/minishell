@@ -80,6 +80,7 @@ void    export_handler(char **instruct, t_data *data)
     i = 0;
     if (ft_cmp_builtin(instruct[i], "export", 6) == 0)
     {
+		data->cmd_lst->it_builtin = true;
         while (instruct[++i] != NULL)
         {
             if (export_pars(instruct[i], data->envp_cp) == -1)

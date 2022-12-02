@@ -15,6 +15,7 @@ int	ft_cmp_builtin(const char *str1, const char *str2, size_t n)
 	return (-1);
 }
 
+
 void	exit_handler(t_data *data, char **instruct)
 {
 	if (data->cmd_lst->io_flag != PIPE || (data->cmd_lst->prev != NULL && data->cmd_lst->prev->io_flag != PIPE))
@@ -32,6 +33,7 @@ void	exit_handler(t_data *data, char **instruct)
 	}
 }
 
+
 int builtins_checker(t_data *data, t_cmd *cmd)
 {
 	char **instruct;
@@ -47,5 +49,6 @@ int builtins_checker(t_data *data, t_cmd *cmd)
 	exit_handler(data, instruct);
 	xfree(data->cmd_lst->cmdline);
 //	xfree(instruct);
+
 	return (-1);
 }

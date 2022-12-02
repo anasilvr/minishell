@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:01:02 by tchalifo          #+#    #+#             */
-/*   Updated: 2022/11/22 17:23:41 by tchalifo         ###   ########.fr       */
+/*   Updated: 2022/11/29 19:15:30 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ void	pipe_manager(t_data *prog_data)
 		prog_data->cmd_lst->prev->io_flag == PIPE)
 			setup_pipe_in(prog_data);
 		if (pipe(prog_data->pipe_fd) == -1)
-			perror(NULL);
+			perror(Minishell:);
 		prog_data->cmd_lst->fork_pid = fork();
 		if (prog_data->cmd_lst->fork_pid == -1)
-			perror(NULL);
+			perror(Minishell:);
 		else if (prog_data->cmd_lst->fork_pid == 0) // INTO CHILD PROCESS
 		{
 			setup_pipe_out(prog_data);
@@ -42,8 +42,10 @@ void	pipe_manager(t_data *prog_data)
 	if (prog_data->cmd_lst->prev != NULL || \
 	prog_data->cmd_lst->prev->io_flag == PIPE)
 		setup_pipe_in(prog_data);
+	if (prog_data->cmd_lst->io_flag == REDIR_OUT)
+		redirect_manager(prog_data);
 	execution_manager(prog_data); // Retour at exec_manager for complete last cmd after last pipe
 }
 
-cat | cat | cat > file1.txt
+// cat | cat | cat > file1.txt
 // echo bonjour | cat

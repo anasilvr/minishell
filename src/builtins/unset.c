@@ -29,6 +29,7 @@ void    unset_handler(char **instruct, t_data *data)
     i = 0;
 	if (ft_cmp_builtin(instruct[i] , "unset", 5) == 0 && instruct[i + 1] != NULL)
     {
+		data->cmd_lst->it_builtin = true;
         while (instruct[++i] != NULL)
         {
             r_check = check_env_var(data->envp_cp, instruct[i]);

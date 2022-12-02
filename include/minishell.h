@@ -74,12 +74,17 @@ typedef enum e_type
 typedef struct s_cmd
 {
 	char		*cmdline; // echo bonjour
+	char		**args;
 	char		*path;
-	int			cmdio_fd[2]; // input=fd0, output=fd1     // Default =  STDIN_FILENO // to be changed depending on token list
+
+	bool		it_builtin;
+	int			cmdio_fd[2];
 	int			fork_pid;
-	int			err; // save exit code of cmd;
-	int			io_flag; // determines if there's a redirection to be done by checking token t_type
-	bool		expand; // there might be multiple expansions to be done when the flag is true. a lot of edge cases to be accounted for here when printing!
+	int			err; // exit code of cmd;
+	int			io_flag; // if there's a redirection to be done, this is its type
+	bool		is_builtin;
+	bool		heredoc;
+	bool		expand; // there might be multiple expansions to be done when the flag is true. edge cases to be accounted for here when printing!
 	t_cmd		*prev;
 	t_cmd		*next;
 }	t_cmd;
@@ -105,8 +110,7 @@ typedef struct s_data
 	int			nb_cmds;
 	int			nb_pipes;
 	int			syntax_err;
-	int			pipe_fd[2]; // Init at [0]STDIN [1]STDOUT as default
-	bool		is_builtin;
+	int			pipe_fd[2];
 }	t_data;
 
 // FUNCTIONS
@@ -114,14 +118,16 @@ typedef struct s_data
 enum	e_bultins {echo, cd, pwd, export, unset, env};
 void	ft_echo(char **arg, char **env, int i, bool exp);
 void	echo_handler(char **instruct, t_data *data, bool exp);
+
 void	pwd_handler(char **instruct);
 void	unset_handler(char **intruct, t_data *data);
 void	export_handler(char **instruct, t_data *data);
+
 void	env_handler(char **instruct, t_data *data);
 void	cd_handler(char **instruct, t_data *data);
 int		builtins_checker(t_data *data, t_cmd *cmd);
-char    **cpy_env(char **envp, int line);
-int     ft_cmp_env(char *str1, char *str2, size_t n);
+char	**cpy_env(char **envp, int line);
+int		ft_cmp_env(char *str1, char *str2, size_t n);
 void	free_tab(char **old_tab);
 int		check_env_var(char **env, char *var);
 char	**cpy_unset(char **env, int line);
@@ -131,12 +137,13 @@ char	**new_pwd(char **env);
 char	**add_var(char **env, char *n_var);
 
 // EXECUTION
-int		open_to_write(char *filepath, int additional_flag);
+
 void	execution_manager(t_data *prog_data);
 void	execution_time(t_data *prog_data, t_cmd *cmdnode);
 void	setupio(t_data *prog_data);
-void	redirect_manager(t_data *prog_data);
 void	reset_iocpy(t_data *prog_data);
+void	redirect_manager(t_data *prog_data);
+int		open_to_write(char *filepath, int additional_flag);
 void	pipe_manager(t_data *prog_data);
 void	setup_pipe_in(t_data *prog_data);
 void	setup_pipe_out(t_data *prog_data);
@@ -208,11 +215,13 @@ int		is_redir(char *tok);
 int		is_valid(char *tok);
 void	verify_dollartype(t_tok **list);
 
-// SIGNALS
-void	handle_signal(int sig);
-
 //extra
 char	**safesplit(char const *s, char c); // split that conserves all characters
 char	*ft_strjoin_free2(char const *s1, char const *s2);
 
+
 #endif
+
+//blbl"$USER"dksj: cmdline = blbl"$USER"dksj
+//					expands the user (after heredoc check)
+//					blblusernamedksj is not a valid command (error 127: command not found)
