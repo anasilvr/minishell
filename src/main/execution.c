@@ -8,24 +8,71 @@
  *
  */
 
-static void	external_bin_exec(t_data *prog_data, char *binpath, char **argv, char **envp)
+static char	*path_env_var_to_str(char **p_envp)
 {
-	if (prog_data->cmd_lst->fork_pid != 0) // Alredy into a child process because of pipe
+	int		i;
+
+	i = 0;
+	if (p_envp)
+	{
+		while (p_envp[i] != NULL)
+		{
+			if (strncmp(p_envp[i], "PATH=", 5) == 0)
+				return (ft_strtrim(p_envp[i], "PATH="));
+			i++;
+		}
+	}
+	return (NULL);
+}
+
+static char	*recup_the_bin_path(char *bin_name, char **p_envp)
+{
+	char	**splitted_path;
+	char	*trimmed_path;
+	char	*complete_bin_path;
+	int		i;
+
+	i = 0;
+	complete_bin_path = NULL;
+	trimmed_path = path_env_var_to_str(p_envp);
+	splitted_path = ft_split(trimmed_path, ':');
+	free(trimmed_path);
+	while (splitted_path[i])
+	{
+		complete_bin_path = ft_strjoin(splitted_path[i], "/");
+		complete_bin_path = ft_strjoin_free(complete_bin_path, bin_name);
+		if (access(complete_bin_path, X_OK) != -1)
+		{
+			free_tab(splitted_path);
+			return (complete_bin_path);
+		}
+		i++;
+		free (complete_bin_path);
+	}
+	free_tab(splitted_path);
+	return (NULL);
+}
+
+static void	external_bin_exec(t_data *prog_data, char **argv) // argv peut etre eventuellement remplacer par le split de cmd d ana
+{
+	if (prog_data->cmd_lst->fork_pid != 0)
 	{
 		prog_data->cmd_lst->fork_pid = fork();
 		if (prog_data->cmd_lst->fork_pid == -1)
 			perror(NULL);
-		waitpid(0, NULL, 0);
+		// else if (prog_data->cmd_lst->fork_pid != 0)
 	}
-	if (prog_data->cmd_lst->fork_pid == 0)
+	if (prog_data->cmd_lst->fork_pid == 0) // Alredy into a child process because of pipe
 	{
-		if (execve(binpath, argv, envp) == -1)
+		if (execve(prog_data->cmd_lst->path, argv, prog_data->envp_cp) == -1)
 		{
 			perror(NULL);
 			ft_putstr_fd(strerror(errno), 2);
-
+			exit (errno);
 		}
 	}
+	else
+		waitpid(0, NULL, 0);
 }
 
 void	execution_time(t_data *prog_data)
@@ -33,27 +80,30 @@ void	execution_time(t_data *prog_data)
 	char **splitted_args;
 
 	setupio(prog_data);
-	if (prog_data->cmd_lst->it_builtin == false)
+	builtins_checker(prog_data, prog_data->cmd_lst);
+	if (prog_data->cmd_lst->is_builtin == false)
 	{
 		splitted_args = ft_split(prog_data->cmd_lst->cmdline, ' ');
+		prog_data->cmd_lst->path = recup_the_bin_path(splitted_args[0], prog_data->envp_cp);
 		external_bin_exec \
-		(prog_data, splitted_args[0], splitted_args, prog_data->envp_cp);
+		(prog_data, splitted_args);
 		if (prog_data->cmd_lst->fork_pid == 0)
 		{
 			clean_exit(prog_data);
 			exit(errno);
 		}
+		else
+			waitpid(0, NULL, 0);
 	}
-	waitpid(0, NULL, 0);
 }
-// file.txt < cat
+
 void	execution_manager(t_data *prog_data)
 {
 	while (prog_data->cmd_lst != NULL)
-	{
-		prog_data->cmd_lst->it_builtin = false;
-		// prog_data->cmd_lst->fork_pid = -2;
-		if (prog_data->cmd_lst->io_flag > 1 && prog_data->cmd_lst->io_flag < 7) // Redirection
+{
+		prog_data->cmd_lst->fork_pid = -2;
+		prog_data->cmd_lst->is_builtin = false;
+		if (prog_data->cmd_lst->io_flag > 2 && prog_data->cmd_lst->io_flag < 7) // Redirection
 		{
 			redirect_manager(prog_data);
 			if (prog_data->cmd_lst->cmdio_fd[1] == -1 || \
@@ -62,7 +112,6 @@ void	execution_manager(t_data *prog_data)
 				clean_exit(prog_data);
 				exit (errno);
 			}
-
 		}
 		if (prog_data->cmd_lst->io_flag == PIPE) // Pipe
 		{
