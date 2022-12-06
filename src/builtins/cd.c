@@ -66,6 +66,5 @@ void cd_handler(char **instruct, t_data *data)
             chdir(getenv("HOME"));
             data->envp_cp = new_pwd(data->envp_cp);
         }
-        free_tab(instruct);
     }
 }

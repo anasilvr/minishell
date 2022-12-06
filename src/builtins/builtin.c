@@ -22,7 +22,6 @@ void	exit_handler(t_data *data, char **instruct)
 	{
  	   if (ft_cmp_builtin(instruct[0], "exit", 4) == 0)
 		{
-			free_tab(instruct);
 			clean_exit(data);
 			exit(g_status);
 		}
@@ -40,22 +39,18 @@ void	exit_handler(t_data *data, char **instruct)
 
 int builtins_checker(t_data *data, t_cmd *cmd)
 {
-	char **instruct;
-
-	instruct = NULL;
-	instruct = ft_split(data->cmd_lst->cmdline, 0x20); // voir avec ana pour le split general
-	echo_handler(instruct, data, cmd->expand);
-	pwd_handler(instruct, data);
-	env_handler(instruct, data);
-	cd_handler(instruct, data);
-	export_handler(instruct, data);
-	unset_handler(instruct, data);
+	echo_handler(cmd->args, data, cmd->expand);
+	pwd_handler(cmd->args, data);
+	env_handler(cmd->args, data);
+	cd_handler(cmd->args, data);
+	export_handler(cmd->args, data);
+	unset_handler(cmd->args, data);
 	if (data->cmd_lst->fork_pid == 0)
 	{
 		clean_exit(data);
 		exit(errno);
 	}
 	else
-		exit_handler(data, instruct);
+		exit_handler(data, cmd->args);
 	return (-1);
 }

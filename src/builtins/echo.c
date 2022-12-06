@@ -42,7 +42,6 @@ void echo_handler(char **instruct, t_data *data, bool exp)
         else if (check_n(instruct[i]) == 0)
             ft_echo2(&data->cmd_lst->cmdline[ft_strlen(instruct[0]) + 
                 ft_strlen(instruct[1]) + 2], data->envp_cp);
-        free_tab(instruct);
     }
 }
 

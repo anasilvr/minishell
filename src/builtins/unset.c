@@ -62,9 +62,9 @@ void    unset_handler(char **instruct, t_data *data)
         while (instruct[++i] != NULL)
         {
             r_check = check_env_var(data->envp_cp, instruct[i]);
-            data->envp_cp = cpy_unset(data->envp_cp, r_check);
+            if (r_check >= 0)
+                data->envp_cp = cpy_unset(data->envp_cp, r_check);
         }
-        free_tab(instruct);
     }
 }
 

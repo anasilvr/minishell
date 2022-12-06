@@ -18,7 +18,6 @@ static char    **add_var(char **env, char *n_var)
     r_env[i][j] = '\0';
     i++;
     r_env[i] = NULL;
-    free_tab(env);
     return (r_env);
 }
 
@@ -91,6 +90,5 @@ void    export_handler(char **instruct, t_data *data)
                 data->envp_cp = add_var(data->envp_cp, instruct[i]);
             }
         }
-        free_tab(instruct);
     }
 }
