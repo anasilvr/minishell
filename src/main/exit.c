@@ -43,6 +43,7 @@ void	free_cmdlist(t_cmd *lst)
 	while (lst)
 	{
 		xfree(lst->cmdline);
+		free_tab(lst->args);
 		tmp = lst->next;
 		xfree(lst);
 		lst = tmp;

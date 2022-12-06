@@ -1,19 +1,24 @@
 #include "../../include/minishell.h"
 
-// echo ana << > test  (should return syntax error)
+void	split_args(t_cmd *cmd_lst)
+{
+	while (cmd_lst)
+	{
+		cmd_lst->args = ft_split(cmd_lst->cmdline, ' ');
+		cmd_lst = cmd_lst->next;
+	}
+}
 
-// change get_cmdline to something that copies data.input while cheking the token until a pipe for the flags.
-// the way we're doing right now makes it nearly impossible to format the whitespaces the right way.
 void	parser(t_data *data)
 {
-	t_type *io;
-	bool *expand;
+	t_type	*io;
+	bool	*expand;
 
 	io = ft_xcalloc(sizeof(t_type));
 	expand = ft_xcalloc(sizeof(bool));
-
 	data->cmd_lst = create_cmdlist(data);
 	assign_flags(data->cmd_lst, data->token, io, expand);
+	split_args(data->cmd_lst);
 	xfree(io);
 	xfree(expand);
 }

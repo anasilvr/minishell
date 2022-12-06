@@ -53,14 +53,18 @@ void	cmdlist_details(t_cmd *cmdlst)
 {
 	t_cmd	*lst;
 	int		i;
+	int		j;
 
 	if (!cmdlst)
 		return ;
 	lst = cmdlst;
 	i = 0;
+	j = -1;
 	while (lst)
 	{
 		printf("\n\t[cmdline %d] %s\n", i, lst->cmdline);
+		while (lst->args[++j])
+			printf("\t[arg %d] %s \n", j, lst->args[j]);
 		printf("\t[path] %s\n", lst->path);
 		printf("\t[err] %d\n", lst->err);
 		printf("\t[expand] %d\n", lst->expand);
