@@ -29,24 +29,19 @@ void echo_handler(char **instruct, t_data *data, bool exp)
     int i;
 
     i = -1;
+    (void)exp;
     if (ft_cmp_builtin(instruct[++i], "echo", 4) == 0 && instruct[i + 1] != NULL)
     {
 		data->cmd_lst->is_builtin = true;
-        printf("Il y a %d variable a expand\n", exp);
         if (check_n(instruct[++i]) == 1)
         {
-            while (instruct[i] != NULL)
-            {
-                ft_echo(instruct, data->envp_cp, i, exp);
-                i++;
-            }
+            ft_echo2(&data->cmd_lst->cmdline[(ft_strlen(instruct[0]) + 1)], 
+                data->envp_cp);
             write(1, "\n", 1);
         }
         else if (check_n(instruct[i]) == 0)
-        {
-            while (instruct[++i] != NULL)
-                ft_echo(instruct, data->envp_cp, i, exp);
-        }
+            ft_echo2(&data->cmd_lst->cmdline[ft_strlen(instruct[0]) + 
+                ft_strlen(instruct[1]) + 2], data->envp_cp);
         free_tab(instruct);
     }
 }
@@ -99,37 +94,79 @@ int check_n(char *instruct)
     return (1);
 }
 
-void    ft_echo2(char *cmd, char **env, int i)
+static int space_handler(char *str, int i)
+{
+    int j;
+
+    j = i;
+    while (ft_isspace(str[i]) == 0 && str[i] != '\0')
+        i++;
+    if (str[i] == '\0')
+        return (i);
+    return (j);
+}
+
+void    ft_echo2(char *cmd, char **env)
 {
     int j;
     int k;
     char *val;
 
     j = -1;
-    val = NULL;
     while (cmd[++j] != '\0')
     {
-        k = 1;
+        val = NULL;
+        k = 0;
         if (cmd[j] == '\'')
         {
             while (cmd[++j] != '\'' && cmd[j] != '\0')
+            {
+                j = space_handler(cmd, j);
                 write(1, &cmd[j], 1);
+            }
+            j++;
         }
         else if (cmd[j] == '"')
         {
-            k = 1;
-            while (cmd[++j] != '"' && cmd[j] != '\0')
+            while (cmd[++j] != '\0')
             {
-                if (cmd[j] == '$')
+                k = 0;
+                if (cmd[j] != '$' && cmd[j] != '"')
+                    write(1, &cmd[j], 1);
+                else if (cmd[j] == '$')
                 {
-                    while (cmd[j + k] != '"' && ft_isspace(cmd[j + k]) != 1 && 
+                    j++;
+                    while (cmd[j + k] != '"' && ft_isspace(cmd[j + k]) != 0 && 
                         cmd[j + k] != '\0')
                             k++;
-                    val = ft_strncpy()
+                    val = ft_substr(cmd, j, k);
+                    print_env_var(env, val);
+                    j = j + k;
+                    j = space_handler(cmd, j);
+                    xfree(val);
+                    if (cmd[j] != '\0')
+                        write(1, " ", 1);
                 }
-                else if (cmd[j] != '$')
-                    write(1, &cmd[j], 1);
+                if (cmd[j] == '"')
+                {
+                    j++;
+                    break ;
+                }
             }
+        }      
+        else if (cmd[j] == '$' && ft_isspace(cmd[j + 1]) == 1)
+        {
+            j++;
+            while (ft_isspace(cmd[j + k]) != 0 && cmd[j + k] != '\0')
+                k++;
+            val = ft_substr(cmd, j, k);
+            print_env_var(env, val);
+            j = j + k;
+        }
+        else
+        {
+            j = space_handler(cmd, j);
+            write(1, &cmd[j], 1);
         }
     }
 }

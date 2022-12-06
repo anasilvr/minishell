@@ -37,7 +37,8 @@ static char **cpy_unset(char **env, int line)
 	while (env[i] != NULL)
 	{
 		j = -1;
-		r_env[k] = malloc(sizeof(char) * ft_strlen(env[i]) + 1);
+        if (i != line)
+		    r_env[k] = malloc(sizeof(char) * ft_strlen(env[i]) + 1);
 		while (env[i][++j] != '\0' && i != line)
 			r_env[k][j] = env[i][j];
         if (i != line)
@@ -75,6 +76,5 @@ char    **unset_dup(char **env, char *var)
 
     r_check = check_env_var(env, var);
     r_env = cpy_unset(env, r_check);
-    free_tab(env);
     return (r_env);
 }

@@ -38,7 +38,6 @@ void	exit_handler(t_data *data, char **instruct)
 	}
 }
 
-
 int builtins_checker(t_data *data, t_cmd *cmd)
 {
 	char **instruct;

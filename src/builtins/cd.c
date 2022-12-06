@@ -59,8 +59,13 @@ void cd_handler(char **instruct, t_data *data)
     {
 		data->cmd_lst->is_builtin = true;
         data->envp_cp = update_oldpwd(data->envp_cp);
-        if (chdir(instruct[++i]) == 0)
+        if (instruct[i + 1] != NULL && chdir(instruct[++i]) == 0)
             data->envp_cp = new_pwd(data->envp_cp);
+        else if (instruct[i + 1] == NULL)
+        {
+            chdir(getenv("HOME"));
+            data->envp_cp = new_pwd(data->envp_cp);
+        }
         free_tab(instruct);
     }
 }

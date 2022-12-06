@@ -128,6 +128,9 @@ char	**cpy_env(char **envp, int line);
 int		ft_cmp_env(char *str1, char *str2, size_t n);
 void	free_tab(char **old_tab);
 char	**unset_dup(char **env, char *var);
+int		ft_isspace(char c);
+void    ft_echo2(char *cmd, char **env);
+void	print_env_var(char **env, char *var);
 
 // EXECUTION
 
