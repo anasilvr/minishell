@@ -23,7 +23,7 @@ static	void	signal_handler(int sig)
 		printf("\n");
 		rl_replace_line("", 1);
 		rl_on_new_line();
-	//	if (!data->cmd_lst)
+	//if (!data->cmd_lst)
 			rl_redisplay();
 	}
 }
@@ -106,7 +106,7 @@ void	wtshell(t_data *data)
 			if (data->syntax_err || !data->cmd_lst)
 				break ;
 			cmdlist_details(data->cmd_lst);
-			execution_manager(data);
+			//execution_manager(data);
 			// if (data->cmd_lst != NULL)
 			// {
 			// 	builtins_checker(data, data->cmd_lst);

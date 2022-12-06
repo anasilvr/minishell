@@ -32,7 +32,6 @@ void echo_handler(char **instruct, t_data *data, bool exp)
     if (ft_cmp_builtin(instruct[++i], "echo", 4) == 0 && instruct[i + 1] != NULL)
     {
 		data->cmd_lst->is_builtin = true;
-        printf("Il y a %d variable a expand\n", exp);
         if (check_n(instruct[++i]) == 1)
         {
             while (instruct[i] != NULL)
