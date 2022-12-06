@@ -12,7 +12,8 @@ static int	check_syntax(t_tok **list)
 	while (node)
 	{
 		if (node->type >= 2 && node->type <= 6)
-			if (node->next->type != 1)
+			if (node->next->type != 1 && \
+			!(node->next->type >= 7 && node->next->type <= 10))
 				return (1);
 		node = node->next;
 	}

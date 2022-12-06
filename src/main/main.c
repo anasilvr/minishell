@@ -23,7 +23,7 @@ static	void	signal_handler(int sig)
 		printf("\n");
 		rl_replace_line("", 1);
 		rl_on_new_line();
-	//	if (!data->cmd_lst)
+	//if (!data->cmd_lst)
 			rl_redisplay();
 	}
 }

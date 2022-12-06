@@ -7,7 +7,6 @@ int	cmd_len(char *str, int len)
 	if (!str)
 		return (0);
 	i = 0;
-	printf("\t\t Getting here with: %s [%d]\n", str, len);
 	while (i < len)
 	{
 		if (is_set(str[i], QUOTES))
