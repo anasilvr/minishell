@@ -43,18 +43,18 @@ static void	err_msg(t_data *data)
 //		write(2, ERR_QUOTES, ft_strlen(ERR_QUOTES));
 //		write(2, "\n", 1);
 	}
-	else if (data->syntax_err == 127)
-	{
-		printf("[%d / %d] %s\n", g_status, data->syntax_err, ERR_CMD);
-//		write(2, s, ft_strlen(s));
-//		write(2, ERR_CMD, ft_strlen(ERR_CMD));
-//		write(2, "\n", 1);
-	}
 	else if (data->syntax_err == 258)
 	{
 		printf("[%d / %d] %s\n", g_status, data->syntax_err, ERR_SYNTAX);
 //		write(2, ERR_SYNTAX, ft_strlen(ERR_SYNTAX));
 //		write(2, s, ft_strlen(s));
+//		write(2, "\n", 1);
+	}
+	else if (data->syntax_err == 127)
+	{
+		printf("[%d / %d] %s\n", g_status, data->syntax_err, ERR_CMD);
+//		write(2, s, ft_strlen(s));
+//		write(2, ERR_CMD, ft_strlen(ERR_CMD));
 //		write(2, "\n", 1);
 	}
 	else
