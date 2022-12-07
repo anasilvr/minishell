@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static int check_env_var(char **env, char *var)
+int check_env_var(char **env, char *var)
 {
     int i;
     int j;
@@ -38,7 +38,7 @@ static char **cpy_unset(char **env, int line)
 	{
 		j = -1;
         if (i != line)
-		    r_env[k] = malloc(sizeof(char) * ft_strlen(env[i]) + 1);
+		    r_env[k] = malloc(sizeof(char) * (ft_strlen(env[i]) + 1));
 		while (env[i][++j] != '\0' && i != line)
 			r_env[k][j] = env[i][j];
         if (i != line)
@@ -68,13 +68,15 @@ void    unset_handler(char **instruct, t_data *data)
     }
 }
 
-
 char    **unset_dup(char **env, char *var)
 {
     int     r_check;
     char    **r_env;
 
+    r_env = NULL;
     r_check = check_env_var(env, var);
-    r_env = cpy_unset(env, r_check);
+    if (r_check >= 0)
+        r_env = cpy_unset(env, r_check);
+    xfree(var);
     return (r_env);
 }

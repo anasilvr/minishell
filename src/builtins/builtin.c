@@ -39,7 +39,7 @@ void	exit_handler(t_data *data, char **instruct)
 
 int builtins_checker(t_data *data, t_cmd *cmd)
 {
-	echo_handler(cmd->args, data, cmd->expand);
+	echo_handler(cmd->args, data);
 	pwd_handler(cmd->args, data);
 	env_handler(cmd->args, data);
 	cd_handler(cmd->args, data);
