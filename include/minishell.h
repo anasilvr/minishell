@@ -83,7 +83,7 @@ typedef struct s_cmd
 	int			io_flag; // if there's a redirection to be done, this is its type
 	bool		is_builtin;
 	bool		heredoc;
-	bool		expand; // there might be multiple expansions to be done when the flag is true. edge cases to be accounted for here when printing!
+	int			expand; // changed to an int that indicates the exact number of expansions to be done
 	t_cmd		*prev;
 	t_cmd		*next;
 }	t_cmd;
@@ -187,8 +187,6 @@ bool	is_empty(char *str);
 
 // parser.c and parser_utils.c
 void	parser(t_data *data);
-void	assign_flags(t_cmd *cmd_lst, t_tok *token, t_type *io, bool *expand);
-void	check_flags(t_type *toktype, t_type *io, bool *expand);
 t_cmd	*create_cmdlist(t_data *data);
 t_cmd	*new_cmdline(char *line);
 void	addback_cmdline(t_cmd **cmdlist, t_cmd *line);
@@ -209,7 +207,6 @@ void	verify_dollartype(t_tok **list);
 //extra
 char	**safesplit(char const *s, char c); // split that conserves all characters
 char	*ft_strjoin_free2(char const *s1, char const *s2);
-
 
 #endif
 
