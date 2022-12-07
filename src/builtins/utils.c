@@ -48,7 +48,14 @@ char	*ft_strjoin_free2(char const *s1, char const *s2)
 		index_src++;
 	}
 	temp[index_dst] = '\0';
-//	xfree((void *)s1);
 	xfree((void *)s2);
 	return (temp);
+}
+
+int ft_isspace(char c)
+{
+	if (c == ' ' || c == '\n' || c == '\t'
+		|| c == '\v' || c == '\f' || c == '\r')
+		return (0);
+	return (1);
 }

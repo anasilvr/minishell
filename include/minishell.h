@@ -114,8 +114,8 @@ typedef struct s_data
 // FUNCTIONS
 // BUILTINS
 enum	e_bultins {echo, cd, pwd, export, unset, env};
-void	ft_echo(char **arg, char **env, int i, bool exp);
-void	echo_handler(char **instruct, t_data *data, bool exp);
+void	ft_echo(char *cmd, char **env);
+void	echo_handler(char **instruct, t_data *data);
 int		builtins_checker(t_data *data, t_cmd *cmd);
 void	pwd_handler(char **instruct, t_data *data);
 void	unset_handler(char **intruct, t_data *data);
@@ -126,6 +126,10 @@ char	**cpy_env(char **envp, int line);
 int		ft_cmp_env(char *str1, char *str2, size_t n);
 void	free_tab(char **old_tab);
 char	**unset_dup(char **env, char *var);
+int		ft_isspace(char c);
+void	print_env_var(char **env, char *var);
+void	print_env(char **env);
+int		check_env_var(char **env, char *var);
 
 // EXECUTION
 
