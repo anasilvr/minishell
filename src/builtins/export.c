@@ -9,7 +9,7 @@ static char    **add_var(char **env, char *n_var)
     j = -1;
     i = -1;
     r_env = cpy_env(env, 1);
-    while (env[++i] != NULL)
+    while (r_env[++i] != NULL)
         ;
     free(r_env[i]);
     r_env[i] = malloc(sizeof(char) * (ft_strlen(n_var) + 1));
@@ -18,7 +18,6 @@ static char    **add_var(char **env, char *n_var)
     r_env[i][j] = '\0';
     i++;
     r_env[i] = NULL;
-    free_tab(env);
     return (r_env);
 }
 
@@ -30,7 +29,7 @@ char    *var_trim(char *n_var)
     i = -1;
     while (n_var[++i] != '=')
         ;
-    r_var = malloc(sizeof(char) * (i + 1));
+    r_var = malloc(sizeof(char) * (i) + 1);
     i= -1;
     while (n_var[++i] != '=')
         r_var[i] = n_var[i];
@@ -91,6 +90,5 @@ void    export_handler(char **instruct, t_data *data)
                 data->envp_cp = add_var(data->envp_cp, instruct[i]);
             }
         }
-        free_tab(instruct);
     }
 }
