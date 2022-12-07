@@ -76,7 +76,6 @@ typedef struct s_cmd
 	char		*cmdline; // echo bonjour
 	char		**args;
 	char		*path;
-	bool		it_builtin;
 	int			cmdio_fd[2];
 	int			fork_pid;
 	int			err; // exit code of cmd;

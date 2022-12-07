@@ -37,14 +37,11 @@ void	parser(t_data *data)
 	data->cmd_lst = create_cmdlist(data);
 	count_expand(data->cmd_lst, data->token);
 	split_args(data->cmd_lst);
-	//assign_flags(data->cmd_lst, data->token, io, expand);
-	//instead of assign_flags, count_expand(), open_filefds() 
-	//open files and assign fds
+	//pre-open files and assign fds here! :)
 	// error check: is argv[0] of each node a valid command? (access call),
 	//				is the arg related to a redirection a valid file? (open call)
 	// the access call can be used to set a valid path since you'll have to use access with a path to check its validity.
 	// when access ((path, F_OK | X_OK) == 0)), store this path at data.cmd_lst.path;
-	// the open call will be used to set the fds
 	xfree(io);
 }
 
