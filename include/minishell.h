@@ -2,6 +2,7 @@
 # define MINISHELL_H
 
 # include "./libft/libft.h"
+# include "/..doubly_linked_list/doubly_linked_list.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <sys/ioctl.h>
@@ -77,6 +78,8 @@ typedef struct s_cmd
 	char		**args;
 	char		*path;
 	int			cmdio_fd[2];
+	int			filefd[2];
+	int			pipefd[2];
 	int			fork_pid;
 	int			err; // exit code of cmd;
 	int			io_flag; // if there's a redirection to be done, this is its type
@@ -105,11 +108,19 @@ typedef struct s_data
 	t_tok		*token;
 	char		*err_tok;
 	t_cmd		*cmd_lst;
+	t_hdoc		*hd_struct;
 	int			nb_cmds;
 	int			nb_pipes;
 	int			syntax_err;
 	int			pipe_fd[2];
 }	t_data;
+
+typedef struct s_hdoc
+{
+	char			*the_line;
+	struct s_hdoc	*next;
+	struct s_hdoc	*previous;
+}	t_hdoc;
 
 // FUNCTIONS
 // BUILTINS
@@ -138,7 +149,8 @@ void	execution_time(t_data *prog_data);
 void	setupio(t_data *prog_data);
 void	reset_iocpy(t_data *prog_data);
 void	redirect_manager(t_data *prog_data);
-int		open_to_write(char *filepath, int additional_flag);
+t_hdoc	*write_heredoc(char *delimiter);
+int		heredoc_to_fd(t_hdoc *hd_struct);
 void	pipe_manager(t_data *prog_data);
 void	setup_pipe_in(t_data *prog_data);
 void	setup_pipe_out(t_data *prog_data);

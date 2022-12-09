@@ -11,8 +11,10 @@ RM			=	RM -rf
 INC_DIR		=	include/
 LIBFT_DIR	=	$(INC_DIR)libft/
 LIBFT_H		=	$(LIBFT_DIR)libft.h
+LIBDLL_H	=	$(LIBDLL_DIR)libdll.h
 LIBRL_DIR	=	$(INC_DIR)readline/
 LIBRL_H		=	chardefs.h history.h keymaps.h readline.h rlconf.h rlstdc.h rltypedefs.h tilde.h
+LIBDLL_DIR	= ../include/libdll/
 
 SRC_DIR				=	src/
 BUILTIN_DIR			=	$(SRC_DIR)builtins/
@@ -76,15 +78,16 @@ HEADER		=	$(addprefix $(INC_DIR), $(HEADER_F)) $(RL_HEADER)
 VPATH		=	$(SRC_DIR) $(BUILTIN_DIR) $(PIPE_REDIRECT_DIR) $(MAIN_DIR) $(PARSE_DIR) $(SIGNAL_DIR) $(HEADER)
 
 $(OBJ_DIR)%.o: %.c $(SRC_DIR)
-	$(CC) $(CFLAGS) -I $(INC_DIR) -I $(LIBRF_DIR) $(LIBFT_H) -c $< -o $@
+	$(CC) $(CFLAGS) -I $(INC_DIR) -I $(LIBRF_DIR) -I ${LIBDLL} ${LIBDLL_H} $(LIBFT_H) -c $< -o $@
 
 # RECIPES #
 
 all:		obj $(NAME)
 
 $(NAME):	$(OBJ_DIR) $(OBJS)
-			@make -C $(LIBFT_DIR)
-			$(CC) $(CFLAGS) $(OBJS) $(LIBFT_DIR)libft.a $(LIBRL_DIR)libreadline.a $(LIBRL_DIR)libhistory.a -lcurses  -lreadline -o $(NAME)
+			@make --silent -C $(LIBFT_DIR)
+			@make --silent -C $(LIBDLL_DIR)
+			$(CC) $(CFLAGS) $(OBJS) -L${LIBDLL} -ldll $(LIBFT_DIR)libft.a $(LIBRL_DIR)libreadline.a $(LIBRL_DIR)libhistory.a -lcurses  -lreadline -o $(NAME)
 
 obj:
 			@mkdir -p $(OBJ_DIR)
@@ -98,8 +101,9 @@ clean:
 
 fclean:		clean
 			@$(RM) $(NAME)
-			@$(RM) $(LIBFT_DIR)libft.a
 			@$(RM) $(NAME).dSYM*
+			@$(RM) $(LIBFT_DIR)libft.a
+			@${LIBDLL} fclean
 
 re:			fclean all
 

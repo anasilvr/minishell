@@ -29,7 +29,7 @@ LIBDLL		= $(MAKE) --silent -C $(LIBDLL_DIR)
 all: obj $(NAME)
 
 $(OBJS_DIR)%.o:%.c
-	@${CC} ${CFLAGS} -I${LIBFT_DIR} -I${READLINE_DIR} -I. -o $@ -c $<
+	@${CC} ${CFLAGS} -I${LIBFT_DIR} -I${LIBDLL} -I${READLINE_DIR} -I. -o $@ -c $<
 
 $(NAME): $(OBJS)
 	@${LIBFT}
