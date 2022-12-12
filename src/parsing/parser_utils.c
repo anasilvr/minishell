@@ -46,9 +46,10 @@ t_cmd	*new_cmdline(char *line)
 	t_cmd	*new;
 
 	new = (t_cmd *)ft_xcalloc(sizeof(*new));
-	new->cmdio_fd[0] = 0;
-	new->cmdio_fd[1] = 1;
+	new->filefd[0] = -2;
+	new->filefd[1] = -2;
 	new->fork_pid = -2;
+	new->err = -2;
 	new->prev = NULL;
 	new->cmdline = line;
 	new->next = NULL;

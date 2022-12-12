@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/18 10:37:56 by tchalifo          #+#    #+#             */
-/*   Updated: 2022/04/18 11:42:16 by tchalifo         ###   ########.fr       */
+/*   Updated: 2022/12/12 13:20:17 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,13 @@ typedef enum t_bool
 	false,
 	true
 }t_bool;
+
+typedef struct s_hdoc
+{
+	char			*the_line;
+	struct s_hdoc	*next;
+	struct s_hdoc	*previous;
+}	t_hdoc;
 
 t_hdoc		*ft_dllst_new(char *str);
 t_hdoc		*ft_dllst_add_front(t_hdoc *p_lst, char *str);

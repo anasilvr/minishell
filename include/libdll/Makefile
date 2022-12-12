@@ -1,5 +1,5 @@
 # ->-Variables-->
-LIB_NAME		= libddl.a
+LIB_NAME		= libdll.a
 
 SRCS_FILES		= doubly_linked_list_addnodes.c \
 				doubly_linked_list_del.c \

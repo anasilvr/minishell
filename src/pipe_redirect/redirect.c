@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:34:45 by tchalifo          #+#    #+#             */
-/*   Updated: 2022/11/25 12:52:36 by tchalifo         ###   ########.fr       */
+/*   Updated: 2022/12/12 13:22:11 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,29 +87,28 @@ void	redirect_manager(t_data *prog_data)
 {
 	int	open_additionals_flags[1];
 
-	if (prog_data->cmd_lst->io_flag == 3) //if is a heredoc
-		prog_data->hd_struct = write_heredoc(char *delimiter); //Need to know where is stored the delimiter
-
+	// if (prog_data->cmd_lst->io_flag == 3) //if is a heredoc
+	// 	prog_data->hd_struct = write_heredoc(char *delimiter); //Need to know where is stored the delimiter
 
 	if (prog_data->cmd_lst->io_flag == 4) //if is an input redirect <
 	{
 		prog_data->cmd_lst->filefd[0] = open_to_read \
 		(prog_data->cmd_lst->next->args[0], open_additionals_flags);
-		prog_data->cmd_lst->filefd[1] = -2 //-2 = is close
+		prog_data->cmd_lst->filefd[1] = -2; //-2 = is close
 	}
 	else if (prog_data->cmd_lst->io_flag == 5) //if is an output redirect > (Open file and put the fd into struct in int *cmdio_fd)
 	{
 		open_additionals_flags[0] = O_TRUNC;
 		prog_data->cmd_lst->filefd[1] = open_to_readwrite \
 		(prog_data->cmd_lst->next->args[0], open_additionals_flags); // voir a supprimer le contenue completemnet a chaque fois
-		prog_data->cmd_lst->filefd[0] = -2 //-2 = is close
+		prog_data->cmd_lst->filefd[0] = -2; //-2 = is close
 	}
 	else if (prog_data->cmd_lst->io_flag == 6) //if is an output redirect in append mode >> (Open file and put the fd into struct in int *cmdio_fd)
 	{
 		open_additionals_flags[0] = O_APPEND;
 		prog_data->cmd_lst->filefd[1] = open_to_readwrite \
 		(prog_data->cmd_lst->next->args[0], open_additionals_flags);
-		prog_data->cmd_lst->filefd[0] = -2 //-2 = is close
+		prog_data->cmd_lst->filefd[0] = -2; //-2 = is close
 	}
 }
 
@@ -143,10 +142,10 @@ t_hdoc	*write_heredoc(char *delimiter)
 	return (hd_struct);
 }
 
-int	heredoc_to_fd(t_hdoc *hd_struct)
-{
-	//need to continue with a way to pitch to the stdin the line stored in char *var
-}
+// int	heredoc_to_fd(t_hdoc *hd_struct)
+// {
+// 	//need to continue with a way to pitch to the stdin the line stored in char *var
+// }
 
 // tchalifo@c2r1p11 minishell % echo salut >> file.txt > toto.sh
 

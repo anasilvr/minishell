@@ -55,47 +55,42 @@ static char	*recup_the_bin_path(char *bin_name, char **p_envp)
 
 static void	external_bin_exec(t_data *prog_data, char **argv) // argv peut etre eventuellement remplacer par le split de cmd d ana
 {
-	if (prog_data->cmd_lst->fork_pid != 0)
+	if (prog_data->cmd_lst->fork_pid != 0) // Aucun child a ce point, il devra avoir un fork pour les external exec
 	{
 		prog_data->cmd_lst->fork_pid = fork();
 		if (prog_data->cmd_lst->fork_pid == -1)
-			perror(NULL);
-		// else if (prog_data->cmd_lst->fork_pid != 0)
+			perror("Minishell:");
+		else if (prog_data->cmd_lst->fork_pid != 0)
+			waitpid(0, NULL, 0);
 	}
 	if (prog_data->cmd_lst->fork_pid == 0) // Alredy into a child process because of pipe
 	{
 		if (execve(prog_data->cmd_lst->path, argv, prog_data->envp_cp) == -1)
 		{
-			perror(NULL);
+			perror("Minishell:");
 			ft_putstr_fd(strerror(errno), 2);
 			exit (errno);
 		}
 	}
-	else
-		waitpid(0, NULL, 0);
 }
 
 void	execution_time(t_data *prog_data)
 {
 	char **splitted_args;
 
-	setupio(prog_data);
+	// if () //checkfor asssing fd to good stdin stdout
 	builtins_checker(prog_data, prog_data->cmd_lst);
 	if (prog_data->cmd_lst->is_builtin == false)
 	{
 		splitted_args = ft_split(prog_data->cmd_lst->cmdline, ' ');
 		prog_data->cmd_lst->path = recup_the_bin_path(splitted_args[0], prog_data->envp_cp);
-		external_bin_exec \
-		(prog_data, splitted_args);
-		if (prog_data->cmd_lst->fork_pid == 0)
-		{
-			clean_exit(prog_data);
-			exit(errno);
-		}
-		else
-			waitpid(0, NULL, 0);
+		external_bin_exec (prog_data, splitted_args);
 	}
 }
+
+// OK // si j arrive de la fonction pipe, j'aurai deja un child
+// OK // si j arrive de execmanager et que j ai un built in pas besoin de fork
+// OK // si j arrive de execmanager et que j ai pas de built in besoin de fork
 
 void	execution_manager(t_data *prog_data)
 {
@@ -103,36 +98,42 @@ void	execution_manager(t_data *prog_data)
 {
 		prog_data->cmd_lst->fork_pid = -2;
 		prog_data->cmd_lst->is_builtin = false;
-		if (prog_data->cmd_lst->io_flag > 2 && prog_data->cmd_lst->io_flag < 7) // Redirection
-		{
-			redirect_manager(prog_data);
-			if (prog_data->cmd_lst->cmdio_fd[1] == -1 || \
-			(prog_data->cmd_lst->cmdio_fd[0] == -1 && errno == EACCES))
-			{
-				clean_exit(prog_data);
-				exit (errno);
-			}
-		}
+		setup_redirio(prog_data);
 		if (prog_data->cmd_lst->io_flag == PIPE) // Pipe
 		{
 			pipe_manager(prog_data);
 		}
-		if (prog_data->cmd_lst != NULL && prog_data->cmd_lst->cmdline != NULL) // Check if it is an only io_flag node. For this case ex: < cat | cat file1
-			execution_time(prog_data);
+		// if (prog_data->cmd_lst != NULL && prog_data->cmd_lst->cmdline != NULL) // Check if it is an only io_flag node. For this case ex: < cat | cat file1
+		execution_time(prog_data);
 		/* The reset_iocpy function needed becose i dont want garbage if i dont set a fd to a custom one*/
-		reset_iocpy(prog_data);
+		// reset_iocpy(prog_data);
 		prog_data->cmd_lst = prog_data->cmd_lst->next;
 		/* Next "if" needed for cases where i have a redirect and need to skip the next token,
 		 * like cat < file.txt, where i dont need to execute file.txt so i pass the next token*/
-		if ((prog_data->cmd_lst != NULL && prog_data->cmd_lst->prev != NULL) && \
-		(prog_data->cmd_lst->prev->io_flag >= 4 && prog_data->cmd_lst->prev->io_flag <= 6))
-			prog_data->cmd_lst = prog_data->cmd_lst->next;
+		// if ((prog_data->cmd_lst != NULL && prog_data->cmd_lst->prev != NULL) && \
+		// (prog_data->cmd_lst->prev->io_flag >= 4 && prog_data->cmd_lst->prev->io_flag <= 6))
+		// 	prog_data->cmd_lst = prog_data->cmd_lst->next;
 	}
 }
 
 // cat | cat | cat > file1.txt
 
+// echo bob | cat > file.txt
 
+// node 1
+// typedef struct s_cmd
+// {
+// 	char		*cmdline; // echo bonjour
+// 	char		**args;
+// 	char		*path;
+// 	int			filefd[2]; = -2, -2
+// 	int			pipefd[2];
+// 	int			fork_pid; = -2
+// 	int			err; // exit code of cmd;
+// 	int			io_flag; = 2
+// 	bool		is_builtin;
+// 	bool		heredoc;
+// }	t_cmd;
 
 
 /* Le heredoc ne doit pas expend la variable
