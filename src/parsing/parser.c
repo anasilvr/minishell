@@ -35,6 +35,13 @@ void	parser(t_data *data)
 	count_expand(data->cmd_lst, data->token);
 	split_args(data->cmd_lst);
 	//pre-open files and assign fds here! :)
+	redirect_manager(data);
+	if (data->cmd_lst->filefd[0] == -1 || \
+	(data->cmd_lst->filefd[1] == -1 && errno == EACCES))
+	{
+		perror("Minishell :");
+	}
+
 	// error check: is argv[0] of each node a valid command? (access call),
 	//				is the arg related to a redirection a valid file? (open call)
 	// the access call can be used to set a valid path since you'll have to use access with a path to check its validity.
