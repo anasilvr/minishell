@@ -24,7 +24,7 @@
     return (j);
 }*/
 
-void echo_handler(char **instruct, t_data *data)
+void	echo_handler(char **instruct, t_data *data)
 {
     int i;
 
@@ -44,7 +44,7 @@ void echo_handler(char **instruct, t_data *data)
     }
 }
 
-int check_n(char *instruct)
+int	check_n(char *instruct)
 {
     int i;
 
@@ -61,7 +61,7 @@ int check_n(char *instruct)
     return (1);
 }
 
-static int space_handler(char *str, int i)
+static	int	space_handler(char *str, int i)
 {
     int j;
 
@@ -69,11 +69,11 @@ static int space_handler(char *str, int i)
     while (ft_isspace(str[i]) == 0 && str[i] != '\0')
         i++;
     if (str[i] == '\0')
-        return (i);
+        return (i - 1);
     return (j);
 }
 
-static int double_quote_handler(char *cmd, char **env, int j)
+static	int	double_quote_handler(char *cmd, char **env, int j)
 {
     int     k;
     char    *val;
@@ -98,7 +98,7 @@ static int double_quote_handler(char *cmd, char **env, int j)
     return (j);
 }
 
-static int    quotes_handler(char *cmd, char **env, int j)
+static	int	quotes_handler(char *cmd, char **env, int j)
 {
     if (cmd[j] == '\'' && cmd[j] != '\0')
     {
@@ -125,7 +125,7 @@ static int    quotes_handler(char *cmd, char **env, int j)
     return (j);
 }
 
-void    ft_echo(char *cmd, char **env)
+void	ft_echo(char *cmd, char **env)
 {
     int j;
     int k;

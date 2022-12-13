@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static void update_pwd(char **env)
+static  void    update_pwd(char **env)
 {
     int     i;
     int     j;
