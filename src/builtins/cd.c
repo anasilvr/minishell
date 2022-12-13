@@ -2,9 +2,9 @@
 
 static  void    update_pwd(char **env)
 {
-    int     i;
-    int     j;
-    char    *n_path;
+	int		i;
+	int		j;
+	char	*n_path;
 
     n_path = NULL;
     i = check_env_var(env, "PWD");
@@ -18,7 +18,7 @@ static  void    update_pwd(char **env)
         while (n_path[++j] != '\0')
             env[i][j] = n_path[j];
         env[i][j] = '\0';
-    }
+        }
     xfree(n_path);
 }
 
