@@ -103,10 +103,8 @@ void	execution_manager(t_data *prog_data)
 		{
 			pipe_manager(prog_data);
 		}
-		// if (prog_data->cmd_lst != NULL && prog_data->cmd_lst->cmdline != NULL) // Check if it is an only io_flag node. For this case ex: < cat | cat file1
-		execution_time(prog_data);
-		/* The reset_iocpy function needed becose i dont want garbage if i dont set a fd to a custom one*/
-		// reset_iocpy(prog_data);
+		else
+			execution_time(prog_data);
 		prog_data->cmd_lst = prog_data->cmd_lst->next;
 		/* Next "if" needed for cases where i have a redirect and need to skip the next token,
 		 * like cat < file.txt, where i dont need to execute file.txt so i pass the next token*/
