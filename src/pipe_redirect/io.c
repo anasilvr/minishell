@@ -1,9 +1,9 @@
 #include "../../include/minishell.h"
 
-void stdio_cpy(t_data *prog_data)
-{
+// void stdio_cpy(t_data *prog_data)
+// {
 
-}
+// }
 
 void	setup_redirio(t_data *prog_data)
 {
