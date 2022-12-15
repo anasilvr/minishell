@@ -85,6 +85,7 @@ typedef struct s_cmd
 	int			io_flag; // if there's a redirection to be done, this is its type
 	bool		is_builtin;
 	bool		heredoc;
+	char		*hd_delimiter;
 	int			expand; // changed to an int that indicates the exact number of expansions to be done
 	t_cmd		*prev;
 	t_cmd		*next;
@@ -99,12 +100,12 @@ typedef struct s_tok
 	t_tok		*next;
 }	t_tok;
 
-// typedef struct s_hdoc
-// {
-// 	char			*the_line;
-// 	struct s_hdoc	*next;
-// 	struct s_hdoc	*previous;
-// }	t_hdoc;
+typedef struct s_hdoc
+{
+	char			*the_line;
+	struct s_hdoc	*next;
+	struct s_hdoc	*previous;
+}	t_hdoc;
 
 typedef struct s_data
 {
@@ -154,6 +155,8 @@ void	pipe_manager(t_data *prog_data);
 void	setup_pipe_in(t_data *prog_data);
 void	setup_pipe_out(t_data *prog_data);
 void	setup_redirio(t_data *prog_data);
+int		heredoc_to_fd(t_hdoc *hd_struct);
+bool	is_heredoc(t_cmd cmd_lst);
 
 // MAIN
 // exit.c

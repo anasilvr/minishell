@@ -28,11 +28,6 @@
  *     static int open_to_readwrite(char *filepath, int *additional_flag);
  * Simply attribute a file descriptor to open a file in read/write mode and
  * return the fd value. If an error occuring, -1 is return and errno is print.
- * PROTOTYPE:
- *     t_hdoc	*heredoc(char *delimiter);
- * The function simulate a here-document in creating a linked list for store
- * the input line(node) by line(node). FOr info, a heredoc redirect a bunch
- * of lines to the stdin.
 */
 
 /* MEMORY ZONE OF THOMAS FISH
@@ -111,41 +106,6 @@ void	redirect_manager(t_data *prog_data)
 		prog_data->cmd_lst->filefd[0] = -2; //-2 = is close
 	}
 }
-
-/* Case cmd << EOL --> Redirect a bunch of lines to the stdin. This is called
- * a here-document.
- * exemple:
- * cmd << EOL
- * line1
- * line2
-* EOL
-*/
-t_hdoc	*write_heredoc(char *delimiter)
-{
-	char	*content;
-	char	*line;
-	t_hdoc	*hd_struct;
-
-	content = (char *) NULL;
-	line = (char *) NULL;
-	while (ft_strcmp(delimiter, line))
-	{
-		if (line)
-		{
-			free(line);
-			line = (char *) NULL;
-		}
-		line = readline("> ");
-		line = ft_strjoin_free(line, "");
-		hd_struct = ft_dllst_add_back(hd_struct, line);
-	}
-	return (hd_struct);
-}
-
-// int	heredoc_to_fd(t_hdoc *hd_struct)
-// {
-// 	//need to continue with a way to pitch to the stdin the line stored in char *var
-// }
 
 // tchalifo@c2r1p11 minishell % echo salut >> file.txt > toto.sh
 

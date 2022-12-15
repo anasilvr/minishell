@@ -34,6 +34,9 @@ void	parser(t_data *data)
 	data->cmd_lst = create_cmdlist(data);
 	count_expand(data->cmd_lst, data->token);
 	split_args(data->cmd_lst);
+	//heredoc handling here
+	if (is_heredoc == true)
+		write_heredoc(data->hd_delimiter);
 	//pre-open files and assign fds here! :)
 	redirect_manager(data);
 	if (data->cmd_lst->filefd[0] == -1 || \
