@@ -94,17 +94,19 @@ void	execution_time(t_data *prog_data)
 
 void	execution_manager(t_data *prog_data)
 {
+	stdio_cpy(prog_data);
 	while (prog_data->cmd_lst != NULL)
-{
+	{
 		prog_data->cmd_lst->fork_pid = -2;
 		prog_data->cmd_lst->is_builtin = false;
-		setup_redirio(prog_data);
+		redir_manader(prog_data);
 		if (prog_data->cmd_lst->io_flag == PIPE) // Pipe
 		{
 			pipe_manager(prog_data);
 		}
 		else
 			execution_time(prog_data);
+		reset_stdio(prog_data);
 		prog_data->cmd_lst = prog_data->cmd_lst->next;
 		/* Next "if" needed for cases where i have a redirect and need to skip the next token,
 		 * like cat < file.txt, where i dont need to execute file.txt so i pass the next token*/

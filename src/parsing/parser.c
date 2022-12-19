@@ -35,10 +35,10 @@ void	parser(t_data *data)
 	count_expand(data->cmd_lst, data->token);
 	split_args(data->cmd_lst);
 	//heredoc handling here
-	if (is_heredoc == true)
-		write_heredoc(data->hd_delimiter);
+	// if (data->cmd_lst->io_flag == HEREDOC)
+		// write_heredoc(data->hd_delimiter);
 	//pre-open files and assign fds here! :)
-	redirect_manager(data);
+	redirect_setup(data);
 	if (data->cmd_lst->filefd[0] == -1 || \
 	(data->cmd_lst->filefd[1] == -1 && errno == EACCES))
 	{

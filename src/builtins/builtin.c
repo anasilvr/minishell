@@ -18,25 +18,25 @@ int	ft_cmp_builtin(const char *str1, const char *str2, size_t n)
 
 void	exit_handler(t_data *data, char **instruct)
 {
-	if (data->cmd_lst->io_flag != PIPE
-		|| (data->cmd_lst->prev != NULL
-			&& data->cmd_lst->prev->io_flag != PIPE))
-	{
-		if (ft_cmp_builtin(instruct[0], "exit", 4) == 0)
-		{
-			clean_exit(data);
-			exit(g_status);
-		}
-	}
-	else
-	{
-		// execve pour l'exécution des pipes
-	}
-	if (data->cmd_lst->fork_pid == 0)
+	// if (data->cmd_lst->io_flag != PIPE
+	// 	|| (data->cmd_lst->prev != NULL
+	// 		&& data->cmd_lst->prev->io_flag != PIPE))
+	// {
+	if (ft_cmp_builtin(instruct[0], "exit", 4) == 0)
 	{
 		clean_exit(data);
-		exit(errno);
+		exit(g_status);
 	}
+	// }
+	// else
+	// {
+	// 	// execve pour l'exécution des pipes
+	// }
+	// if (data->cmd_lst->fork_pid == 0)
+	// {
+	// 	clean_exit(data);
+	// 	exit(errno);
+	// }
 }
 
 int	builtins_checker(t_data *data, t_cmd *cmd)
@@ -47,12 +47,6 @@ int	builtins_checker(t_data *data, t_cmd *cmd)
 	cd_handler(cmd->args, data);
 	export_handler(cmd->args, data);
 	unset_handler(cmd->args, data);
-	if (data->cmd_lst->fork_pid == 0)
-	{
-		clean_exit(data);
-		exit(errno);
-	}
-	else
-		exit_handler(data, cmd->args);
+	exit_handler(data, cmd->args);
 	return (-1);
 }

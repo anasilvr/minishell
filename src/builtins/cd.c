@@ -12,7 +12,7 @@ static  void    update_pwd(char **env)
     {
         j = -1;
         xfree(env[i]);
-        n_path = ft_strjoin_free2("PWD=", getcwd(n_path, 
+        n_path = ft_strjoin_free2("PWD=", getcwd(n_path,
             ft_free_strlen(getcwd(NULL, 0)) + 1));
         env[i] = malloc(sizeof(char) * (ft_strlen(n_path) + 1));
         while (n_path[++j] != '\0')
@@ -34,7 +34,7 @@ static void update_oldpwd(char **env)
     {
         j = -1;
         xfree(env[i]);
-        n_path = ft_strjoin_free2("OLDPWD=", getcwd(n_path, 
+        n_path = ft_strjoin_free2("OLDPWD=", getcwd(n_path,
             ft_free_strlen(getcwd(NULL, 0)) + 1));
         env[i] = malloc(sizeof(char) * (ft_strlen(n_path) + 1));
         while (n_path[++j] != '\0')
@@ -62,5 +62,10 @@ void cd_handler(char **instruct, t_data *data)
             chdir(getenv("HOME"));
             update_pwd(data->envp_cp);
         }
+		if (data->cmd_lst->fork_pid == 0)
+		{
+			clean_exit(data);
+			exit(g_status);
+		}
     }
 }

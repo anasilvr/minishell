@@ -20,8 +20,8 @@ t_data	*init_data(char **envp, t_data *data)
 	data->nb_cmds = 0;
 	data->nb_pipes = 0;
 	data->syntax_err = false;
-	data->pipe_fd[0] = STDIN_FILENO;
-	data->pipe_fd[1] = STDOUT_FILENO;
+	// data->pipe_fd[0] = STDIN_FILENO;
+	// data->pipe_fd[1] = STDOUT_FILENO;
 	return (data);
 }
 
