@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:01:02 by tchalifo          #+#    #+#             */
-/*   Updated: 2022/12/19 11:09:27 by tchalifo         ###   ########.fr       */
+/*   Updated: 2022/12/19 14:14:14 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
  */
 void	pipe_manager(t_data *prog_data)
 {
-	while ((prog_data->cmd_lst != NULL && prog_data->cmd_lst->io_flag == PIPE)
-		|| (prog_data->cmd_lst->prev != NULL &&
+	while (((prog_data->cmd_lst != NULL) && (prog_data->cmd_lst->io_flag == PIPE))
+		|| ((prog_data->cmd_lst != NULL && prog_data->cmd_lst->prev != NULL) &&
 		prog_data->cmd_lst->prev->io_flag == PIPE))
 	{
 		if (pipe(prog_data->cmd_lst->pipefd) == -1)
@@ -41,7 +41,7 @@ void	pipe_manager(t_data *prog_data)
 			execution_time(prog_data);
 		}
 		else
-			waitpid(0, NULL, 0);
+			waitpid(0, NULL, WNOHANG);
 		prog_data->cmd_lst = prog_data->cmd_lst->next;
 	}
 	// if (prog_data->cmd_lst->prev != NULL && \
