@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:34:45 by tchalifo          #+#    #+#             */
-/*   Updated: 2022/12/12 13:22:11 by tchalifo         ###   ########.fr       */
+/*   Updated: 2022/12/19 11:07:35 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static int	open_to_readwrite(char *filepath, int *additional_flag)
 	return (file_fd);
 }
 
-void	redirect_manager(t_data *prog_data)
+void	redirect_setup(t_data *prog_data)
 {
 	int	open_additionals_flags[1];
 

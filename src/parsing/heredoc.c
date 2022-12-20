@@ -47,13 +47,13 @@ int	heredoc_to_fd(t_hdoc *hd_struct)
 	}
 }
 
-bool	is_heredoc(t_cmd cmd_lst)
-{
-	while (cmd_lst->next != NULL)
-	{
-		if (data->cmd_lst->heredoc == true)
-			return(1);
-		cmd_lst = cmd_lst->next;
-	}
-	return (0);
-}
+// bool	is_heredoc(t_cmd *cmd_lst)
+// {
+// 	while (cmd_lst->next != NULL)
+// 	{
+// 		if (cmd_lst->heredoc == true)
+// 			return(1);
+// 		cmd_lst = cmd_lst->next;
+// 	}
+// 	return (0);
+// }

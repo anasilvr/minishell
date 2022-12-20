@@ -100,12 +100,12 @@ typedef struct s_tok
 	t_tok		*next;
 }	t_tok;
 
-typedef struct s_hdoc
-{
-	char			*the_line;
-	struct s_hdoc	*next;
-	struct s_hdoc	*previous;
-}	t_hdoc;
+// typedef struct s_hdoc
+// {
+// 	char			*the_line;
+// 	struct s_hdoc	*next;
+// 	struct s_hdoc	*previous;
+// }	t_hdoc;
 
 typedef struct s_data
 {
@@ -120,7 +120,7 @@ typedef struct s_data
 	int			nb_cmds;
 	int			nb_pipes;
 	int			syntax_err;
-	int			pipe_fd[2];
+	int			stdio[3];
 }	t_data;
 
 
@@ -148,15 +148,18 @@ int		check_env_var(char **env, char *var);
 
 void	execution_manager(t_data *prog_data);
 void	execution_time(t_data *prog_data);
-void	redirect_manager(t_data *prog_data);
+void	redirect_setup(t_data *prog_data);
 t_hdoc	*write_heredoc(char *delimiter);
 int		heredoc_to_fd(t_hdoc *hd_struct);
+bool	is_heredoc(t_cmd *cmd_lst);
 void	pipe_manager(t_data *prog_data);
 void	setup_pipe_in(t_data *prog_data);
 void	setup_pipe_out(t_data *prog_data);
-void	setup_redirio(t_data *prog_data);
+void	redir_manader(t_data *prog_data);
 int		heredoc_to_fd(t_hdoc *hd_struct);
-bool	is_heredoc(t_cmd cmd_lst);
+void	stdio_cpy(t_data *prog_data);
+void	reset_stdio(t_data *prog_data);
+
 
 // MAIN
 // exit.c

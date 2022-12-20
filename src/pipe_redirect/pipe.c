@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:01:02 by tchalifo          #+#    #+#             */
-/*   Updated: 2022/12/13 15:50:35 by tchalifo         ###   ########.fr       */
+/*   Updated: 2022/12/19 14:14:14 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,27 +21,27 @@
  */
 void	pipe_manager(t_data *prog_data)
 {
-	while (prog_data->cmd_lst != NULL && (prog_data->cmd_lst->io_flag == PIPE || \
+	while (((prog_data->cmd_lst != NULL) && (prog_data->cmd_lst->io_flag == PIPE))
+		|| ((prog_data->cmd_lst != NULL && prog_data->cmd_lst->prev != NULL) &&
 		prog_data->cmd_lst->prev->io_flag == PIPE))
 	{
-		if (prog_data->cmd_lst->prev != NULL && \
-		prog_data->cmd_lst->prev->io_flag == PIPE)
-			setup_pipe_in(prog_data);
-		if (prog_data->cmd_lst->io_flag == REDIR_OUT)
-			redirect_manager(prog_data);
-		if (pipe(prog_data->pipe_fd) == -1)
+		if (pipe(prog_data->cmd_lst->pipefd) == -1)
 			perror("Minishell:");
 		prog_data->cmd_lst->fork_pid = fork();
 		if (prog_data->cmd_lst->fork_pid == -1)
 			perror("Minishell:");
 		else if (prog_data->cmd_lst->fork_pid == 0) // INTO CHILD PROCESS
 		{
-
+			if (prog_data->cmd_lst->prev != NULL && \
+			prog_data->cmd_lst->prev->io_flag == PIPE)
+				setup_pipe_in(prog_data);
+			if (prog_data->cmd_lst->io_flag == REDIR_OUT)
+				redirect_setup(prog_data);
 			setup_pipe_out(prog_data);
 			execution_time(prog_data);
 		}
 		else
-			waitpid(0, NULL, 0);
+			waitpid(0, NULL, WNOHANG);
 		prog_data->cmd_lst = prog_data->cmd_lst->next;
 	}
 	// if (prog_data->cmd_lst->prev != NULL && \
@@ -50,6 +50,20 @@ void	pipe_manager(t_data *prog_data)
 	// if (prog_data->cmd_lst->io_flag == REDIR_OUT)
 	// 	redirect_manager(prog_data);
 	// execution_manager(prog_data); // Retour at exec_manager for complete last cmd after last pipe
+}
+
+void	setup_pipe_in(t_data *prog_data)
+{
+	close(prog_data->cmd_lst->pipefd[WRITE_ENDPIPE]);
+	dup2(prog_data->cmd_lst->pipefd[READ_ENDPIPE], 0);
+	close(prog_data->cmd_lst->pipefd[READ_ENDPIPE]);
+}
+
+void	setup_pipe_out(t_data *prog_data)
+{
+	close(prog_data->cmd_lst->pipefd[READ_ENDPIPE]);
+	dup2(prog_data->cmd_lst->pipefd[WRITE_ENDPIPE], 1);
+	close(prog_data->cmd_lst->pipefd[WRITE_ENDPIPE]);
 }
 
 //De cette maniere, pipe executera jusqua la fin les exec dans un child process et comme cela seul dans les child seront modifier les fd (dup2 stdin to pipefd)

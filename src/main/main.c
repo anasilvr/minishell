@@ -108,16 +108,6 @@ void	wtshell(t_data *data)
 			cmdlist_details(data->cmd_lst);
 			if (data->cmd_lst->err != -1)
 				execution_manager(data);
-			// builtins_checker(data, data->cmd_lst);
-			// if (data->cmd_lst != NULL)
-			// {
-			// 	builtins_checker(data, data->cmd_lst);
-			// 	while (data->cmd_lst->next != NULL)
-			// 	{
-			// 		builtins_checker(data, data->cmd_lst);
-			// 		data->cmd_lst = data->cmd_lst->next;
-			// 	}
-			// }
 			reset(data);
 		}
 		if (data->syntax_err)

@@ -1,4 +1,3 @@
 La variable hd_delimiter dans la struct data aura
 besoin d'etre initialiser avec la valeur de la string
 suivant les chevrons <<.
-
