@@ -1,29 +1,5 @@
 #include "../../include/minishell.h"
 
-/*static int check_echo_var(char *instruct, char **env)
-{
-    int i;
-    int j;
-
-    i = 0;
-    j = 0;
-    if (instruct[i] == '$')
-    {
-        i++;
-        while (env[j] != NULL)
-        {
-            if (ft_cmp_env(env[j], &instruct[i], (ft_strlen(&instruct[i]))) == 0)
-                break ;
-            j++;
-        }
-    }
-    else if (instruct[i] != '$')
-        return (-1);
-    if (env[j] == NULL)
-        return (-2);
-    return (j);
-}*/
-
 void	echo_handler(char **instruct, t_data *data)
 {
 	int	i;
@@ -132,6 +108,32 @@ static	int	quotes_handler(char *cmd, char **env, int j)
     return (j);
 }
 
+static int	dollar_handler(char *cmd, char **env, int j)
+{
+	int	k;
+	char *var;
+
+	k = 0;
+	var = NULL;
+	if (cmd[j] == '$' && cmd[j + 1] == '$')
+		j++;
+	else if ((cmd[j] == '$' && cmd[j + 1] == '"') ||
+		(cmd[j] =='$' && cmd[j + 1] == '\''))
+		j = quotes_handler(cmd, env, (j + 1));
+	else if ((cmd[j] == '$' && (cmd[j + 1] == 0x20 || cmd[j + 1] == '\0')))
+		write(1, "$", 1);
+	else if (cmd[j] == '$')
+	{
+		j++;
+        while (ft_isspace(cmd[j + k]) != 0 && cmd[j + k] != '\0')
+            k++;
+        var = ft_substr(cmd, j, k);
+        print_env_var(env, var);
+        j = j + k - 1;
+	}
+	return (j);
+}
+
 void	ft_echo(char *cmd, char **env)
 {
     int j;
@@ -145,15 +147,8 @@ void	ft_echo(char *cmd, char **env)
         k = 0;
         if (cmd[j] == '\'' || cmd[j] == '"')
             j = quotes_handler(cmd, env, j);
-        else if (cmd[j] == '$' && ft_isspace(cmd[j + 1]) == 1)
-        {
-            j++;
-            while (ft_isspace(cmd[j + k]) != 0 && cmd[j + k] != '\0')
-                k++;
-            val = ft_substr(cmd, j, k);
-            print_env_var(env, val);
-            j = j + k;
-        }
+        else if (cmd[j] == '$')
+            j = dollar_handler(cmd, env, j);
         else
         {
             j = space_handler(cmd, j);
@@ -161,4 +156,3 @@ void	ft_echo(char *cmd, char **env)
         }
     }
 }
-
