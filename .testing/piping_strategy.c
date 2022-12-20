@@ -20,18 +20,35 @@ int	main(int argc, char **argv, char**envp)
 	return (0);
 }
 
-static void	pipe_iosetup(int fork_pid,int *pipe_fd)
+static void	pipe_iosetup(int fork_pid, int *pipe_fd)
 {
-	if ()
+
+	if (fork_pid == 0)
+	{
+		if (cmds_amount = 0) // Première commande à être executée.
+			close(pipe_fd[0]);
+
+		else
+			dup2(pipe_fd[0], 0);
+			close(pipe_fd[0]);
+		if (cmds_amount = last)
+	}
 }
+
+void	fork_loop(int nb_of_cmds)
+{
+
+}
+
 
 void	pipe_twocmds_demo(char **envp)
 {
 	int		i 				= -2;
-	char	*cmds_path[]	= {"/usr/bin/ls", "/usr/bin/cat"};
-	char	*cmds_argv[]	= {"ls", "cat"};
+	char	*cmds_path[]	= {"/usr/bin/ls", "/usr/bin/cat", "\0"};
+	char	*cmds_argv[]	= {"ls", "cat", "\0"};
 	int		fork_pid		= -2;
 	int		pipe_fd[2]		= {-2, -2};
+	int		pipe_old_fdout
 
 	while (i <= 0)
 	{
@@ -50,6 +67,7 @@ void	pipe_twocmds_demo(char **envp)
 		else
 		{
 			waitpid(0, 0, 0);
+
 			printf("Done to wait, The parent process is here now!\n");
 		}
 		i--;
