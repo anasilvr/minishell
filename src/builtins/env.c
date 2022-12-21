@@ -68,7 +68,7 @@ int ft_cmp_env(char *str1, char *str2, size_t n)
 	while (str1[i] == str2[i] && i < (n - 1) &&
         (str1[i] != '=' && str2[i] != '\0'))
 		i++;
-    if (str2[i + 1] == '\0' && str1[i + 1] == '=')
+    if (str1[i] == str2[i] && str2[i + 1] == '\0' && str1[i + 1] == '=')
         return (0);
 	return (-1);
 }

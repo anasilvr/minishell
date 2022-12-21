@@ -38,3 +38,5 @@ void	redir_manader(t_data *prog_data)
 		close(prog_data->cmd_lst->filefd[1]);
 	}
 }
+
+// echo bonjour | cat
