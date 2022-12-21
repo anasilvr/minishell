@@ -77,7 +77,7 @@ typedef struct s_cmd
 	char		*cmdline; // echo bonjour
 	char		**args;
 	char		*path;
-	int			cmdio_fd[2];
+	int			cmdiofd[2]; // Ce sont les assignations qui devrons etre dup dans les stds in et out respectivement.
 	int			filefd[2];
 	int			pipefd[2];
 	int			fork_pid;
