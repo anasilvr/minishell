@@ -106,8 +106,8 @@ void	wtshell(t_data *data)
 			if (data->syntax_err || !data->cmd_lst)
 				break ;
 			cmdlist_details(data->cmd_lst);
-			if (data->cmd_lst->err != -1)
-				execution_manager(data);
+//			if (data->cmd_lst->err != -1)
+//				execution_manager(data);
 			reset(data);
 		}
 		if (data->syntax_err)

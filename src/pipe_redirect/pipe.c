@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:01:02 by tchalifo          #+#    #+#             */
-/*   Updated: 2022/12/19 14:14:14 by tchalifo         ###   ########.fr       */
+/*   Updated: 2022/12/22 15:38:39 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,21 +56,21 @@ void	pipe_manager(t_data *prog_data)
 
 void	setup_pipe_in(t_data *prog_data)
 {
-	close(prog_data->pipe_fd[WRITE_ENDPIPE]);
-	dup2(prog_data->pipe_fd[READ_ENDPIPE], 0);
-	close(prog_data->pipe_fd[READ_ENDPIPE]);
+	close(prog_data->cmd_lst->pipefd[WRITE_ENDPIPE]);
+	dup2(prog_data->cmd_lst->pipefd[READ_ENDPIPE], 0);
+	close(prog_data->cmd_lst->pipefd[READ_ENDPIPE]);
 }
 
 void	setup_pipe_out(t_data *prog_data)
 {
 	if (prog_data->cmd_lst->next != NULL)
 	{
-		close(prog_data->pipe_fd[READ_ENDPIPE]);
-		dup2(prog_data->pipe_fd[WRITE_ENDPIPE], 1);
-		close(prog_data->pipe_fd[WRITE_ENDPIPE]);
+		close(prog_data->cmd_lst->pipefd[READ_ENDPIPE]);
+		dup2(prog_data->cmd_lst->pipefd[WRITE_ENDPIPE], 1);
+		close(prog_data->cmd_lst->pipefd[WRITE_ENDPIPE]);
 	}
 	else
-		close (prog_data->pipe_fd[READ_ENDPIPE])
+		close (prog_data->cmd_lst->pipefd[READ_ENDPIPE]);
 }
 
 //De cette maniere, pipe executera jusqua la fin les exec dans un child process et comme cela seul dans les child seront modifier les fd (dup2 stdin to pipefd)
