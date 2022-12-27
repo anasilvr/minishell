@@ -44,6 +44,7 @@ void	free_cmdlist(t_cmd *lst)
 	{
 		xfree(lst->cmdline);
 		free_tab(lst->args);
+		xfree(lst->hd_delimiter);
 		tmp = lst->next;
 		xfree(lst);
 		lst = tmp;
