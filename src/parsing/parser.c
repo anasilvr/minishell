@@ -2,7 +2,6 @@
 
 static	void	count_expand(t_cmd *cmd_lst, t_tok *token)
 {
-	printf("Setting flags...\n");
 	while (cmd_lst && token)
 	{
 		while (token)
@@ -24,12 +23,10 @@ static	void	count_expand(t_cmd *cmd_lst, t_tok *token)
 		}
 		cmd_lst = cmd_lst->next;
 	}
-	printf("Finished setting flags...\n");
 }
 
 void	split_args(t_cmd *cmd_lst)
 {
-		printf("Going to split_args... %s\n", cmd_lst->cmdline);
 	while (cmd_lst)
 	{
 		cmd_lst->args = ft_split(cmd_lst->cmdline, ' ');
