@@ -7,12 +7,23 @@ int	cmd_len(char *str, int len)
 	if (!str)
 		return (0);
 	i = 0;
+	printf("Setting cmd length\n");
 	while (i < len)
 	{
 		if (is_set(str[i], QUOTES))
 			i += (length_til_match(&str[i], str[i]));
 		if (is_set(str[i], METACHAR))
+		{
+			if (str[i] == '<' && str[i + 1] == '<')
+			{
+				i += 2;
+				while (ft_isset(str[i], WHITESPACE))
+					i++;
+				i += (1 + length_til_match(&str[i], ' '));
+				printf(" i = %d\n", i);
+			}
 			break ;
+		}	
 		i++;
 	}
 	return (i);
@@ -21,8 +32,8 @@ int	cmd_len(char *str, int len)
 t_cmd	*create_cmdlist(t_data *data)
 {
 	size_t		len;
-	t_cmd	*cmdlst;
-	char	*str;
+	t_cmd		*cmdlst;
+	char		*str;
 
 	len = 0;
 	cmdlst = NULL;

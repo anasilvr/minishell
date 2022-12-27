@@ -84,7 +84,6 @@ typedef struct s_cmd
 	int			err; // exit code of cmd;
 	int			io_flag; // if there's a redirection to be done, this is its type
 	bool		is_builtin;
-	bool		heredoc;
 	char		*hd_delimiter;
 	int			expand; // changed to an int that indicates the exact number of expansions to be done
 	t_cmd		*prev;

@@ -69,6 +69,7 @@ void	cmdlist_details(t_cmd *cmdlst)
 		printf("\t[err] %d\n", lst->err);
 		printf("\t[expand] %d\n", lst->expand);
 		printf("\t[io_flag] %d\n", lst->io_flag);
+		printf("\t[hd_delimiter] %s\n", lst->hd_delimiter);
 		printf("\t[prev] %p\n", lst->prev);
 		printf("\t[next]  %p\n\n", lst->next);
 		i++;
