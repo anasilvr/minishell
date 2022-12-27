@@ -72,7 +72,7 @@ static void	external_bin_exec(t_data *prog_data, char **argv) // argv peut etre 
 			ft_putstr_fd("command not found: ", 2);
 			ft_putstr_fd(argv[0], 2);
 			ft_putstr_fd("\n", 2);
-			exit (errno);
+			exit (127); //errno ne sortirait pas le bon int
 		}
 	}
 }
@@ -105,7 +105,7 @@ void	execution_manager(t_data *prog_data)
 		redir_manader(prog_data);
 		if (prog_data->cmd_lst->io_flag == PIPE) // Pipe
 		{
-			pipe_manager(prog_data);
+			pipe_loop(prog_data);
 		}
 		else
 			execution_time(prog_data);

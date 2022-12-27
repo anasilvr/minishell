@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:01:02 by tchalifo          #+#    #+#             */
-/*   Updated: 2022/12/22 15:38:39 by anarodri         ###   ########.fr       */
+/*   Updated: 2022/12/27 15:12:00 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,47 @@
  *     echo bonjour | cat | cat > file.txt
  *     < cat | cat file1
  */
+
+void	pipe_loop(t_data *prog_data)
+{
+	/* Initialisation de commandes */
+	// char	*cmds_path[]	= {"/bin/ls", "/bin/cat", "/bin/cat"};
+	// char	*cmds_argv1[]	= {"ls", NULL};
+	// char	*cmds_argv2[]	= {"cat", NULL};
+	// char	*cmds_argv3[]	= {"cat", NULL};
+	// char	**cmds_lst[]	= {cmds_argv1, cmds_argv2, cmds_argv3, NULL};
+
+	int		pipe_fd[2]		= {-2, -2};
+	pid_t	fork_pid		= 0;
+	// int		i				= 0; // Équivaut au nombre de commande à executer
+	int		exit_status;
+
+	while (prog_data->cmd_lst != NULL)
+	{
+		if (prog_data->cmd_lst->next != NULL)
+			if (pipe(pipe_fd) == -1)
+				exit(errno);
+		fork_pid = fork();
+		if (fork_pid == -1)
+			exit(errno);
+		if (fork_pid == 0)
+		{
+			if (prog_data->cmd_lst->next != NULL)
+			{
+				close(pipe_fd[0]);
+				dup2(pipe_fd[1], 1);
+				close(pipe_fd[1]);
+			}
+			execution_time(prog_data);
+			// execve(cmds_path[i], cmds_lst[i], envp);
+		}
+		close(pipe_fd[1]);
+		dup2(pipe_fd[0], 0);
+		close(pipe_fd[0]);
+	}
+	// Bash n'attendra que le dernier processus créé, puisque pipe de par sont principe (attendant qu'un eof soit envoyé depuis l'écriture pour terminer la lecture depuis le programme suivant. Le sigint envoyé ^d n'affectera que le dernier processus)
+	waitpid(fork_pid, &exit_status, 0);
+}
 void	pipe_manager(t_data *prog_data)
 {
 	while (((prog_data->cmd_lst != NULL) && (prog_data->cmd_lst->io_flag == PIPE))
