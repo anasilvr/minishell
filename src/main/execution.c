@@ -95,52 +95,54 @@ void	execution_time(t_data *prog_data)
 // OK // si j arrive de execmanager et que j ai un built in pas besoin de fork
 // OK // si j arrive de execmanager et que j ai pas de built in besoin de fork
 
-void	execution_manager(t_data *prog_data)
+int	execution_manager(t_data *prog_data)
 {
 	stdio_cpy(prog_data);
-	while (prog_data->cmd_lst != NULL)
+	prog_data->cmd_lst->fork_pid = -2;
+	prog_data->cmd_lst->is_builtin = false;
+	if (prog_data->cmd_lst != NULL)
 	{
-		prog_data->cmd_lst->fork_pid = -2;
-		prog_data->cmd_lst->is_builtin = false;
-		redir_manader(prog_data);
-		if (prog_data->cmd_lst->io_flag == PIPE) // Pipe
+		redir_manager(prog_data);
+		if (prog_data->nb_cmds == 1)
 		{
-			pipe_loop(prog_data);
+			execution_time(prog_data);
+			prog_data->cmd_lst = prog_data->cmd_lst->next;
 		}
 		else
-			execution_time(prog_data);
-		reset_stdio(prog_data);
-		if (prog_data->cmd_lst != NULL)
-			prog_data->cmd_lst = prog_data->cmd_lst->next;
-		/* Next "if" needed for cases where i have a redirect and need to skip the next token,
-		 * like cat < file.txt, where i dont need to execute file.txt so i pass the next token*/
-		// if ((prog_data->cmd_lst != NULL && prog_data->cmd_lst->prev != NULL) && \
-		// (prog_data->cmd_lst->prev->io_flag >= 4 && prog_data->cmd_lst->prev->io_flag <= 6))
+			prog_data->cmd_lst = job_loop(prog_data);
+		/* Boucle pour les chaine de redirection infile1 > infile2 > infile3... */
+		// while (prog_data->cmd_lst != NULL)
+		// {
+		// 	redir_manader(prog_data);
 		// 	prog_data->cmd_lst = prog_data->cmd_lst->next;
+		// }
 	}
+	reset_stdio(prog_data);
 }
 
-// cat | cat | cat > file1.txt
-
-// echo bob | cat > file.txt
-
-// node 1
-// typedef struct s_cmd
+// OLD
+// int	execution_manager(t_data *prog_data)
 // {
-// 	char		*cmdline; // echo bonjour
-// 	char		**args;
-// 	char		*path;
-// 	int			filefd[2]; = -2, -2
-// 	int			pipefd[2];
-// 	int			fork_pid; = -2
-// 	int			err; // exit code of cmd;
-// 	int			io_flag; = 2
-// 	bool		is_builtin;
-// 	bool		heredoc;
-// }	t_cmd;
-
-
-/* Le heredoc ne doit pas expend la variable
-export cmd=echo
-$cmd lol
-lol */
+// 	stdio_cpy(prog_data);
+// 	while (prog_data->cmd_lst != NULL)
+// 	{
+// 		prog_data->cmd_lst->fork_pid = -2;
+// 		prog_data->cmd_lst->is_builtin = false;
+// 		redir_manader(prog_data);
+// 		if (prog_data->cmd_lst->io_flag == PIPE) // Pipe
+// 		{
+// 			pipe_loop(prog_data);
+// 			return (0);
+// 		}
+// 		else
+// 			execution_time(prog_data);
+// 		reset_stdio(prog_data);
+// 		if (prog_data->cmd_lst != NULL)
+// 			prog_data->cmd_lst = prog_data->cmd_lst->next;
+// 		/* Next "if" needed for cases where i have a redirect and need to skip the next token,
+// 		 * like cat < file.txt, where i dont need to execute file.txt so i pass the next token*/
+// 		// if ((prog_data->cmd_lst != NULL && prog_data->cmd_lst->prev != NULL) && \
+// 		// (prog_data->cmd_lst->prev->io_flag >= 4 && prog_data->cmd_lst->prev->io_flag <= 6))
+// 		// 	prog_data->cmd_lst = prog_data->cmd_lst->next;
+// 	}
+// }

@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:34:45 by tchalifo          #+#    #+#             */
-/*   Updated: 2022/12/19 11:07:35 by tchalifo         ###   ########.fr       */
+/*   Updated: 2022/12/28 15:59:27 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ static int	open_to_readwrite(char *filepath, int *additional_flag)
 	return (file_fd);
 }
 
+
 void	redirect_setup(t_data *prog_data)
 {
 	int	open_additionals_flags[1];
@@ -85,28 +86,98 @@ void	redirect_setup(t_data *prog_data)
 	// if (prog_data->cmd_lst->io_flag == 3) //if is a heredoc
 	// 	prog_data->hd_struct = write_heredoc(char *delimiter); //Need to know where is stored the delimiter
 
-	if (prog_data->cmd_lst->io_flag == 4) //if is an input redirect <
+	if (prog_data->cmd_lst->io_flag == 4) // input redirect <
 	{
+		// Condition pour gerer les redirections semblable.
+		if (prog_data->cmd_lst->filefd[0] != -2)
+		{
+			close (prog_data->cmd_lst->filefd[0]);
+		}
 		prog_data->cmd_lst->filefd[0] = open_to_read \
 		(prog_data->cmd_lst->next->args[0], open_additionals_flags);
-		prog_data->cmd_lst->filefd[1] = -2; //-2 = is close
 	}
-	else if (prog_data->cmd_lst->io_flag == 5) //if is an output redirect > (Open file and put the fd into struct in int *cmdio_fd)
+	else if (prog_data->cmd_lst->io_flag == 5) // output redirect >
 	{
 		open_additionals_flags[0] = O_TRUNC;
-		prog_data->cmd_lst->filefd[1] = open_to_readwrite \
-		(prog_data->cmd_lst->next->args[0], open_additionals_flags); // voir a supprimer le contenue completemnet a chaque fois
-		prog_data->cmd_lst->filefd[0] = -2; //-2 = is close
-	}
-	else if (prog_data->cmd_lst->io_flag == 6) //if is an output redirect in append mode >> (Open file and put the fd into struct in int *cmdio_fd)
-	{
-		open_additionals_flags[0] = O_APPEND;
+		// Condition pour gerer les redirections semblable.
+		if (prog_data->cmd_lst->filefd[1] != -2)
+		{
+			close (prog_data->cmd_lst->filefd[1]);
+		}
 		prog_data->cmd_lst->filefd[1] = open_to_readwrite \
 		(prog_data->cmd_lst->next->args[0], open_additionals_flags);
-		prog_data->cmd_lst->filefd[0] = -2; //-2 = is close
+	}
+	else if (prog_data->cmd_lst->io_flag == 6) // output redirect in append mode >>
+	{
+		open_additionals_flags[0] = O_APPEND;
+		// Condition pour gerer les redirections semblable.
+		if (prog_data->cmd_lst->filefd[1] != -2)
+		{
+			close (prog_data->cmd_lst->filefd[1]);
+		}
+		prog_data->cmd_lst->filefd[1] = open_to_readwrite \
+		(prog_data->cmd_lst->next->args[0], open_additionals_flags);
 	}
 }
 
+// TENTATIVE DE TPIUT FAIRE A LA MEME PLAC\E...........
+// t_cmd *goto_lastnode(t_cmd *cmd_lst)
+// {
+// 	while (cmd_lst->next != NULL && cmd_lst->next->io_flag == 1) // Temps que je ne suis pas au dernier = node et que ce dernier est une commande.
+// 		cmd_lst = cmd_lst->next;
+// 	return (cmd_lst);
+// }
+
+// t_cmd *goto_firstnode(t_cmd *cmd_lst)
+// {
+// 	while (cmd_lst->prev != NULL && cmd_lst->next->io_flag == 1) // Temps que je ne suis pas au premier node et que ce premier est une commande.
+// 		cmd_lst = cmd_lst->prev;
+// 	return (cmd_lst);
+// }
+
+// void	input_redirection(t_cmd *cmd_lst)
+// {
+// 	int	open_additionals_flags[1];
+
+// 	open_additionals_flags[0] = NULL;
+
+// 	cmd_lst->filefd[0] = open_to_read (cmd_lst->args[0], open_additionals_flags);
+// 	if (cmd_lst->next == NULL || cmd_lst->next)
+// 	{
+// 		cmd_lst = goto_firstnode(cmd_lst);
+// 		dup2(cmd_lst->next->filefd[0], 0);
+// 	}
+// 	dup2(cmd_lst->next->filefd[0], 0);
+// 	close(cmd_lst->filefd[0]);
+// }
+
+// void	redirect_setup(t_data *prog_data)
+// {
+// 	int	open_additionals_flags[1];
+// 	while (prog_data->cmd_lst->next != NULL)
+// 	{
+// 		if (prog_data->cmd_lst->io_flag == 4) //if is an input redirect <
+// 			input_redirection(prog_data->cmd_lst);
+
+// 	}
+// 	// if (prog_data->cmd_lst->io_flag == 3) //if is a heredoc
+// 	// 	prog_data->hd_struct = write_heredoc(char *delimiter); //Need to know where is stored the delimiter
+// 	if (prog_data->cmd_lst->io_flag == 4) //if is an input redirect <
+// 		input_redirection(prog_data->cmd_lst);
+
+// 	else if (prog_data->cmd_lst->io_flag == 5) //if is an output redirect > (Open file and put the fd into struct in int *cmdio_fd)
+// 	{
+// 		open_additionals_flags[0] = O_TRUNC;
+// 		prog_data->cmd_lst->filefd[1] = open_to_readwrite (prog_data->cmd_lst->args[0], open_additionals_flags);
+
+// 	}
+// 	else if (prog_data->cmd_lst->io_flag == 6) //if is an output redirect in append mode >> (Open file and put the fd into struct in int *cmdio_fd)
+// 	{
+// 		open_additionals_flags[0] = O_APPEND;
+// 		prog_data->cmd_lst->filefd[1] = open_to_readwrite (prog_data->cmd_lst->args[0], open_additionals_flags);
+
+// 	}
+// }
 // tchalifo@c2r1p11 minishell % echo salut >> file.txt > toto.sh
 
 // tchalifo@c2r1p11 minishell % cat file.txt

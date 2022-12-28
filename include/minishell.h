@@ -152,7 +152,7 @@ t_hdoc	*write_heredoc(char *delimiter);
 int		heredoc_to_fd(t_hdoc *hd_struct);
 bool	is_heredoc(t_cmd *cmd_lst);
 void	pipe_manager(t_data *prog_data);
-void	pipe_loop(t_data *prog_data);
+t_cmd	*job_loop(t_data *prog_data);
 void	setup_pipe_in(t_data *prog_data);
 void	setup_pipe_out(t_data *prog_data);
 void	redir_manader(t_data *prog_data);
