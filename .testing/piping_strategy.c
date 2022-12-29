@@ -26,84 +26,72 @@ int	main(int argc, char **argv, char**envp)
 	return (0);
 }
 
-void	ft_call_to_execve(char *cmd_path, char **cmd_argv, char **cmd_envp)
-{
-	(void)cmd_argv;
-
-	char *argv[2] = {"ls"};
-	if (execve(cmd_path, argv, cmd_envp) == -1)
-	{
-		printf("damn\n");
-		// ft_putstr_fd("Command not found : ", 2);
-		// ft_putstr_fd(cmd_argv[0], 2);
-	}
-}
-
-static void	pipe_insetup(int *pipe_fd)
-{
-	dup2(pipe_fd[0], 0);
-	close(pipe_fd[0]);
-}
-
-static void	pipe_outsetup(int *pipe_fd)
-{
-	dup2(pipe_fd[1], 1);
-	// close(pipe_fd[0]);
-	close(pipe_fd[1]);
-}
-// void	fork_loop(int nb_of_cmds)
+// void	ft_call_to_execve(char *cmd_path, char **cmd_argv, char **cmd_envp)
 // {
+// 	(void)cmd_argv;
 
+// 	char *argv[2] = {"ls"};
+// 	if (execve(cmd_path, argv, cmd_envp) == -1)
+// 	{
+// 		printf("damn\n");
+// 		// ft_putstr_fd("Command not found : ", 2);
+// 		// ft_putstr_fd(cmd_argv[0], 2);
+// 	}
 // }
 
 void	pipe_multicmd_demo(char **envp)
 {
 	/* Initialisation de commandes */
-	char	*cmds_path[]	= {"/bin/cat", "/bin/cat", "/bin/cat"};
+	char	*cmds_path[]	= {"/bin/cat", "/bin/cat", "/bin/ls"};
 	char	*cmds_argv1[]	= {"cat", NULL};
 	char	*cmds_argv2[]	= {"cat", NULL};
-	char	*cmds_argv3[]	= {"cat", NULL};
+	char	*cmds_argv3[]	= {"ls", NULL};
 	char	**cmds_lst[]	= {cmds_argv1, cmds_argv2, cmds_argv3, NULL};
 
 	int		pipe_fd[2]		= {-2, -2};
-	pid_t	fork_pid		= 0;
+	pid_t	fork_pid[3]		= {0, 0, 0};
 	int		i				= 0; // Équivaut au nombre de commande à executer
 	int		exit_status;
 
 	printf("%s | %s | %s \n\n", cmds_lst[0][0], cmds_lst[1][0], cmds_lst[2][0]);
 
-	if (fork_pid == 0)
+
+	while (i <= 2)
 	{
-		while (i <= 2)
-		{
-			printf("cmd loop %d\n", i);
-			if (i < 2)
-				if (pipe(pipe_fd) == -1)
-					exit(errno);
-			fork_pid = fork();
-			if (fork_pid == -1)
+		printf("cmd loop %d\n", i);
+		if (i < 2)
+			if (pipe(pipe_fd) == -1)
 				exit(errno);
-			if (fork_pid == 0)
+		printf("iiiiiiiiiiiiii = %d\n", i);
+		fork_pid[i] = fork();
+		if (fork_pid[i] == -1)
+			exit(errno);
+		if (fork_pid[i] == 0)
+		{
+			if (i < 2)
 			{
-				if (i < 2)
-				{
-					close(pipe_fd[0]);
-					dup2(pipe_fd[1], 1);
-					close(pipe_fd[1]);
-				}
-				execve(cmds_path[i], cmds_lst[i], envp);
-				perror("");
+				close(pipe_fd[0]);
+				dup2(pipe_fd[1], 1);
+				close(pipe_fd[1]);
 			}
-			close(pipe_fd[1]);
-			dup2(pipe_fd[0], 0);
-			close(pipe_fd[0]);
-			i++;
+			execve(cmds_path[i], cmds_lst[i], envp);
+			perror("");
 		}
+		close(pipe_fd[1]);
+		dup2(pipe_fd[0], 0);
+		close(pipe_fd[0]);
+		i++;
 	}
-	waitpid(fork_pid, &exit_status, 0);
+	i = 0;
+	while (i <= 2)
+	{
+		printf("iiiiiiiiiiiiiiiiiiiiiiiiiiiii = %d\n", i);
+		waitpid(fork_pid[i], &exit_status, 0);
+		i++;
+	}
 }
 
-//Avec laide de matis
+// Avec laide de matis
 // void	pipe_multicmd_demo(char **envp)
 // {
 // 	int		i				= 0;
@@ -232,6 +220,18 @@ void	pipe_multicmd_demo(char **envp)
 // 	}
 // }
 
+static void	pipe_insetup(int *pipe_fd)
+{
+	dup2(pipe_fd[0], 0);
+	close(pipe_fd[0]);
+}
+
+static void	pipe_outsetup(int *pipe_fd)
+{
+	dup2(pipe_fd[1], 1);
+	// close(pipe_fd[0]);
+	close(pipe_fd[1]);
+}
 
 void	pipe_twocmds_demo(char **envp)
 {
