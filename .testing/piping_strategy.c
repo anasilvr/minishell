@@ -41,55 +41,108 @@ int	main(int argc, char **argv, char**envp)
 
 void	pipe_multicmd_demo(char **envp)
 {
-	/* Initialisation de commandes */
-	char	*cmds_path[]	= {"/bin/cat", "/bin/cat", "/bin/ls"};
-	char	*cmds_argv1[]	= {"cat", NULL};
-	char	*cmds_argv2[]	= {"cat", NULL};
-	char	*cmds_argv3[]	= {"ls", NULL};
-	char	**cmds_lst[]	= {cmds_argv1, cmds_argv2, cmds_argv3, NULL};
+	int		pipe_fd[2][2];
+	pid_t	ctrl_child_pid = -2;
+	pid_t	exec_child_pid[3] = {-2, -2, -2};
+	int		i = 0;
+	char	read_buffer[80];
+	int		exit_err;
 
-	int		pipe_fd[2]		= {-2, -2};
-	pid_t	fork_pid[3]		= {0, 0, 0};
-	int		i				= 0; // Équivaut au nombre de commande à executer
-	int		exit_status;
-
-	printf("%s | %s | %s \n\n", cmds_lst[0][0], cmds_lst[1][0], cmds_lst[2][0]);
-
-
-	while (i <= 2)
+	ctrl_child_pid = fork();
+	if (ctrl_child_pid == 0)
 	{
-		printf("cmd loop %d\n", i);
-		if (i < 2)
-			if (pipe(pipe_fd) == -1)
-				exit(errno);
-		printf("iiiiiiiiiiiiii = %d\n", i);
-		fork_pid[i] = fork();
-		if (fork_pid[i] == -1)
-			exit(errno);
-		if (fork_pid[i] == 0)
+		while (i < 3)
 		{
-			if (i < 2)
+			if (pipe(pipe_fd[i]) == -1)
+				printf("pipe probleme...\n");
+			exec_child_pid[i] = fork();
+			if (exec_child_pid[i] == 0)
 			{
-				close(pipe_fd[0]);
-				dup2(pipe_fd[1], 1);
-				close(pipe_fd[1]);
+				// Si nous somme à la premiere iteration
+				if (i == 0)
+				{
+					close(pipe_fd[i][0]);
+					write(pipe_fd[i][1], "BONJOUR", 8);
+					exit(0);
+				}
+				// Si nous somme à la derniere iteration
+				else if (i == 2)
+				{
+					close(pipe_fd[i][1]);
+					read(pipe_fd[i][0], read_buffer, sizeof(read_buffer));
+					printf("%s\n", read_buffer);
+					exit(0);
+				}
+				else
+				{
+					close(pipe_fd[i-1][1]);
+					close(pipe_fd[i][0]);
+					dup2(pipe_fd[i-1][0], pipe_fd[i][1]);
+				}
 			}
-			execve(cmds_path[i], cmds_lst[i], envp);
-			perror("");
+			i++;
 		}
-		close(pipe_fd[1]);
-		dup2(pipe_fd[0], 0);
-		close(pipe_fd[0]);
-		i++;
-	}
-	i = 0;
-	while (i <= 2)
-	{
-		printf("iiiiiiiiiiiiiiiiiiiiiiiiiiiii = %d\n", i);
-		waitpid(fork_pid[i], &exit_status, 0);
-		i++;
+		while (i > 0)
+		{
+			waitpid(exec_child_pid[i], &exit_err, 0);
+			i--;
+		}
 	}
 }
+
+
+//OLD again
+// void	pipe_multicmd_demo(char **envp)
+// {
+// 	/* Initialisation de commandes */
+// 	char	*cmds_path[]	= {"/bin/cat", "/bin/cat", "/bin/ls"};
+// 	char	*cmds_argv1[]	= {"cat", NULL};
+// 	char	*cmds_argv2[]	= {"cat", NULL};
+// 	char	*cmds_argv3[]	= {"ls", NULL};
+// 	char	**cmds_lst[]	= {cmds_argv1, cmds_argv2, cmds_argv3, NULL};
+
+// 	int		pipe_fd[2]		= {-2, -2};
+// 	pid_t	fork_pid[3]		= {0, 0, 0};
+// 	int		i				= 0; // Équivaut au nombre de commande à executer
+// 	int		exit_status;
+
+// 	printf("%s | %s | %s \n\n", cmds_lst[0][0], cmds_lst[1][0], cmds_lst[2][0]);
+
+
+// 	while (i <= 2)
+// 	{
+// 		printf("cmd loop %d\n", i);
+// 		if (i < 2)
+// 			if (pipe(pipe_fd) == -1)
+// 				exit(errno);
+// 		printf("iiiiiiiiiiiiii = %d\n", i);
+// 		fork_pid[i] = fork();
+// 		if (fork_pid[i] == -1)
+// 			exit(errno);
+// 		if (fork_pid[i] == 0)
+// 		{
+// 			if (i < 2)
+// 			{
+// 				close(pipe_fd[0]);
+// 				dup2(pipe_fd[1], 1);
+// 				close(pipe_fd[1]);
+// 			}
+// 			execve(cmds_path[i], cmds_lst[i], envp);
+// 			perror("");
+// 		}
+// 		close(pipe_fd[1]);
+// 		dup2(pipe_fd[0], 0);
+// 		close(pipe_fd[0]);
+// 		i++;
+// 	}
+// 	i = 0;
+// 	while (i <= 2)
+// 	{
+// 		printf("iiiiiiiiiiiiiiiiiiiiiiiiiiiii = %d\n", i);
+// 		waitpid(fork_pid[i], &exit_status, 0);
+// 		i++;
+// 	}
+// }
 
 // Avec laide de matis
 // void	pipe_multicmd_demo(char **envp)

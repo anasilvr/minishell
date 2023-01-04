@@ -57,6 +57,7 @@ static void	external_bin_exec(t_data *prog_data, char **argv) // argv peut etre 
 {
 	if (prog_data->cmd_lst->fork_pid != 0) // Aucun child a ce point, il devra avoir un fork pour les external exec
 	{
+		printf("external fork\n");
 		prog_data->cmd_lst->fork_pid = fork();
 		if (prog_data->cmd_lst->fork_pid == -1)
 			perror("Minishell");
@@ -91,18 +92,14 @@ void	execution_time(t_data *prog_data)
 	}
 }
 
-// OK // si j arrive de la fonction pipe, j'aurai deja un child
-// OK // si j arrive de execmanager et que j ai un built in pas besoin de fork
-// OK // si j arrive de execmanager et que j ai pas de built in besoin de fork
-
-int	execution_manager(t_data *prog_data)
+void	execution_manager(t_data *prog_data)
 {
 	stdio_cpy(prog_data);
 	prog_data->cmd_lst->fork_pid = -2;
 	prog_data->cmd_lst->is_builtin = false;
 	if (prog_data->cmd_lst != NULL)
 	{
-		redir_manager(prog_data);
+		redirect_setup(prog_data);
 		if (prog_data->nb_cmds == 1)
 		{
 			execution_time(prog_data);

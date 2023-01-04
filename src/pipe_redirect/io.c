@@ -45,9 +45,9 @@ void	redir_manager(t_data *prog_data)
 	{
 		if (prog_data->cmd_lst->io_flag == 4) // Redir_in
 		{
-			if (prog_data->cmd_lst->next == NULL
+			if (prog_data->cmd_lst->next == NULL)
 			{
-				cmd_lst = goto_firstnode()
+				prog_data->cmd_lst = goto_firstnode(prog_data->cmd_lst);
 			}
 			dup2(prog_data->cmd_lst->next->filefd[0], 0);
 			close(prog_data->cmd_lst->filefd[0]);
