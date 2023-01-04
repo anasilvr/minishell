@@ -2,14 +2,19 @@
 
 void	free_tab(char **old_tab)
 {
-	int i;
+	int	i;
 
-	if (!old_tab)
-		return ;
-	i = -1;
-	while (old_tab[++i] != NULL)
+	i = 0;
+	if (old_tab)
+	{
+		while (old_tab[i])
+		{
+			xfree(old_tab[i]);
+			i++;
+		}
 		xfree(old_tab[i]);
-	xfree(old_tab);
+		xfree(old_tab);
+	}
 }
 
 int ft_free_strlen(char *str)

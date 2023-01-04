@@ -56,7 +56,7 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char *));
 
 void	ft_bzero(void *str, size_t n);
 void	*ft_calloc(size_t num, size_t size);
-void	*ft_xcalloc(size_t mem_size);
+void	*ft_xcalloc(size_t nb, size_t size);
 void	*ft_realloc(void *ptr, size_t size);
 void	*ft_memset(void *str, int c, size_t n);
 void	*ft_memcpy(void *dst, const void *src, size_t n);

@@ -113,9 +113,8 @@ typedef struct s_data
 	char		*pwd;
 	char		*input;
 	t_tok		*token;
-	char		*err_tok;
 	t_cmd		*cmd_lst;
-	t_hdoc		*hd_struct;
+//	t_hdoc		*hd_struct;
 	int			nb_cmds;
 	int			nb_pipes;
 	int			syntax_err;

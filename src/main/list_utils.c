@@ -4,7 +4,7 @@ t_tok	*new_toklist(char *tok)
 {
 	t_tok	*new;
 
-	new = (t_tok *)ft_xcalloc(sizeof(*new));
+	new = ft_xcalloc(1, sizeof(t_tok));
 	new->prev = NULL;
 	new->token = tok;
 	new->next = NULL;
