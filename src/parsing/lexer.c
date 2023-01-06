@@ -45,7 +45,6 @@ static int	valid_quotation(t_data *data)
 //$? = 258 for syntax errors
 void	lexer(t_data *data, char *input)
 {
-//	printf ("\tStarting lexer...\n");
 	if (!data)
 		return ;
 	if (!input || !*input)
@@ -63,14 +62,12 @@ void	lexer(t_data *data, char *input)
 	if (g_status)
 		return ;
 	verify_dollartype(&data->token);
-	print_toklist(data->token);
-//	printf ("\tQuiting lexer successfully...\n");
+//	print_toklist(data->token);
 	return ;
 }
 
 t_tok	*tokenize(t_data *data, char *str)
 {
-//	printf("\tStarting tokenization...\n");
 	t_tok	*lst;
 
 	lst = NULL;
@@ -84,6 +81,5 @@ t_tok	*tokenize(t_data *data, char *str)
 		skip_whitespaces(&str);
 	}
 	free_toklist(data->token);
-//	printf("\tTokens created...\n");
 	return (lst);
 }

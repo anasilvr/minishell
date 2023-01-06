@@ -1,4 +1,5 @@
 #include "../../include/minishell.h"
+
 static void	free_table(char **table)
 {
 	int	i;

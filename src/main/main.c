@@ -1,4 +1,3 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -15,7 +14,7 @@
 
 static	void	signal_handler(int sig)
 {
-	t_data *data;
+	t_data	*data;
 
 	data = get_data();
 	if (sig == SIGINT)
@@ -106,8 +105,8 @@ void	wtshell(t_data *data)
 			if (data->syntax_err || !data->cmd_lst)
 				break ;
 			cmdlist_details(data->cmd_lst);
-//			if (data->cmd_lst->err != -1)
-//				execution_manager(data);
+			if (data->cmd_lst->err != -1)
+				execution_manager(data);
 			reset(data);
 		}
 		if (data->syntax_err)
@@ -127,5 +126,3 @@ char	*rl_gets(void)
 		add_history(line);
 	return (ft_strjoin_free(line, ""));
 }
-
-// TO DO: I'd like to print the token that created the error in the message error...

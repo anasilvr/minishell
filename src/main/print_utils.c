@@ -61,6 +61,7 @@ void	cmdlist_details(t_cmd *cmdlst)
 	while (cmdlst)
 	{
 		j = 0;
+		printf("----------START OF CMDLIST_DETAILS----------\n");
 		printf("\n\t[cmdline %d] %s\n", i, cmdlst->cmdline);
 		while (cmdlst->args[j])
 		{
@@ -77,4 +78,5 @@ void	cmdlist_details(t_cmd *cmdlst)
 		i++;
 		cmdlst = cmdlst->next;
 	}
+	printf("----------END OF CMDLIST_DETAILS----------\n");
 }

@@ -10,8 +10,7 @@ static	void	count_expand(t_cmd *cmd_lst, t_tok *token)
 			{
 				cmd_lst->hd_delimiter = ft_strdup(token->next->token);
 				token = token->next;
-				token = token->next;
-				cmd_lst = cmd_lst->next;
+				break ;
 			}
 			if ((token->type == 8 || token->type == 10))
 				cmd_lst->expand += 1;
@@ -31,31 +30,37 @@ char	**create_args(t_cmd **cmd_lst, t_tok **token)
 {
 	t_tok		*tok;
 	char		**args;
-	size_t		nb_cmds;
+	size_t		nb_args;
 	int			i;
 
 	tok = *token;
 	args = NULL;
-	nb_cmds = 0;
+	nb_args = 0;
 	while (*token)
 	{
+		//nb_args = count_args(&token);
 		if ((*token)->type == 3)
 		{
-			nb_cmds = 2;
+			nb_args += 2;
 			*token = (*token)->next;
+			if ((*token)->next)
+				*token = (*token)->next;
+			break ;
+		}
+		if ((*token && ((*token)->type < 2 || (*token)->type > 6)))
+		{
+			nb_args++;
+			*token = (*token)->next;
+		}
+		else
+		{
 			*token = (*token)->next;
 			break ;
 		}
-		while ((*token && ((*token)->type < 2 && (*token)->type > 6)))
-		{
-			nb_cmds++;
-			*token = (*token)->next;
-		}
-		break ;
 	}
-	args = ft_xcalloc((nb_cmds + 1), sizeof(char *));
+	args = ft_xcalloc((nb_args + 1), sizeof(char *));
 	i = 0;
-	while (i < nb_cmds)
+	while (i < nb_args)
 	{
 		args[i] = ft_strdup(tok->token);
 		i++;
@@ -69,11 +74,10 @@ void	split_args(t_cmd *cmd_lst, t_tok *token)
 	while (cmd_lst && token)
 	{
 		cmd_lst->args = create_args(&cmd_lst, &token);
-		cmd_lst = cmd_lst->next;
 		if (token && (token->type >= 2 && token->type <= 6))
 			token = token->next;
+		cmd_lst = cmd_lst->next;
 	}
-	printf("Left create_args.\n");
 }
 
 void	parser(t_data *data)
