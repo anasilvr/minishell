@@ -46,7 +46,7 @@ void	pipe_manager(t_data *prog_data)
 			waitpid(0, NULL, WNOHANG);
 		prog_data->cmd_lst = prog_data->cmd_lst->next;
 	}
-	// if (prog_data->cmd_lst->prev != NULL && \
+	// if (prog_data->cmd_lst->prev != NULL && 
 	// prog_data->cmd_lst->prev->io_flag == PIPE)
 	// 	setup_pipe_in(prog_data);
 	// if (prog_data->cmd_lst->io_flag == REDIR_OUT)

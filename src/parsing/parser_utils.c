@@ -18,7 +18,7 @@ int	cmd_len(char *str, int len)
 				i += 2;
 				while (ft_isset(str[i], WHITESPACE))
 					i++;
-				i += (1 + length_til_match(&str[i], ' '));
+				i += tok_len(&str[i], len - i);
 			}
 			break ;
 		}	
@@ -47,7 +47,6 @@ t_cmd	*create_cmdlist(t_data *data)
 		skip_meta(&str);
 	}
 	free_cmdlist(data->cmd_lst);
-
 	return (cmdlst);
 }
 

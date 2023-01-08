@@ -41,6 +41,26 @@ static int	valid_quotation(t_data *data)
 		return (0);
 }
 
+int	check_syntax(t_tok **list)
+{
+	t_tok	*node;
+	t_tok	*tail;
+
+	node = *list;
+	tail = get_lasttok(node);
+	if (is_set(*node->token, "|") || is_set(*tail->token, METACHAR))
+		return (1);
+	while (node)
+	{
+		if (node->type >= 2 && node->type <= 6)
+			if (node->next->type != 1 && \
+			!(node->next->type >= 7 && node->next->type <= 10))
+				return (1);
+		node = node->next;
+	}
+	return (0);
+}
+
 //$? = 1 catchall for g eneral errors and unclosed quotes
 //$? = 258 for syntax errors
 void	lexer(t_data *data, char *input)
@@ -62,7 +82,6 @@ void	lexer(t_data *data, char *input)
 	if (g_status)
 		return ;
 	verify_dollartype(&data->token);
-//	print_toklist(data->token);
 	return ;
 }
 

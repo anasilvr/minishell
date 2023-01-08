@@ -114,7 +114,7 @@ void	execution_manager(t_data *prog_data)
 			prog_data->cmd_lst = prog_data->cmd_lst->next;
 		/* Next "if" needed for cases where i have a redirect and need to skip the next token,
 		 * like cat < file.txt, where i dont need to execute file.txt so i pass the next token*/
-		// if ((prog_data->cmd_lst != NULL && prog_data->cmd_lst->prev != NULL) && \
+		// if ((prog_data->cmd_lst != NULL && prog_data->cmd_lst->prev != NULL) && 
 		// (prog_data->cmd_lst->prev->io_flag >= 4 && prog_data->cmd_lst->prev->io_flag <= 6))
 		// 	prog_data->cmd_lst = prog_data->cmd_lst->next;
 	}

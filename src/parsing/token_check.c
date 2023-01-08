@@ -1,53 +1,5 @@
 #include "../../include/minishell.h"
 
-static int	check_syntax(t_tok **list)
-{
-	t_tok	*node;
-	t_tok	*tail;
-
-	node = *list;
-	tail = get_lasttok(node);
-	if (is_set(*node->token, "|") || is_set(*tail->token, METACHAR))
-		return (1);
-	while (node)
-	{
-		if (node->type >= 2 && node->type <= 6)
-			if (node->next->type != 1 && \
-			!(node->next->type >= 7 && node->next->type <= 10))
-				return (1);
-		node = node->next;
-	}
-	return (0);
-}
-
-int	id_tokens(t_tok **list, t_data *data)
-{
-	t_tok	*node;
-
-	node = *list;
-	while (node)
-	{
-		node->type = is_redir(node->token);
-		if (node->type == PIPE)
-			data->nb_pipes++;
-		if (node->type == NOTSET)
-			node->type = is_valid(node->token);
-		if (node->type == INVALID)
-		{
-			data->syntax_err = 258;
-			return (258);
-		}
-		node = node->next;
-	}
-	if (check_syntax(list))
-	{
-		data->syntax_err = 258;
-		return (258);
-	}
-	return (0);
-}
-
-
 int	is_redir(char *tok)
 {
 	if (!ft_strcmp(tok, "|") && ft_strlen(tok) == 1)
@@ -74,24 +26,6 @@ int	is_valid(char *tok)
 		return (WORD);
 }
 
-/*
-bash-3.2$ echo $"USER"
-	USER // strip $, strip quotes, print literal str (ECHO FUNCTION)
-bash-3.2$ echo "$USER"
-	anarodri // strip quotes, expands envvar
-bash-3.2$ echo $$"USER"
-	4619USER // prints PID and literal str -> in our case, prints $$USER cause PID won't be implemented.
-bash-3.2$ echo $"$USER"
-	anarodri // strip $ and quotes, expands envvar even if it is between quotes. (data.expand = true!)
-bash-3.2$ echo $"ana"
-	ana // strip $ and quotes, prints literal.
-bash-3.2$ echo "$ana"
-		// envvar doesn't exist, prints a newline.
-bash-3.2$ echo $ LUIZA $"ROD" $"$USER"
-	$ LUIZA ROD anarodri // prints literal $ LUIZA, strips $ and quotes, prints literal ROD, strips $ and strips quotes, expand $USER
-bash-3.2$ echo $?$USER
-	0anarodri // exit code and expands envvar
-*/
 static void	check_hidden_dollars(t_tok *token)
 {
 	int		len;
@@ -151,3 +85,21 @@ void	verify_dollartype(t_tok **list)
 	}
 	return ;
 }
+
+/* bash-3.2$ echo $"USER" 
+USER // strip $, strip quotes, print literal str (ECHO FUNCTION)
+bash-3.2$ echo "$USER"
+	anarodri // strip quotes, expands envvar
+bash-3.2$ echo $$"USER"
+	4619USER // prints PID and literal str -> in our case, prints $$USER cause PID won't be implemented.
+bash-3.2$ echo $"$USER"
+	anarodri // strip $ and quotes, expands envvar even if it is between quotes. (data.expand = true!)
+bash-3.2$ echo $"ana"
+	ana // strip $ and quotes, prints literal.
+bash-3.2$ echo "$ana"
+		// envvar doesn't exist, prints a newline.
+bash-3.2$ echo $ LUIZA $"ROD" $"$USER"
+	$ LUIZA ROD anarodri // prints literal $ LUIZA, strips $ and quotes, prints literal ROD, strips $ and strips quotes, expand $USER
+bash-3.2$ echo $?$USER
+	0anarodri // exit code and expands envvar
+*/

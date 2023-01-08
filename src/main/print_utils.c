@@ -51,7 +51,6 @@ void	print_cmdlines(t_cmd *list)
 
 void	cmdlist_details(t_cmd *cmdlst)
 {
-	t_cmd	*lst;
 	int		i;
 	int		j;
 
@@ -61,7 +60,6 @@ void	cmdlist_details(t_cmd *cmdlst)
 	while (cmdlst)
 	{
 		j = 0;
-		printf("----------START OF CMDLIST_DETAILS----------\n");
 		printf("\n\t[cmdline %d] %s\n", i, cmdlst->cmdline);
 		while (cmdlst->args[j])
 		{
@@ -69,6 +67,12 @@ void	cmdlist_details(t_cmd *cmdlst)
 			j++;
 		}
 		printf("\t[path] %s\n", cmdlst->path);
+		printf("\t#cmdiofd[0] %d\n", cmdlst->cmdiofd[0]);
+		printf("\t#cmdiofd[1] %d\n", cmdlst->cmdiofd[1]);
+		printf("\t#filefd[0] %d\n", cmdlst->filefd[0]);
+		printf("\t#filefd[1] %d\n", cmdlst->filefd[1]);
+		printf("\t#pipefd[0] %d\n", cmdlst->pipefd[0]);
+		printf("\t#pipefd[1] %d\n", cmdlst->pipefd[1]);
 		printf("\t[err] %d\n", cmdlst->err);
 		printf("\t[expand] %d\n", cmdlst->expand);
 		printf("\t[io_flag] %d\n", cmdlst->io_flag);
@@ -78,5 +82,4 @@ void	cmdlist_details(t_cmd *cmdlst)
 		i++;
 		cmdlst = cmdlst->next;
 	}
-	printf("----------END OF CMDLIST_DETAILS----------\n");
 }

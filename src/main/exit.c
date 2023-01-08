@@ -1,23 +1,5 @@
 #include "../../include/minishell.h"
 
-static void	free_table(char **table)
-{
-	int	i;
-
-	i = 0;
-	if (table)
-	{
-		while (table[i])
-		{
-			xfree(table[i]);
-			i++;
-		}
-		xfree(table[i]);
-		xfree(table);
-		table = NULL;
-	}
-}
-
 void	clean_exit(t_data *data)
 {
 	int	i;

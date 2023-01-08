@@ -27,29 +27,30 @@ OBJ_DIR		=	obj/
 
 # FILES #
 
-BUILTIN_F	=	\
-	builtin.c	\
-	echo.c		\
-	pwd.c		\
-	utils.c		\
-	export.c	\
-	env.c		\
-	unset.c		\
-	cd.c		\
+BUILTIN_F	=		\
+	builtin.c		\
+	echo_utils.c 	\
+	echo.c			\
+	pwd.c			\
+	utils.c			\
+	export.c		\
+	env.c			\
+	unset.c			\
+	cd.c			\
 
 PIPE_REDIRECT_F	=	\
 	io.c			\
 	pipe.c			\
 	redirect.c		\
 
-MAIN_F =		\
+MAIN_F =			\
+	execution.c		\
 	exit.c			\
 	init.c			\
 	list_utils.c	\
 	main.c			\
 	print_utils.c	\
-	execution.c		\
-
+	rl.c			\
 
 PARSE_F	=			\
 	lexer_utils.c	\

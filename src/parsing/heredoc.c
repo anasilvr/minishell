@@ -1,6 +1,6 @@
 #include "../../include/minishell.h"
 
- /* MiniMan of the functions in this file.
+/* MiniMan of the functions in this file.
  * PROTOTYPE:
  *     t_hdoc	*heredoc(char *delimiter);
  * The function simulate a here-document in creating a linked list for store

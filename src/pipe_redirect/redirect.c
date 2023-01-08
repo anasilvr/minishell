@@ -70,11 +70,11 @@ static int	open_to_readwrite(char *filepath, int *additional_flag)
 	else
 		file_fd = open(filepath, O_WRONLY | additional_flag[0] | O_CREAT, \
 				S_IWUSR | S_IWGRP | S_IWOTH | S_IRUSR | S_IRGRP | S_IROTH);
-		if (file_fd == -1)
-		{
-			perror(NULL);
-			return (-1);
-		}
+	if (file_fd == -1)
+	{
+		perror(NULL);
+		return (-1);
+	}
 	return (file_fd);
 }
 

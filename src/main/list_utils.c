@@ -13,14 +13,12 @@ t_tok	*new_toklist(char *tok)
 
 void	addback_toklist(t_tok **toklist, t_tok *new)
 {
-	t_tok	*current;
 	t_tok	*last;
 
 	if (!new)
 		return ;
 	if (*toklist)
 	{
-		current = *toklist;
 		last = get_lasttok(*toklist);
 		new->prev = last;
 		last->next = new;

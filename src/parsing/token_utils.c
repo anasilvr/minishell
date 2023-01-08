@@ -88,3 +88,30 @@ int	length_til_match(char *str, char c)
 	}
 	return (i);
 }
+
+int	id_tokens(t_tok **list, t_data *data)
+{
+	t_tok	*node;
+
+	node = *list;
+	while (node)
+	{
+		node->type = is_redir(node->token);
+		if (node->type == PIPE)
+			data->nb_pipes++;
+		if (node->type == NOTSET)
+			node->type = is_valid(node->token);
+		if (node->type == INVALID)
+		{
+			data->syntax_err = 258;
+			return (258);
+		}
+		node = node->next;
+	}
+	if (check_syntax(list))
+	{
+		data->syntax_err = 258;
+		return (258);
+	}
+	return (0);
+}

@@ -15,7 +15,6 @@ int	ft_cmp_builtin(const char *str1, const char *str2, size_t n)
 	return (-1);
 }
 
-
 void	exit_handler(t_data *data, char **instruct)
 {
 	// if (data->cmd_lst->io_flag != PIPE
