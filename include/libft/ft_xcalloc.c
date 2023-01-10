@@ -12,17 +12,17 @@
 
 #include "libft.h"
 
-void	*ft_xcalloc(size_t mem_size)
+void	*ft_xcalloc(size_t nb, size_t size)
 
 {
 	void	*ptr;
 
-	ptr = malloc(mem_size);
+	ptr = malloc(nb * size);
 	if (!ptr)
 	{
 		write(STDERR_FILENO, "Memory allocation error: Aborting.", 35);
 		exit(EXIT_FAILURE);
 	}
-	ft_bzero(ptr, (mem_size));
+	ft_bzero(ptr, (nb * size));
 	return (ptr);
 }

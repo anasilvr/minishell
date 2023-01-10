@@ -10,6 +10,7 @@ static	void	count_expand(t_cmd *cmd_lst, t_tok *token)
 			{
 				cmd_lst->hd_delimiter = ft_strdup(token->next->token);
 				token = token->next;
+				break ;
 			}
 			if ((token->type == 8 || token->type == 10))
 				cmd_lst->expand += 1;
@@ -25,11 +26,68 @@ static	void	count_expand(t_cmd *cmd_lst, t_tok *token)
 	}
 }
 
-void	split_args(t_cmd *cmd_lst)
+static size_t	count_args(t_tok **token)
 {
-	while (cmd_lst)
+	size_t	nb_args;
+
+	nb_args = 0;
+	while (*token)
 	{
-		cmd_lst->args = ft_split(cmd_lst->cmdline, ' ');
+		if ((*token)->type == 3)
+		{
+			nb_args += 2;
+			*token = (*token)->next;
+			if ((*token)->next)
+				*token = (*token)->next;
+			return (nb_args);
+		}
+		if ((*token && ((*token)->type < 2 || (*token)->type > 6)))
+		{
+			nb_args++;
+			*token = (*token)->next;
+		}
+		else
+		{
+			*token = (*token)->next;
+			return (nb_args);
+		}
+	}
+	return (nb_args);
+}
+
+static char	**create_args(t_tok **token)
+{
+	t_tok		*tok;
+	char		**args;
+	size_t		nb_args;
+	size_t		i;
+
+	tok = *token;
+	args = NULL;
+	nb_args = 0;
+	while (*token)
+	{
+		nb_args = count_args(token);
+		args = ft_xcalloc((nb_args + 1), sizeof(char *));
+		i = 0;
+		while (i < nb_args)
+		{
+			args[i] = ft_strdup(tok->token);
+			i++;
+			tok = tok->next;
+		}
+		break ;
+	}
+	return (args);
+}
+
+void	split_args(t_cmd *cmd_lst, t_tok *token)
+{
+	while (cmd_lst && token)
+	{
+		cmd_lst->args = create_args(&token);
+		if (token && (token->type >= 2 && token->type <= 6))
+			token = token->next;
 		cmd_lst = cmd_lst->next;
 	}
 }
@@ -38,7 +96,7 @@ void	parser(t_data *data)
 {
 	data->cmd_lst = create_cmdlist(data);
 	count_expand(data->cmd_lst, data->token);
-	split_args(data->cmd_lst);
+	split_args(data->cmd_lst, data->token);
 	// heredoc handling here
 	// if (data->cmd_lst->io_flag == HEREDOC)
 	// 	write_heredoc(data->hd_delimiter);
@@ -49,9 +107,10 @@ void	parser(t_data *data)
 	{
 		perror("Minishell :");
 	}
-
-	// error check: is argv[0] of each node a valid command? (access call),
-	//				is the arg related to a redirection a valid file? (open call)
-	// the access call can be used to set a valid path since you'll have to use access with a path to check its validity.
-	// when access ((path, F_OK | X_OK) == 0)), store this path at data.cmd_lst.path;
 }
+
+/*	argv[0] of each node a valid command? (access call),
+	is the arg related to a redirection a valid file? (open call)
+the access call can be used to set a valid path
+since you'll have to use access with a path to check its validity.
+when access ((path, F_OK | X_OK) == 0)), store this path at data.cmd_lst.path */

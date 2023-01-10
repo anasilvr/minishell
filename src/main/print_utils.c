@@ -51,28 +51,35 @@ void	print_cmdlines(t_cmd *list)
 
 void	cmdlist_details(t_cmd *cmdlst)
 {
-	t_cmd	*lst;
 	int		i;
 	int		j;
 
 	if (!cmdlst)
 		return ;
-	lst = cmdlst;
 	i = 0;
-	while (lst)
+	while (cmdlst)
 	{
-		j = -1;
-		printf("\n\t[cmdline %d] %s\n", i, lst->cmdline);
-		while (lst->args && lst->args[++j])
-			printf("\t[arg %d] %s \n", j, lst->args[j]);
-		printf("\t[path] %s\n", lst->path);
-		printf("\t[err] %d\n", lst->err);
-		printf("\t[expand] %d\n", lst->expand);
-		printf("\t[io_flag] %d\n", lst->io_flag);
-		printf("\t[hd_delimiter] %s\n", lst->hd_delimiter);
-		printf("\t[prev] %p\n", lst->prev);
-		printf("\t[next]  %p\n\n", lst->next);
+		j = 0;
+		printf("\n\t[cmdline %d] %s\n", i, cmdlst->cmdline);
+		while (cmdlst->args[j])
+		{
+			printf("\t[arg %d] %s \n", j, cmdlst->args[j]);
+			j++;
+		}
+		printf("\t[path] %s\n", cmdlst->path);
+		printf("\t#cmdiofd[0] %d\n", cmdlst->cmdiofd[0]);
+		printf("\t#cmdiofd[1] %d\n", cmdlst->cmdiofd[1]);
+		printf("\t#filefd[0] %d\n", cmdlst->filefd[0]);
+		printf("\t#filefd[1] %d\n", cmdlst->filefd[1]);
+		printf("\t#pipefd[0] %d\n", cmdlst->pipefd[0]);
+		printf("\t#pipefd[1] %d\n", cmdlst->pipefd[1]);
+		printf("\t[err] %d\n", cmdlst->err);
+		printf("\t[expand] %d\n", cmdlst->expand);
+		printf("\t[io_flag] %d\n", cmdlst->io_flag);
+		printf("\t[hd_delimiter] %s\n", cmdlst->hd_delimiter);
+		printf("\t[prev] %p\n", cmdlst->prev);
+		printf("\t[next]  %p\n\n", cmdlst->next);
 		i++;
-		lst = lst->next;
+		cmdlst = cmdlst->next;
 	}
 }

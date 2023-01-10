@@ -54,17 +54,17 @@ void	free_cmdlist(t_cmd *lst)
 void	reset(t_data *data)
 {
 	xfree(data->input);
-	data->input = (char *) NULL;
+	data->input = NULL;
 	data->nb_cmds = 0;
 	data->nb_pipes = 0;
 	if (data->token)
 	{
 		free_toklist(data->token);
-		data->token = ft_xcalloc(sizeof(t_tok));
+		data->token = ft_xcalloc(1, sizeof(t_tok));
 	}
 	if (data->cmd_lst)
 	{
 		free_cmdlist(data->cmd_lst);
-		data->cmd_lst = ft_xcalloc(sizeof(t_cmd));
+		data->cmd_lst = ft_xcalloc(1, sizeof(t_cmd));
 	}
 }

@@ -2,17 +2,22 @@
 
 void	free_tab(char **old_tab)
 {
-	int i;
+	int	i;
 
-	if (!old_tab)
-		return ;
-	i = -1;
-	while (old_tab[++i] != NULL)
+	i = 0;
+	if (old_tab)
+	{
+		while (old_tab[i])
+		{
+			xfree(old_tab[i]);
+			i++;
+		}
 		xfree(old_tab[i]);
-	xfree(old_tab);
+		xfree(old_tab);
+	}
 }
 
-int ft_free_strlen(char *str)
+int	ft_free_strlen(char *str)
 {
 	int	i;
 
@@ -20,7 +25,7 @@ int ft_free_strlen(char *str)
 	while (str[++i] != '\0')
 		;
 	free(str);
-	return(i);
+	return (i);
 }
 
 char	*ft_strjoin_free2(char const *s1, char const *s2)
@@ -52,7 +57,7 @@ char	*ft_strjoin_free2(char const *s1, char const *s2)
 	return (temp);
 }
 
-int ft_isspace(char c)
+int	ft_isspace(char c)
 {
 	if (c == ' ' || c == '\n' || c == '\t'
 		|| c == '\v' || c == '\f' || c == '\r')

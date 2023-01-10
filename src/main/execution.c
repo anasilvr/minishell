@@ -111,6 +111,7 @@ void	execution_manager(t_data *prog_data)
 		// while (prog_data->cmd_lst != NULL)
 		// {
 		// 	redir_manader(prog_data);
+
 		// 	prog_data->cmd_lst = prog_data->cmd_lst->next;
 		// }
 	}

@@ -113,9 +113,8 @@ typedef struct s_data
 	char		*pwd;
 	char		*input;
 	t_tok		*token;
-	char		*err_tok;
 	t_cmd		*cmd_lst;
-	t_hdoc		*hd_struct;
+//	t_hdoc		*hd_struct;
 	int			nb_cmds;
 	int			nb_pipes;
 	int			syntax_err;
@@ -179,6 +178,7 @@ void	free_toklist(t_tok *lst);
 
 // main.c
 void	wtshell(t_data *data);
+void	readline_exit(t_data *data);
 char	*rl_gets(void);
 
 // print_utils.c
@@ -197,6 +197,7 @@ int		ft_free_strlen(char *str);
 
 //lexer.c and lexer_utils.c
 void	lexer(t_data *data, char *input);
+int		check_syntax(t_tok **list);
 t_tok	*tokenize(t_data *data, char *str);
 void	skip_whitespaces(char **str);
 void	skip_meta(char **str);

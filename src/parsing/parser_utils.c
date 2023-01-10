@@ -18,8 +18,7 @@ int	cmd_len(char *str, int len)
 				i += 2;
 				while (ft_isset(str[i], WHITESPACE))
 					i++;
-				i += (1 + length_til_match(&str[i], ' '));
-				printf(" i = %d\n", i);
+				i += tok_len(&str[i], len - i);
 			}
 			break ;
 		}	
@@ -55,7 +54,7 @@ t_cmd	*new_cmdline(char *line)
 {
 	t_cmd	*new;
 
-	new = (t_cmd *)ft_xcalloc(sizeof(*new));
+	new = ft_xcalloc(1, sizeof(t_cmd));
 	new->filefd[0] = -2;
 	new->filefd[1] = -2;
 	new->pipefd[0] = -2;

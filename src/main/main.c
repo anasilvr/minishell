@@ -1,4 +1,3 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -15,48 +14,23 @@
 
 static	void	signal_handler(int sig)
 {
-	t_data *data;
-
-	data = get_data();
 	if (sig == SIGINT)
 	{
 		printf("\n");
 		rl_replace_line("", 1);
 		rl_on_new_line();
-	//if (!data->cmd_lst)
-			rl_redisplay();
+		rl_redisplay();
 	}
-}
-
-static void	readline_exit(t_data *data)
-{
-	clean_exit(data);
-	printf("exit\n");
-	exit(0);
 }
 
 static void	err_msg(t_data *data)
 {
 	if (data->syntax_err == 1)
-	{
 		printf("[%d / %d] %s\n", g_status, data->syntax_err, ERR_QUOTES);
-//		write(2, ERR_QUOTES, ft_strlen(ERR_QUOTES));
-//		write(2, "\n", 1);
-	}
 	else if (data->syntax_err == 258)
-	{
 		printf("[%d / %d] %s\n", g_status, data->syntax_err, ERR_SYNTAX);
-//		write(2, ERR_SYNTAX, ft_strlen(ERR_SYNTAX));
-//		write(2, s, ft_strlen(s));
-//		write(2, "\n", 1);
-	}
 	else if (data->syntax_err == 127)
-	{
 		printf("[%d / %d] %s\n", g_status, data->syntax_err, ERR_CMD);
-//		write(2, s, ft_strlen(s));
-//		write(2, ERR_CMD, ft_strlen(ERR_CMD));
-//		write(2, "\n", 1);
-	}
 	else
 		printf("[%d / %d] Error\n", g_status, data->syntax_err);
 	data->syntax_err = 0;
@@ -67,6 +41,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_data		*data;
 
+	(void)argv;
 	if (!envp || !(*envp))
 	{
 		ft_putstr_fd("Error: ENVP missing. \
@@ -80,7 +55,6 @@ int	main(int argc, char **argv, char **envp)
 		exit(EXIT_FAILURE);
 	}
 	data = NULL;
-	argv = NULL;
 	data = init_data(envp, data);
 	print_intro();
 	wtshell(data);
@@ -105,7 +79,9 @@ void	wtshell(t_data *data)
 			parser(data);
 			if (data->syntax_err || !data->cmd_lst)
 				break ;
+			printf("----------START OF CMDLIST_DETAILS----------\n");
 			cmdlist_details(data->cmd_lst);
+			printf("----------END OF CMDLIST_DETAILS----------\n");
 			if (data->cmd_lst->err != -1)
 				execution_manager(data);
 			reset(data);
@@ -116,16 +92,3 @@ void	wtshell(t_data *data)
 	}
 	return ;
 }
-
-char	*rl_gets(void)
-{
-	char	*line;
-
-	line = (char *) NULL;
-	line = readline("\033[0;97m\xF0\x9F\x90\x8CWTS$\033[0m ");
-	if (line && *line)
-		add_history(line);
-	return (ft_strjoin_free(line, ""));
-}
-
-// TO DO: I'd like to print the token that created the error in the message error...

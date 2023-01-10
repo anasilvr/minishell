@@ -4,7 +4,7 @@ t_tok	*new_toklist(char *tok)
 {
 	t_tok	*new;
 
-	new = (t_tok *)ft_xcalloc(sizeof(*new));
+	new = ft_xcalloc(1, sizeof(t_tok));
 	new->prev = NULL;
 	new->token = tok;
 	new->next = NULL;
@@ -13,14 +13,12 @@ t_tok	*new_toklist(char *tok)
 
 void	addback_toklist(t_tok **toklist, t_tok *new)
 {
-	t_tok	*current;
 	t_tok	*last;
 
 	if (!new)
 		return ;
 	if (*toklist)
 	{
-		current = *toklist;
 		last = get_lasttok(*toklist);
 		new->prev = last;
 		last->next = new;
