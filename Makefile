@@ -79,7 +79,7 @@ HEADER		=	$(addprefix $(INC_DIR), $(HEADER_F)) $(RL_HEADER)
 VPATH		=	$(SRC_DIR) $(BUILTIN_DIR) $(PIPE_REDIRECT_DIR) $(MAIN_DIR) $(PARSE_DIR) $(SIGNAL_DIR) $(HEADER)
 
 $(OBJ_DIR)%.o: %.c $(SRC_DIR)
-	$(CC) $(CFLAGS) -I $(INC_DIR) -I $(LIBRL_DIR) -I $(LIBDLLDIR) -I $(LIBFT_DIR) -c $< -o $@
+	$(CC) $(CFLAGS) -I $(INC_DIR) -I $(LIBRL_DIR) -I $(LIBDLL_DIR) -I $(LIBFT_DIR) -c $< -o $@
 
 # RECIPES #
 
