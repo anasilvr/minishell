@@ -4,22 +4,22 @@ static	void	count_expand(t_cmd *cmd_lst, t_tok *token)
 {
 	while (cmd_lst && token)
 	{
-		while (token)
+		while (token && cmd_lst)
 		{
+			if (token->type == PIPE)
+			{
+				token = token->next;
+				cmd_lst = cmd_lst->next;
+			}
 			if (token->type == 3)
 			{
 				cmd_lst->hd_delimiter = ft_strdup(token->next->token);
 				token = token->next;
-				break ;
 			}
 			if ((token->type == 8 || token->type == 10))
 				cmd_lst->expand += 1;
 			if (token->type >= 2 && token->type <= 6)
-			{
 				cmd_lst->io_flag = token->type;
-				token = token->next;
-				break ;
-			}
 			token = token->next;
 		}
 		cmd_lst = cmd_lst->next;
@@ -31,31 +31,15 @@ static size_t	count_args(t_tok **token)
 	size_t	nb_args;
 
 	nb_args = 0;
-	while (*token)
+	while (*token && (*token)->type != PIPE)
 	{
-		if ((*token)->type == 3)
-		{
-			nb_args += 2;
-			*token = (*token)->next;
-			if ((*token)->next)
-				*token = (*token)->next;
-			return (nb_args);
-		}
-		if ((*token && ((*token)->type < 2 || (*token)->type > 6)))
-		{
-			nb_args++;
-			*token = (*token)->next;
-		}
-		else
-		{
-			*token = (*token)->next;
-			return (nb_args);
-		}
+		nb_args++;
+		*token = (*token)->next;
 	}
 	return (nb_args);
 }
 
-static char	**create_args(t_tok **token)
+char	**create_args(t_tok **token)
 {
 	t_tok		*tok;
 	char		**args;
@@ -86,7 +70,7 @@ void	split_args(t_cmd *cmd_lst, t_tok *token)
 	while (cmd_lst && token)
 	{
 		cmd_lst->args = create_args(&token);
-		if (token && (token->type >= 2 && token->type <= 6))
+		if (token && (token->type == PIPE))
 			token = token->next;
 		cmd_lst = cmd_lst->next;
 	}

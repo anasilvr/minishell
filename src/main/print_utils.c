@@ -61,7 +61,7 @@ void	cmdlist_details(t_cmd *cmdlst)
 	{
 		j = 0;
 		printf("\n\t[cmdline %d] %s\n", i, cmdlst->cmdline);
-		while (cmdlst->args[j])
+		while (cmdlst->args && cmdlst->args[j])
 		{
 			printf("\t[arg %d] %s \n", j, cmdlst->args[j]);
 			j++;
