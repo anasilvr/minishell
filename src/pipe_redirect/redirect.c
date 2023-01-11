@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:34:45 by tchalifo          #+#    #+#             */
-/*   Updated: 2022/12/28 15:59:27 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/01/10 22:39:35 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,23 @@ static int	open_to_readwrite(char *filepath, int *additional_flag)
 }
 
 
+redirect_parsing(t_data *prog_data)
+{
+	while(prog_data->cmd_lst->args[i] != '\0')
+	{
+		/* Redirection d'output */
+		if(ft_strcmp(prog_data->cmd_lst->args[i], ">"))
+		{
+
+		}
+	}
+}
+
+
 void	redirect_setup(t_data *prog_data)
 {
 	int	open_additionals_flags[1];
+	redirect_parsing(prog_data);
 
 	// if (prog_data->cmd_lst->io_flag == 3) //if is a heredoc
 	// 	prog_data->hd_struct = write_heredoc(char *delimiter); //Need to know where is stored the delimiter
