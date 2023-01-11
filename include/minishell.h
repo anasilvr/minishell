@@ -39,7 +39,6 @@
 
 int							g_status;
 
-
 typedef enum e_builtins
 {
 	E_ECHO = 0,
