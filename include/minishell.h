@@ -119,6 +119,7 @@ typedef struct s_data
 	int			nb_pipes;
 	int			syntax_err;
 	int			stdio[3];
+	bool		heredoc;
 }	t_data;
 
 
