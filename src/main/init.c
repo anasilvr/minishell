@@ -24,6 +24,7 @@ t_data	*init_data(char **envp, t_data *data)
 	data->stdio[0] = STDIN_FILENO;
 	data->stdio[1] = STDOUT_FILENO;
 	data->stdio[2] = STDERR_FILENO;
+	data->heredoc = false;
 	return (data);
 }
 

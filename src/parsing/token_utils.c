@@ -97,6 +97,8 @@ int	id_tokens(t_tok **list, t_data *data)
 	while (node)
 	{
 		node->type = is_redir(node->token);
+		if (node->type == HEREDOC)
+			data->heredoc = true;
 		if (node->type == PIPE)
 			data->nb_pipes++;
 		if (node->type == NOTSET)
