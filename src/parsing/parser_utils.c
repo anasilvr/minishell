@@ -40,138 +40,50 @@ t_cmd	*create_cmdlist(t_data *data)
 	return (cmdlst);
 }
 
-int	first_word_len(char *str)
+char	*redirect_trim(char *line)
 {
-	int	i;
-	int	len;
+	char	*trimmed_line;
+	int		start;
+	int		len;
+	int		i;
 
 	i = 0;
+	start = 0;
 	len = 0;
-	while (str[i] != '\0' && str[i] != ' ') // Voir a ajouter si besoin d<autre whitespaces
+	ft_substr(line, start, len);
+	while (line[i] != '\0')
 	{
+		if (line[i] == '>' || (line[i] == '>' && line[i] + 1 == '>') || line[i] == '<'))
+		{
+			if (line[i + 1] == ' ')
+				i++;
+			break
+		}
 		len++;
 		i++;
 	}
-	return (i);
-}
-
-int	redirect_creation(char *line, int *i)
-{
-	char	*redirect_filename;
-	int		filename_len;
-	int		fd;
-
-	filename_len = first_word_len(line[(*i)]);
-	redirect_filename = ft_substr(line[(*i)], 0, filename_len);
-	fd = open_to_readwrite(redirect_filename, O_TRUNC);
-	(*i) += filename_len;
-	return (fd);
-}
-
-int	redirect_parsing(char *line)
-{
-	int		i;
-	int		*file_fd[2]; //0 == fdin, 1 == fdout
-
-	i = 0;
-	while(line[i] != '\0')
+	while (line[i] != '\0' && line[i] != ' ')
 	{
-		if (line[i++] == '>')
-		{
-			if (line[i] == ' ')
-				i++;
-			redirect_creation(line, &i);
-			// A PARTIR DICI JAI PASSE TOUT LA REDIRECTION
-		}
-		else if(line[i++] == '>>')
-		{
-			if (line[i] == ' ')
-				i++;
-			filename_len = first_word_len(line[i]);
-			redirect_filename = ft_substr(line[i], 0, filename_len);
-			file_fd[1] = open_to_read(redirect_filename, O_APPEND);
-			i += filename_len;
-			// A PARTIR DICI JAI PASSE TOUT LA REDIRECTION
-		}
-		else if(line[i++] == '<')
-		{
-			if (line[i] == ' ')
-				i++;
-			filename_len = first_word_len(line[i]);
-			redirect_filename = ft_substr(line[i], 0, filename_len);
-			file_fd[1] = open_to_read(redirect_filename, NULL);
-			i += filename_len;
-			// A PARTIR DICI JAI PASSE TOUT LA REDIRECTION
-		}
-		else
-			i++;
+
 	}
+
 }
 
-
-//good , but long
-// int	redirect_parsing(char *line)
-// {
-// 	int		i;
-// 	char	*redirect_filename;
-// 	int		filename_len;
-// 	int		*file_fd[2]; //0 == fdin, 1 == fdout
-
-// 	i = 0;
-// 	while(line[i] != '\0')
-// 	{
-// 		if (line[i] == '>')
-// 		{
-// 			i++;
-// 			if (line[i] == ' ')
-// 				i++;
-// 			filename_len = first_word_len(line[i]);
-// 			redirect_filename = ft_substr(line[i], 0, filename_len);
-// 			file_fd[1] = open_to_readwrite(redirect_filename, O_TRUNC);
-// 			i += filename_len;
-// 			// A PARTIR DICI JAI PASSE TOUT LA REDIRECTION
-// 		}
-// 		else if(line[i] == '>>')
-// 		{
-// 			i++;
-// 			if (line[i] == ' ')
-// 				i++;
-// 			filename_len = first_word_len(line[i]);
-// 			redirect_filename = ft_substr(line[i], 0, filename_len);
-// 			file_fd[1] = open_to_read(redirect_filename, O_APPEND);
-// 			i += filename_len;
-// 			// A PARTIR DICI JAI PASSE TOUT LA REDIRECTION
-// 		}
-// 		else if(line[i] == '<')
-// 		{
-// 			i++;
-// 			if (line[i] == ' ')
-// 				i++;
-// 			filename_len = first_word_len(line[i]);
-// 			redirect_filename = ft_substr(line[i], 0, filename_len);
-// 			file_fd[1] = open_to_read(redirect_filename, NULL);
-// 			i += filename_len;
-// 			// A PARTIR DICI JAI PASSE TOUT LA REDIRECTION
-// 		}
-// 		else
-// 			i++;
-// 	}
-// }
 
 t_cmd	*new_cmdline(char *line)
 {
 	t_cmd	*new;
 
 	new = ft_xcalloc(1, sizeof(t_cmd));
-	redirect_parsing(line);
 	new->filefd[0] = -2;
 	new->filefd[1] = -2;
+	redirect_parsing(line, new->filefd);
+	new->cmdline = redirect_trim(line);
 	new->pipefd[0] = -2;
 	new->pipefd[1] = -2;
 	new->fork_pid = -2;
 	new->err = -2;
 	new->prev = NULL;
-	new->cmdline = line;
 	new->next = NULL;
 	return (new);
 }
