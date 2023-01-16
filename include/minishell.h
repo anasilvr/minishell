@@ -141,6 +141,9 @@ void	print_env_var(char **env, char *var);
 void	print_env(char **env);
 int		check_env_var(char **env, char *var);
 
+// REDIRECTION
+int		open_to_readwrite(char *filepath, int *additional_flag);
+int		open_to_read(char *filepath, int *additional_flag);
 // EXECUTION
 
 void	execution_manager(t_data *prog_data);
