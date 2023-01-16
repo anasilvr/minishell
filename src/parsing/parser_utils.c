@@ -32,7 +32,6 @@ t_cmd	*create_cmdlist(t_data *data)
 		skip_whitespaces(&str);
 		len = cmd_len(str, ft_strlen(str));
 		addback_cmdline(&cmdlst, new_cmdline(ft_substr(str, 0, len)));
-		data->nb_pipes++;
 		str += (len);
 		skip_whitespaces(&str);
 		skip_meta(&str);
