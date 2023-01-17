@@ -55,16 +55,16 @@ static char	*recup_the_bin_path(char *bin_name, char **p_envp)
 
 static void	external_bin_exec(t_data *prog_data, char **argv) // argv peut etre eventuellement remplacer par le split de cmd d ana
 {
-	if (prog_data->cmd_lst->fork_pid != 0) // Aucun child a ce point, il devra avoir un fork pour les external exec
+	if (prog_data->fork_pid != 0) // Aucun child a ce point, il devra avoir un fork pour les external exec
 	{
 		printf("external fork\n");
-		prog_data->cmd_lst->fork_pid = fork();
-		if (prog_data->cmd_lst->fork_pid == -1)
+		prog_data->fork_pid = fork();
+		if (prog_data->fork_pid == -1)
 			perror("Minishell");
-		else if (prog_data->cmd_lst->fork_pid != 0)
+		else if (prog_data->fork_pid != 0)
 			waitpid(0, NULL, 0);
 	}
-	if (prog_data->cmd_lst->fork_pid == 0) // Alredy into a child process because of pipe
+	if (prog_data->fork_pid == 0) // Alredy into a child process because of pipe
 	{
 		if (execve(prog_data->cmd_lst->path, argv, prog_data->envp_cp) == -1)
 		{
@@ -95,7 +95,7 @@ void	execution_time(t_data *prog_data)
 void	execution_manager(t_data *prog_data)
 {
 	stdio_cpy(prog_data);
-	prog_data->cmd_lst->fork_pid = -2;
+	prog_data->fork_pid = -2;
 	prog_data->cmd_lst->is_builtin = false;
 	if (prog_data->cmd_lst != NULL)
 	{
@@ -106,7 +106,10 @@ void	execution_manager(t_data *prog_data)
 			prog_data->cmd_lst = prog_data->cmd_lst->next;
 		}
 		else
+		{
 			prog_data->cmd_lst = job_loop(prog_data);
+			printf("fork PID at end of job == %d\n", prog_data->fork_pid);
+		}
 		/* Boucle pour les chaine de redirection infile1 > infile2 > infile3... */
 		// while (prog_data->cmd_lst != NULL)
 		// {
