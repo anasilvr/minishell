@@ -141,9 +141,11 @@ void	print_env_var(char **env, char *var);
 void	print_env(char **env);
 int		check_env_var(char **env, char *var);
 
-// REDIRECTION
-int		redirect_parsing(char *line, int **file_fd);
+// Redirection.c
+void	redirect_parsing(char *line, int *file_fd);
+//Redirection_utils.c
 int		first_word_len(char *str);
+int		*init_itab(int init_value, int init_size);
 
 // EXECUTION
 void	execution_manager(t_data *prog_data);

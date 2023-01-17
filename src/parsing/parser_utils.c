@@ -40,7 +40,7 @@ t_cmd	*create_cmdlist(t_data *data)
 	return (cmdlst);
 }
 
-char	*executable_extraction(char *line)
+char	*redirect_trim(char *line)
 {
 	int		start;
 	int		len;

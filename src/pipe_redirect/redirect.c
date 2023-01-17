@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:34:45 by tchalifo          #+#    #+#             */
-/*   Updated: 2023/01/16 11:13:34 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/01/17 14:47:43 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
  * Case cmd >> file --> Append the standard output (stdout) of cmd to a file.
  */
 
-static int	open_to_read(char *filepath, int *additional_flag)
+static int	open_to_read(char *filepath, int additional_flag)
 {
 	int	file_fd;
 
@@ -60,7 +60,7 @@ static int	open_to_read(char *filepath, int *additional_flag)
 	return (file_fd);
 }
 
-static int	open_to_readwrite(char *filepath, int *additional_flag)
+static int	open_to_readwrite(char *filepath, int additional_flag)
 {
 	int	file_fd;
 	/* In case where the file exist but no have the right on it */
@@ -70,7 +70,7 @@ static int	open_to_readwrite(char *filepath, int *additional_flag)
 		return (-1);
 	}
 	else
-		file_fd = open(filepath, O_WRONLY | additional_flag[0] | O_CREAT, \
+		file_fd = open(filepath, O_WRONLY | additional_flag | O_CREAT, \
 				S_IWUSR | S_IWGRP | S_IWOTH | S_IRUSR | S_IRGRP | S_IROTH);
 	if (file_fd == -1)
 	{
@@ -86,19 +86,20 @@ static int	redirect_creation(char *line, int type, int *i)
 	int		filename_len;
 	int		fd; //0 == fdin, 1 == fdout
 
-	filename_len = first_word_len(line[(*i)]);
-	redirect_filename = ft_substr(line[(*i)], 0, filename_len);
+	filename_len = first_word_len(&line[(*i)]);
+	redirect_filename = ft_substr(&line[(*i)], 0, filename_len);
+	fd = -2;
 	if (type == 0)
-		open_to_read(redirect_filename, NULL);
+		fd = open_to_read(redirect_filename, 0);
 	else if (type == 1)
-		fd = open_to_readwrite(redirect_filename, O_TRUNC);
+		fd = open_to_readwrite(redirect_filename,O_TRUNC);
 	else if (type == 2)
 		fd = open_to_readwrite(redirect_filename, O_APPEND);
 	(*i) += filename_len;
 	return (fd);
 }
 
-void	redirect_parsing(char *line, int **file_fd)
+void	redirect_parsing(char *line, int *file_fd)
 {
 	int		i;
 

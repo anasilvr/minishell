@@ -11,3 +11,12 @@ int	first_word_len(char *str)
 	}
 	return (len);
 }
+
+// int	*init_itab(int init_value, int init_size)
+// {
+// 	int	*itab;
+
+// 	itab = malloc(sizeof(int) * init_size);
+// 	itab[0] = init_value;
+// 	return (itab);
+// }
