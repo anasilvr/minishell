@@ -42,6 +42,7 @@ PIPE_REDIRECT_F	=	\
 	io.c			\
 	pipe.c			\
 	redirect.c		\
+	redirect_utils.c\
 
 MAIN_F =			\
 	execution.c		\

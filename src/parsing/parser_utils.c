@@ -40,6 +40,37 @@ t_cmd	*create_cmdlist(t_data *data)
 	return (cmdlst);
 }
 
+char	*redirect_trim(char *line)
+{
+	int		start;
+	int		len;
+	int		i;
+
+	i = 0;
+	start = 0;
+	len = 0;
+	while (line[i] != '\0')
+	{
+		while (line[i] != '\0')
+		{
+			if (line[i] == '>' || (line[i] == '>' && line[i + 1] == '>') || line[i] == '<')
+			{
+				if (line[++i] == ' ')
+					i++;
+				break;
+			}
+			if (start == 0 && i != 0 && len < 1)
+				start = i;
+			len++;
+			i++;
+		}
+		while (line[i] != '\0' && line[i++] != ' ')
+			;
+	}
+	return (ft_strtrim(ft_substr(line, start, len), " "));
+}
+// NEED TO CHECK FOR FREE OLD LINE POINTER
+
 t_cmd	*new_cmdline(char *line)
 {
 	t_cmd	*new;
@@ -47,12 +78,13 @@ t_cmd	*new_cmdline(char *line)
 	new = ft_xcalloc(1, sizeof(t_cmd));
 	new->filefd[0] = -2;
 	new->filefd[1] = -2;
+	redirect_parsing(line, new->filefd);
+	new->cmdline = redirect_trim(line);
 	new->pipefd[0] = -2;
 	new->pipefd[1] = -2;
 	new->fork_pid = -2;
 	new->err = -2;
 	new->prev = NULL;
-	new->cmdline = line;
 	new->next = NULL;
 	return (new);
 }

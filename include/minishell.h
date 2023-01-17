@@ -37,9 +37,7 @@
 # define READ_ENDPIPE 0
 # define WRITE_ENDPIPE 1
 
-int							g_status;
-
-
+int		g_status;
 typedef enum e_builtins
 {
 	E_ECHO = 0,
@@ -143,8 +141,13 @@ void	print_env_var(char **env, char *var);
 void	print_env(char **env);
 int		check_env_var(char **env, char *var);
 
-// EXECUTION
+// Redirection.c
+void	redirect_parsing(char *line, int *file_fd);
+//Redirection_utils.c
+int		first_word_len(char *str);
+int		*init_itab(int init_value, int init_size);
 
+// EXECUTION
 void	execution_manager(t_data *prog_data);
 void	execution_time(t_data *prog_data);
 void	redirect_setup(t_data *prog_data);
