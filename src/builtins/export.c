@@ -90,7 +90,7 @@ void	export_handler(char **instruct, t_data *data)
 				data->envp_cp = add_var(data->envp_cp, instruct[i]);
 			}
 		}
-		if (data->cmd_lst->fork_pid == 0)
+		if (data->fork_pid == 0)
 		{
 			clean_exit(data);
 			exit(g_status);

@@ -78,7 +78,6 @@ typedef struct s_cmd
 	int			cmdiofd[2]; // Ce sont les assignations qui devrons etre dup dans les stds in et out respectivement.
 	int			filefd[2];
 	int			pipefd[2];
-	int			fork_pid;
 	int			err; // exit code of cmd;
 	int			io_flag; // if there's a redirection to be done, this is its type
 	bool		is_builtin;
@@ -118,6 +117,7 @@ typedef struct s_data
 	int			syntax_err;
 	int			stdio[3];
 	bool		heredoc;
+	int			fork_pid;
 }	t_data;
 
 

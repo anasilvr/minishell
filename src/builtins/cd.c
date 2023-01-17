@@ -61,7 +61,7 @@ void	cd_handler(char **instruct, t_data *data)
 			chdir(getenv("HOME"));
 			update_pwd(data->envp_cp);
 		}
-		if (data->cmd_lst->fork_pid == 0)
+		if (data->fork_pid == 0)
 		{
 			clean_exit(data);
 			exit(g_status);
