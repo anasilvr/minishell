@@ -32,7 +32,7 @@ t_hdoc	*write_heredoc(char *delimiter)
 			line = (char *) NULL;
 		}
 		line = readline("> ");
-		line = ft_strjoin_free(line, "");
+		// Sans doute la meilleur endroit pour la gestion des quotes
 		hd_struct = ft_dllst_add_back(hd_struct, line);
 	}
 	return (hd_struct);

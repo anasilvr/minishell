@@ -86,9 +86,9 @@ void	execution_time(t_data *prog_data)
 	builtins_checker(prog_data, prog_data->cmd_lst);
 	if (prog_data->cmd_lst->is_builtin == false)
 	{
-		splitted_args = ft_split(prog_data->cmd_lst->cmdline, ' ');
-		prog_data->cmd_lst->path = recup_the_bin_path(splitted_args[0], prog_data->envp_cp);
-		external_bin_exec (prog_data, splitted_args);
+		// splitted_args = ft_split(prog_data->cmd_lst->cmdline, ' ');
+		prog_data->cmd_lst->path = recup_the_bin_path(prog_data->cmd_lst->args[0], prog_data->envp_cp);
+		external_bin_exec (prog_data, prog_data->cmd_lst->args);
 	}
 }
 
@@ -110,6 +110,7 @@ void	execution_manager(t_data *prog_data)
 			printf("fork PID at end of job == %d\n", prog_data->fork_pid);
 		}
 	}
+	reset_otherio(prog_data);
 	reset_stdio(prog_data);
 }
 

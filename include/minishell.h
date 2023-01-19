@@ -158,6 +158,7 @@ t_cmd	*jobs_loop(t_data *data);
 // void	redir_manader(t_data *prog_data);
 int		heredoc_to_fd(t_hdoc *hd_struct);
 void	stdio_cpy(t_data *prog_data);
+void	reset_otherio(t_data *data);
 void	reset_stdio(t_data *prog_data);
 
 
