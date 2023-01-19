@@ -99,7 +99,6 @@ void	execution_manager(t_data *prog_data)
 	prog_data->cmd_lst->is_builtin = false;
 	if (prog_data->cmd_lst != NULL)
 	{
-		// redirect_setup(prog_data);
 		if (prog_data->nb_cmds == 1)
 		{
 			execution_time(prog_data);
@@ -107,16 +106,9 @@ void	execution_manager(t_data *prog_data)
 		}
 		else
 		{
-			prog_data->cmd_lst = job_loop(prog_data);
+			prog_data->cmd_lst = jobs_loop(prog_data);
 			printf("fork PID at end of job == %d\n", prog_data->fork_pid);
 		}
-		/* Boucle pour les chaine de redirection infile1 > infile2 > infile3... */
-		// while (prog_data->cmd_lst != NULL)
-		// {
-		// 	redir_manader(prog_data);
-
-		// 	prog_data->cmd_lst = prog_data->cmd_lst->next;
-		// }
 	}
 	reset_stdio(prog_data);
 }

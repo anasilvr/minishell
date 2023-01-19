@@ -154,7 +154,7 @@ void	redirect_setup(t_data *prog_data);
 t_hdoc	*write_heredoc(char *delimiter);
 int		heredoc_to_fd(t_hdoc *hd_struct);
 bool	is_heredoc(t_cmd *cmd_lst);
-t_cmd	*job_loop(t_data *data);
+t_cmd	*jobs_loop(t_data *data);
 // void	redir_manader(t_data *prog_data);
 int		heredoc_to_fd(t_hdoc *hd_struct);
 void	stdio_cpy(t_data *prog_data);
