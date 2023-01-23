@@ -31,6 +31,7 @@ t_cmd	*create_cmdlist(t_data *data)
 	{
 		skip_whitespaces(&str);
 		len = cmd_len(str, ft_strlen(str));
+		data->hd_struct = heredoc_parsing(ft_substr(str, 0, len));
 		addback_cmdline(&cmdlst, new_cmdline(ft_substr(str, 0, len)));
 		str += (len);
 		skip_whitespaces(&str);
@@ -40,36 +41,75 @@ t_cmd	*create_cmdlist(t_data *data)
 	return (cmdlst);
 }
 
-char	*redirect_trim(char *line)
+int	cmdline_redirlen(char *line, int i)
 {
-	int		start;
-	int		len;
+	int		redir_len;
+
+	redir_len = 0;
+	if (line[++i] == '>' || line[i + 1] == '>')
+		i++;
+	else if (line[i] == '<' || line[i + 1] == '<')
+		i++;
+	while (line[i] != '\0' && line[i] == ' ')
+		redir_len++;
+	while (line[i] != '\0' && line[i] != ' ')
+		redir_len++;
+	return (redir_len);
+
+}
+
+char	*cmdline_purged_cpy(char *line, int new_line_len)
+{
 	int		i;
+	int		j;
+	char	*new_cmdline;
 
 	i = 0;
-	start = 0;
-	len = 0;
+	j = 0;
+	new_cmdline = ft_calloc(sizeof(char *), new_line_len + 1);
 	while (line[i] != '\0')
 	{
-		while (line[i] != '\0')
+		if (line[i] == '>' || line[i] == '<')
 		{
-			if (line[i] == '>' || (line[i] == '>' && line[i + 1] == '>') || line[i] == '<')
-			{
-				if (line[++i] == ' ')
-					i++;
-				break;
-			}
-			if (start == 0 && i != 0 && len < 1)
-				start = i;
-			len++;
 			i++;
+			if (line[i - 1] == '<' && line[i] == '<')
+				i++;
+			else if (line[i - 1] == '>' && line[i] == '>')
+				i++;
+			while (line[i] != '\0' && line[i] == ' ')
+				i++;
+			while (line[i] != '\0' && line[i] != ' ')
+				i++;
 		}
-		while (line[i] != '\0' && line[i++] != ' ')
-			;
+		new_cmdline[j] = line[i];
+		j++;
+		i++;
 	}
-	return (ft_strtrim(ft_substr(line, start, len), " "));
+	new_cmdline[j] = '\0';
+	return (new_cmdline);
 }
-// NEED TO CHECK FOR FREE OLD LINE POINTER
+
+char	*cmdline_redir_drop(char *line)
+{
+	int		i;
+	int		line_len;
+	int		redir_len;
+	int		new_cmdline_len;
+	char	*new_cmdline;
+
+	line_len = ft_strlen(line);
+	while (line[i] != '\0')
+	{
+		if (line[i] == '>' || (line[i] == '>' && line[i + 1] == '>') || line[i] == '<' || (line[i] == '<' && line[i + 1] == '<'))
+		{
+			i++;
+			redir_len = cmdline_redirlen(line, i);
+			new_cmdline_len = line_len - redir_len;
+			new_cmdline = cmdline_purged_cpy(new_cmdline, new_cmdline_len);
+
+		}
+	}
+}
 
 t_cmd	*new_cmdline(char *line)
 {

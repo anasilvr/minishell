@@ -96,13 +96,6 @@ typedef struct s_tok
 	t_tok		*next;
 }	t_tok;
 
-// typedef struct s_hdoc
-// {
-// 	char			*the_line;
-// 	struct s_hdoc	*next;
-// 	struct s_hdoc	*previous;
-// }	t_hdoc;
-
 typedef struct s_data
 {
 	char		**envp_cp;
@@ -111,7 +104,7 @@ typedef struct s_data
 	char		*input;
 	t_tok		*token;
 	t_cmd		*cmd_lst;
-//	t_hdoc		*hd_struct;
+	t_hdoc		*hd_struct;
 	int			nb_cmds;
 	int			nb_pipes;
 	int			syntax_err;
@@ -141,22 +134,28 @@ void	print_env_var(char **env, char *var);
 void	print_env(char **env);
 int		check_env_var(char **env, char *var);
 
-// Redirection.c
+//redirection.c
 void	redirect_parsing(char *line, int *file_fd);
-//Redirection_utils.c
+int		open_to_read(char *filepath, int additional_flag);
+int		open_to_readwrite(char *filepath, int additional_flag);
+
+//redirection_utils.c
 int		first_word_len(char *str);
 int		*init_itab(int init_value, int init_size);
+
+//heredoc.c
+t_hdoc	*heredoc_parsing(char *line);
+t_hdoc	*write_heredoc(char *delimiter);
+int		heredoc_to_fd(t_hdoc *hd_struct);
+
+//io.c
+void	stdio_cpy(t_data *prog_data)
 
 // EXECUTION
 void	execution_manager(t_data *prog_data);
 void	execution_time(t_data *prog_data);
-void	redirect_setup(t_data *prog_data);
-t_hdoc	*write_heredoc(char *delimiter);
-int		heredoc_to_fd(t_hdoc *hd_struct);
-bool	is_heredoc(t_cmd *cmd_lst);
+// void	redirect_setup(t_data *prog_data);
 t_cmd	*jobs_loop(t_data *data);
-// void	redir_manader(t_data *prog_data);
-int		heredoc_to_fd(t_hdoc *hd_struct);
 void	stdio_cpy(t_data *prog_data);
 void	reset_otherio(t_data *data);
 void	reset_stdio(t_data *prog_data);

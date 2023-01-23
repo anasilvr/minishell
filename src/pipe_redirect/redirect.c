@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:34:45 by tchalifo          #+#    #+#             */
-/*   Updated: 2023/01/17 14:47:43 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/01/23 12:15:21 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
  * Case cmd >> file --> Append the standard output (stdout) of cmd to a file.
  */
 
-static int	open_to_read(char *filepath, int additional_flag)
+int	open_to_read(char *filepath, int additional_flag)
 {
 	int	file_fd;
 
@@ -60,7 +60,7 @@ static int	open_to_read(char *filepath, int additional_flag)
 	return (file_fd);
 }
 
-static int	open_to_readwrite(char *filepath, int additional_flag)
+int	open_to_readwrite(char *filepath, int additional_flag)
 {
 	int	file_fd;
 	/* In case where the file exist but no have the right on it */
@@ -99,9 +99,10 @@ static int	redirect_creation(char *line, int type, int *i)
 	return (fd);
 }
 
+
 void	redirect_parsing(char *line, int *file_fd)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while(line[i] != '\0')
@@ -132,9 +133,41 @@ void	redirect_parsing(char *line, int *file_fd)
 	}
 }
 
+//Probleme avec cela, si le heredoc est en plein milieux ca va enlever la suite... cat < infile >> outfile  ..>>infile ne sera plus..
+char	*redirect_trim(char *line)
+{
+	int		start;
+	int		len;
+	int		i;
 
-
-
+	i = 0;
+	start = 0;
+	len = 0;
+	while (line[i] != '\0')
+	{
+		while (line[i] != '\0')
+		{
+			if (line[i] == '>' || (line[i] == '>' && line[i + 1] == '>') || line[i] == '<')
+			{
+				if (line[i] == '>' && line[i + 1] == '>')
+					i += 2;
+				else
+					i++;
+				while (line[i] == ' ')
+					i++;
+				break;
+			}
+			if (start == 0 && i != 0 && len < 1)
+				start = i;
+			len++;
+			i++;
+		}
+		while (line[i] != '\0' && line[i++] != ' ')
+			;
+	}
+	return (ft_strtrim(ft_substr(line, start, len), " "));
+}
+// NEED TO CHECK FOR FREE OLD LINE POINTER
 
 
 

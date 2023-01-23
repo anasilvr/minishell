@@ -18,11 +18,9 @@
 */
 t_hdoc	*write_heredoc(char *delimiter)
 {
-	char	*content;
 	char	*line;
 	t_hdoc	*hd_struct;
 
-	content = (char *) NULL;
 	line = (char *) NULL;
 	while (ft_strcmp(delimiter, line))
 	{
@@ -32,10 +30,68 @@ t_hdoc	*write_heredoc(char *delimiter)
 			line = (char *) NULL;
 		}
 		line = readline("> ");
-		// Sans doute la meilleur endroit pour la gestion des quotes
+		// Sans doute la meilleur endroit pour la gestion des $sign (expention)
 		hd_struct = ft_dllst_add_back(hd_struct, line);
 	}
 	return (hd_struct);
+}
+
+//trouver le heredoc
+//supprimer le heredoc
+t_hdoc	*heredoc_parsing(char *line)
+{
+	int		i;
+	char	*delimiter;
+	int		del_len;
+	t_hdoc	*hd_data;
+
+	i = 0;
+	while(line[i] != '\0')
+	{
+		if (line[i] == '<' && line[i + 1] != '<')
+		{
+			if (line[++i] == ' ')
+				i++;
+			del_len = first_word_len(line[i]);
+			delimiter = ft_substr(line[i], 0, del_len);
+			hd_data = write_heredoc(delimiter);
+			return (hd_data);
+		}
+		i++;
+	}
+	return (NULL);
+}
+
+//Probleme avec cela, si le heredoc est en plein milieux ca va enlever la suite... cat <<EOF >> outfile  ..>>outfile ne sera plus..
+char	*heredoc_trim(char *line)
+{
+	int		start;
+	int		len;
+	int		i;
+
+	i = 0;
+	start = 0;
+	len = 0;
+	while (line[i] != '\0')
+	{
+		while (line[i] != '\0')
+		{
+			if (line[i] == '<' && line[i + 1] == '<')
+			{
+				i += 2;
+				while (line[i] == ' ')
+					i++;
+				break;
+			}
+			if (start == 0 && i != 0 && len < 1)
+				start = i;
+			len++;
+			i++;
+		}
+		while (line[i] != '\0' && line[i++] != ' ')
+			len++;
+	}
+	return (ft_strtrim(ft_substr(line, start, len), " "));
 }
 
 int	heredoc_to_fd(t_hdoc *hd_struct)
