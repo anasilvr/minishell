@@ -26,23 +26,22 @@ int	is_valid(char *tok)
 		return (WORD);
 }
 
-static void	check_hidden_dollars(t_tok *token)
+static void	check_hidden_dollars(t_tok **token)
 {
 	int		len;
 
-	if (!token->token)
+	if (!(*token)->token)
 		return ;
-	len = length_til_match(token->token, token->token[0]);
+	len = length_til_match((*token)->token, (*token)->token[0]);
 	while (len)
 	{
-		if (token->token[len] == '$')
+		if ((*token)->token[len] == '$')
 		{
-			token->type = D_EXPAND;
+			(*token)->type = D_EXPAND;
 			return ;
 		}
 		len--;
 	}
-	token->type = WORD;
 }
 
 static void	check_if_return(t_tok *token)
@@ -73,14 +72,15 @@ void	verify_dollartype(t_tok **list)
 				node->type = D_LITERAL;
 			if (ft_strlen(node->token) >= 2)
 			{
-				if (is_set(node->token[1], QUOTES))
-					check_hidden_dollars(node);
-				else if (!ft_isalpha(node->token[1]))
+				if (!ft_isalpha(node->token[1]))
 					check_if_return(node);
 				else
 				node->type = D_EXPAND;
 			}
 		}
+		if (node->type == WORD)
+			if (is_set(node->token[0], QUOTES))
+				check_hidden_dollars(&node);
 		node = node->next;
 	}
 	return ;
