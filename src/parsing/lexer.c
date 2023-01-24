@@ -35,75 +35,75 @@ static char *charjoinfree(const char *s1, const char c)
 
 static void clean_empty_quotes(t_tok **lst)
 {
-    t_tok   *node;
-    char    *tmp;
-    int     i;
-    char    c;
-    int     q;
+	t_tok	*node;
+	char	*tmp;
+	int		i;
+	int		q;
 
-    node = *lst;
-    while (node)
-    {
-        tmp = ft_xcalloc(1, 1);
-        printf("str = %s\n", node->token);
-        i = -1;
-        q = 0;
-        while (node->token[++i])
-        {
-            while (is_set(node->token[i], QUOTES))
-            {
-                q = (1 + length_til_match(node->token, node->token[i]));
-                if (q == 2)
-                {
-                    i++;
-                    i++;
-                }
-                if(!is_set(node->token[i], QUOTES))
-                    break;
-            if (!node->token[i])
-                break ;
-            }
-            tmp = charjoinfree(tmp, node->token[i]);
-            printf("tmp = %s\n", tmp);
-        }
-        xfree(node->token);
-        node->token = ft_strdup(tmp);
-        xfree(tmp);
-        node = node->next;
-    }
+	node = *lst;
+	while (node)
+	{
+		tmp = ft_xcalloc(1, 1);
+		i = -1;
+		q = 0;
+		while (node->token[++i])
+		{
+			while (is_set(node->token[i], QUOTES))
+			{
+				q = (1 + length_til_match(node->token, node->token[i]));
+				if (q == 2)
+				{
+					i++;
+					q = 0;
+					break ;
+				}
+				if (!is_set(node->token[i], QUOTES))
+					break ;
+				if (!node->token[i])
+					break ;
+				i++;
+			}
+			tmp = charjoinfree(tmp, node->token[i]);
+		}
+		tmp = charjoinfree(tmp, '\0');
+		xfree(node->token);
+		node->token = ft_strdup(tmp);
+		xfree(tmp);
+		node = node->next;
+	}
 }
 
-static int  valid_quotation(t_data *data)
+static int	valid_quotation(t_data *data)
 {
-    int     i;
-    bool    trigger;
-    char    quote;
+	int		i;
+	bool	trigger;
+	char	quote;
 
-    i = -1;
-    trigger = false;
-    quote = 0;
-    while (data->input[++i])
-    {
-        if (data->input[i] == '\'' || data->input[i] == '\"')
-        {
-            quote = data->input[i];
-            trigger = true;
-            i++;
-            find_match(data, &i, &trigger, &quote);
-            if (!data->input[i])
-                break ;
-        }
-    }
-    if (trigger == true)
-        return (1);
-    else
-        return (0);
+	i = -1;
+	trigger = false;
+	quote = 0;
+	while (data->input[++i])
+	{
+		if (data->input[i] == '\'' || data->input[i] == '\"')
+		{
+			quote = data->input[i];
+			trigger = true;
+			i++;
+			find_match(data, &i, &trigger, &quote);
+			if (!data->input[i])
+				break ;
+		}
+	}
+	if (trigger == true)
+		return (1);
+	else
+		return (0);
 }
 
-int check_syntax(t_tok **list)
+int	check_syntax(t_tok **list)
 {
-    t_tok   *node;
-    t_tok   *tail;
+	t_tok	*node;
+	t_tok	*tail;
 
     node = *list;
     tail = get_lasttok(node);
