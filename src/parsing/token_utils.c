@@ -13,7 +13,11 @@ int	tok_len(char *str, int len)
 			|| is_set(str[i], "$"))
 		{
 			if (i == 0 && ((is_set(str[i], QUOTES))))
+			{
 				i = (1 + length_til_match(str, str[i]));
+				if(is_set(str[i], QUOTES))
+					i += tok_len(&str[i], (ft_strlen(str) - i));
+			}
 			if (i == 0 && (is_set(str[i], METACHAR)))
 				i = (length_til_set(str, WHITESPACE));
 			if (i == 0 && (is_set(str[i], "$")))
