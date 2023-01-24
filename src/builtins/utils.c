@@ -24,7 +24,7 @@ int	ft_free_strlen(char *str)
 	i = -1;
 	while (str[++i] != '\0')
 		;
-	free(str);
+	xfree(str);
 	return (i);
 }
 
