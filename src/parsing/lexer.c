@@ -83,6 +83,7 @@ void	lexer(t_data *data, char *input)
 		return ;
 	verify_dollartype(&data->token);
 	print_toklist(data->token);
+	
 	return ;
 }
 
