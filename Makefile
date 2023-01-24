@@ -43,6 +43,7 @@ PIPE_REDIRECT_F	=	\
 	pipe.c			\
 	redirect.c		\
 	redirect_utils.c\
+	heredoc.c\
 
 MAIN_F =			\
 	execution.c		\

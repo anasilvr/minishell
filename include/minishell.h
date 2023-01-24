@@ -144,12 +144,17 @@ int		first_word_len(char *str);
 int		*init_itab(int init_value, int init_size);
 
 //heredoc.c
+t_hdoc	*write_heredoc(char *delimiter);
+t_hdoc	*heredoc_parsing(char *line);
+char	*heredoc_trim(char *line);
+
+//heredoc.c
 t_hdoc	*heredoc_parsing(char *line);
 t_hdoc	*write_heredoc(char *delimiter);
 int		heredoc_to_fd(t_hdoc *hd_struct);
 
 //io.c
-void	stdio_cpy(t_data *prog_data)
+void	stdio_cpy(t_data *prog_data);
 
 // EXECUTION
 void	execution_manager(t_data *prog_data);

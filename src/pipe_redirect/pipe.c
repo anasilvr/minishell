@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:01:02 by tchalifo          #+#    #+#             */
-/*   Updated: 2023/01/19 11:43:57 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/01/24 09:49:52 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ t_cmd *jobs_loop(t_data *data)
 		close(pipe_fd[1]);
 		dup2(pipe_fd[0], 0);
 		close(pipe_fd[0]);
+		// reset_otherio(data);
 		data->cmd_lst = data->cmd_lst->next;
 	}
 	/* Bash n'attendra que le dernier processus créé, puisque pipe de par sont principe attend

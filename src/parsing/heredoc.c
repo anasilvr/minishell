@@ -52,8 +52,8 @@ t_hdoc	*heredoc_parsing(char *line)
 		{
 			if (line[++i] == ' ')
 				i++;
-			del_len = first_word_len(line[i]);
-			delimiter = ft_substr(line[i], 0, del_len);
+			del_len = first_word_len(&line[i]);
+			delimiter = ft_substr(line, i, del_len);
 			hd_data = write_heredoc(delimiter);
 			return (hd_data);
 		}
@@ -94,14 +94,14 @@ char	*heredoc_trim(char *line)
 	return (ft_strtrim(ft_substr(line, start, len), " "));
 }
 
-int	heredoc_to_fd(t_hdoc *hd_struct)
-{
-	while (hd_struct->next != NULL)
-	{
-		ft_putstr_fd(hd_struct->the_line, 1);
-		hd_struct = hd_struct->next;
-	}
-}
+// int	heredoc_to_fd(t_hdoc *hd_struct)
+// {
+// 	while (hd_struct->next != NULL)
+// 	{
+// 		ft_putstr_fd(hd_struct->the_line, 1);
+// 		hd_struct = hd_struct->next;
+// 	}
+// }
 
 // bool	is_heredoc(t_cmd *cmd_lst)
 // {

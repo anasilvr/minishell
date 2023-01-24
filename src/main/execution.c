@@ -69,6 +69,7 @@ static void	external_bin_exec(t_data *prog_data, char **argv) // argv peut etre 
 		if (execve(prog_data->cmd_lst->path, argv, prog_data->envp_cp) == -1)
 		{
 			// perror("Minishell");
+			ft_putstr_fd("TEST\n", 2);
 			ft_putstr_fd("Minishell: ", 2);
 			ft_putstr_fd("command not found: ", 2);
 			ft_putstr_fd(argv[0], 2);
@@ -80,7 +81,7 @@ static void	external_bin_exec(t_data *prog_data, char **argv) // argv peut etre 
 
 void	execution_time(t_data *prog_data)
 {
-	char **splitted_args;
+	// char **splitted_args;
 
 	// if () //checkfor asssing fd to good stdin stdout
 	builtins_checker(prog_data, prog_data->cmd_lst);
@@ -110,7 +111,7 @@ void	execution_manager(t_data *prog_data)
 			printf("fork PID at end of job == %d\n", prog_data->fork_pid);
 		}
 	}
-	reset_otherio(prog_data);
+	// reset_otherio(prog_data);
 	reset_stdio(prog_data);
 }
 
