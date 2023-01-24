@@ -45,10 +45,12 @@ char	*redirect_trim(char *line)
 	int		start;
 	int		len;
 	int		i;
+	char	*tmp;
 
 	i = 0;
 	start = 0;
 	len = 0;
+	tmp = NULL;
 	while (line[i] != '\0')
 	{
 		while (line[i] != '\0')
@@ -67,7 +69,9 @@ char	*redirect_trim(char *line)
 		while (line[i] != '\0' && line[i++] != ' ')
 			;
 	}
-	return (ft_strtrim(ft_substr(line, start, len), " "));
+	tmp = ft_substr(line, start, len);
+	xfree(line);
+	return (ft_strtrim(tmp, " "));
 }
 // NEED TO CHECK FOR FREE OLD LINE POINTER
 
