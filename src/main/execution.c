@@ -88,19 +88,21 @@ void	execution_time(t_data *prog_data)
 	if (prog_data->cmd_lst->is_builtin == false)
 	{
 		// splitted_args = ft_split(prog_data->cmd_lst->cmdline, ' ');
+
 		prog_data->cmd_lst->path = recup_the_bin_path(prog_data->cmd_lst->args[0], prog_data->envp_cp);
 		external_bin_exec (prog_data, prog_data->cmd_lst->args);
 	}
 }
-
-void	execution_manager(t_data *prog_data)
+/* only single builtin comands working */
+void	execution_manager(t_data *prog_data) 
 {
 	stdio_cpy(prog_data);
 	prog_data->fork_pid = -2;
 	prog_data->cmd_lst->is_builtin = false;
 	if (prog_data->cmd_lst != NULL)
 	{
-		if (prog_data->nb_cmds == 1)
+
+		if (prog_data->nb_pipes == 0)
 		{
 			execution_time(prog_data);
 			prog_data->cmd_lst = prog_data->cmd_lst->next;
