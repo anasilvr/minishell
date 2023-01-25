@@ -36,7 +36,7 @@ static char	*recup_the_bin_path(char *bin_name, char **p_envp)
 	complete_bin_path = NULL;
 	trimmed_path = path_env_var_to_str(p_envp);
 	splitted_path = ft_split(trimmed_path, ':');
-	xfree(trimmed_path);
+	free(trimmed_path);
 	while (splitted_path[i])
 	{
 		complete_bin_path = ft_strjoin(splitted_path[i], "/");
@@ -87,12 +87,15 @@ void	execution_time(t_data *prog_data)
 	if (prog_data->cmd_lst->is_builtin == false)
 	{
 		splitted_args = ft_split(prog_data->cmd_lst->cmdline, ' ');
-		prog_data->cmd_lst->path = recup_the_bin_path(splitted_args[0], prog_data->envp_cp);
-		external_bin_exec (prog_data, splitted_args);
+		/* next line is giving a malloc error. 
+		USE prog_data->cmd_lst->args[i] AND NOT A SPLIT OF CMDLINE!
+		The arguments were already previosly splitted taking quotes into consideration */
+		prog_data->cmd_lst->path = recup_the_bin_path(prog_data->cmd_lst->args[0], prog_data->envp_cp);
+		external_bin_exec (prog_data, prog_data->cmd_lst->args);
 	}
 }
-
-void	execution_manager(t_data *prog_data)
+/* only single builtin comands working */
+void	execution_manager(t_data *prog_data) 
 {
 	stdio_cpy(prog_data);
 	prog_data->fork_pid = -2;
@@ -100,7 +103,7 @@ void	execution_manager(t_data *prog_data)
 	if (prog_data->cmd_lst != NULL)
 	{
 		// redirect_setup(prog_data);
-		if (prog_data->nb_cmds == 1)
+		if (prog_data->nb_pipes == 0)
 		{
 			execution_time(prog_data);
 			prog_data->cmd_lst = prog_data->cmd_lst->next;

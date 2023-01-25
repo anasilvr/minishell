@@ -27,8 +27,8 @@ t_hdoc	*heredoc(char *delimiter)
 	{
 		if (line)
 		{
-			xfree(line);
-			//line = (char *) NULL;
+			free(line);
+			line = (char *) NULL;
 		}
 		line = readline("> ");
 		line = ft_strjoin_free(line, "");
