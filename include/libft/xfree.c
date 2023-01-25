@@ -17,5 +17,5 @@ void	*xfree(void *ptr)
 	if (ptr != NULL)
 		free(ptr);
 	ptr = NULL;
-	return (ptr)
+	return (ptr);
 }
