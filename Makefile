@@ -62,6 +62,8 @@ PARSE_F	=			\
 	safesplit.c		\
 	token_check.c	\
 	token_utils.c	\
+	handler.c		\
+	handler_utils.c
 
 SIGNAL_F	=
 

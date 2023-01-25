@@ -36,7 +36,7 @@ static char	*recup_the_bin_path(char *bin_name, char **p_envp)
 	complete_bin_path = NULL;
 	trimmed_path = path_env_var_to_str(p_envp);
 	splitted_path = ft_split(trimmed_path, ':');
-	free(trimmed_path);
+	xfree(trimmed_path);
 	while (splitted_path[i])
 	{
 		complete_bin_path = ft_strjoin(splitted_path[i], "/");
@@ -101,7 +101,6 @@ void	execution_manager(t_data *prog_data)
 	prog_data->cmd_lst->is_builtin = false;
 	if (prog_data->cmd_lst != NULL)
 	{
-
 		if (prog_data->nb_pipes == 0)
 		{
 			execution_time(prog_data);

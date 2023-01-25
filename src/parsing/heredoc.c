@@ -26,8 +26,8 @@ t_hdoc	*write_heredoc(char *delimiter)
 	{
 		if (line)
 		{
-			free(line);
-			line = (char *) NULL;
+			xfree(line);
+			//line = (char *) NULL;
 		}
 		line = readline("> ");
 		// Sans doute la meilleur endroit pour la gestion des $sign (expention)
