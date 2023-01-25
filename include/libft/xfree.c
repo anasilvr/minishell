@@ -12,9 +12,10 @@
 
 #include "libft.h"
 
-void	xfree(void *ptr)
+void	*xfree(void *ptr)
 {
 	if (ptr != NULL)
 		free(ptr);
 	ptr = NULL;
+	return (ptr)
 }
