@@ -33,6 +33,5 @@ char	*ft_strtrim(char const *s1, char const *set)
 	while (slen != 0 && ft_strchr(set, s1[slen]) != 0)
 		slen--;
 	temp = ft_substr(s1, 0, slen + 1);
-	xfree((void *)s1);
 	return (temp);
 }

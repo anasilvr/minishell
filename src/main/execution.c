@@ -100,7 +100,7 @@ void	execution_manager(t_data *prog_data)
 	prog_data->cmd_lst->is_builtin = false;
 	if (prog_data->cmd_lst != NULL)
 	{
-		if (prog_data->nb_cmds == 1)
+		if (prog_data->nb_pipes == 0)
 		{
 			execution_time(prog_data);
 			prog_data->cmd_lst = prog_data->cmd_lst->next;

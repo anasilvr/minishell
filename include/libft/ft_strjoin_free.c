@@ -37,6 +37,5 @@ char	*ft_strjoin_free(char const *s1, char const *s2)
 		index_src++;
 	}
 	temp[index_dst] = '\0';
-	free((void *)s1);
 	return (temp);
 }

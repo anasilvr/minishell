@@ -14,7 +14,7 @@ static void find_match(t_data *data, int *i, bool *trigger, char *quote)
     }
 }
 
-static char *charjoinfree(const char *s1, const char c)
+char *charjoinfree(const char *s1, const char c)
 {
     char    *str;
     int     len;
@@ -22,6 +22,12 @@ static char *charjoinfree(const char *s1, const char c)
     len = ft_strlen(s1);
     str = ft_calloc(len + 2, sizeof(char));
     len = 0;
+	if (s1 == NULL)
+	{
+		str[0] = c;
+		str[1] = '\0';
+		return (str);
+	}
     while (s1[len])
     {
         str[len] = s1[len];
@@ -134,8 +140,9 @@ void    lexer(t_data *data, char *input)
         data->syntax_err = 90;
         return ;
     }
+    data->input = treat_line(data->input, data->envp_cp);
     data->token = tokenize(data, input);
-    clean_empty_quotes(&data->token);
+//    clean_empty_quotes(&data->token);
     if (!data->token)
         return ;
     g_status = id_tokens(&data->token, data);

@@ -188,7 +188,7 @@ void	free_toklist(t_tok *lst);
 // main.c
 void	wtshell(t_data *data);
 void	readline_exit(t_data *data);
-char	*rl_gets(void);
+char	*rl_gets(char **env_cp);
 
 // print_utils.c
 void	print_intro(void);
@@ -235,6 +235,17 @@ void	verify_dollartype(t_tok **list);
 //extra
 char	**safesplit(char const *s, char c); // split that conserves all characters
 char	*ft_strjoin_free2(char const *s1, char const *s2);
+
+//line handler
+int	        space_handler(char *str, int i);
+char        *double_quote_handler(char *cmd, char **env, int* j);
+char        *dollar_handler(char *cmd, char **env, int* j);
+char		*cpy_env_var(char **env, char *var);
+char        *single_quotes_handler(char *line, int *j);
+char        *treat_line(char *line, char **env_cp);
+int         quotes_len(char *line, int *j, char q);
+char 		*charjoinfree(const char *s1, const char c);
+
 
 #endif
 
