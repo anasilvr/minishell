@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:44:57 by anarodri          #+#    #+#             */
-/*   Updated: 2023/01/17 15:24:15 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/01/25 14:32:07 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,10 @@ void	wtshell(t_data *data)
 			printf("----------START OF CMDLIST_DETAILS----------\n");
 			cmdlist_details(data->cmd_lst);
 			printf("----------END OF CMDLIST_DETAILS----------\n");
+			printf("\t\033[1m\033[32m[Starting execution...]\033[0m\n");
 			if (data->cmd_lst->err != -1)
 				execution_manager(data);
+			printf("\t\033[1m\033[32m[DONE! Starting reset...]\033[0m\n");
 			reset(data);
 		}
 		if (data->syntax_err)

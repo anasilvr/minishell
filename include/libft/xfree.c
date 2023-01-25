@@ -6,16 +6,15 @@
 /*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 17:39:04 by anarodri          #+#    #+#             */
-/*   Updated: 2022/11/17 17:10:06 by anarodri         ###   ########.fr       */
+/*   Updated: 2023/01/25 13:54:55 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*xfree(void *ptr)
+void	xfree(void *ptr)
 {
 	if (ptr != NULL)
 		free(ptr);
 	ptr = NULL;
-	return (NULL);
 }

@@ -79,6 +79,25 @@ static void clean_empty_quotes(t_tok **lst)
 	}
 }
 
+char	*charjoinfree(char *s1, const char c)
+{
+	char	*str;
+	int		len;
+
+	len = ft_strlen(s1);
+	str = ft_calloc(len + 2, sizeof(char));
+	len = 0;
+	while (s1[len])
+	{
+		str[len] = s1[len];
+		len++;
+	}
+	str[len] = c;
+	str[len + 1] = '\0';
+	xfree(s1);
+	return (str);
+}
+
 static int	valid_quotation(t_data *data)
 {
 	int		i;
