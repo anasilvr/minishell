@@ -14,7 +14,7 @@ static void find_match(t_data *data, int *i, bool *trigger, char *quote)
     }
 }
 
-char *charjoinfree(const char *s1, const char c)
+char *charjoinfree(char *s1, char c)
 {
     char    *str;
     int     len;
