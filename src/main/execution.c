@@ -69,6 +69,7 @@ static void	external_bin_exec(t_data *prog_data, char **argv) // argv peut etre 
 		if (execve(prog_data->cmd_lst->path, argv, prog_data->envp_cp) == -1)
 		{
 			// perror("Minishell");
+			ft_putstr_fd("TEST\n", 2);
 			ft_putstr_fd("Minishell: ", 2);
 			ft_putstr_fd("command not found: ", 2);
 			ft_putstr_fd(argv[0], 2);
@@ -80,16 +81,14 @@ static void	external_bin_exec(t_data *prog_data, char **argv) // argv peut etre 
 
 void	execution_time(t_data *prog_data)
 {
-	char **splitted_args;
+	// char **splitted_args;
 
 	// if () //checkfor asssing fd to good stdin stdout
 	builtins_checker(prog_data, prog_data->cmd_lst);
 	if (prog_data->cmd_lst->is_builtin == false)
 	{
-		splitted_args = ft_split(prog_data->cmd_lst->cmdline, ' ');
-		/* next line is giving a malloc error. 
-		USE prog_data->cmd_lst->args[i] AND NOT A SPLIT OF CMDLINE!
-		The arguments were already previosly splitted taking quotes into consideration */
+		// splitted_args = ft_split(prog_data->cmd_lst->cmdline, ' ');
+
 		prog_data->cmd_lst->path = recup_the_bin_path(prog_data->cmd_lst->args[0], prog_data->envp_cp);
 		external_bin_exec (prog_data, prog_data->cmd_lst->args);
 	}
@@ -102,7 +101,7 @@ void	execution_manager(t_data *prog_data)
 	prog_data->cmd_lst->is_builtin = false;
 	if (prog_data->cmd_lst != NULL)
 	{
-		// redirect_setup(prog_data);
+
 		if (prog_data->nb_pipes == 0)
 		{
 			execution_time(prog_data);
@@ -110,17 +109,11 @@ void	execution_manager(t_data *prog_data)
 		}
 		else
 		{
-			prog_data->cmd_lst = job_loop(prog_data);
+			prog_data->cmd_lst = jobs_loop(prog_data);
 			printf("fork PID at end of job == %d\n", prog_data->fork_pid);
 		}
-		/* Boucle pour les chaine de redirection infile1 > infile2 > infile3... */
-		// while (prog_data->cmd_lst != NULL)
-		// {
-		// 	redir_manader(prog_data);
-
-		// 	prog_data->cmd_lst = prog_data->cmd_lst->next;
-		// }
 	}
+	// reset_otherio(prog_data);
 	reset_stdio(prog_data);
 }
 

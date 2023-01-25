@@ -18,11 +18,9 @@
 */
 t_hdoc	*write_heredoc(char *delimiter)
 {
-	char	*content;
 	char	*line;
 	t_hdoc	*hd_struct;
 
-	content = (char *) NULL;
 	line = (char *) NULL;
 	while (ft_strcmp(delimiter, line))
 	{
@@ -32,20 +30,78 @@ t_hdoc	*write_heredoc(char *delimiter)
 			line = (char *) NULL;
 		}
 		line = readline("> ");
-		line = ft_strjoin_free(line, "");
+		// Sans doute la meilleur endroit pour la gestion des $sign (expention)
 		hd_struct = ft_dllst_add_back(hd_struct, line);
 	}
 	return (hd_struct);
 }
 
-int	heredoc_to_fd(t_hdoc *hd_struct)
+//trouver le heredoc
+//supprimer le heredoc
+t_hdoc	*heredoc_parsing(char *line)
 {
-	while (hd_struct->next != NULL)
+	int		i;
+	char	*delimiter;
+	int		del_len;
+	t_hdoc	*hd_data;
+
+	i = 0;
+	while(line[i] != '\0')
 	{
-		ft_putstr_fd(hd_struct->the_line, 1);
-		hd_struct = hd_struct->next;
+		if (line[i] == '<' && line[i + 1] != '<')
+		{
+			if (line[++i] == ' ')
+				i++;
+			del_len = first_word_len(&line[i]);
+			delimiter = ft_substr(line, i, del_len);
+			hd_data = write_heredoc(delimiter);
+			return (hd_data);
+		}
+		i++;
 	}
+	return (NULL);
 }
+
+//Probleme avec cela, si le heredoc est en plein milieux ca va enlever la suite... cat <<EOF >> outfile  ..>>outfile ne sera plus..
+char	*heredoc_trim(char *line)
+{
+	int		start;
+	int		len;
+	int		i;
+
+	i = 0;
+	start = 0;
+	len = 0;
+	while (line[i] != '\0')
+	{
+		while (line[i] != '\0')
+		{
+			if (line[i] == '<' && line[i + 1] == '<')
+			{
+				i += 2;
+				while (line[i] == ' ')
+					i++;
+				break;
+			}
+			if (start == 0 && i != 0 && len < 1)
+				start = i;
+			len++;
+			i++;
+		}
+		while (line[i] != '\0' && line[i++] != ' ')
+			len++;
+	}
+	return (ft_strtrim(ft_substr(line, start, len), " "));
+}
+
+// int	heredoc_to_fd(t_hdoc *hd_struct)
+// {
+// 	while (hd_struct->next != NULL)
+// 	{
+// 		ft_putstr_fd(hd_struct->the_line, 1);
+// 		hd_struct = hd_struct->next;
+// 	}
+// }
 
 // bool	is_heredoc(t_cmd *cmd_lst)
 // {
