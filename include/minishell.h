@@ -245,8 +245,6 @@ char		*cpy_env_var(char **env, char *var);
 char        *single_quotes_handler(char *line, int *j);
 char        *treat_line(char *line, char **env_cp);
 int         quotes_len(char *line, int *j, char q);
-char 		*charjoinfree(const char *s1, const char c);
-
 
 #endif
 
