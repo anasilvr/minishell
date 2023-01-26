@@ -29,8 +29,8 @@ t_cmd	*create_cmdlist(t_data *data)
 	str = data->input;
 	while (*str)
 	{
-		skip_whitespaces(&str);
 		len = cmd_len(str, ft_strlen(str));
+		// heredoc parsing is segfaulting
 		data->hd_struct = heredoc_parsing(ft_substr(str, 0, len));
 		addback_cmdline(&cmdlst, new_cmdline(ft_substr(str, 0, len)));
 		str += (len);

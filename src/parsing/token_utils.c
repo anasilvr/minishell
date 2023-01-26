@@ -70,7 +70,7 @@ int length_til_set(char *str, char *set)
     i = 1;
     while (str[i] && str[i] != '\0')
     {
-        if (is_set(str[i], set) || is_set(str[i], METACHAR))
+        if (is_set(str[i], set) || !is_set(str[i], METACHAR))
             break ;
         i++;
     }

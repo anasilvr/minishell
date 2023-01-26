@@ -27,10 +27,10 @@ t_hdoc	*write_heredoc(char *delimiter)
 		if (line)
 		{
 			xfree(line);
-			//line = (char *) NULL;
+			line = (char *) NULL;
 		}
 		line = readline("> ");
-		// Sans doute la meilleur endroit pour la gestion des $sign (expention)
+		//Sans doute la meilleur endroit pour la gestion des $sign (expention)
 		hd_struct = ft_dllst_add_back(hd_struct, line);
 	}
 	return (hd_struct);
