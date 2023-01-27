@@ -140,7 +140,7 @@ void    lexer(t_data *data, char *input)
         data->syntax_err = 90;
         return ;
     }
-    data->input = treat_line(data->input, data->envp_cp);
+//    data->input = treat_line(data->input, data->envp_cp);
     data->token = tokenize(data, input);
 //    clean_empty_quotes(&data->token);
     if (!data->token)
@@ -149,6 +149,7 @@ void    lexer(t_data *data, char *input)
     if (g_status)
         return ;
     verify_dollartype(&data->token);
+    treat_line(&data->token, data->envp_cp);
     return ;
 }
 
