@@ -24,14 +24,14 @@ t_hdoc	*write_heredoc(char *delimiter)
 	line = (char *) NULL;
 	while (ft_strcmp(delimiter, line))
 	{
+		line = readline("> ");
+		// Sans doute la meilleur endroit pour la gestion des $sign (expention)
+		hd_struct = ft_dllst_add_back(hd_struct, line);
 		if (line)
 		{
 			xfree(line);
 			//line = (char *) NULL;
 		}
-		line = readline("> ");
-		// Sans doute la meilleur endroit pour la gestion des $sign (expention)
-		hd_struct = ft_dllst_add_back(hd_struct, line);
 	}
 	return (hd_struct);
 }
@@ -46,11 +46,11 @@ t_hdoc	*heredoc_parsing(char *line)
 	t_hdoc	*hd_data;
 
 	i = 0;
-	while(line[i] != '\0')
+	while(line[i] != '\0' && line[i + 1] != '\0')
 	{
 		if (line[i] == '<' && line[i + 1] != '<')
 		{
-			if (line[++i] == ' ')
+			while (line[++i] == ' ')
 				i++;
 			del_len = first_word_len(&line[i]);
 			delimiter = ft_substr(line, i, del_len);
@@ -94,15 +94,30 @@ char	*heredoc_trim(char *line)
 	return (ft_strtrim(ft_substr(line, start, len), " "));
 }
 
-// int	heredoc_to_fd(t_hdoc *hd_struct)
-// {
-// 	while (hd_struct->next != NULL)
-// 	{
-// 		ft_putstr_fd(hd_struct->the_line, 1);
-// 		hd_struct = hd_struct->next;
-// 	}
-// }
+int	*heredoc_to_pipe(t_hdoc *hd_struct)
+{
+	int	hd_pipe_fd[2];
+	int	hd_fork_pid;
 
+	if (pipe(hd_pipe_fd) == -1)
+	return (errno);
+	hd_fork_pid = fork ();
+	if (hd_fork_pid == -1)
+		return (errno);
+	if (hd_pipe_fd == 0)
+	{
+		while (hd_struct->next != NULL)
+		{
+			close(hd_pipe_fd[0]);
+			ft_putstr_fd(hd_struct->the_line, hd_pipe_fd[1]);
+			hd_struct = hd_struct->next;
+		}
+		exit(0);
+	}
+	return (hd_pipe_fd);
+}
+
+heredoc_
 // bool	is_heredoc(t_cmd *cmd_lst)
 // {
 // 	while (cmd_lst->next != NULL)

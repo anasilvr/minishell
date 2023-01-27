@@ -94,14 +94,14 @@ void	execution_time(t_data *prog_data)
 	}
 }
 /* only single builtin comands working */
-void	execution_manager(t_data *prog_data) 
+void	execution_manager(t_data *prog_data)
 {
 	stdio_cpy(prog_data);
 	prog_data->fork_pid = -2;
-	prog_data->cmd_lst->is_builtin = false;
 	if (prog_data->cmd_lst != NULL)
 	{
-		if (prog_data->nb_pipes == 0)
+		prog_data->cmd_lst->is_builtin = false;
+		if (prog_data->nb_pipes == 0 && prog_data->heredoc == FALSE)
 		{
 			execution_time(prog_data);
 			prog_data->cmd_lst = prog_data->cmd_lst->next;
