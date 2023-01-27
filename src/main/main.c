@@ -74,6 +74,7 @@ void	wtshell(t_data *data)
 		while (!data->syntax_err && !is_empty(data->input))
 		{
 			lexer(data, data->input);
+			print_toklist(data->token);
 			if (data->syntax_err || !data->token)
 				break ;
 			parser(data);
