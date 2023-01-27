@@ -141,6 +141,7 @@ t_cmd	*new_cmdline(char *line)
 	new->err = -2;
 	new->prev = NULL;
 	new->next = NULL;
+	xfree(line);
 	return (new);
 }
 

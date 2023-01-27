@@ -6,13 +6,13 @@
 /*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 15:56:05 by anarodri          #+#    #+#             */
-/*   Updated: 2022/10/11 14:51:13 by anarodri         ###   ########.fr       */
+/*   Updated: 2023/01/25 14:29:18 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strjoin_free(char const *s1, char const *s2)
+char	*ft_strjoin_free(char *s1, char const *s2)
 {
 	char	*temp;
 	size_t	index_dst;
@@ -37,5 +37,6 @@ char	*ft_strjoin_free(char const *s1, char const *s2)
 		index_src++;
 	}
 	temp[index_dst] = '\0';
+	xfree(s1);
 	return (temp);
 }
