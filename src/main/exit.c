@@ -27,8 +27,8 @@ void	free_toklist(t_tok *lst)
 		return ;
 	while (lst)
 	{
-		xfree(lst->token);
 		tmp = lst->next;
+		xfree(lst->token);
 		xfree(lst);
 		lst = tmp;
 	}
@@ -42,10 +42,10 @@ void	free_cmdlist(t_cmd *lst)
 		return ;
 	while (lst)
 	{
+		tmp = lst->next;
 		xfree(lst->cmdline);
 		free_tab(lst->args);
 		xfree(lst->hd_delimiter);
-		tmp = lst->next;
 		xfree(lst);
 		lst = tmp;
 	}
