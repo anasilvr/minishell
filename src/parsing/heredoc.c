@@ -30,7 +30,7 @@ t_hdoc	*write_heredoc(char *delimiter)
 		if (line)
 		{
 			xfree(line);
-			//line = (char *) NULL;
+			line = (char *) NULL;
 		}
 	}
 	return (hd_struct);

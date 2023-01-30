@@ -70,7 +70,7 @@ void	verify_dollartype(t_tok **list)
 		if (node->type == DOLLAR)
 		{
 			if (ft_strlen (node->token) == 1)
-				node->type = D_LITERAL;
+				node->type = WORD;
 			if (ft_strlen(node->token) >= 2)
 			{
 				if (is_set(node->token[1], QUOTES))

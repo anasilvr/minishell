@@ -65,26 +65,31 @@ char	**create_args(t_tok **token)
 	return (args);
 }
 
-void	split_args(t_cmd *cmd_lst, t_tok *token)
+void split_args(t_cmd **cmd_lst, t_tok *token)
 {
-	while (cmd_lst && token)
+	t_cmd *lst;
+	t_cmd *head;
+
+	head = *cmd_lst;
+	lst = *cmd_lst;
+
+	int i = 1;
+	while (lst && token)
 	{
-		cmd_lst->args = create_args(&token);
+		lst->args = create_args(&token);
+		i++;
 		if (token && (token->type == PIPE))
 			token = token->next;
-		cmd_lst = cmd_lst->next;
+		lst = lst->next;
 	}
+	*cmd_lst = head;
 }
 
 void	parser(t_data *data)
 {
 	data->cmd_lst = create_cmdlist(data);
 	count_expand(data->cmd_lst, data->token);
-	split_args(data->cmd_lst, data->token);
-	// heredoc handling here
-	// if (data->cmd_lst->io_flag == HEREDOC)
-	// 	write_heredoc(data->hd_delimiter);
-	//pre-open files and assign fds here! :)
+	split_args(&data->cmd_lst, data->token);
 	if (data->cmd_lst->filefd[0] == -1 || \
 	(data->cmd_lst->filefd[1] == -1 && errno == EACCES))
 	{

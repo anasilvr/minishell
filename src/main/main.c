@@ -6,7 +6,7 @@
 /*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:44:57 by anarodri          #+#    #+#             */
-/*   Updated: 2023/01/25 14:32:07 by anarodri         ###   ########.fr       */
+/*   Updated: 2023/01/27 19:12:57 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,13 @@ void	wtshell(t_data *data)
 			parser(data);
 			if (data->syntax_err || !data->cmd_lst)
 				break ;
-			printf("----------START OF CMDLIST_DETAILS----------\n");
+			printf("\033[1m\033[31m----------START OF CMDLIST_DETAILS----------\033[0m\n");
 			cmdlist_details(data->cmd_lst);
-			printf("----------END OF CMDLIST_DETAILS----------\n");
+			printf("\033[1m\033[31m----------END OF CMDLIST_DETAILS----------\033[0m\n");
 			printf("\t\033[1m\033[32m[Starting execution...]\033[0m\n");
 			if (data->cmd_lst->err != -1)
 				execution_manager(data);
-			printf("\t\033[1m\033[32m[DONE! Starting reset...]\033[0m\n");
+			printf("\t\033[1m\033[32m[DONE! Starting reset...]\033[0m\n\n");
 			reset(data);
 		}
 		if (data->syntax_err)

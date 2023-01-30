@@ -20,7 +20,7 @@ char *charjoinfree(char *s1, char c)
     int     len;
 
     len = ft_strlen(s1);
-    str = ft_calloc(len + 2, sizeof(char));
+    str = ft_calloc(len + 1, sizeof(char));
     len = 0;
 	if (s1 == NULL)
 	{
@@ -140,7 +140,7 @@ void    lexer(t_data *data, char *input)
         data->syntax_err = 90;
         return ;
     }
-    data->input = treat_line(data->input, data->envp_cp);
+//    data->input = treat_line(data->input, data->envp_cp);
     data->token = tokenize(data, input);
 //    clean_empty_quotes(&data->token);
     if (!data->token)
@@ -149,6 +149,11 @@ void    lexer(t_data *data, char *input)
     if (g_status)
         return ;
     verify_dollartype(&data->token);
+	printf("\033[1m\033[31m[At lexer.c]\nBEFORE TREAT LINE:\033[0m\n");
+	print_toklist(data->token);
+    treat_line(&data->token, data->envp_cp);
+	printf("\033[1m\033[31mAFTER TREAT LINE:\033[0m\n");
+	print_toklist(data->token);
     return ;
 }
 

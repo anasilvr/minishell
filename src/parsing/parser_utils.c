@@ -23,16 +23,19 @@ t_cmd	*create_cmdlist(t_data *data)
 	size_t		len;
 	t_cmd		*cmdlst;
 	char		*str;
+	char		*line;
 
 	len = 0;
 	cmdlst = NULL;
 	str = data->input;
+	line = NULL;
 	while (*str)
 	{
-		skip_whitespaces(&str);
 		len = cmd_len(str, ft_strlen(str));
-		data->hd_struct = heredoc_parsing(ft_substr(str, 0, len));
-		addback_cmdline(&cmdlst, new_cmdline(ft_substr(str, 0, len)));
+		// heredoc parsing is segfaulting
+	//	data->hd_struct = heredoc_parsing(ft_substr(str, 0, len));
+		line = ft_substr(str, 0, len);
+		addback_cmdline(&cmdlst, new_cmdline(line));
 		str += (len);
 		skip_whitespaces(&str);
 		skip_meta(&str);
@@ -78,7 +81,7 @@ char	*cmdline_purged_cpy(char *line, int new_line_len)
 
 	i = 0;
 	j = 0;
-	new_cmdline = ft_calloc(sizeof(char *), new_line_len + 1);
+	new_cmdline = ft_xcalloc(new_line_len + 1, sizeof(char *));
 	while (line[i] != '\0')
 	{
 		if (line[i] == '>' || line[i] == '<')
@@ -113,7 +116,9 @@ char	*cmdline_redir_drop(char *line)
 	i = 0;
 	while (line[i] != '\0')
 	{
-		if (line[i] == '>' || (line[i] == '>' && line[i + 1] == '>') || line[i] == '<' || (line[i] == '<' && line[i + 1] == '<'))
+		if (line[i] == '>' || (line[i] == '>' && line[i + 1] == '>') 
+			|| line[i] == '<'
+				 || (line[i] == '<' && line[i + 1] == '<'))
 		{
 			i++;
 			redir_len = cmdline_redirlen(line, i);
@@ -133,6 +138,8 @@ t_cmd	*new_cmdline(char *line)
 	new = ft_xcalloc(1, sizeof(t_cmd));
 	new->filefd[0] = -2;
 	new->filefd[1] = -2;
+//	new->cmdline = ft_strdup(line);
+	//here
 	redirect_parsing(line, new->filefd);
 	new->cmdline = cmdline_redir_drop(line);
 	new->pipefd[0] = -2;
@@ -141,7 +148,6 @@ t_cmd	*new_cmdline(char *line)
 	new->err = -2;
 	new->prev = NULL;
 	new->next = NULL;
-	xfree(line);
 	return (new);
 }
 

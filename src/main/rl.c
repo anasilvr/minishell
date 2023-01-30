@@ -7,34 +7,46 @@ void	readline_exit(t_data *data)
 	exit(0);
 }
 
-char *treat_line(char *line, char **env_cp)
+void treat_line(t_tok **tok, char **env_cp)
 {
     int i;
     char *r_line;
     char *r_var;
+    t_tok *node;
 
-    i = -1;
     r_line = NULL;
     r_var = NULL;
-    while (line[++i] != '\0')
+    node = *tok;
+    while (node != NULL)
     {
-        if (line[i] == '$')
-            r_var = dollar_handler(line, env_cp, &i);
-        if (line[i] == '\'')
-            r_var = single_quotes_handler(line, &i);
-		else if (line[i] == '"')
-			r_var = double_quote_handler(line, env_cp, &i);
-        if (r_var != NULL && r_line == NULL)
-            r_line = ft_strdup(r_var);
-        else if (r_var != NULL && r_line != NULL)
-            r_line = ft_strjoin_free(r_line, r_var);
-		else if (r_var == NULL)
-			r_line = charjoinfree(r_line, line[i]);
-		if (r_var != NULL)
-			r_var = xfree(r_var);
+        i = -1;
+        while (node->token[++i] != '\0')
+        {
+            if (node->type != WORD && node->type != D_EXPAND)
+                break ;
+            if (node->token[i] == '$')
+                r_var = dollar_handler(node->token, env_cp, &i);
+            if (node->token[i] == '\'' && r_var == NULL)
+                r_var = single_quotes_handler(node->token, &i);
+            else if (node->token[i] == '"' && r_var == NULL)
+                r_var = double_quote_handler(node->token, env_cp, &i);
+            if (r_var != NULL && r_line == NULL)
+                r_line = ft_strdup(r_var);
+            else if (r_var != NULL && r_line != NULL)
+                r_line = ft_strjoin_free(r_line, r_var);
+            else if (r_var == NULL)
+                r_line = charjoinfree(r_line, node->token[i]);
+            if (r_var != NULL)
+                r_var = xfree(r_var);
+        }
+		if (node->type == WORD || node->type == D_EXPAND)
+		{
+			xfree(node->token);
+        	node->token = ft_strdup(r_line);
+        	r_line = xfree(r_line);
+		}
+        node = node->next;
     }
-    printf("%s\n", r_line);
-    return (r_line);
 }
 
 char	*rl_gets(char **env_cp)
