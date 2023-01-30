@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:01:02 by tchalifo          #+#    #+#             */
-/*   Updated: 2023/01/24 09:49:52 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/01/26 12:19:14 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,21 @@
 
 static void	job_set(t_data *data, int pipe_fd[2])
 {
+	hd_pipe_fd[2];
+	/* Si il sagit d'un heredoc, Un nouveau pipe est créé. Il sera connecté
+	 * du bord écriture à la fonction ft_putstr_fd qui, depuis un processus
+	 * enfant au préalablement créé, lira la string de chaque nodes que
+	 * comprend le heredoc et l'enverra dans le pipe. Ensuite, le processus
+	 * parent, qui n'attendra pas le fin de son processus enfant, connectera
+	 * le bord lecture du pipe à l'entrée standard (stdin) du système.
+	 */
+	if (data->heredoc == TRUE)
+	{
+		hd_pipe_fd = heredoc_to_pipe(data);
+		close (hd_pipe_fd[1]);
+		dup2 (hd_pipe_fd[0], 0);
+		close (hd_pipe_fd[0]);
+	}
 	/* Si il sagit de la premiere cmd, verifier si il y a une redir d'input */
 	if (data->cmd_lst->filefd[0] != -2)
 	{
