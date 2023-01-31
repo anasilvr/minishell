@@ -174,6 +174,8 @@ void	exec_set(t_data *data);
 void	clean_exit(t_data *data);
 void	free_cmdlist(t_cmd *lst);
 void	reset(t_data *data);
+void	delmidnode_toklist(t_tok *token_lst);
+void	delnode_toklist(t_tok *token_lst);
 
 // init.c
 t_data	*get_data(void);

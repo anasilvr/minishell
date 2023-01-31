@@ -36,11 +36,3 @@ t_tok	*get_lasttok(t_tok *node)
 		node = node->next;
 	return (node);
 }
-
-void	del_token(t_tok *lst)
-{
-	if (!lst)
-		return ;
-	xfree(lst->token);
-	xfree(lst);
-}

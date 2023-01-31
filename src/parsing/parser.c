@@ -54,6 +54,7 @@ char	**create_args(t_tok **token)
 		nb_args = count_args(token);
 		args = ft_xcalloc((nb_args + 1), sizeof(char *));
 		i = 0;
+
 		while (i < nb_args)
 		{
 			args[i] = ft_strdup(tok->token);
@@ -65,12 +66,16 @@ char	**create_args(t_tok **token)
 	return (args);
 }
 
-void split_args(t_cmd *cmd_lst)
+void split_args(t_cmd **cmd_lst, t_tok *token)
 {
-	int	i;
+	t_cmd *lst;
+	t_cmd *head;
 
-	i = 0;
-	while (cmd_lst != NULL)
+	head = *cmd_lst;
+	lst = *cmd_lst;
+
+	int i = 1;
+	while (lst && token)
 	{
 		lst->args = create_args(&token);
 		i++;
@@ -81,31 +86,77 @@ void split_args(t_cmd *cmd_lst)
 	*cmd_lst = head;
 }
 
-// OLD
-// void split_args(t_cmd **cmd_lst, t_tok *token)
-// {
-// 	t_cmd *lst;
-// 	t_cmd *head;
+static int	redirect_creation(char *line, int type, int *i)
+{
+	char	*redirect_filename;
+	int		filename_len;
+	int		fd; //0 == fdin, 1 == fdout
 
-// 	head = *cmd_lst;
-// 	lst = *cmd_lst;
+	filename_len = first_word_len(&line[(*i)]);
+	redirect_filename = ft_substr(&line[(*i)], 0, filename_len);
+	fd = -2;
+	if (type == 0)
+		fd = open_to_read(redirect_filename, 0);
+	else if (type == 1)
+		fd = open_to_readwrite(redirect_filename,O_TRUNC);
+	else if (type == 2)
+		fd = open_to_readwrite(redirect_filename, O_APPEND);
+	(*i) += filename_len;
+	return (fd);
+}
 
-// 	int i = 1;
-// 	while (lst && token)
-// 	{
-// 		lst->args = create_args(&token);
-// 		i++;
-// 		if (token && (token->type == PIPE))
-// 			token = token->next;
-// 		lst = lst->next;
-// 	}
-// 	*cmd_lst = head;
-// }
+/* La fonction traite les redirections < , > et >> depuis la liste de tokens.
+ * Elle permet l'ouverture des fichiers en leur attribuant chacun un fd qui
+ * seront niché dans les différents nodes de la liste cmd_lst et retire les
+ * nodes de la liste de tokens. Ainsi, lors de la création des arguments de la
+ * liste de commandes, seul les commandes et leurs arguments seront présent.
+ *
+ * PROTOTYPE : void	redirect_subparsing(t_data *data);
+ *
+ * PARAMÈTRES : La fonction prend en paramètre la struct data de notre
+ * programme.
+ *
+ * RETOUR : Elle ne retourne rien.
+ *
+ * DETAILS :
+ */
+void	redirect_subparsing(t_data *data)
+{
+	while (data->token->next != NULL)
+	{
+		if (data->token->type == PIPE)
+		{
+			data->cmd_lst = data->cmd_lst->next;
+			data->token = data->token->next;
+		}
+		else if (data->token->type == APPEND) // >>
+		{
+			delmidnode_toklist(data->token);
+			data->cmd_lst->filefd[1] = open_to_readwrite(data->token->next->token, O_APPEND);
+			delmidnode_toklist(data->token);
+		}
+		else if (data->token->type == REDIR_OUT) // >
+		{
+			delmidnode_toklist(data->token);
+			data->cmd_lst->filefd[1] = open_to_readwrite(data->token->next->token, O_TRUNC);
+			delmidnode_toklist(data->token);
+		}
+		else if (data->token->type == REDIR_IN) // <
+		{
+			delmidnode_toklist(data->token);
+			data->cmd_lst->filefd[1] = open_to_readwrite(data->token->token, 0);
+			delmidnode_toklist(data->token);
+		}
+		data->token = data->token->next;
+	}
+}
 
 void	parser(t_data *data)
 {
 	data->cmd_lst = create_cmdlist(data);
 	count_expand(data->cmd_lst, data->token);
+	// Traitement des redirection
+	redirect_subparsing(data);
 	split_args(&data->cmd_lst, data->token);
 	if (data->cmd_lst->filefd[0] == -1 || \
 	(data->cmd_lst->filefd[1] == -1 && errno == EACCES))

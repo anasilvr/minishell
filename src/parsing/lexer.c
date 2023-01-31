@@ -143,6 +143,7 @@ void    lexer(t_data *data, char *input)
 //    data->input = treat_line(data->input, data->envp_cp);
     data->token = tokenize(data, input);
 //    clean_empty_quotes(&data->token);
+	printf("TOKEN = %s\n", data->token->token);
     if (!data->token)
         return ;
     g_status = id_tokens(&data->token, data);
@@ -152,6 +153,7 @@ void    lexer(t_data *data, char *input)
 	printf("\033[1m\033[31m[At lexer.c]\nBEFORE TREAT LINE:\033[0m\n");
 	print_toklist(data->token);
     treat_line(&data->token, data->envp_cp);
+
 	printf("\033[1m\033[31mAFTER TREAT LINE:\033[0m\n");
 	print_toklist(data->token);
     return ;

@@ -116,7 +116,7 @@ char	*cmdline_redir_drop(char *line)
 	i = 0;
 	while (line[i] != '\0')
 	{
-		if (line[i] == '>' || (line[i] == '>' && line[i + 1] == '>') 
+		if (line[i] == '>' || (line[i] == '>' && line[i + 1] == '>')
 			|| line[i] == '<'
 				 || (line[i] == '<' && line[i + 1] == '<'))
 		{
@@ -140,7 +140,7 @@ t_cmd	*new_cmdline(char *line)
 	new->filefd[1] = -2;
 //	new->cmdline = ft_strdup(line);
 	//here
-	redirect_parsing(line, new->filefd);
+	// redirect_parsing(line, new->filefd);
 	new->cmdline = cmdline_redir_drop(line);
 	new->pipefd[0] = -2;
 	new->pipefd[1] = -2;
