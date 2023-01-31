@@ -27,7 +27,7 @@ void	print_toklist(t_tok *list)
 	i = 0;
 	while (list)
 	{
-		printf("token[%d] [type = %u] [ %s ]\n", i, list->type, list->token);
+		printf("token[%d] [type = %u / len = %zu] [ %s ]\n", i, list->type, ft_strlen(list->token), list->token);
 		list = list->next;
 		i++;
 	}

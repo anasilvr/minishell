@@ -24,7 +24,7 @@ char *double_quote_handler(char *line, char **env, int* j)
     len = 0;
 	r_env = NULL;
     r_quotes = NULL;
-    r_line = ft_calloc(sizeof(char), 1);
+    r_line = ft_calloc(1, sizeof(char));
     len = quotes_len(line, j, '"');
     if (len == 0)
         return (r_env);

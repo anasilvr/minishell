@@ -45,7 +45,6 @@ void treat_line(t_tok **tok, char **env_cp)
 		if (node->type == WORD || node->type == D_EXPAND)
 		{
 			xfree(node->token);
-       		printf("%s\n", r_line);
         	node->token = ft_strdup(r_line);
         	r_line = xfree(r_line);
 		}
