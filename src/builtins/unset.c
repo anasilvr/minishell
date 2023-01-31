@@ -74,15 +74,18 @@ void	unset_handler(char **instruct, t_data *data)
 	}
 }
 
-char	**unset_dup(char **env, char *var)
+void unset_dup(char **env, char *var)
 {
-	int		r_check;
-	char	**r_env;
+    int     r_check;
+    int     i;
 
-	r_env = NULL;
-	r_check = check_env_var(env, var);
-	if (r_check >= 0)
-		r_env = cpy_unset(env, r_check);
-	xfree(var);
-	return (r_env);
+    r_check = check_env_var(env, var_trim(var));
+    i = -1;
+    if (r_check >= 0)
+    {
+        env[r_check] = xfree(env[r_check]);
+        env[r_check] = ft_xcalloc(ft_strlen(var) + 1, sizeof(char));
+        while(var[++i] != '\0')
+            env[r_check][i] = var[i];
+    }
 }
