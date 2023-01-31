@@ -47,6 +47,7 @@ PIPE_REDIRECT_F	=	\
 
 MAIN_F =			\
 	execution.c		\
+	exec_utils.c	\
 	exit.c			\
 	init.c			\
 	list_utils.c	\

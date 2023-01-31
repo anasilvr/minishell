@@ -37,7 +37,7 @@
 # define READ_ENDPIPE 0
 # define WRITE_ENDPIPE 1
 
-extern int		g_status;
+int		g_status;
 typedef enum e_builtins
 {
 	E_ECHO = 0,
@@ -151,12 +151,12 @@ char	*heredoc_trim(char *line);
 //heredoc.c
 t_hdoc	*heredoc_parsing(char *line);
 t_hdoc	*write_heredoc(char *delimiter);
-int		*heredoc_to_pipe(t_hdoc *hd_struct);
+int		heredoc_to_pipe(t_hdoc *hd_struct);
 
 //io.c
 void	stdio_cpy(t_data *prog_data);
 
-// EXECUTION
+// exec.c
 void	execution_manager(t_data *prog_data);
 void	execution_time(t_data *prog_data);
 // void	redirect_setup(t_data *prog_data);
@@ -164,6 +164,9 @@ t_cmd	*jobs_loop(t_data *data);
 void	stdio_cpy(t_data *prog_data);
 void	reset_otherio(t_data *data);
 void	reset_stdio(t_data *prog_data);
+
+// exec_utils.c
+void	exec_set(t_data *data);
 
 
 // MAIN

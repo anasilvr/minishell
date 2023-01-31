@@ -94,7 +94,7 @@ char	*heredoc_trim(char *line)
 	return (ft_strtrim(ft_substr(line, start, len), " "));
 }
 
-int	*heredoc_to_pipe(t_hdoc *hd_struct)
+int	heredoc_to_pipe(t_hdoc *hd_struct)
 {
 	int	hd_pipe_fd[2];
 	int	hd_fork_pid;
@@ -104,7 +104,7 @@ int	*heredoc_to_pipe(t_hdoc *hd_struct)
 	hd_fork_pid = fork ();
 	if (hd_fork_pid == -1)
 		return (errno);
-	if (hd_pipe_fd == 0)
+	if (hd_fork_pid == 0)
 	{
 		while (hd_struct->next != NULL)
 		{
@@ -113,11 +113,11 @@ int	*heredoc_to_pipe(t_hdoc *hd_struct)
 			hd_struct = hd_struct->next;
 		}
 		exit(0);
+		close(hd_pipe_fd[1]);
 	}
-	return (hd_pipe_fd);
+	return (hd_pipe_fd[0]);
 }
 
-heredoc_
 // bool	is_heredoc(t_cmd *cmd_lst)
 // {
 // 	while (cmd_lst->next != NULL)

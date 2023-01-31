@@ -65,16 +65,12 @@ char	**create_args(t_tok **token)
 	return (args);
 }
 
-void split_args(t_cmd **cmd_lst, t_tok *token)
+void split_args(t_cmd *cmd_lst)
 {
-	t_cmd *lst;
-	t_cmd *head;
+	int	i;
 
-	head = *cmd_lst;
-	lst = *cmd_lst;
-
-	int i = 1;
-	while (lst && token)
+	i = 0;
+	while (cmd_lst != NULL)
 	{
 		lst->args = create_args(&token);
 		i++;
@@ -84,6 +80,27 @@ void split_args(t_cmd **cmd_lst, t_tok *token)
 	}
 	*cmd_lst = head;
 }
+
+// OLD
+// void split_args(t_cmd **cmd_lst, t_tok *token)
+// {
+// 	t_cmd *lst;
+// 	t_cmd *head;
+
+// 	head = *cmd_lst;
+// 	lst = *cmd_lst;
+
+// 	int i = 1;
+// 	while (lst && token)
+// 	{
+// 		lst->args = create_args(&token);
+// 		i++;
+// 		if (token && (token->type == PIPE))
+// 			token = token->next;
+// 		lst = lst->next;
+// 	}
+// 	*cmd_lst = head;
+// }
 
 void	parser(t_data *data)
 {
