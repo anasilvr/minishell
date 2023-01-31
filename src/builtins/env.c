@@ -50,6 +50,7 @@ char	**cpy_env(char **envp, int line)
 		r_env[i] = malloc(sizeof(char) * ft_strlen(envp[i]) + 1);
 		while (envp[i][++j] != '\0')
 			r_env[i][j] = envp[i][j];
+		r_env[i][j] = '\0';
 	}
 	r_env[i] = NULL;
 	free_tab(envp);

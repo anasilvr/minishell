@@ -33,7 +33,7 @@ char *double_quote_handler(char *line, char **env, int* j)
         r_quotes = malloc(sizeof(char) * (len + 1));
         while (len > ++i)
             r_quotes[i] = line[*j + i];
-        *j += len;
+        *j += len + 1;
         r_quotes[i + 1] = '\0';
     }
 	i = -1;
@@ -65,7 +65,7 @@ char *single_quotes_handler(char *line, int* j)
         r_val = ft_calloc((len + 1), sizeof(char));
         while (len > ++i)
             r_val[i] = line[*j + i];
-        *j += len;
+        *j += len + 1;
         r_val[i + 1] = '\0';
     }
     return (r_val);
@@ -101,7 +101,7 @@ char    *dollar_handler(char *line, char **env, int* j)
             i++;
         r_var = ft_substr(line, *j, i);
         r_var = cpy_env_var(env, r_var);
-        *j += (i - 1);
+        *j += i;
     }
     return (r_var);
 }
