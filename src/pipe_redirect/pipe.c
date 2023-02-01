@@ -14,7 +14,7 @@
 
 static void	job_set(t_data *data, int pipe_fd[2])
 {
-	hd_pipe_fd[2];
+	int hd_pipe_fd[2];
 	/* Si il sagit d'un heredoc, Un nouveau pipe est créé. Il sera connecté
 	 * du bord écriture à la fonction ft_putstr_fd qui, depuis un processus
 	 * enfant au préalablement créé, lira la string de chaque nodes que
@@ -22,9 +22,9 @@ static void	job_set(t_data *data, int pipe_fd[2])
 	 * parent, qui n'attendra pas le fin de son processus enfant, connectera
 	 * le bord lecture du pipe à l'entrée standard (stdin) du système.
 	 */
-	if (data->heredoc == TRUE)
+	if (data->heredoc == true)
 	{
-		hd_pipe_fd = heredoc_to_pipe(data);
+		heredoc_to_pipe(data->hd_struct, hd_pipe_fd);
 		close (hd_pipe_fd[1]);
 		dup2 (hd_pipe_fd[0], 0);
 		close (hd_pipe_fd[0]);

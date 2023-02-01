@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../../include/minishell.h"
 
 int	check_env_var(char **env, char *var)
 {
