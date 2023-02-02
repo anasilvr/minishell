@@ -35,10 +35,10 @@ void treat_line(t_tok **tok, char **env_cp)
             else if (r_var != NULL && r_line != NULL)
                 r_line = ft_strjoin_free(r_line, r_var);
             else if (r_var == NULL)
-	    {
-		    r_line = charjoinfree(r_line, node->token[i]);
-		    i++;
-	    }
+            {
+                r_line = charjoinfree(r_line, node->token[i]);
+                i++;
+            }
             if (r_var != NULL)
                 r_var = xfree(r_var);
         }

@@ -39,44 +39,32 @@ char *charjoinfree(char *s1, char c)
     return (str);
 }
 
-static void clean_empty_quotes(t_tok **lst)
+static char *clean_empty_quotes(char *input)
 {
-	t_tok	*node;
 	char	*tmp;
 	int		i;
-	int		q;
+	char	q;
 
-	node = *lst;
-	while (node)
+	tmp = ft_xcalloc(1, 1);
+	i = -1;
+	q = '\0';
+	while (input[++i])
 	{
-		tmp = ft_xcalloc(1, 1);
-		i = -1;
-		q = 0;
-		while (node->token[++i])
+		while (is_set(input[i], QUOTES))
 		{
-			while (is_set(node->token[i], QUOTES))
-			{
-				q = (1 + length_til_match(node->token, node->token[i]));
-				if (q == 2)
-				{
-					i++;
-					q = 0;
-					break ;
-				}
-				if (!is_set(node->token[i], QUOTES))
-					break ;
-				if (!node->token[i])
-					break ;
-				i++;
-			}
-			tmp = charjoinfree(tmp, node->token[i]);
+			q = input[i];
+			if (input [i + 1] && input [i + 1] == q)
+				i += 2 ;
+			else
+				break ;
 		}
-		tmp = charjoinfree(tmp, '\0');
-		xfree(node->token);
-		node->token = ft_strdup(tmp);
-		xfree(tmp);
-		node = node->next;
+		if (!input[i])
+			break ;
+		tmp = charjoinfree(tmp, input[i]);
 	}
+	tmp = charjoinfree(tmp, '\0');
+	xfree(input);
+	return (tmp);
 }
 
 static int	valid_quotation(t_data *data)
@@ -140,10 +128,8 @@ void    lexer(t_data *data, char *input)
         data->syntax_err = 90;
         return ;
     }
-//    data->input = treat_line(data->input, data->envp_cp);
-    data->token = tokenize(data, input);
-//    clean_empty_quotes(&data->token);
-	printf("TOKEN = %s\n", data->token->token);
+  	data->input = clean_empty_quotes(input);
+    data->token = tokenize(data, data->input);
     if (!data->token)
         return ;
     g_status = id_tokens(&data->token, data);

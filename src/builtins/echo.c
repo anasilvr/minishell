@@ -1,6 +1,6 @@
 #include "../../include/minishell.h"
 
-void	ft_echo(char *cmd, char **env)
+void	ft_echo(char *cmd)
 {
 	int		j;
 	j = -1;

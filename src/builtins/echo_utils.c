@@ -12,13 +12,11 @@ void	echo_handler(char **instruct, t_data *data)
 			write(1, "\n", 1);
 		else if (check_n(instruct[i]) == 1)
 		{
-			ft_echo(&data->cmd_lst->cmdline[(ft_strlen(instruct[0]) + 1)],
-				data->envp_cp);
+			ft_echo(instruct[i]);
 			write(1, "\n", 1);
 		}
 		else if (check_n(instruct[i]) == 0)
-			ft_echo(&data->cmd_lst->cmdline[ft_strlen(instruct[0])
-				+ ft_strlen(instruct[1]) + 2], data->envp_cp);
+			ft_echo(instruct[i]);
 		if (data->fork_pid == 0)
 		{
 			clean_exit(data);

@@ -95,21 +95,22 @@ char	*heredoc_trim(char *line)
 }
 
 int	heredoc_to_pipe(t_hdoc *hd_struct)
+
 {
 	int	hd_pipe_fd[2];
 	int	hd_fork_pid;
 
-	if (pipe(hd_pipe_fd) == -1)
-	return (errno);
+	if (pipe(fd) == -1)
+	return /*(errno)*/;
 	hd_fork_pid = fork ();
 	if (hd_fork_pid == -1)
-		return (errno);
+	  return (errno);
 	if (hd_fork_pid == 0)
 	{
 		while (hd_struct->next != NULL)
 		{
-			close(hd_pipe_fd[0]);
-			ft_putstr_fd(hd_struct->the_line, hd_pipe_fd[1]);
+			close(fd[0]);
+			ft_putstr_fd(hd_struct->the_line, fd[1]);
 			hd_struct = hd_struct->next;
 		}
 		exit(0);

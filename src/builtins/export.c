@@ -1,6 +1,6 @@
-#include "minishell.h"
+#include "../../include/minishell.h"
 
-static char	**add_var(char **env, char *n_var)
+char	**add_var(char **env, char *n_var)
 {
 	int		i;
 	int		j;
@@ -85,10 +85,7 @@ void	export_handler(char **instruct, t_data *data)
 			if (export_pars(instruct[i], data->envp_cp) == -1)
 				data->envp_cp = add_var(data->envp_cp, instruct[i]);
 			else if (export_pars(instruct[i], data->envp_cp) >= 0)
-			{
-				data->envp_cp = unset_dup(data->envp_cp, var_trim(instruct[i]));
-				data->envp_cp = add_var(data->envp_cp, instruct[i]);
-			}
+				unset_dup(data->envp_cp, instruct[i]);
 		}
 		if (data->fork_pid == 0)
 		{

@@ -15,6 +15,7 @@
 static void	job_set(t_data *data, int pipe_fd[2])
 {
 	int	hd_pipe_fd[2];
+  
 	/* Si il sagit d'un heredoc, Un nouveau pipe est créé. Il sera connecté
 	 * du bord écriture à la fonction ft_putstr_fd qui, depuis un processus
 	 * enfant au préalablement créé, lira la string de chaque nodes que
