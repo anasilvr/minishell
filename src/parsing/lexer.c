@@ -43,36 +43,28 @@ static char *clean_empty_quotes(char *input)
 {
 	char	*tmp;
 	int		i;
-	int		q;
+	char	q;
 
-	if (input)
+	tmp = ft_xcalloc(1, 1);
+	i = -1;
+	q = '\0';
+	while (input[++i])
 	{
-		tmp = ft_xcalloc(1, 1);
-		i = -1;
-		q = 0;
-		while (input[++i])
+		while (is_set(input[i], QUOTES))
 		{
-			while (is_set(input[i], QUOTES))
-			{
-				q = (1 + length_til_match(input, input[i]));
-				if (q == 2)
-				{
-					i++;
-					q = 0;
-					break ;
-				}
-				if (!is_set(input[i], QUOTES))
-					break ;
-				if (!input[i])
-					break ;
-				i++;
-			}
-			tmp = charjoinfree(tmp, input[i]);
+			q = input[i];
+			if (input [i + 1] && input [i + 1] == q)
+				i += 2 ;
+			else
+				break ;
 		}
-		tmp = charjoinfree(tmp, '\0');
-		xfree(input);
+		if (!input[i])
+			break ;
+		tmp = charjoinfree(tmp, input[i]);
 	}
-	return(tmp);
+	tmp = charjoinfree(tmp, '\0');
+	xfree(input);
+	return (tmp);
 }
 
 static int	valid_quotation(t_data *data)
