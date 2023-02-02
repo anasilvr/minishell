@@ -19,6 +19,36 @@ void	clean_exit(t_data *data)
 	xfree(data);
 }
 
+void	delnode_toklist(t_tok *token_lst)
+{
+	xfree(token_lst->token);
+	xfree(token_lst);
+}
+
+void	delmidnode_toklist(t_tok *token_lst)
+{
+	t_tok	*next_node_ptr;
+
+	if (token_lst->next != NULL)
+		next_node_ptr = token_lst->next;
+	else if (token_lst->prev != NULL)
+		next_node_ptr = token_lst->prev;
+	else
+		next_node_ptr = NULL;
+
+	if (token_lst->next != NULL)
+		token_lst->next->prev = token_lst->prev;
+	else // Si il n y a pas de node apres
+		token_lst->prev->next = NULL;
+
+	if (token_lst->prev != NULL)
+		token_lst->prev->next = token_lst->next;
+	else // Si il n y a pas de node avant
+		token_lst->next->prev = NULL;
+
+	delnode_toklist(token_lst);
+}
+
 void	free_toklist(t_tok *lst)
 {
 	t_tok	*tmp;
@@ -28,8 +58,7 @@ void	free_toklist(t_tok *lst)
 	while (lst)
 	{
 		tmp = lst->next;
-		xfree(lst->token);
-		xfree(lst);
+		delnode_toklist(lst);
 		lst = tmp;
 	}
 }
