@@ -117,7 +117,7 @@ typedef struct s_data
 // FUNCTIONS
 // BUILTINS
 enum	e_bultins {echo, cd, pwd, export, unset, env};
-void	ft_echo(char *cmd);
+void	ft_echo(char **cmd, int i);
 void	echo_handler(char **instruct, t_data *data);
 int		builtins_checker(t_data *data, t_cmd *cmd);
 void	pwd_handler(char **instruct, t_data *data);
