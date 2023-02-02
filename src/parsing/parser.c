@@ -120,43 +120,74 @@ static int	redirect_creation(char *line, int type, int *i)
  *
  * DETAILS :
  */
-void	redirect_subparsing(t_data *data)
+
+t_tok	*redirect_subparsing(t_data *data)
 {
-	while (data->token->next != NULL)
+	t_tok *r_token;
+
+	r_token = get_first_tok(data->token);
+	while (data->token != NULL)
 	{
 		if (data->token->type == PIPE)
 		{
 			data->cmd_lst = data->cmd_lst->next;
 			data->token = data->token->next;
 		}
-		else if (data->token->type == APPEND) // >>
+		if (data->token->type == APPEND || data->token->type == REDIR_OUT || data->token->type == REDIR_IN)
 		{
-			delmidnode_toklist(data->token);
-			data->cmd_lst->filefd[1] = open_to_readwrite(data->token->next->token, O_APPEND);
-			delmidnode_toklist(data->token);
-		}
-		else if (data->token->type == REDIR_OUT) // >
-		{
-			delmidnode_toklist(data->token);
-			data->cmd_lst->filefd[1] = open_to_readwrite(data->token->next->token, O_TRUNC);
-			delmidnode_toklist(data->token);
-		}
-		else if (data->token->type == REDIR_IN) // <
-		{
-			delmidnode_toklist(data->token);
-			data->cmd_lst->filefd[1] = open_to_readwrite(data->token->token, 0);
-			delmidnode_toklist(data->token);
+			if (data->token->type == APPEND) // >>
+				data->cmd_lst->filefd[1] = open_to_readwrite(data->token->next->token, O_APPEND);
+			else if (data->token->type == REDIR_OUT) // >
+				data->cmd_lst->filefd[1] = open_to_readwrite(data->token->next->token, O_TRUNC);
+			else if (data->token->type == REDIR_IN) // <
+				data->cmd_lst->filefd[1] = open_to_readwrite(data->token->next->token, 0);
+			delmidnode_toklist(data->token->next);
+			delmidnode_toklist(data->token->next);
+			if (data->token->next == NULL)
+				r_token = get_first_tok(data->token);
 		}
 		data->token = data->token->next;
 	}
+	return (r_token);
 }
+
+// old
+// void	redirect_subparsing(t_data *data)
+// {
+// 	while (data->token != NULL)
+// 	{
+// 		if (data->token->type == PIPE)
+// 		{
+// 			data->cmd_lst = data->cmd_lst->next;
+// 			data->token = data->token->next;
+// 		}
+// 		else if (data->token->type == APPEND) // >>
+// 		{
+// 			data->cmd_lst->filefd[1] = open_to_readwrite(data->token->next->token, O_APPEND);
+// 			delmidnode_toklist(data->token->next);
+// 		}
+// 		else if (data->token->type == REDIR_OUT) // >
+// 		{
+// 			data->cmd_lst->filefd[1] = open_to_readwrite(data->token->next->token, O_TRUNC);
+// 			delmidnode_toklist(data->token->next);
+// 		}
+// 		else if (data->token->type == REDIR_IN) // <
+// 		{
+// 			data->cmd_lst->filefd[1] = open_to_readwrite(data->token->next->token, 0);
+// 			delmidnode_toklist(data->token->next);
+// 		}
+// 		data->token = data->token->next;
+// 	}
+// 	if (data->token->next == NULL)
+// 	data->token = get_first_tok(data->token);
+// }
 
 void	parser(t_data *data)
 {
 	data->cmd_lst = create_cmdlist(data);
 	count_expand(data->cmd_lst, data->token);
 	// Traitement des redirection
-	redirect_subparsing(data);
+	data->token = redirect_subparsing(data);
 	split_args(&data->cmd_lst, data->token);
 	if (data->cmd_lst->filefd[0] == -1 || \
 	(data->cmd_lst->filefd[1] == -1 && errno == EACCES))

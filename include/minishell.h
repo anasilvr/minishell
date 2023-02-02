@@ -138,6 +138,7 @@ int		check_env_var(char **env, char *var);
 void	redirect_parsing(char *line, int *file_fd);
 int		open_to_read(char *filepath, int additional_flag);
 int		open_to_readwrite(char *filepath, int additional_flag);
+t_tok	*redirect_subparsing(t_data *data);
 
 //redirection_utils.c
 int		first_word_len(char *str);
@@ -189,6 +190,7 @@ void	addback_toklist(t_tok **toklist, t_tok *new);
 t_tok	*get_lasttok(t_tok *node);
 void	del_token(t_tok *lst);
 void	free_toklist(t_tok *lst);
+t_tok	*get_first_tok(t_tok *node);
 
 // main.c
 void	wtshell(t_data *data);

@@ -36,3 +36,12 @@ t_tok	*get_lasttok(t_tok *node)
 		node = node->next;
 	return (node);
 }
+
+t_tok	*get_first_tok(t_tok *node)
+{
+	if (!node)
+		return (NULL);
+	while (node->prev)
+		node = node->prev;
+	return (node);
+}
