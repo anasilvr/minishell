@@ -16,6 +16,33 @@ static void find_match(t_data *data, int *i, bool *trigger, char *quote)
 
 char *charjoinfree(char *s1, char c)
 {
+	char 	*r_str;
+	int		len;
+	int		i;
+
+	len = ft_strlen(s1);
+	i = -1;
+	r_str = NULL;
+	if (len < 1)
+	{
+		r_str = malloc(sizeof(char) * 2);
+		r_str[0] = c;
+		r_str[1] = '\0';
+	}
+	else if (len > 0)
+	{
+		r_str = malloc(sizeof(char) * (len + 2));
+		while (s1[++i] != '\0')
+			r_str[i] = s1[i];
+		r_str[i] = c;
+		r_str[i + 1] = '\0';
+	}
+	s1 = xfree(s1);
+	return (r_str);
+}
+/*
+char *charjoinfree(char *s1, char c)
+{
     char    *str;
     int     len;
 
@@ -37,7 +64,7 @@ char *charjoinfree(char *s1, char c)
     str[len + 1] = '\0';
     xfree((void *) s1);
     return (str);
-}
+}*/
 
 static char *clean_empty_quotes(char *input)
 {

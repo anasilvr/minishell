@@ -1,12 +1,16 @@
 #include "../../include/minishell.h"
 
-void	ft_echo(char *cmd)
+void	ft_echo(char **cmd, int i)
 {
 	int		j;
+	
 	j = -1;
-	while (cmd[++j] != '\0')
+	while (cmd[i] != NULL)
 	{
-        j = space_handler(cmd, j);
-        write(1, &cmd[j], 1);
+		while (cmd[i][++j] != '\0')
+        	write(1, &cmd[i][j], 1);
+		j = -1;
+		i++;
+		write(1, " ", 1);
 	}
 }
