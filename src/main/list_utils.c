@@ -37,10 +37,11 @@ t_tok	*get_lasttok(t_tok *node)
 	return (node);
 }
 
-void	del_token(t_tok *lst)
+t_tok	*get_first_tok(t_tok *node)
 {
-	if (!lst)
-		return ;
-	xfree(lst->token);
-	xfree(lst);
+	if (!node)
+		return (NULL);
+	while (node->prev)
+		node = node->prev;
+	return (node);
 }

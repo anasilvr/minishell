@@ -140,6 +140,7 @@ char	**add_var(char **env, char *n_var);
 void	redirect_parsing(char *line, int *file_fd);
 int		open_to_read(char *filepath, int additional_flag);
 int		open_to_readwrite(char *filepath, int additional_flag);
+t_tok	*redirect_subparsing(t_data *data);
 
 //redirection_utils.c
 int		first_word_len(char *str);
@@ -153,12 +154,12 @@ char	*heredoc_trim(char *line);
 //heredoc.c
 t_hdoc	*heredoc_parsing(char *line);
 t_hdoc	*write_heredoc(char *delimiter);
-void heredoc_to_pipe(t_hdoc *hd_struct, int fd[2]);
+int		heredoc_to_pipe(t_hdoc *hd_struct);
 
 //io.c
 void	stdio_cpy(t_data *prog_data);
 
-// EXECUTION
+// exec.c
 void	execution_manager(t_data *prog_data);
 void	execution_time(t_data *prog_data);
 // void	redirect_setup(t_data *prog_data);
@@ -167,12 +168,17 @@ void	stdio_cpy(t_data *prog_data);
 void	reset_otherio(t_data *data);
 void	reset_stdio(t_data *prog_data);
 
+// exec_utils.c
+void	exec_set(t_data *data);
+
 
 // MAIN
 // exit.c
 void	clean_exit(t_data *data);
 void	free_cmdlist(t_cmd *lst);
 void	reset(t_data *data);
+void	delmidnode_toklist(t_tok *token_lst);
+void	delnode_toklist(t_tok *token_lst);
 
 // init.c
 t_data	*get_data(void);
@@ -186,6 +192,7 @@ void	addback_toklist(t_tok **toklist, t_tok *new);
 t_tok	*get_lasttok(t_tok *node);
 void	del_token(t_tok *lst);
 void	free_toklist(t_tok *lst);
+t_tok	*get_first_tok(t_tok *node);
 
 // main.c
 void	wtshell(t_data *data);
