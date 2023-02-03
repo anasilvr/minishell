@@ -20,6 +20,7 @@ void	exec_set(t_data *data)
 	/* Verifier si il y a une redir d'input */
 	if (data->cmd_lst->filefd[0] != -2)
 	{
+		close (0);
 		dup2 (data->cmd_lst->filefd[0], 0);
 		close (data->cmd_lst->filefd[0]);
 	}
