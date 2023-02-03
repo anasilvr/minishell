@@ -140,7 +140,7 @@ char	**add_var(char **env, char *n_var);
 void	redirect_parsing(char *line, int *file_fd);
 int		open_to_read(char *filepath, int additional_flag);
 int		open_to_readwrite(char *filepath, int additional_flag);
-t_tok	*redirect_subparsing(t_data *data);
+void	redirect_subparsing(t_data *data);
 
 //redirection_utils.c
 int		first_word_len(char *str);
@@ -177,8 +177,8 @@ void	exec_set(t_data *data);
 void	clean_exit(t_data *data);
 void	free_cmdlist(t_cmd *lst);
 void	reset(t_data *data);
-void	delmidnode_toklist(t_tok *token_lst);
 void	delnode_toklist(t_tok *token_lst);
+t_tok	*delmidnode_toklist(t_tok *node_to_remove);
 
 // init.c
 t_data	*get_data(void);
