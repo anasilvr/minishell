@@ -25,8 +25,12 @@ void	exec_set(t_data *data)
 		close (0);
 		dup2 (data->cmd_lst->filefd[0], 0);
 		close (data->cmd_lst->filefd[0]);
-		printf("READ OUTPUT\n");
-		printf("%s", get_next_line(0));
+		// printf("READ OUTPUT\n");
+		// while (buffer != '\0')
+		// {
+		// 	read(0, buffer, 1);
+		// 	printf("%s", buffer);
+		// }
 	}
 	/* Verifier si il y a une redir d'output */
 	if (data->cmd_lst->filefd[1] != -2)
