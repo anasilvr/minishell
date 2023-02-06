@@ -3,6 +3,8 @@
 void	exec_set(t_data *data)
 {
 	int	hd_pipe_fd[2];
+	char	*buffer;
+	buffer = malloc(sizeof(char *) * (1 + 1));
 	/* Si il sagit d'un heredoc, un pipe est créé. Il sera connecté
 	 * du bord écriture à la fonction ft_putstr_fd qui, depuis un processus
 	 * enfant au préalablement créé, lira la string de chaque nodes que
@@ -23,6 +25,8 @@ void	exec_set(t_data *data)
 		close (0);
 		dup2 (data->cmd_lst->filefd[0], 0);
 		close (data->cmd_lst->filefd[0]);
+		printf("READ OUTPUT\n");
+		printf("%s", get_next_line(0));
 	}
 	/* Verifier si il y a une redir d'output */
 	if (data->cmd_lst->filefd[1] != -2)

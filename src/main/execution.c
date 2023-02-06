@@ -96,7 +96,7 @@ void	execution_time(t_data *prog_data)
 /* only single builtin comands working */
 void	execution_manager(t_data *prog_data)
 {
-	stdio_cpy(prog_data);
+	// stdio_cpy(prog_data);
 	prog_data->fork_pid = -2;
 	if (prog_data->cmd_lst != NULL)
 	{
@@ -105,6 +105,7 @@ void	execution_manager(t_data *prog_data)
 		{
 			exec_set(prog_data);
 			execution_time(prog_data);
+			reset_otherio(prog_data);
 			prog_data->cmd_lst = prog_data->cmd_lst->next;
 		}
 		else
@@ -113,6 +114,5 @@ void	execution_manager(t_data *prog_data)
 			printf("fork PID at end of job == %d\n", prog_data->fork_pid);
 		}
 	}
-	// reset_otherio(prog_data);
 	reset_stdio(prog_data);
 }

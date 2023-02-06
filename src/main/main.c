@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:44:57 by anarodri          #+#    #+#             */
-/*   Updated: 2023/02/03 15:51:56 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/02/06 11:11:04 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int	main(int argc, char **argv, char **envp)
 	}
 	data = NULL;
 	data = init_data(envp, data);
+	stdio_cpy(data);
 	print_intro();
 	wtshell(data);
 	clean_exit(data);

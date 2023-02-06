@@ -66,13 +66,13 @@ char	**create_args(t_tok **token)
 	return (args);
 }
 
-void split_args(t_cmd **cmd_lst, t_tok *token)
+static void split_args(t_cmd *cmd_lst, t_tok *token)
 {
 	t_cmd *lst;
 	t_cmd *head;
 
-	head = *cmd_lst;
-	lst = *cmd_lst;
+	head = cmd_lst;
+	lst = cmd_lst;
 
 	int i = 1;
 	while (lst && token)
@@ -83,7 +83,7 @@ void split_args(t_cmd **cmd_lst, t_tok *token)
 			token = token->next;
 		lst = lst->next;
 	}
-	*cmd_lst = head;
+	cmd_lst = head;
 }
 
 // static int	redirect_creation(char *line, int type, int *i)
@@ -124,7 +124,9 @@ void split_args(t_cmd **cmd_lst, t_tok *token)
 void	redirect_subparsing(t_data *data)
 {
 	t_tok *r_token;
+	t_cmd *r_cmd;
 
+	r_cmd = data->cmd_lst;
 	while (data->token != NULL)
 	{
 		if (data->token->type == PIPE)
@@ -152,6 +154,7 @@ void	redirect_subparsing(t_data *data)
 		data->token = data->token->next;
 	}
 	data->token = r_token;
+	data->cmd_lst = r_cmd;
 }
 
 // old
@@ -193,7 +196,7 @@ void	parser(t_data *data)
 	redirect_subparsing(data);
 	printf("\033[1m\033[31m[At parser.c]\nAFTER REDIRECTION:\033[0m\n");
 	print_toklist(data->token);
-	split_args(&data->cmd_lst, data->token);
+	split_args(data->cmd_lst, data->token);
 	if (data->cmd_lst->filefd[0] == -1 || \
 	(data->cmd_lst->filefd[1] == -1 && errno == EACCES))
 	{

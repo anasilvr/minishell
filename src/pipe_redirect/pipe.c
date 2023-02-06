@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:01:02 by tchalifo          #+#    #+#             */
-/*   Updated: 2023/01/30 10:29:42 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/02/06 11:12:58 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	job_set(t_data *data, int pipe_fd[2])
 {
 	int	hd_pipe_fd[2];
-  
+
 	/* Si il sagit d'un heredoc, Un nouveau pipe est créé. Il sera connecté
 	 * du bord écriture à la fonction ft_putstr_fd qui, depuis un processus
 	 * enfant au préalablement créé, lira la string de chaque nodes que
@@ -51,7 +51,7 @@ static void	job_set(t_data *data, int pipe_fd[2])
 
 t_cmd *jobs_loop(t_data *data)
 {
-	int		pipe_fd[2]		= {-2, -2};
+	int		pipe_fd[2] = {-2, -2};
 	int		exit_status;
 	int		i;
 

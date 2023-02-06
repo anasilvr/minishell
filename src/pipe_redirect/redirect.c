@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:34:45 by tchalifo          #+#    #+#             */
-/*   Updated: 2023/01/27 17:06:57 by anarodri         ###   ########.fr       */
+/*   Updated: 2023/02/06 11:08:33 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,58 +80,58 @@ int	open_to_readwrite(char *filepath, int additional_flag)
 	return (file_fd);
 }
 
-static int	redirect_creation(char *line, int type, int *i)
-{
-	char	*redirect_filename;
-	int		filename_len;
-	int		fd; //0 == fdin, 1 == fdout
+// static int	redirect_creation(char *line, int type, int *i)
+// {
+// 	char	*redirect_filename;
+// 	int		filename_len;
+// 	int		fd; //0 == fdin, 1 == fdout
 
-	filename_len = first_word_len(&line[(*i)]);
-	redirect_filename = ft_substr(&line[(*i)], 0, filename_len);
-	fd = -2;
-	if (type == 0)
-		fd = open_to_read(redirect_filename, 0);
-	else if (type == 1)
-		fd = open_to_readwrite(redirect_filename,O_TRUNC);
-	else if (type == 2)
-		fd = open_to_readwrite(redirect_filename, O_APPEND);
-	(*i) += filename_len;
-	return (fd);
-}
+// 	filename_len = first_word_len(&line[(*i)]);
+// 	redirect_filename = ft_substr(&line[(*i)], 0, filename_len);
+// 	fd = -2;
+// 	if (type == 0)
+// 		fd = open_to_read(redirect_filename, 0);
+// 	else if (type == 1)
+// 		fd = open_to_readwrite(redirect_filename,O_TRUNC);
+// 	else if (type == 2)
+// 		fd = open_to_readwrite(redirect_filename, O_APPEND);
+// 	(*i) += filename_len;
+// 	return (fd);
+// }
 
 
-void	redirect_parsing(char *line, int *file_fd)
-{
-	int	i;
+// void	redirect_parsing(char *line, int *file_fd)
+// {
+// 	int	i;
 
-	i = 0;
-	while(line[i] != '\0')
-	{
-		if (line[i] == '>' && line[i + 1] != '>')
-		{
-			if (line[++i] == ' ')
-				i++;
-			file_fd[1] = redirect_creation(line, 1, &i);
-			// A PARTIR DICI JAI PASSE TOUT LA REDIRECTION
-		}
-		else if(line[i] == '>' && line[i + 1] == '>')
-		{
-			if (line[++i] == ' ')
-				i++;
-			file_fd[1] = redirect_creation(line, 2, &i);
-			// A PARTIR DICI JAI PASSE TOUT LA REDIRECTION
-		}
-		else if(line[i] == '<')
-		{
-			if (line[++i] == ' ')
-				i++;
-			file_fd[0] = redirect_creation(line, 0, &i);
-			// A PARTIR DICI JAI PASSE TOUT LA REDIRECTION
-		}
-		else
-			i++;
-	}
-}
+// 	i = 0;
+// 	while(line[i] != '\0')
+// 	{
+// 		if (line[i] == '>' && line[i + 1] != '>')
+// 		{
+// 			if (line[++i] == ' ')
+// 				i++;
+// 			file_fd[1] = redirect_creation(line, 1, &i);
+// 			// A PARTIR DICI JAI PASSE TOUT LA REDIRECTION
+// 		}
+// 		else if(line[i] == '>' && line[i + 1] == '>')
+// 		{
+// 			if (line[++i] == ' ')
+// 				i++;
+// 			file_fd[1] = redirect_creation(line, 2, &i);
+// 			// A PARTIR DICI JAI PASSE TOUT LA REDIRECTION
+// 		}
+// 		else if(line[i] == '<')
+// 		{
+// 			if (line[++i] == ' ')
+// 				i++;
+// 			file_fd[0] = redirect_creation(line, 0, &i);
+// 			// A PARTIR DICI JAI PASSE TOUT LA REDIRECTION
+// 		}
+// 		else
+// 			i++;
+// 	}
+// }
 
 //Probleme avec cela, si le heredoc est en plein milieux ca va enlever la suite... cat < infile >> outfile  ..>>infile ne sera plus..
 char	*redirect_trim(char *line)
