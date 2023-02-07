@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+         #
+#    By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/20 12:27:09 by anarodri          #+#    #+#              #
-#    Updated: 2022/11/02 15:57:20 by anarodri         ###   ########.fr        #
+#    Updated: 2023/02/07 13:31:20 by tchalifo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ SRC		=	ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c ft_strle
 			ft_strmapi.c ft_striteri.c ft_putchar_fd.c ft_putnbr_fd.c ft_putstr_fd.c ft_putendl_fd.c \
 			ft_atol.c ft_isspace.c ft_lstnew.c ft_lstadd_front.c ft_lstsize.c ft_lstlast.c ft_lstadd_back.c \
 			ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c ft_realloc.c ft_xcalloc.c xfree.c ft_isset.c \
-			ft_strcmp.c
+			ft_strcmp.c GNL/get_next_line.c GNL/get_next_line_utils.c
 
 OBJ		=	$(SRC:.c=.o)
 
