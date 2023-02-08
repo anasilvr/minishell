@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 14:58:17 by anarodri          #+#    #+#             */
-/*   Updated: 2021/11/04 12:05:28 by anarodri         ###   ########.fr       */
+/*   Updated: 2023/02/07 13:47:34 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(const char *str)
+size_t	gnl_strlen(const char *str)
 {
 	size_t	i;
 
@@ -24,7 +24,7 @@ size_t	ft_strlen(const char *str)
 
 /* read the string until it reaches \0 or the delimiter passed as a int.
 ** returns a pointer to the delimiter location. */
-char	*ft_strchr(char *str, int c)
+char	*gnl_strchr(char *str, int c)
 {
 	int	i;
 
@@ -40,10 +40,10 @@ char	*ft_strchr(char *str, int c)
 	return (NULL);
 }
 
-/* Concatenate buff (source) to the end of outp string (destination). 
+/* Concatenate buff (source) to the end of outp string (destination).
 ** NUL-terminates the string, frees the old outp, returns new string.
 */
-char	*ft_strjoin(char *dst, char *src)
+char	*gnl_strjoin(char *dst, char *src)
 {
 	char	*tmp;
 	size_t	index_dst;
@@ -51,7 +51,7 @@ char	*ft_strjoin(char *dst, char *src)
 
 	if (dst == NULL || src == NULL)
 		return (NULL);
-	tmp = (char *)malloc((ft_strlen(dst) + ft_strlen(src)) + 1);
+	tmp = (char *)malloc((gnl_strlen(dst) + gnl_strlen(src)) + 1);
 	if (tmp == NULL)
 		return (NULL);
 	index_dst = 0;
@@ -69,7 +69,7 @@ char	*ft_strjoin(char *dst, char *src)
 	return (tmp);
 }
 
-void	ft_bzero(void *s, size_t n)
+void	gnl_bzero(void *s, size_t n)
 {
 	char	*str;
 	size_t	i;
@@ -83,13 +83,13 @@ void	ft_bzero(void *s, size_t n)
 	}
 }
 
-void	*ft_calloc(size_t num, size_t size)
+void	*gnl_calloc(size_t num, size_t size)
 {
 	void	*ptr;
 
 	ptr = malloc (num * size);
 	if (ptr == NULL)
 		return (NULL);
-	ft_bzero(ptr, (num * size));
+	gnl_bzero(ptr, (num * size));
 	return (ptr);
 }

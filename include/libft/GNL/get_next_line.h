@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 14:58:03 by anarodri          #+#    #+#             */
-/*   Updated: 2022/01/27 12:05:28 by anarodri         ###   ########.fr       */
+/*   Updated: 2023/02/07 13:47:51 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@
 # include <stdio.h>
 
 char	*get_next_line(int fd);
-size_t	ft_strlen(const char *str);
-char	*ft_strchr(char *str, int c);
-char	*ft_strjoin(char *outp, char *buff);
-void	ft_bzero(void *s, size_t n);
-void	*ft_calloc(size_t num, size_t size);
+size_t	gnl_strlen(const char *str);
+char	*gnl_strchr(char *str, int c);
+char	*gnl_strjoin(char *outp, char *buff);
+void	gnl_bzero(void *s, size_t n);
+void	*gnl_calloc(size_t num, size_t size);
 
 #endif

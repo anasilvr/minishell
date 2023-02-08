@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 14:58:13 by anarodri          #+#    #+#             */
-/*   Updated: 2022/07/20 12:06:08 by anarodri         ###   ########.fr       */
+/*   Updated: 2023/02/07 13:48:50 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 /* Fills a buffer based on bytes counted by read.
 ** Mallocs enough space for a buffer, reads the first line of the file
-** and recreates it accordingly by applying ft_strjoin.
+** and recreates it accordingly by applying gnl_strjoin.
 ** Return: Concatenation of conserved buffer and the new line.
 ** If an error occurs during read, frees buffer and returns NULL*/
 char	*read_to_buffer(int fd, char *buffer)
@@ -27,12 +27,12 @@ char	*read_to_buffer(int fd, char *buffer)
 	int		bytes;
 
 	if (buffer == NULL)
-		buffer = ft_calloc (1, 1);
+		buffer = gnl_calloc (1, 1);
 	tmp = malloc(BUFFER_SIZE + 1);
 	if (tmp == NULL)
 		return (NULL);
 	bytes = 1;
-	while (ft_strchr(buffer, '\n') == NULL && bytes != 0)
+	while (gnl_strchr(buffer, '\n') == NULL && bytes != 0)
 	{
 		bytes = read(fd, tmp, BUFFER_SIZE);
 		if (bytes == -1)
@@ -42,7 +42,7 @@ char	*read_to_buffer(int fd, char *buffer)
 			return (NULL);
 		}
 		tmp[bytes] = '\0';
-		buffer = ft_strjoin(buffer, tmp);
+		buffer = gnl_strjoin(buffer, tmp);
 	}
 	free (tmp);
 	return (buffer);
@@ -80,32 +80,32 @@ char	*make_line(char *buffer)
 }
 
 /* Updates buffer by reseting its start to the character after the next \n.*/
-// char	*new_buffer(char *buffer)
-// {
-// 	int		i;
-// 	int		j;
-// 	char	*str;
+char	*new_buffer(char *buffer)
+{
+	int		i;
+	int		j;
+	char	*str;
 
-// 	i = 0;
-// 	while (buffer[i] != '\0' && buffer[i] != '\n')
-// 		i++;
-// 	if (buffer[i] == '\0')
-// 	{
-// 		free(buffer);
-// 		return (NULL);
-// 	}
-// 	str = (char *)malloc(ft_strlen(buffer) - i + 1);
-// 	if (str == NULL)
-// 		return (NULL);
-// 	i += 1;
-// 	j = 0;
-// 	while (buffer[i] != '\0')
-// 		str[j++] = buffer[i++];
-// 	str[j] = '\0';
-// 	free(buffer);
-// 	buffer = NULL;
-// 	return (str);
-// }
+	i = 0;
+	while (buffer[i] != '\0' && buffer[i] != '\n')
+		i++;
+	if (buffer[i] == '\0')
+	{
+		free(buffer);
+		return (NULL);
+	}
+	str = (char *)malloc(gnl_strlen(buffer) - i + 1);
+	if (str == NULL)
+		return (NULL);
+	i += 1;
+	j = 0;
+	while (buffer[i] != '\0')
+		str[j++] = buffer[i++];
+	str[j] = '\0';
+	free(buffer);
+	buffer = NULL;
+	return (str);
+}
 
 /* Reads the file's text to the variable buffer (read_to_buffer),
 ** Creates a new line if the buffer is not yet empty (make_line),
