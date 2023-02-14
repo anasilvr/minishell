@@ -141,9 +141,7 @@ void	redirect_subparsing(t_data *data)
 			else if (data->token->type == REDIR_OUT) // >
 				data->cmd_lst->filefd[1] = open_to_readwrite(data->token->next->token, O_TRUNC);
 			else if (data->token->type == REDIR_IN) // <
-			{
-				data->cmd_lst->filefd[0] = open_to_readwrite(data->token->next->token, 0);
-			}
+				data->cmd_lst->filefd[0] = open_to_read(data->token->next->token, 0);
 			data->token = delmidnode_toklist(data->token);
 			data->token = delmidnode_toklist(data->token);
 			// if (data->token->next == NULL)
