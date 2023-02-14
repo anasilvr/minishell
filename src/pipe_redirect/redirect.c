@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:34:45 by tchalifo          #+#    #+#             */
-/*   Updated: 2023/02/06 11:08:33 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/02/14 11:01:12 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,26 @@ int	open_to_read(char *filepath, int additional_flag)
 	return (file_fd);
 }
 
+int	open_to_write(char *filepath, int additional_flag)
+{
+	int	file_fd;
+	/* In case where the file exist but no have the right on it */
+	if (access(filepath, W_OK) == -1 && errno == EACCES)
+	{
+		perror(NULL);
+		return (-1);
+	}
+	else
+		file_fd = open(filepath, O_WRONLY | additional_flag | O_CREAT, \
+				S_IWUSR | S_IWGRP | S_IWOTH);
+	if (file_fd == -1)
+	{
+		perror(NULL);
+		return (-1);
+	}
+	return (file_fd);
+}
+
 int	open_to_readwrite(char *filepath, int additional_flag)
 {
 	int	file_fd;
@@ -70,7 +90,7 @@ int	open_to_readwrite(char *filepath, int additional_flag)
 		return (-1);
 	}
 	else
-		file_fd = open(filepath, O_WRONLY | additional_flag | O_CREAT, \
+		file_fd = open(filepath, O_RDWR | additional_flag | O_CREAT, \
 				S_IWUSR | S_IWGRP | S_IWOTH | S_IRUSR | S_IRGRP | S_IROTH);
 	if (file_fd == -1)
 	{
