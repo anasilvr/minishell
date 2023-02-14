@@ -52,7 +52,7 @@ void treat_line(t_tok **tok, char **env_cp)
     }
 }
 
-char	*rl_gets(char **env_cp)
+char	*rl_gets(void)
 {
 	char	*line;
 
@@ -60,5 +60,5 @@ char	*rl_gets(char **env_cp)
 	line = readline("\033[0;97m\xF0\x9F\x90\x8CWTS$\033[0m ");
 	if (line && *line)
 		add_history(line);
-	return (ft_strjoin_free(line, ""));
+	return (ft_strjoin(line, ""));
 }

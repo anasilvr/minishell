@@ -198,7 +198,7 @@ t_tok	*get_first_tok(t_tok *node);
 // main.c
 void	wtshell(t_data *data);
 void	readline_exit(t_data *data);
-char	*rl_gets(char **env_cp);
+char	*rl_gets(void);
 
 // print_utils.c
 void	print_intro(void);

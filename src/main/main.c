@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:44:57 by anarodri          #+#    #+#             */
-/*   Updated: 2023/02/06 11:11:04 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/02/14 13:07:11 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,7 @@ void	wtshell(t_data *data)
 	{
 		signal(SIGINT, signal_handler);
 		signal(SIGQUIT, SIG_IGN);
-		data->input = rl_gets(
-			data->envp_cp);
+		data->input = rl_gets();
 		if (!data->input)
 			readline_exit(data);
 		while (!data->syntax_err && !is_empty(data->input))

@@ -36,6 +36,7 @@ t_cmd	*create_cmdlist(t_data *data)
 	//	data->hd_struct = heredoc_parsing(ft_substr(str, 0, len));
 		line = ft_substr(str, 0, len);
 		addback_cmdline(&cmdlst, new_cmdline(line));
+		xfree(line);
 		str += (len);
 		skip_whitespaces(&str);
 		skip_meta(&str);
