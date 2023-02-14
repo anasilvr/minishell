@@ -113,8 +113,8 @@ int	heredoc_to_pipe(t_hdoc *hd_struct)
 			ft_putstr_fd(hd_struct->the_line, hd_pipe_fd[1]);
 			hd_struct = hd_struct->next;
 		}
-		exit(0);
 		close(hd_pipe_fd[1]);
+		exit(0);
 	}
 	return (hd_pipe_fd[0]);
 }
