@@ -36,7 +36,6 @@ t_cmd	*create_cmdlist(t_data *data)
 	//	data->hd_struct = heredoc_parsing(ft_substr(str, 0, len));
 		line = ft_substr(str, 0, len);
 		addback_cmdline(&cmdlst, new_cmdline(line));
-		xfree(line);
 		str += (len);
 		skip_whitespaces(&str);
 		skip_meta(&str);
@@ -139,7 +138,7 @@ t_cmd	*new_cmdline(char *line)
 	new = ft_xcalloc(1, sizeof(t_cmd));
 	new->filefd[0] = -2;
 	new->filefd[1] = -2;
-	new->cmdline = ft_strdup(line);
+	new->cmdline = line;
 	//here
 	// redirect_parsing(line, new->filefd);
 	// new->cmdline = cmdline_redir_drop(line);
