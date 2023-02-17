@@ -56,11 +56,3 @@ char	*ft_strjoin_free2(char const *s1, char const *s2)
 	xfree((void *)s2);
 	return (temp);
 }
-
-int	ft_isspace(char c)
-{
-	if (c == ' ' || c == '\n' || c == '\t'
-		|| c == '\v' || c == '\f' || c == '\r')
-		return (0);
-	return (1);
-}

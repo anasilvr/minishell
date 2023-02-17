@@ -1,24 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/25 14:58:03 by anarodri          #+#    #+#             */
-/*   Updated: 2022/12/15 11:27:19 by anarodri         ###   ########.fr       */
+/*   Created: 2021/10/19 15:37:52 by anarodri          #+#    #+#             */
+/*   Updated: 2022/12/15 12:51:09 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+/* Adds the element ’new’ at the end of the list.
+** **lst: adress of a pointer to the first link of a list.
+** *new: adress of a pointer to the element to be added to the list.
+*/
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
-# endif
+#include "../libft.h"
 
-# include "../libft.h"
+void	ft_lstadd_back(t_list **lst, t_list *new)
+{
+	t_list	*tmp;
 
-char	*get_next_line(int fd);
-
-#endif
+	if (new == NULL)
+		return ;
+	if (*lst == NULL)
+	{
+		*lst = new;
+		return ;
+	}
+	tmp = ft_lstlast(*lst);
+	tmp->next = new;
+}

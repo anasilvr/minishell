@@ -1,24 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/25 14:58:03 by anarodri          #+#    #+#             */
-/*   Updated: 2022/12/15 11:27:19 by anarodri         ###   ########.fr       */
+/*   Created: 2022/11/02 15:56:26 by anarodri          #+#    #+#             */
+/*   Updated: 2022/12/15 12:51:09 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "../libft.h"
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
-# endif
-
-# include "../libft.h"
-
-char	*get_next_line(int fd);
-
-#endif
+int	ft_strcmp(const char *str1, const char *str2)
+{
+	while (*str1 && *str2)
+	{
+		if (*str1 != *str2)
+			return ((unsigned char) *str1 - (unsigned char) *str2);
+		str1++;
+		str2++;
+	}
+	return (0);
+}

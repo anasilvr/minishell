@@ -1,24 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/25 14:58:03 by anarodri          #+#    #+#             */
-/*   Updated: 2022/12/15 11:27:19 by anarodri         ###   ########.fr       */
+/*   Created: 2021/09/16 13:27:49 by anarodri          #+#    #+#             */
+/*   Updated: 2022/12/15 12:51:09 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+/*
+Lower case to upper case letter conversion.
+Return: If the argument is an lower-case letter,
+the function returns the corresponding upper-case letter.
+Otherwise, the argument is returned unchanged.
+*/
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
-# endif
+#include "../libft.h"
 
-# include "../libft.h"
-
-char	*get_next_line(int fd);
-
-#endif
+int	ft_toupper(int c)
+{
+	if (c >= 'a' && c <= 'z')
+		return (c -= 32);
+	return (c);
+}

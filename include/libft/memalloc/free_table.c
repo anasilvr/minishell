@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   free_table.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/25 14:58:03 by anarodri          #+#    #+#             */
-/*   Updated: 2022/12/15 11:27:19 by anarodri         ###   ########.fr       */
+/*   Created: 2022/08/03 11:42:36 by anarodri          #+#    #+#             */
+/*   Updated: 2022/12/15 12:51:09 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "../libft.h"
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
-# endif
+void	free_table(char **table)
+{
+	int	i;
 
-# include "../libft.h"
-
-char	*get_next_line(int fd);
-
-#endif
+	i = 0;
+	if (table)
+	{
+		while (table[i])
+		{
+			xfree(table[i]);
+			i++;
+		}
+		xfree(table[i]);
+		xfree(table);
+	}
+}

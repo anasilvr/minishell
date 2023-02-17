@@ -1,24 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_realloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/25 14:58:03 by anarodri          #+#    #+#             */
-/*   Updated: 2022/12/15 11:27:19 by anarodri         ###   ########.fr       */
+/*   Created: 2022/10/04 12:32:52 by anarodri          #+#    #+#             */
+/*   Updated: 2022/12/15 12:51:09 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "../libft.h"
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
-# endif
+void	*ft_realloc(void *ptr, size_t size)
+{
+	char	*new;
 
-# include "../libft.h"
-
-char	*get_next_line(int fd);
-
-#endif
+	new = NULL;
+	if (!ptr)
+		new = malloc(size);
+	if (!size && ptr != NULL)
+	{
+		new = malloc(1);
+		free(ptr);
+	}
+	if (!new)
+		return (NULL);
+	ft_memcpy(new, ptr, size);
+	return (new);
+}

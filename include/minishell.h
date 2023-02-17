@@ -130,7 +130,6 @@ char	**cpy_env(char **envp, int line);
 int		ft_cmp_env(char *str1, char *str2, size_t n);
 void	free_tab(char **old_tab);
 void	unset_dup(char **env, char *var);
-int		ft_isspace(char c);
 void	print_env_var(char **env, char *var);
 void	print_env(char **env);
 int		check_env_var(char **env, char *var);
@@ -245,7 +244,7 @@ void	verify_dollartype(t_tok **list);
 //extra
 char	**safesplit(char const *s, char c); // split that conserves all characters
 char	*ft_strjoin_free2(char const *s1, char const *s2);
-char	*charjoinfree(char *s1, char c);
+char	*charjoinfree(const char *s1, const char c);
 
 //line handler
 int	        space_handler(char *str, int i);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/25 14:58:13 by anarodri          #+#    #+#             */
-/*   Updated: 2023/02/07 13:48:50 by tchalifo         ###   ########.fr       */
+/*   Updated: 2022/12/15 11:28:30 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,112 +16,95 @@
 
 #include "get_next_line.h"
 
-/* Fills a buffer based on bytes counted by read.
-** Mallocs enough space for a buffer, reads the first line of the file
-** and recreates it accordingly by applying gnl_strjoin.
-** Return: Concatenation of conserved buffer and the new line.
-** If an error occurs during read, frees buffer and returns NULL*/
-char	*read_to_buffer(int fd, char *buffer)
+char	*read_to_backup(int fd, char *backup, char *buffer)
 {
 	char	*tmp;
 	int		bytes;
+	int		start;
 
-	if (buffer == NULL)
-		buffer = gnl_calloc (1, 1);
-	tmp = malloc(BUFFER_SIZE + 1);
-	if (tmp == NULL)
-		return (NULL);
 	bytes = 1;
-	while (gnl_strchr(buffer, '\n') == NULL && bytes != 0)
+	start = 0;
+	while (start == 0 && bytes != 0)
 	{
-		bytes = read(fd, tmp, BUFFER_SIZE);
+		bytes = read(fd, buffer, BUFFER_SIZE);
 		if (bytes == -1)
 		{
-			free(tmp);
-			free(buffer);
+			xfree(buffer);
 			return (NULL);
 		}
-		tmp[bytes] = '\0';
-		buffer = gnl_strjoin(buffer, tmp);
+		buffer[bytes] = '\0';
+		if (!backup)
+			backup = ft_strdup("");
+		tmp = backup;
+		backup = ft_strjoin(backup, buffer);
+		xfree(tmp);
+		if (ft_strchr(backup, '\n'))
+			start = 1;
 	}
-	free (tmp);
-	return (buffer);
+	free(buffer);
+	return (backup);
 }
 
-/* Creates the line saved inside *buffer.
-** Copies buffer up until the next new line, NULL-terminating the string.
-** Return: next line to be printed, NULL is allocation fails.*/
-char	*make_line(char *buffer)
+char	*make_line(char *backup)
 {
 	int		i;
 	char	*line;
 
 	i = 0;
-	if (buffer[i] == '\0')
-		return (NULL);
-	while (buffer[i] && buffer[i] != '\n')
+	while (backup[i] && backup[i] != '\n')
 		i++;
 	line = (char *)malloc(i + 2);
 	if (line == NULL)
 		return (NULL);
-	i = 0;
-	while (buffer[i] && buffer[i] != '\n')
+	ft_strlcpy(line, backup, (i + 2));
+	if (line[0] == '\0')
 	{
-		line[i] = buffer[i];
-		i++;
+		free(line);
+		return (NULL);
 	}
-	if (buffer[i] == '\n')
-	{
-		line[i] = buffer[i];
-		i++;
-	}
-	line[i] = '\0';
 	return (line);
 }
 
-/* Updates buffer by reseting its start to the character after the next \n.*/
-char	*new_buffer(char *buffer)
+char	*new_backup(char *backup)
 {
 	int		i;
-	int		j;
 	char	*str;
 
 	i = 0;
-	while (buffer[i] != '\0' && buffer[i] != '\n')
+	while (backup[i] != '\0' && backup[i] != '\n')
 		i++;
-	if (buffer[i] == '\0')
+	if (backup[i] == '\0')
 	{
-		free(buffer);
+		free(backup);
 		return (NULL);
 	}
-	str = (char *)malloc(gnl_strlen(buffer) - i + 1);
+	str = (char *)malloc(ft_strlen(backup) - i + 1);
 	if (str == NULL)
 		return (NULL);
-	i += 1;
-	j = 0;
-	while (buffer[i] != '\0')
-		str[j++] = buffer[i++];
-	str[j] = '\0';
-	free(buffer);
-	buffer = NULL;
+	ft_strlcpy(str, backup + i + 1, ft_strlen(backup) - i + 1);
+	xfree(backup);
 	return (str);
 }
 
-/* Reads the file's text to the variable buffer (read_to_buffer),
-** Creates a new line if the buffer is not yet empty (make_line),
-** Updates buffer so it points to the beginning of the next line.
-** Returns: the line created. */
 char	*get_next_line(int fd)
 {
-	char		*line;
-	static char	*buffer;
+	char			*line;
+	char			*buffer;
+	static char		*backup;
 
+	line = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	buffer = read_to_buffer(fd, buffer);
-	if (buffer == NULL)
+	buffer = malloc((BUFFER_SIZE + 1) + sizeof(char));
+	if (!buffer)
+	{
+		xfree(buffer);
 		return (NULL);
-	line = make_line(buffer);
-	buffer = new_buffer(buffer);
+	}
+	backup = read_to_backup(fd, backup, buffer);
+	if (!backup)
+		return (NULL);
+	line = make_line(backup);
+	backup = new_backup(backup);
 	return (line);
 }

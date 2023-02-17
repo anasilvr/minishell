@@ -14,13 +14,16 @@ static void find_match(t_data *data, int *i, bool *trigger, char *quote)
     }
 }
 
-char *charjoinfree(char *s1, char c)
+char *charjoinfree(const char *s1, const char c)
 {
 	char 	*r_str;
 	int		len;
 	int		i;
 
-	len = ft_strlen(s1);
+	if (!s1)
+		len = 0;
+	else
+		len = ft_strlen(s1);
 	i = -1;
 	r_str = NULL;
 	if (len < 1)
@@ -37,24 +40,21 @@ char *charjoinfree(char *s1, char c)
 		r_str[i] = c;
 		r_str[i + 1] = '\0';
 	}
-	s1 = xfree(s1);
+	s1 = xfree((char*)s1);
 	return (r_str);
 }
-/*
-char *charjoinfree(char *s1, char c)
+
+/*char *charjoinfree(const char *s1, const char c)
 {
     char    *str;
-    int     len;
+    size_t     len;
 
-    len = ft_strlen(s1);
-    str = ft_calloc(len + 1, sizeof(char));
+	if (!s1)
+		len = 0;
+	else
+	    len = ft_strlen(s1);
+    str = ft_calloc(len + 2, sizeof(char));
     len = 0;
-	if (s1 == NULL)
-	{
-		str[0] = c;
-		str[1] = '\0';
-		return (str);
-	}
     while (s1[len])
     {
         str[len] = s1[len];
@@ -62,7 +62,7 @@ char *charjoinfree(char *s1, char c)
     }
     str[len] = c;
     str[len + 1] = '\0';
-    xfree((void *) s1);
+   xfree((char *) s1);
     return (str);
 }*/
 

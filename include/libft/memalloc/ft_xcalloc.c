@@ -1,24 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_xcalloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/25 14:58:03 by anarodri          #+#    #+#             */
-/*   Updated: 2022/12/15 11:27:19 by anarodri         ###   ########.fr       */
+/*   Created: 2022/11/02 17:38:39 by anarodri          #+#    #+#             */
+/*   Updated: 2022/12/15 12:51:09 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "../libft.h"
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
-# endif
+void	*ft_xcalloc(size_t nb, size_t mem_size)
 
-# include "../libft.h"
+{
+	void	*ptr;
 
-char	*get_next_line(int fd);
-
-#endif
+	ptr = malloc(nb * mem_size);
+	if (!ptr)
+	{
+		write(STDERR_FILENO, "Memory allocation error: Aborting.", 35);
+		exit(EXIT_FAILURE);
+	}
+	ft_bzero(ptr, (nb * mem_size));
+	return (ptr);
+}
