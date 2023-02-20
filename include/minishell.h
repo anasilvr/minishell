@@ -129,7 +129,6 @@ void	cd_handler(char **instruct, t_data *data);
 char	**cpy_env(char **envp, int line);
 int		ft_cmp_env(char *str1, char *str2, size_t n);
 void	free_tab(char **old_tab);
-void	unset_dup(char **env, char *var);
 void	print_env_var(char **env, char *var);
 void	print_env(char **env);
 int		check_env_var(char **env, char *var);
