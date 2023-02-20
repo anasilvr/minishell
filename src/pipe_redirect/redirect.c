@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:34:45 by tchalifo          #+#    #+#             */
-/*   Updated: 2023/02/14 11:01:12 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/02/20 14:21:09 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,39 +154,39 @@ int	open_to_readwrite(char *filepath, int additional_flag)
 // }
 
 //Probleme avec cela, si le heredoc est en plein milieux ca va enlever la suite... cat < infile >> outfile  ..>>infile ne sera plus..
-char	*redirect_trim(char *line)
-{
-	int		start;
-	int		len;
-	int		i;
+// char	*redirect_trim(char *line)
+// {
+// 	int		start;
+// 	int		len;
+// 	int		i;
 
-	i = 0;
-	start = 0;
-	len = 0;
-	while (line[i] != '\0')
-	{
-		while (line[i] != '\0')
-		{
-			if (line[i] == '>' || (line[i] == '>' && line[i + 1] == '>') || line[i] == '<')
-			{
-				if (line[i] == '>' && line[i + 1] == '>')
-					i += 2;
-				else
-					i++;
-				while (line[i] == ' ')
-					i++;
-				break;
-			}
-			if (start == 0 && i != 0 && len < 1)
-				start = i;
-			len++;
-			i++;
-		}
-		while (line[i] != '\0' && line[i++] != ' ')
-			;
-	}
-	return (ft_strtrim(ft_substr(line, start, len), " "));
-}
+// 	i = 0;
+// 	start = 0;
+// 	len = 0;
+// 	while (line[i] != '\0')
+// 	{
+// 		while (line[i] != '\0')
+// 		{
+// 			if (line[i] == '>' || (line[i] == '>' && line[i + 1] == '>') || line[i] == '<')
+// 			{
+// 				if (line[i] == '>' && line[i + 1] == '>')
+// 					i += 2;
+// 				else
+// 					i++;
+// 				while (line[i] == ' ')
+// 					i++;
+// 				break;
+// 			}
+// 			if (start == 0 && i != 0 && len < 1)
+// 				start = i;
+// 			len++;
+// 			i++;
+// 		}
+// 		while (line[i] != '\0' && line[i++] != ' ')
+// 			;
+// 	}
+// 	return (ft_strtrim(ft_substr(line, start, len), " "));
+// }
 // NEED TO CHECK FOR FREE OLD LINE POINTER
 
 
