@@ -147,9 +147,8 @@ int		first_word_len(char *str);
 int		*init_itab(int init_value, int init_size);
 
 //heredoc.c
+void	heredoc_subparsing(t_data *data);
 t_hdoc	*write_heredoc(char *delimiter);
-t_hdoc	*heredoc_parsing(char *line);
-char	*heredoc_trim(char *line);
 
 //heredoc.c
 t_hdoc	*heredoc_parsing(char *line);
