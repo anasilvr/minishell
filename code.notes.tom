@@ -1,3 +1,2 @@
-La variable hd_delimiter dans la struct data aura
-besoin d'etre initialiser avec la valeur de la string
-suivant les chevrons <<.
+echo bob > out.txt > out1.txt >out2.txt Cause un probleme au niveau parsing. Il prend > out1.txt comme arguement de echo.
+Cepandant out.txt est bien assigné au output, puis, le out2.txt termine par etre feed normalement. Seul le out1.txt devien problematique.

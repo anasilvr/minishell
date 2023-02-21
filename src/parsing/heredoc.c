@@ -57,6 +57,7 @@ t_hdoc	*write_heredoc(char *delimiter)
 		line = readline("> ");
 		if (ft_strcmp(line, delimiter) == 0)
 			break;
+		line = ft_strjoin(line, "\n");
 		hd_struct = ms_hd_dllst_add_back(hd_struct, line);
 		if (line)
 			line = xfree(line);

@@ -1,5 +1,0 @@
-toto
-sh
-ls
-bob
-fd

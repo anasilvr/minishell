@@ -156,6 +156,7 @@ void	redirect_subparsing(t_data *data)
 	data->token = r_token;
 	data->cmd_lst = r_cmd;
 }
+
 void	print_hd(t_hdoc *hd)
 {
 	while (hd != NULL)
@@ -184,15 +185,10 @@ void	heredoc_subparsing(t_data *data)
 		if (data->token->type == HEREDOC)
 		{
 			delimiter = data->token->next->token;
-			dup2(data->stdio[0], 0);
 			data->hd_struct = write_heredoc(delimiter);
 			data->token = delmidnode_toklist(data->token);
 			data->token = delmidnode_toklist(data->token);
-			if (data->token->next == NULL)
-			{
-				tok_pointer_keeper = get_first_tok(data->token);
-			}
-			print_hd(data->hd_struct);
+			tok_pointer_keeper = get_first_tok(data->token);
 		}
 		data->token = data->token->next;
 	}
