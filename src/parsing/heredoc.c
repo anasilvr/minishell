@@ -119,6 +119,38 @@ int	heredoc_to_pipe(t_hdoc *hd_struct)
 	return (hd_pipe_fd[0]);
 }
 
+char *heredoc_dollar(/*char **env ,*/ char *line) // Il va falloir ajouter l'environnement
+{
+    int i;
+    char *r_line;
+    char *r_var;
+
+    i = -1;
+    r_line = NULL;
+    r_var = NULL;
+    while (line [++i] != '\0')
+    {
+        if (line[i] == '$')
+        {
+            if (line[++i] == '$')
+                ;
+            else if (line[i] == '?')
+                r_line = ft_strjoin(r_line, g_status);
+            else if (line[--i] == '$')
+            {
+                while (line[++i] != '\'' && line[i] != '"' && ft_isspace(line[i]) != 0 && line[i] != '\0')
+                    r_var = charjoinfree(r_var, line[i]);
+                r_var = cpy_env_var(/*env*/, r_var);
+                r_line = ft_strjoin(r_line, r_var);
+                r_var = xfree(r_var);
+            }
+        }
+        else
+            r_line = charjoinfree(r_line, line[i]);
+    }
+    return (r_line);
+}
+
 // bool	is_heredoc(t_cmd *cmd_lst)
 // {
 // 	while (cmd_lst->next != NULL)
