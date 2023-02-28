@@ -92,8 +92,11 @@ char    *dollar_handler(char *line, char **env, int* j)
 		*j += 1;
 		r_var = charjoinfree(r_var, 0x20);
     }
-    else if (line[*j] == '$' && (line[*j + 1] == 0x20 || line[*j + 1] == '\0'))
+    else if (line[*j] == '$' && (ft_isspace(line[*j + 1]) == 0 || line[*j + 1] == '\0'))
+    {
         r_var = ft_strdup("$");
+        *j += 1;
+    }
     else if (line[*j] == '$')
     {
         *j += 1;
