@@ -157,36 +157,44 @@ void	redirect_subparsing(t_data *data)
 	data->cmd_lst = r_cmd;
 }
 
-// old
-// void	redirect_subparsing(t_data *data)
-// {
-// 	while (data->token != NULL)
-// 	{
-// 		if (data->token->type == PIPE)
-// 		{
-// 			data->cmd_lst = data->cmd_lst->next;
-// 			data->token = data->token->next;
-// 		}
-// 		else if (data->token->type == APPEND) // >>
-// 		{
-// 			data->cmd_lst->filefd[1] = open_to_readwrite(data->token->next->token, O_APPEND);
-// 			delmidnode_toklist(data->token->next);
-// 		}
-// 		else if (data->token->type == REDIR_OUT) // >
-// 		{
-// 			data->cmd_lst->filefd[1] = open_to_readwrite(data->token->next->token, O_TRUNC);
-// 			delmidnode_toklist(data->token->next);
-// 		}
-// 		else if (data->token->type == REDIR_IN) // <
-// 		{
-// 			data->cmd_lst->filefd[1] = open_to_readwrite(data->token->next->token, 0);
-// 			delmidnode_toklist(data->token->next);
-// 		}
-// 		data->token = data->token->next;
-// 	}
-// 	if (data->token->next == NULL)
-// 	data->token = get_first_tok(data->token);
-// }
+void	print_hd(t_hdoc *hd)
+{
+	while (hd != NULL)
+	{
+		printf("%s\n", hd->the_line);
+		hd = hd->next;
+	}
+}
+
+void	heredoc_subparsing(t_data *data)
+{
+	char	*delimiter;
+	// t_hdoc	*hd_data;
+	t_tok	*tok_pointer_keeper;
+	t_cmd	*cmd_pointer_keeper;
+
+	tok_pointer_keeper = data->token;
+	cmd_pointer_keeper = data->cmd_lst;
+	while (data->token != NULL)
+	{
+		if (data->token->type == PIPE)
+		{
+			data->cmd_lst = data->cmd_lst->next;
+			data->token = data->token->next;
+		}
+		if (data->token->type == HEREDOC)
+		{
+			delimiter = data->token->next->token;
+			data->hd_struct = write_heredoc(delimiter);
+			data->token = delmidnode_toklist(data->token);
+			data->token = delmidnode_toklist(data->token);
+			tok_pointer_keeper = get_first_tok(data->token);
+		}
+		data->token = data->token->next;
+	}
+	data->token = tok_pointer_keeper;
+	data->cmd_lst = cmd_pointer_keeper;
+}
 
 void	parser(t_data *data)
 {
@@ -194,6 +202,7 @@ void	parser(t_data *data)
 	count_expand(data->cmd_lst, data->token);
 	// Traitement des redirection
 	redirect_subparsing(data);
+	heredoc_subparsing(data);
 	printf("\033[1m\033[31m[At parser.c]\nAFTER REDIRECTION:\033[0m\n");
 	print_toklist(data->token);
 	split_args(data->cmd_lst, data->token);

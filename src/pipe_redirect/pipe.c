@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:01:02 by tchalifo          #+#    #+#             */
-/*   Updated: 2023/02/06 11:12:58 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/02/20 14:42:09 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ static void	job_set(t_data *data, int pipe_fd[2])
 		dup2 (hd_pipe_fd[0], 0);
 		close (hd_pipe_fd[0]);
 	}
-	/* Si il sagit de la premiere cmd, verifier si il y a une redir d'input */
 	if (data->cmd_lst->filefd[0] != -2)
 	{
 		dup2 (data->cmd_lst->filefd[0], 0);
@@ -38,7 +37,6 @@ static void	job_set(t_data *data, int pipe_fd[2])
 	}
 	if (data->cmd_lst->next != NULL)
 		dup2(pipe_fd[1], 1);
-	/* Si il sagit de la dernière cmd, verifier si il y a une redir d'output */
 	if (data->cmd_lst->filefd[1] != -2)
 	{
 		dup2 (data->cmd_lst->filefd[1], 1);
