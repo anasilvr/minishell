@@ -135,12 +135,12 @@ char *heredoc_dollar(/*char **env ,*/ char *line) // Il va falloir ajouter l'env
             if (line[++i] == '$')
                 ;
             else if (line[i] == '?')
-                r_line = ft_strjoin(r_line, g_status);
+                r_line = ft_strjoin(r_line, ft_itoa(g_status));
             else if (line[--i] == '$')
             {
                 while (line[++i] != '\'' && line[i] != '"' && ft_isspace(line[i]) != 0 && line[i] != '\0')
                     r_var = charjoinfree(r_var, line[i]);
-                r_var = cpy_env_var(/*env*/, r_var);
+//                r_var = cpy_env_var(/*env,*/ r_var);
                 r_line = ft_strjoin(r_line, r_var);
                 r_var = xfree(r_var);
             }
