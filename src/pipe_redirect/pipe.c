@@ -12,6 +12,19 @@
 
 #include "../../include/minishell.h"
 
+/* La fonction permet de dupliquer les descripteurs de fichier ouvert au préalable 
+ * (incluant ceux du pipe si il y a) vers les entrée et sortie standard système. Ainsi, à chaques 
+ * job, notre programme attribura 
+ * 
+ * PROTOTYPE	: void	redirect_subparsing(t_data *data);
+ * 
+ * PARAMÈTRES	: La fonction prend en paramètre la struct data de notre
+ * programme.
+ * 
+ * RETOUR	: N/A
+ * 
+ * DETAILS	: N/A
+ */
 static void	job_set(t_data *data, int pipe_fd[2])
 {
 	int	hd_pipe_fd[2];

@@ -1,21 +1,5 @@
 #include "../../include/minishell.h"
 
-/* MiniMan of the functions in this file.
- * PROTOTYPE:
- *     t_hdoc	*heredoc(char *delimiter);
- * The function simulate a here-document in creating a linked list for store
- * the input line(node) by line(node). FOr info, a heredoc redirect a bunch
- * of lines to the stdin.
-*/
-
-/* Case cmd << EOL --> Redirect a bunch of lines to the stdin. This is called
- * a here-document.
- * exemple:
- * cmd << EOL
- * line1
- * line2
-* EOL
-*/
 t_hdoc	*write_heredoc(char *delimiter)
 {
 	char	*line;
@@ -34,64 +18,6 @@ t_hdoc	*write_heredoc(char *delimiter)
 		}
 	}
 	return (hd_struct);
-}
-
-//trouver le heredoc
-//supprimer le heredoc
-t_hdoc	*heredoc_parsing(char *line)
-{
-	int		i;
-	char	*delimiter;
-	int		del_len;
-	t_hdoc	*hd_data;
-
-	i = 0;
-	while(line[i] != '\0' && line[i + 1] != '\0')
-	{
-		if (line[i] == '<' && line[i + 1] != '<')
-		{
-			while (line[++i] == ' ')
-				i++;
-			del_len = first_word_len(&line[i]);
-			delimiter = ft_substr(line, i, del_len);
-			hd_data = write_heredoc(delimiter);
-			return (hd_data);
-		}
-		i++;
-	}
-	return (NULL);
-}
-
-//Probleme avec cela, si le heredoc est en plein milieux ca va enlever la suite... cat <<EOF >> outfile  ..>>outfile ne sera plus..
-char	*heredoc_trim(char *line)
-{
-	int		start;
-	int		len;
-	int		i;
-
-	i = 0;
-	start = 0;
-	len = 0;
-	while (line[i] != '\0')
-	{
-		while (line[i] != '\0')
-		{
-			if (line[i] == '<' && line[i + 1] == '<')
-			{
-				i += 2;
-				while (line[i] == ' ')
-					i++;
-				break;
-			}
-			if (start == 0 && i != 0 && len < 1)
-				start = i;
-			len++;
-			i++;
-		}
-		while (line[i] != '\0' && line[i++] != ' ')
-			len++;
-	}
-	return (ft_strtrim(ft_substr(line, start, len), " "));
 }
 
 int	heredoc_to_pipe(t_hdoc *hd_struct)
@@ -151,13 +77,41 @@ char *heredoc_dollar(/*char **env ,*/ char *line) // Il va falloir ajouter l'env
     return (r_line);
 }
 
-// bool	is_heredoc(t_cmd *cmd_lst)
-// {
-// 	while (cmd_lst->next != NULL)
-// 	{
-// 		if (cmd_lst->heredoc == true)
-// 			return(1);
-// 		cmd_lst = cmd_lst->next;
-// 	}
-// 	return (0);
-// }
+void	print_hd(t_hdoc *hd)
+{
+	while (hd != NULL)
+	{
+		printf("%s\n", hd->the_line);
+		hd = hd->next;
+	}
+}
+
+void	heredoc_subparsing(t_data *data)
+{
+	char	*delimiter;
+	// t_hdoc	*hd_data;
+	t_tok	*tok_pointer_keeper;
+	t_cmd	*cmd_pointer_keeper;
+
+	tok_pointer_keeper = data->token;
+	cmd_pointer_keeper = data->cmd_lst;
+	while (data->token != NULL)
+	{
+		if (data->token->type == PIPE)
+		{
+			data->cmd_lst = data->cmd_lst->next;
+			data->token = data->token->next;
+		}
+		if (data->token->type == HEREDOC)
+		{
+			delimiter = data->token->next->token;
+			data->hd_struct = write_heredoc(delimiter);
+			data->token = delmidnode_toklist(data->token);
+			data->token = delmidnode_toklist(data->token);
+			tok_pointer_keeper = get_first_tok(data->token);
+		}
+		data->token = data->token->next;
+	}
+	data->token = tok_pointer_keeper;
+	data->cmd_lst = cmd_pointer_keeper;
+}
