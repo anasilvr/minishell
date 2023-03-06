@@ -12,18 +12,22 @@
 
 #include "../../include/minishell.h"
 
-/* La fonction permet de dupliquer les descripteurs de fichier ouvert au préalable 
- * (incluant ceux du pipe si il y a) vers les entrée et sortie standard système. Ainsi, à chaques 
- * job, notre programme attribura 
+/* La fonction permet de dupliquer les descripteurs de fichier ouvert au 
+ * préalable (incluant ceux du pipe si il y a) vers les entrée et sortie 
+ * standard système. Ainsi, à chaques job, notre programme attribura les bons 
+ * fd pour les executions.
  * 
- * PROTOTYPE	: void	redirect_subparsing(t_data *data);
+ * PROTOTYPE	: static void	job_set(t_data *data, int pipe_fd[2]);
  * 
- * PARAMÈTRES	: La fonction prend en paramètre la struct data de notre
- * programme.
+ * PARAMÈTRES	: La fonction prend en paramètre la structure data de notre 
+ * programme ainsi que les fd du pipe ouvert précedememnt dans la focntion 
+ * job_loop().
  * 
  * RETOUR	: N/A
  * 
- * DETAILS	: N/A
+ * DETAILS	: Lorsque l'execution atteint la fin de la fonction, le programme 
+ * executera le binaire souhaité dans la job et terminera le processus enfant 
+ * préalablement créé.
  */
 static void	job_set(t_data *data, int pipe_fd[2])
 {
@@ -60,6 +64,19 @@ static void	job_set(t_data *data, int pipe_fd[2])
 	execution_time(data);
 }
 
+/* La fonction permet de passer en boucle la liste de commande a executer. 
+ * Les commandes sont regroupé en une job qui permettra d'executer les 
+ * différentes commandes présentes.
+ * 
+ * PROTOTYPE	: t_cmd *jobs_loop(t_data *data);
+ * 
+ * PARAMÈTRES	: La fonction prend en paramètre la struct data de notre
+ * programme.
+ * 
+ * RETOUR	: N/A
+ * 
+ * DETAILS	: N/A
+ */
 t_cmd *jobs_loop(t_data *data)
 {
 	int		pipe_fd[2] = {-2, -2};

@@ -38,7 +38,7 @@
 # define READ_ENDPIPE 0
 # define WRITE_ENDPIPE 1
 
-# define	g_status
+extern int	g_status;
 typedef enum e_builtins
 {
 	E_ECHO = 0,

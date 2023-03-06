@@ -125,4 +125,5 @@ void	reset(t_data *data)
 		free_cmdlist(data->cmd_lst);
 		data->cmd_lst = ft_xcalloc(1, sizeof(t_cmd));
 	}
+	reset_stdio(data);
 }

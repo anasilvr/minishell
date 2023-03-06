@@ -29,7 +29,6 @@ OBJ_DIR		=	obj/
 
 BUILTIN_F	=		\
 	builtin.c		\
-	echo_utils.c 	\
 	echo.c			\
 	pwd.c			\
 	utils.c			\
@@ -42,7 +41,6 @@ PIPE_REDIRECT_F	=	\
 	io.c			\
 	pipe.c			\
 	redirect.c		\
-	redirect_utils.c\
 	heredoc.c\
 
 MAIN_F =			\
