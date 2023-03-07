@@ -10,38 +10,30 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
-
-/* MiniMan of the functions in this file.
- * PROTOTYPE:
- *    int	redirect_parsing(char *line, int **file_fd);
- * The function determines if there is a redirect and if so, which type(s)
- * should be processed for a job node. It's return nothing, but change the
- * value(s) of the pointed value of int **file_fd. Resulting in an attribution
- * of fd to the opened file(s).
- *
- * PROTOTYPE:
- *     static int	open_to_read(char *filepath, int *additional_flag);
- * Simply attribute a file descriptor to open a file in read only mode and
- * return the fd value. If an error occuring, -1 is return and errno is print.
- *
- * PROTOTYPE:
- *     static int open_to_readwrite(char *filepath, int *additional_flag);
- * Simply attribute a file descriptor to open a file in read/write mode and
- * return the fd value. If an error occuring, -1 is return and errno is print.
-*/
-
 /* MEMORY ZONE OF THOMAS FISHer
  * Case cmd > file --> Redirect the standard output (stdout) of cmd to a file
  * and replace all the content for the new one.
  * Case cmd >> file --> Append the standard output (stdout) of cmd to a file.
  */
 
+#include "../../include/minishell.h"
+
+
+/* La fonction effectue l'ouverture d'un fichier spécifié par un chemin d'accès en mode lecture 
+ * seule. Elle prend également un flag additionnel au besoin.
+ * 
+ * PROTOTYPE	: int	open_to_read(char *filepath, int additional_flag);
+ * 
+ * PARAMÈTRES	: La fonction prend en paramètre le chemin du fichier à ouvrir et un flag additionnel.
+ * 
+ * RETOUR	: Si une erreur se produit, -1 est un retour et errno est imprimé.
+ * 
+ * DETAILS	: Si un flag additionnel est utilisé, commenter la ligne (void) additional_flag.
+ */
 int	open_to_read(char *filepath, int additional_flag)
 {
-	int	file_fd;
-
 	(void) additional_flag;
+	int	file_fd;
 
 	if (access(filepath, R_OK) == -1) //&& errno != ENOENT)
 	{
@@ -60,9 +52,22 @@ int	open_to_read(char *filepath, int additional_flag)
 	return (file_fd);
 }
 
+/* La fonction effectue l'ouverture d'un fichier spécifié par un chemin d'accès mode écriture 
+ * seule. Elle prend également un flag additionnel au besoin.
+ * 
+ * PROTOTYPE	: int	open_to_write(char *filepath, int additional_flag);
+ * 
+ * PARAMÈTRES	: La fonction prend en paramètre le chemin du fichier à ouvrir et un flag additionnel.
+ * 
+ * RETOUR	: Si une erreur se produit, -1 est un retour et errno est imprimé.
+ * 
+ * DETAILS	: Si un flag additionnel est utilisé, commenter la ligne (void) additional_flag.
+ */
 int	open_to_write(char *filepath, int additional_flag)
 {
+	//(void) additional_flag;
 	int	file_fd;
+
 	/* In case where the file exist but no have the right on it */
 	if (access(filepath, W_OK) == -1 && errno == EACCES)
 	{
@@ -80,8 +85,21 @@ int	open_to_write(char *filepath, int additional_flag)
 	return (file_fd);
 }
 
+/* La fonction effectue l'ouverture d'un fichier spécifié par un chemin d'accès mode 
+ * lecture-écriture. Elle prend également un flag additionnel au besoin.
+ * 
+ * PROTOTYPE	: int	open_to_readwrite(char *filepath, int additional_flag);
+ * 
+ * PARAMÈTRES	: La fonction prend en paramètre le chemin du fichier à ouvrir et un flag additionnel.
+ * 
+ * RETOUR	: Si une erreur se produit, -1 est un retour et errno est imprimé.
+ * 
+ * DETAILS	: Si un flag additionnel est utilisé, commenter la ligne (void) additional_flag.
+ */
 int	open_to_readwrite(char *filepath, int additional_flag)
 {
+	//(void) additional_flag;
+	
 	int	file_fd;
 	/* In case where the file exist but no have the right on it */
 	if (access(filepath, R_OK | W_OK) == -1 && errno == EACCES)
@@ -100,217 +118,59 @@ int	open_to_readwrite(char *filepath, int additional_flag)
 	return (file_fd);
 }
 
-// static int	redirect_creation(char *line, int type, int *i)
-// {
-// 	char	*redirect_filename;
-// 	int		filename_len;
-// 	int		fd; //0 == fdin, 1 == fdout
+/* La fonction traite les redirections d'input (<) et d'output (>, >>) depuis la liste de tokens.
+ * Elle permet l'ouverture des fichiers spécifier pour la redirection en leur attribuant chacun 
+ * un file-descriptor. Les fds sont ainsi enregistrés dans les différents noeuds de la liste 
+ * cmd_lst. Pour rappel, la liste "cmd_lst" regoupe chaques jobs, une par noeud.
+ * La fonction permet aussi de supprimer les éléments de redirections de la liste de tokens. 
+ * Ainsi, lors de la création des arguments pour chacunes des jobs de la liste de commandes, 
+ * seul les commandes et leurs arguments seront présent.
+ * 
+ * PROTOTYPE	: void	redirect_subparsing(t_data *data);
+ * 
+ * PARAMÈTRES	: La fonction prend en paramètre la struct data de notre
+ * programme.
+ * 
+ * RETOUR	: N/A
+ * 
+ * DETAILS	: N/A
+ */
+void	redirect_subparsing(t_data *data)
+{
+	t_tok *r_token;
+	t_cmd *r_cmd;
 
-// 	filename_len = first_word_len(&line[(*i)]);
-// 	redirect_filename = ft_substr(&line[(*i)], 0, filename_len);
-// 	fd = -2;
-// 	if (type == 0)
-// 		fd = open_to_read(redirect_filename, 0);
-// 	else if (type == 1)
-// 		fd = open_to_readwrite(redirect_filename,O_TRUNC);
-// 	else if (type == 2)
-// 		fd = open_to_readwrite(redirect_filename, O_APPEND);
-// 	(*i) += filename_len;
-// 	return (fd);
-// }
+	r_cmd = data->cmd_lst;
+	while (data->token != NULL)
+	{
+		if (data->token->type == PIPE)
+		{
+			data->cmd_lst = data->cmd_lst->next;
+			data->token = data->token->next;
+		}
+		if (data->token->type == APPEND || data->token->type == REDIR_OUT || data->token->type == REDIR_IN)
+		{
+			if (data->token->type == APPEND) // >>
+				data->cmd_lst->filefd[1] = open_to_readwrite(data->token->next->token, O_APPEND);
+			else if (data->token->type == REDIR_OUT) // >
+				data->cmd_lst->filefd[1] = open_to_readwrite(data->token->next->token, O_TRUNC);
+			else if (data->token->type == REDIR_IN) // <
+				data->cmd_lst->filefd[0] = open_to_read(data->token->next->token, 0);
+			data->token = delmidnode_toklist(data->token);
+			data->token = delmidnode_toklist(data->token);
+			// if (data->token->next == NULL)
+			// 	r_token = get_first_tok(data->token);
+		}
+		if (data->token->next == NULL)
+		{
+			r_token = get_first_tok(data->token);
+		}
+		data->token = data->token->next;
+	}
+	data->token = r_token;
+	data->cmd_lst = r_cmd;
+}
 
-
-// void	redirect_parsing(char *line, int *file_fd)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while(line[i] != '\0')
-// 	{
-// 		if (line[i] == '>' && line[i + 1] != '>')
-// 		{
-// 			if (line[++i] == ' ')
-// 				i++;
-// 			file_fd[1] = redirect_creation(line, 1, &i);
-// 			// A PARTIR DICI JAI PASSE TOUT LA REDIRECTION
-// 		}
-// 		else if(line[i] == '>' && line[i + 1] == '>')
-// 		{
-// 			if (line[++i] == ' ')
-// 				i++;
-// 			file_fd[1] = redirect_creation(line, 2, &i);
-// 			// A PARTIR DICI JAI PASSE TOUT LA REDIRECTION
-// 		}
-// 		else if(line[i] == '<')
-// 		{
-// 			if (line[++i] == ' ')
-// 				i++;
-// 			file_fd[0] = redirect_creation(line, 0, &i);
-// 			// A PARTIR DICI JAI PASSE TOUT LA REDIRECTION
-// 		}
-// 		else
-// 			i++;
-// 	}
-// }
-
-//Probleme avec cela, si le heredoc est en plein milieux ca va enlever la suite... cat < infile >> outfile  ..>>infile ne sera plus..
-// char	*redirect_trim(char *line)
-// {
-// 	int		start;
-// 	int		len;
-// 	int		i;
-
-// 	i = 0;
-// 	start = 0;
-// 	len = 0;
-// 	while (line[i] != '\0')
-// 	{
-// 		while (line[i] != '\0')
-// 		{
-// 			if (line[i] == '>' || (line[i] == '>' && line[i + 1] == '>') || line[i] == '<')
-// 			{
-// 				if (line[i] == '>' && line[i + 1] == '>')
-// 					i += 2;
-// 				else
-// 					i++;
-// 				while (line[i] == ' ')
-// 					i++;
-// 				break;
-// 			}
-// 			if (start == 0 && i != 0 && len < 1)
-// 				start = i;
-// 			len++;
-// 			i++;
-// 		}
-// 		while (line[i] != '\0' && line[i++] != ' ')
-// 			;
-// 	}
-// 	return (ft_strtrim(ft_substr(line, start, len), " "));
-// }
-// NEED TO CHECK FOR FREE OLD LINE POINTER
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//OLD
-// void	redirect_setup(t_data *prog_data)
-// {
-// 	int	open_additionals_flags[1];
-// 	redirect_parsing(prog_data);
-
-// 	// if (prog_data->cmd_lst->io_flag == 3) //if is a heredoc
-// 	// 	prog_data->hd_struct = write_heredoc(char *delimiter); //Need to know where is stored the delimiter
-
-// 	if (prog_data->cmd_lst->io_flag == 4) // input redirect <
-// 	{
-// 		// Condition pour gerer les redirections semblable.
-// 		if (prog_data->cmd_lst->filefd[0] != -2)
-// 		{
-// 			close (prog_data->cmd_lst->filefd[0]);
-// 		}
-// 		prog_data->cmd_lst->filefd[0] = open_to_read \
-// 		(prog_data->cmd_lst->next->args[0], open_additionals_flags);
-// 	}
-// 	else if (prog_data->cmd_lst->io_flag == 5) // output redirect >
-// 	{
-// 		open_additionals_flags[0] = O_TRUNC;
-// 		// Condition pour gerer les redirections semblable.
-// 		if (prog_data->cmd_lst->filefd[1] != -2)
-// 		{
-// 			close (prog_data->cmd_lst->filefd[1]);
-// 		}
-// 		prog_data->cmd_lst->filefd[1] = open_to_readwrite \
-// 		(prog_data->cmd_lst->next->args[0], open_additionals_flags);
-// 	}
-// 	else if (prog_data->cmd_lst->io_flag == 6) // output redirect in append mode >>
-// 	{
-// 		open_additionals_flags[0] = O_APPEND;
-// 		// Condition pour gerer les redirections semblable.
-// 		if (prog_data->cmd_lst->filefd[1] != -2)
-// 		{
-// 			close (prog_data->cmd_lst->filefd[1]);
-// 		}
-// 		prog_data->cmd_lst->filefd[1] = open_to_readwrite \
-// 		(prog_data->cmd_lst->next->args[0], open_additionals_flags);
-// 	}
-// }
-
-// TENTATIVE DE TPIUT FAIRE A LA MEME PLAC\E...........
-// t_cmd *goto_lastnode(t_cmd *cmd_lst)
-// {
-// 	while (cmd_lst->next != NULL && cmd_lst->next->io_flag == 1) // Temps que je ne suis pas au dernier = node et que ce dernier est une commande.
-// 		cmd_lst = cmd_lst->next;
-// 	return (cmd_lst);
-// }
-
-// t_cmd *goto_firstnode(t_cmd *cmd_lst)
-// {
-// 	while (cmd_lst->prev != NULL && cmd_lst->next->io_flag == 1) // Temps que je ne suis pas au premier node et que ce premier est une commande.
-// 		cmd_lst = cmd_lst->prev;
-// 	return (cmd_lst);
-// }
-
-// void	input_redirection(t_cmd *cmd_lst)
-// {
-// 	int	open_additionals_flags[1];
-
-// 	open_additionals_flags[0] = NULL;
-
-// 	cmd_lst->filefd[0] = open_to_read (cmd_lst->args[0], open_additionals_flags);
-// 	if (cmd_lst->next == NULL || cmd_lst->next)
-// 	{
-// 		cmd_lst = goto_firstnode(cmd_lst);
-// 		dup2(cmd_lst->next->filefd[0], 0);
-// 	}
-// 	dup2(cmd_lst->next->filefd[0], 0);
-// 	close(cmd_lst->filefd[0]);
-// }
-
-// void	redirect_setup(t_data *prog_data)
-// {
-// 	int	open_additionals_flags[1];
-// 	while (prog_data->cmd_lst->next != NULL)
-// 	{
-// 		if (prog_data->cmd_lst->io_flag == 4) //if is an input redirect <
-// 			input_redirection(prog_data->cmd_lst);
-
-// 	}
-// 	// if (prog_data->cmd_lst->io_flag == 3) //if is a heredoc
-// 	// 	prog_data->hd_struct = write_heredoc(char *delimiter); //Need to know where is stored the delimiter
-// 	if (prog_data->cmd_lst->io_flag == 4) //if is an input redirect <
-// 		input_redirection(prog_data->cmd_lst);
-
-// 	else if (prog_data->cmd_lst->io_flag == 5) //if is an output redirect > (Open file and put the fd into struct in int *cmdio_fd)
-// 	{
-// 		open_additionals_flags[0] = O_TRUNC;
-// 		prog_data->cmd_lst->filefd[1] = open_to_readwrite (prog_data->cmd_lst->args[0], open_additionals_flags);
-
-// 	}
-// 	else if (prog_data->cmd_lst->io_flag == 6) //if is an output redirect in append mode >> (Open file and put the fd into struct in int *cmdio_fd)
-// 	{
-// 		open_additionals_flags[0] = O_APPEND;
-// 		prog_data->cmd_lst->filefd[1] = open_to_readwrite (prog_data->cmd_lst->args[0], open_additionals_flags);
-
-// 	}
-// }
 // tchalifo@c2r1p11 minishell % echo salut >> file.txt > toto.sh
 
 // tchalifo@c2r1p11 minishell % cat file.txt

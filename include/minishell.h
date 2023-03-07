@@ -6,6 +6,8 @@
 # include "./libdll/doubly_linked_list.h"
 # include <readline/readline.h>
 # include <readline/history.h>
+// # include "./readline/readline.h"
+// # include "./readline/history.h" 
 # include <sys/ioctl.h>
 # include <sys/param.h>
 # include <sys/stat.h>
@@ -38,7 +40,7 @@
 # define READ_ENDPIPE 0
 # define WRITE_ENDPIPE 1
 
-int		g_status;
+extern int	g_status;
 typedef enum e_builtins
 {
 	E_ECHO = 0,

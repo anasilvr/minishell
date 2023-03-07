@@ -29,7 +29,6 @@ OBJ_DIR		=	obj/
 
 BUILTIN_F	=		\
 	builtin.c		\
-	echo_utils.c 	\
 	echo.c			\
 	pwd.c			\
 	utils.c			\
@@ -42,7 +41,6 @@ PIPE_REDIRECT_F	=	\
 	io.c			\
 	pipe.c			\
 	redirect.c		\
-	redirect_utils.c\
 	heredoc.c\
 
 MAIN_F =			\
@@ -94,7 +92,7 @@ all:		obj $(NAME)
 $(NAME):	$(OBJ_DIR) $(OBJS)
 			@make --silent -C $(LIBFT_DIR)
 			@make --silent -C $(LIBDLL_DIR)
-			$(CC) $(CFLAGS) $(OBJS) -L${LIBDLL_DIR} -ldll $(LIBFT_DIR)libft.a $(LIBRL_DIR)libreadline.a $(LIBRL_DIR)libhistory.a -lcurses  -lreadline -o $(NAME)
+			$(CC) $(CFLAGS) $(OBJS) -L${LIBDLL_DIR} -ldll -lcurses -lreadline $(LIBFT_DIR)libft.a $(LIBRL_DIR)libreadline.a $(LIBRL_DIR)libhistory.a -o $(NAME)
 
 obj:
 			@mkdir -p $(OBJ_DIR)
