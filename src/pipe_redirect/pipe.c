@@ -25,9 +25,7 @@
  * 
  * RETOUR	: N/A
  * 
- * DETAILS	: Lorsque l'execution atteint la fin de la fonction, le programme 
- * executera le binaire souhaité dans la job et terminera le processus enfant 
- * préalablement créé.
+ * DETAILS	: N/A
  */
 static void	job_set(t_data *data, int pipe_fd[2])
 {
@@ -61,7 +59,6 @@ static void	job_set(t_data *data, int pipe_fd[2])
 	}
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);
-	execution_time(data);
 }
 
 /* La fonction permet de passer en boucle la liste de commande a executer. 
@@ -95,6 +92,7 @@ t_cmd *jobs_loop(t_data *data)
 		if (data->fork_pid == 0)
 		{
 			job_set(data, pipe_fd);
+			execution_time(data);
 		}
 		close(pipe_fd[1]);
 		dup2(pipe_fd[0], 0);

@@ -109,10 +109,7 @@ void	execution_manager(t_data *prog_data)
 			prog_data->cmd_lst = prog_data->cmd_lst->next;
 		}
 		else
-		{
 			prog_data->cmd_lst = jobs_loop(prog_data);
-			printf("fork PID at end of job == %d\n", prog_data->fork_pid);
-		}
 	}
 	reset_stdio(prog_data);
 }
