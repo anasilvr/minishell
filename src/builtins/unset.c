@@ -24,7 +24,6 @@ int	check_env_var(char **env, char *var)
 static char	**cpy_unset(char **env, int line)
 {
 	int		i;
-	int		j;
 	int		k;
 	char	**r_env;
 
@@ -36,14 +35,14 @@ static char	**cpy_unset(char **env, int line)
 	i = 0;
 	while (env[i] != NULL)
 	{
-		j = -1;
-		if (i != line)
-			r_env[k] = malloc(sizeof(char) * (ft_strlen(env[i]) + 1));
-		while (env[i][++j] != '\0' && i != line)
-			r_env[k][j] = env[i][j];
-		if (i != line)
-			k++;
-		i++;
+        while (env[i] != NULL)
+        {
+            if (i != line)
+                r_env[k] = ft_strdup(env[i]);
+            if (i != line)
+                k++;
+            i++;
+        }
 	}
 	r_env[k] = NULL;
 	free_tab(env);
@@ -64,6 +63,10 @@ void	unset_handler(char **instruct, t_data *data)
 		{
 			r_check = check_env_var(data->envp_cp, instruct[i]);
 			if (r_check >= 0)
+            {
+                data->envp_cp[r_check] = xfree(data->envp_cp[r_check]);
+                data->envp_cp[r_check] = ft_strdup(instruct[i]);
+            }
 				data->envp_cp = cpy_unset(data->envp_cp, r_check);
 		}
 		if (data->fork_pid == 0)
