@@ -4,10 +4,10 @@
 # include "./libft/libft.h"
 # include "./libft/GNL/get_next_line.h"
 # include "./libdll/doubly_linked_list.h"
-// # include <readline/readline.h>
-// # include <readline/history.h>
-# include "./include/readline/readline.h"
-# include "./include/readline/history.h" 
+# include <readline/readline.h>
+# include <readline/history.h>
+// # include "./readline/readline.h"
+// # include "./readline/history.h" 
 # include <sys/ioctl.h>
 # include <sys/param.h>
 # include <sys/stat.h>

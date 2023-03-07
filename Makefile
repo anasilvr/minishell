@@ -92,7 +92,7 @@ all:		obj $(NAME)
 $(NAME):	$(OBJ_DIR) $(OBJS)
 			@make --silent -C $(LIBFT_DIR)
 			@make --silent -C $(LIBDLL_DIR)
-			$(CC) $(CFLAGS) $(OBJS) -L${LIBDLL_DIR} -L${LIBRL_DIR} -ldll -lcurses -lreadline ${LIBDLL_DIR}libdll.a $(LIBFT_DIR)libft.a $(LIBRL_DIR)libreadline.a $(LIBRL_DIR)libhistory.a -o $(NAME)
+			$(CC) $(CFLAGS) $(OBJS) -L${LIBDLL_DIR} -ldll -lcurses -lreadline $(LIBFT_DIR)libft.a $(LIBRL_DIR)libreadline.a $(LIBRL_DIR)libhistory.a -o $(NAME)
 
 obj:
 			@mkdir -p $(OBJ_DIR)
