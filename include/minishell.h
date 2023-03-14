@@ -3,7 +3,7 @@
 
 # include "./libft/libft.h"
 # include "./libft/GNL/get_next_line.h"
-# include "./libdll/doubly_linked_list.h"
+// # include "./libdll/doubly_linked_list.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 // # include "./readline/readline.h"
@@ -41,6 +41,7 @@
 # define WRITE_ENDPIPE 1
 
 extern int	g_status;
+
 typedef enum e_builtins
 {
 	E_ECHO = 0,
@@ -71,6 +72,8 @@ typedef enum e_type
 typedef struct s_tok		t_tok;
 typedef struct s_data		t_data;
 typedef struct s_cmd		t_cmd;
+typedef struct s_hdoc		t_hdoc;
+
 //Metachars are used as reference to change io_flag and are not included in the cmdline.
 //If a metachar is encountered inside cmdline, it should be treated as a literal character.
 typedef struct s_cmd
@@ -116,6 +119,12 @@ typedef struct s_data
 	int			fork_pid;
 }	t_data;
 
+typedef struct s_hdoc
+{
+	char			*the_line;
+	struct s_hdoc	*next;
+	struct s_hdoc	*previous;
+}	t_hdoc;
 
 // FUNCTIONS
 // BUILTINS
@@ -135,6 +144,8 @@ void	print_env_var(char **env, char *var);
 void	print_env(char **env);
 int		check_env_var(char **env, char *var);
 char	**add_var(char **env, char *n_var);
+void    help_handler(char **instruct, t_data *data);
+void    man_yoyo_ma(char **instruct, t_data *data);
 
 
 //redirection.c
@@ -149,24 +160,30 @@ int		*init_itab(int init_value, int init_size);
 
 //heredoc.c
 void	heredoc_subparsing(t_data *data);
-t_hdoc	*write_heredoc(char *delimiter);
-
-//heredoc.c
-t_hdoc	*heredoc_parsing(char *line);
-t_hdoc	*write_heredoc(char *delimiter);
+t_hdoc	*write_heredoc(char *delimiter, t_data *data);
+char	*heredoc_dollar(char **env , char *line);
 int		heredoc_to_pipe(t_hdoc *hd_struct);
+t_hdoc	*ft_dllst_new(char *str);
+t_hdoc	*ft_dllst_add_back(t_hdoc *p_lst, char *str);
+void	ft_dllst_delone(t_hdoc *p_lst);
+void	ft_dllst_clear(t_hdoc *p_lst);
+void	ft_dllst_secure_del(t_hdoc *p_lst);
+bool	ft_dllst_isempty(t_hdoc *p_lst);
+int		ft_dllst_size(t_hdoc *p_lst);
+void	ft_dllst_print_single_node(t_hdoc *p_lst);
+void	ft_dllst_print_lst(t_hdoc *p_lst);
+t_hdoc	*ft_dllist_go_to_left(t_hdoc *p_lst);
+t_hdoc	*ft_dllist_go_to_right(t_hdoc *p_lst);
 
 //io.c
-void	stdio_cpy(t_data *prog_data);
+void	stdio_cpy(t_data *data);
+void	reset_stdio(t_data *data);
+void	reset_otherio(t_data *data);
 
 // exec.c
 void	execution_manager(t_data *prog_data);
 void	execution_time(t_data *prog_data);
-// void	redirect_setup(t_data *prog_data);
 t_cmd	*jobs_loop(t_data *data);
-void	stdio_cpy(t_data *prog_data);
-void	reset_otherio(t_data *data);
-void	reset_stdio(t_data *prog_data);
 
 // exec_utils.c
 void	exec_set(t_data *data);

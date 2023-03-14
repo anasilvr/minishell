@@ -2,7 +2,7 @@
 
 void	exec_set(t_data *data)
 {
-	int	hd_pipe_fd[2];
+	int	hd_pipe_out_fd;
 	// char	*buffer;
 	// buffer = malloc(sizeof(char *) * (1 + 1));
 	/* Si il sagit d'un heredoc, un pipe est créé. Il sera connecté
@@ -14,10 +14,9 @@ void	exec_set(t_data *data)
 	 */
 	if (data->heredoc == true)
 	{
-		hd_pipe_fd[0] = heredoc_to_pipe(data->hd_struct);
-		// close (hd_pipe_fd[1]);
-		dup2 (hd_pipe_fd[0], 0);
-		close (hd_pipe_fd[0]);
+		hd_pipe_out_fd = heredoc_to_pipe(data->hd_struct);
+		dup2 (hd_pipe_out_fd, 0);
+		close (hd_pipe_out_fd);
 	}
 	/* Verifier si il y a une redir d'input */
 	if (data->cmd_lst->filefd[0] != -2)

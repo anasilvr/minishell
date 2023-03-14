@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "doubly_linked_list.h"
+#include "../../include/minishell.h"
 
 void	ft_dllst_delone(t_hdoc *p_lst)
 {

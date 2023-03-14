@@ -14,6 +14,7 @@
 # define DOUBLY_LINKED_LIST_H
 
 # include <stdlib.h>
+# include "../libft/libft.h"
 
 typedef enum t_bool
 {

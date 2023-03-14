@@ -31,8 +31,12 @@ void	echo_handler(char **instruct, t_data *data)
 			ft_echo(instruct, i);
 			write(1, "\n", 1);
 		}
-		else if (check_n(instruct[i]) == 0)
-			ft_echo(instruct, ++i);
+		if (check_n(instruct[i]) == 0)
+		{
+			while (check_n(instruct[i]) == 0)
+				i++;
+			ft_echo(instruct, i);
+		}
 		if (data->fork_pid == 0)
 		{
 			clean_exit(data);

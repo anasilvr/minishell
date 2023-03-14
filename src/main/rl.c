@@ -39,6 +39,7 @@ void treat_line(t_tok **tok, char **env_cp)
                 r_line = charjoinfree(r_line, node->token[i]);
                 i++;
             }
+//            printf("%s\n", r_var);
             if (r_var != NULL)
                 r_var = xfree(r_var);
         }
