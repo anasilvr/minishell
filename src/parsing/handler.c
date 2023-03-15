@@ -31,10 +31,11 @@ char *double_quote_handler(char *line, char **env, int* j)
     else if (len > 0)
     {
         r_quotes = malloc(sizeof(char) * (len + 1));
-        while (len > ++i)
+        while (len > ++i){
             r_quotes[i] = line[*j + i];
+        }
         *j += len + 1;
-        r_quotes[i + 1] = '\0';
+        r_quotes[i] = '\0';
     }
 	i = -1;
 	while (r_quotes[++i] != '\0')
@@ -46,6 +47,7 @@ char *double_quote_handler(char *line, char **env, int* j)
 		if (r_env == NULL)
             r_line = charjoinfree(r_line, r_quotes[i]);
 	}
+    r_line[i] = '\0';
     return (r_line);
 }
 

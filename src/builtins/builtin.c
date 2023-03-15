@@ -7,10 +7,9 @@ int	ft_cmp_builtin(const char *str1, const char *str2, size_t n)
 	i = -1;
 	if (n == 0)
 		return (-1);
-	while (++i < (n - 1) && ft_tolower(str1[i]) == str2[i]
-		&& (str1[i] != '\0' && str2[i] != '\0'))
+	while (++i <= (n - 1) && (str1[i] != '\0' && str2[i] != '\0') && str1[i] == str2[i])
 		;
-	if (str2[i + 1] == '\0' && str1[i + 1] == '\0')
+	if (str2[i] == '\0' && str1[i] == '\0')
 		return (0);
 	return (-1);
 }
@@ -47,5 +46,7 @@ int	builtins_checker(t_data *data, t_cmd *cmd)
 	export_handler(cmd->args, data);
 	unset_handler(cmd->args, data);
 	exit_handler(data, cmd->args);
+	help_handler(cmd->args, data);
+	man_yoyo_ma(cmd->args, data);
 	return (-1);
 }

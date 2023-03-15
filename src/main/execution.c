@@ -44,6 +44,7 @@ static char	*recup_the_bin_path(char *bin_name, char **p_envp)
 	free_tab(splitted_path);
 	return (NULL);
 }
+
 /* La fonction permet d'executer des programmes depuis l'appel système
  * execve() en s'assurant de le faire depuis un processus enfant.
  *
@@ -73,12 +74,11 @@ static void	external_bin_exec(t_data *prog_data, char **argv)
 	{
 		if (execve(prog_data->cmd_lst->path, argv, prog_data->envp_cp) == -1)
 		{
-			ft_putstr_fd("TEST\n", 2);
 			ft_putstr_fd("Minishell: ", 2);
 			ft_putstr_fd("command not found: ", 2);
 			ft_putstr_fd(argv[0], 2);
 			ft_putstr_fd("\n", 2);
-			exit (127); //Puisque errno ne sortirait pas le bon int
+			exit (127);
 		}
 	}
 }
@@ -93,7 +93,7 @@ void	execution_time(t_data *prog_data)
 		external_bin_exec (prog_data, prog_data->cmd_lst->args);
 	}
 }
-/* only single builtin comands working */
+
 void	execution_manager(t_data *prog_data)
 {
 	// stdio_cpy(prog_data);
@@ -101,7 +101,7 @@ void	execution_manager(t_data *prog_data)
 	if (prog_data->cmd_lst != NULL)
 	{
 		prog_data->cmd_lst->is_builtin = false;
-		if (prog_data->nb_pipes == 0 && prog_data->heredoc == false)
+		if (prog_data->nb_pipes == 0)
 		{
 			exec_set(prog_data);
 			execution_time(prog_data);
