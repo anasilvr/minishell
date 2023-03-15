@@ -1,12 +1,17 @@
 #include "../../include/minishell.h"
 
-void	ft_echo(char **cmd, int i)
+void	ft_echo(char **cmd, char **env, int i)
 {
 	int		j;
 	
 	j = -1;
 	while (cmd[i] != NULL)
 	{
+        if (ft_strcmp(cmd[i], "~") == 0)
+        {
+            print_env_var(env, "HOME");
+            return ;
+        }
 		while (cmd[i][++j] != '\0')
         	write(1, &cmd[i][j], 1);
 		j = -1;
@@ -28,14 +33,14 @@ void	echo_handler(char **instruct, t_data *data)
 			write(1, "\n", 1);
 		else if (check_n(instruct[i]) == 1)
 		{
-			ft_echo(instruct, i);
+			ft_echo(instruct, data->envp_cp, i);
 			write(1, "\n", 1);
 		}
-		if (check_n(instruct[i]) == 0)
+		if (instruct[i] != NULL && check_n(instruct[i]) == 0)
 		{
 			while (check_n(instruct[i]) == 0)
 				i++;
-			ft_echo(instruct, i);
+			ft_echo(instruct, data->envp_cp, i);
 		}
 		if (data->fork_pid == 0)
 		{

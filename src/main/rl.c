@@ -13,10 +13,12 @@ void treat_line(t_tok **tok, char **env_cp)
     char *r_line;
     char *r_var;
     t_tok *node;
+    t_tok *tmp;
 
     r_line = NULL;
     r_var = NULL;
     node = *tok;
+    tmp = NULL;
     while (node != NULL)
     {
         i = 0;
@@ -43,10 +45,23 @@ void treat_line(t_tok **tok, char **env_cp)
             if (r_var != NULL)
                 r_var = xfree(r_var);
         }
-		if (node->type == WORD || node->type == D_EXPAND)
+		if (node->type == WORD || node->type == D_EXPAND || node->type == D_LITERAL)
 		{
 			xfree(node->token);
         	node->token = ft_strdup(r_line);
+            if (node->token == NULL)
+            {
+                tmp = node;
+				if (node->next != NULL)
+				{
+                	node->prev->next = node->next;
+                	node->next->prev = node->prev;
+                	node = node->next;
+				}
+				else
+					node->prev->next = NULL;
+                xfree(tmp);
+            }
         	r_line = xfree(r_line);
 		}
         node = node->next;

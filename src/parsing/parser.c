@@ -54,7 +54,6 @@ char	**create_args(t_tok **token)
 		nb_args = count_args(token);
 		args = ft_xcalloc((nb_args + 1), sizeof(char *));
 		i = 0;
-
 		while (i < nb_args)
 		{
 			args[i] = ft_strdup(tok->token);

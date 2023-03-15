@@ -31,23 +31,25 @@ char *double_quote_handler(char *line, char **env, int* j)
     else if (len > 0)
     {
         r_quotes = malloc(sizeof(char) * (len + 1));
-        while (len > ++i){
+        while (len > ++i)
             r_quotes[i] = line[*j + i];
-        }
         *j += len + 1;
         r_quotes[i] = '\0';
     }
-	i = -1;
-	while (r_quotes[++i] != '\0')
+	i = 0;
+	while (r_quotes[i] != '\0')
 	{
     	r_env = dollar_handler(r_quotes, env, &i);
 		if (r_env != NULL)
 			r_line = ft_strjoin(r_line, r_env);
 		xfree(r_env);
-		if (r_env == NULL)
+		if (r_env == NULL && r_quotes[i] != '\0')
+		{
             r_line = charjoinfree(r_line, r_quotes[i]);
+			i++;
+		}
 	}
-    r_line[i] = '\0';
+//    r_line[i] = '\0';
     return (r_line);
 }
 
@@ -102,7 +104,7 @@ char    *dollar_handler(char *line, char **env, int* j)
     else if (line[*j] == '$')
     {
         *j += 1;
-        while (ft_isspace(line[*j + i]) != 0 && line[*j + i] != '\0' && line[*j + i] != '"' && line[*j + i] != '$')
+        while (ft_isalnum(line[*j + i]) == 1)
             i++;
         r_var = ft_substr(line, *j, i);
         r_var = cpy_env_var(env, r_var);
