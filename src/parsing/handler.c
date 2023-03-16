@@ -104,7 +104,7 @@ char    *dollar_handler(char *line, char **env, int* j)
     else if (line[*j] == '$')
     {
         *j += 1;
-        while (ft_isalnum(line[*j + i]) == 1)
+        while (ft_isalnum(line[*j + i]) == 1 && line[*j + i] != '\0')
             i++;
         r_var = ft_substr(line, *j, i);
         r_var = cpy_env_var(env, r_var);

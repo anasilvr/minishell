@@ -135,6 +135,7 @@ int	check_syntax(t_tok **list)
         if (node->type >= 2 && node->type <= 6)
             if (node->next->type != 1 && \
             !(node->next->type >= 7 && node->next->type <= 10))
+				if (node->next->next == NULL && node->next->next->type != WORD)
                 return (1);
         node = node->next;
     }

@@ -58,10 +58,13 @@ void treat_line(t_tok **tok, char **env_cp)
 char	*rl_gets(void)
 {
 	char	*line;
+	char 	*r_line;
 
 	line = (char *) NULL;
 	line = readline("\033[0;97m\xF0\x9F\x90\x8CWTS$\033[0m ");
 	if (line && *line)
 		add_history(line);
-	return (ft_strjoin(line, ""));
+	r_line = ft_strdup(line);
+	xfree(line);
+	return (r_line);
 }
