@@ -6,7 +6,7 @@
 /*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:44:57 by anarodri          #+#    #+#             */
-/*   Updated: 2023/02/14 13:12:52 by anarodri         ###   ########.fr       */
+/*   Updated: 2023/03/16 11:20:04 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,6 @@ void	wtshell(t_data *data)
 			err_msg(data);
 		reset(data);
 	}
+//	reset(data);
 	return ;
 }

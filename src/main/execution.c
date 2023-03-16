@@ -96,6 +96,7 @@ void	execution_time(t_data *prog_data)
 
 void	execution_manager(t_data *prog_data)
 {
+	t_cmd *head = prog_data->cmd_lst;
 	// stdio_cpy(prog_data);
 	prog_data->fork_pid = -2;
 	if (prog_data->cmd_lst != NULL)
@@ -112,4 +113,5 @@ void	execution_manager(t_data *prog_data)
 			prog_data->cmd_lst = jobs_loop(prog_data);
 	}
 	reset_stdio(prog_data);
+	prog_data->cmd_lst = head;
 }
