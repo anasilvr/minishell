@@ -73,7 +73,10 @@ void	wtshell(t_data *data)
 	{
 		signal(SIGINT, signal_handler);
 		signal(SIGQUIT, SIG_IGN);
-		data->input = rl_gets();
+		if (data->tester == true)
+			data->input = easy_gnl();
+		else
+			data->input = rl_gets();
 		if (!data->input)
 			readline_exit(data);
 		while (!data->syntax_err && !is_empty(data->input))
