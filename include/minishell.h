@@ -105,7 +105,7 @@ typedef struct s_tok
 typedef struct s_data
 {
 	char		**envp_cp;
-	char		**path;
+	// char		**path; not used anymore =, i have my proper get path from env cpy
 	char		*pwd;
 	char		*input;
 	t_tok		*token;

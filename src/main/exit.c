@@ -5,13 +5,15 @@ void	clean_exit(t_data *data)
 	int	i;
 
 	i = -1;
+	if (data->cmd_lst->path)
+		free (data->cmd_lst->path);
 	while (data->envp_cp[++i])
 		xfree(data->envp_cp[i]);
 	xfree(data->envp_cp);
 	i = -1;
-	while (data->path[++i])
-		xfree(data->path[i]);
-	xfree(data->path);
+	// while (data->path[++i])
+	// 	xfree(data->path[i]);
+	// xfree(data->path);
 	xfree(data->pwd);
 	xfree(data->input);
 	free_toklist(data->token);
@@ -115,6 +117,8 @@ void	reset(t_data *data)
 	data->input = NULL;
 	data->nb_cmds = 0;
 	data->nb_pipes = 0;
+	if (data->cmd_lst->path)
+		free (data->cmd_lst->path);
 	if (data->token)
 	{
 		free_toklist(data->token);
@@ -126,4 +130,11 @@ void	reset(t_data *data)
 		data->cmd_lst = ft_xcalloc(1, sizeof(t_cmd));
 	}
 	reset_stdio(data);
+}
+
+void	ft_close(int fd)
+{
+	if (fd == -2)
+		close(fd);
+	
 }

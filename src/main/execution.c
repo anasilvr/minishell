@@ -78,6 +78,7 @@ static void	external_bin_exec(t_data *prog_data, char **argv)
 			ft_putstr_fd("command not found: ", 2);
 			ft_putstr_fd(argv[0], 2);
 			ft_putstr_fd("\n", 2);
+			clean_exit(prog_data);
 			exit (127);
 		}
 	}

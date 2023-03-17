@@ -13,7 +13,7 @@ t_data	*init_data(char **envp, t_data *data)
 {
 	data = get_data();
 	data->envp_cp = backup_env(envp);
-	data->path = init_path(data);
+	// data->path = init_path(data);
 	data->pwd = NULL;
 	data->input = NULL;
 	data->token = ft_xcalloc(1, sizeof(t_tok));
@@ -28,19 +28,19 @@ t_data	*init_data(char **envp, t_data *data)
 	return (data);
 }
 
-char	**init_path(t_data *data)
-{
-	int	i;
+// char	**init_path(t_data *data)
+// {
+// 	int	i;
 
-	i = 0;
-	while (data->envp_cp[i] && ft_strnstr(data->envp_cp[i], "PATH=", 5) == 0)
-		i++;
-	if (!data->envp_cp[i])
-		return (NULL);
-	else
-		data->path = ft_split(data->envp_cp[i], ':');
-	return (data->path);
-}
+// 	i = 0;
+// 	while (data->envp_cp[i] && ft_strnstr(data->envp_cp[i], "PATH=", 5) == 0)
+// 		i++;
+// 	if (!data->envp_cp[i])
+// 		return (NULL);
+// 	else
+// 		data->path = ft_split(data->envp_cp[i], ':');
+// 	return (data->path);
+// }
 
 char	**backup_env(char **envp)
 {
