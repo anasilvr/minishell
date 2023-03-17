@@ -40,7 +40,7 @@ char *charjoinfree(const char *s1, const char c)
 		r_str[i] = c;
 		r_str[i + 1] = '\0';
 	}
-	s1 = xfree((char*)s1);
+	xfree((char*)s1);
 	return (r_str);
 }
 

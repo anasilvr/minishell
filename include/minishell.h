@@ -117,6 +117,7 @@ typedef struct s_data
 	int			stdio[3];
 	bool		heredoc;
 	int			fork_pid;
+    bool        tester;
 }	t_data;
 
 typedef struct s_hdoc
@@ -199,7 +200,7 @@ t_tok	*delmidnode_toklist(t_tok *node_to_remove);
 
 // init.c
 t_data	*get_data(void);
-t_data	*init_data(char **envp, t_data *data);
+t_data	*init_data(char **envp, t_data *data, bool tester);
 char	**init_path(t_data *data);
 char	**backup_env(char **envp);
 

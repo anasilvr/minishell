@@ -40,22 +40,26 @@ static void	err_msg(t_data *data)
 int	main(int argc, char **argv, char **envp)
 {
 	t_data		*data;
+    bool        tester;
 
-	(void)argv;
+    tester = false;
 	if (!envp || !(*envp))
 	{
-		ft_putstr_fd("Error: ENVP missing. \
-		Please restart your terminal before trying again.\n", STDERR_FILENO);
+		ft_putstr_fd("Error: ENVP missing. Please restart your terminal before trying again.\n", STDERR_FILENO);
 		exit(EXIT_FAILURE);
 	}
 	if (argc > 1)
 	{
-		ft_putstr_fd("Error: Program call doesn't support any flags or arguments.\
-		Try again.\n", STDERR_FILENO);
-		exit(EXIT_FAILURE);
+        if (argc == 2 && ft_strcmp(argv[1], "test") == 0)
+            tester = true;
+        else
+        {
+            ft_putstr_fd("Error: Program call doesn't support any arguments. Try again.\n", STDERR_FILENO);
+            exit(EXIT_FAILURE);
+        }
 	}
 	data = NULL;
-	data = init_data(envp, data);
+	data = init_data(envp, data, tester);
 	stdio_cpy(data);
 	print_intro();
 	wtshell(data);

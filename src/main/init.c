@@ -9,7 +9,7 @@ t_data	*get_data(void)
 	return (data);
 }
 
-t_data	*init_data(char **envp, t_data *data)
+t_data	*init_data(char **envp, t_data *data, bool tester)
 {
 	data = get_data();
 	data->envp_cp = backup_env(envp);
@@ -25,6 +25,7 @@ t_data	*init_data(char **envp, t_data *data)
 	data->stdio[1] = STDOUT_FILENO;
 	data->stdio[2] = STDERR_FILENO;
 	data->heredoc = false;
+    data->tester = tester;
 	return (data);
 }
 

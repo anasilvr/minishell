@@ -24,32 +24,33 @@ char *double_quote_handler(char *line, char **env, int* j)
     len = 0;
 	r_env = NULL;
     r_quotes = NULL;
-    r_line = ft_calloc(1, sizeof(char));
+    r_line = NULL;
     len = quotes_len(line, j, '"');
     if (len == 0)
         return (r_env);
     else if (len > 0)
     {
-        r_quotes = malloc(sizeof(char) * (len + 1));
+        r_quotes = ft_calloc(sizeof(char) , (len + 1));
         while (len > ++i)
             r_quotes[i] = line[*j + i];
         *j += len + 1;
-        r_quotes[i] = '\0';
     }
 	i = 0;
 	while (r_quotes[i] != '\0')
 	{
     	r_env = dollar_handler(r_quotes, env, &i);
-		if (r_env != NULL)
-			r_line = ft_strjoin(r_line, r_env);
-		xfree(r_env);
+		if (r_env != NULL && r_line == NULL)
+			r_line = ft_strdup(r_env);
+        else if (r_env != NULL && r_line != NULL)
+            r_line = ft_strjoin_free(r_line, r_env);
+		r_env = xfree(r_env);
 		if (r_env == NULL && r_quotes[i] != '\0')
 		{
             r_line = charjoinfree(r_line, r_quotes[i]);
 			i++;
 		}
 	}
-//    r_line[i] = '\0';
+    xfree(r_quotes);
     return (r_line);
 }
 
@@ -70,7 +71,6 @@ char *single_quotes_handler(char *line, int* j)
         while (len > ++i)
             r_val[i] = line[*j + i];
         *j += len + 1;
-        r_val[i + 1] = '\0';
     }
     return (r_val);
 }
@@ -138,5 +138,6 @@ char	*cpy_env_var(char **env, char *var)
             r_var[++k] = env[i][j];
 		r_var[++k] = '\0';
     }
+    xfree(var);
     return (r_var);
 }

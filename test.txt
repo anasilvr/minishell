@@ -1,0 +1,4 @@
+ls -la
+sleep 0.2
+bash -ic "ls -la"
+exit
