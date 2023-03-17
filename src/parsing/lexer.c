@@ -81,7 +81,10 @@ static char *clean_empty_quotes(char *input)
 		{
 			q = input[i];
 			if (input [i + 1] && input [i + 1] == q)
+			{
 				i += 2 ;
+				break ;
+			}
 			else
 				break ;
 		}
@@ -156,7 +159,6 @@ void    lexer(t_data *data, char *input)
         data->syntax_err = 90;
         return ;
     }
-  	data->input = clean_empty_quotes(input);
     data->token = tokenize(data, data->input);
     if (!data->token)
         return ;
@@ -166,8 +168,7 @@ void    lexer(t_data *data, char *input)
     verify_dollartype(&data->token);
 	printf("\033[1m\033[31m[At lexer.c]\nBEFORE TREAT LINE:\033[0m\n");
 	print_toklist(data->token);
-    treat_line(&data->token, data->envp_cp);
-
+	treat_line(&data->token, data->envp_cp);
 	printf("\033[1m\033[31mAFTER TREAT LINE:\033[0m\n");
 	print_toklist(data->token);
     return ;
@@ -176,16 +177,25 @@ void    lexer(t_data *data, char *input)
 t_tok   *tokenize(t_data *data, char *str)
 {
     t_tok   *lst;
+	size_t	len;
+	size_t	max;
 
     lst = NULL;
-    skip_whitespaces(&str);
+    len = ft_strlen(str);
+	max = 0;
+	skip_whitespaces(&str);
     while (*str)
     {
         data->token->toksize = tok_len(str, ft_strlen(str));
         addback_toklist(&lst, \
             new_toklist(ft_substr(str, 0, data->token->toksize)));
-        str += data->token->toksize;
-        skip_whitespaces(&str);
+		max += data->token->toksize;
+		if (max > len)
+			str += ft_strlen(str);
+		else
+        	str += data->token->toksize;
+		printf("max: %zu / len = %zu / str = %s\n", max, len, str);
+       	skip_whitespaces(&str);
     }
     free_toklist(data->token);
     return (lst);

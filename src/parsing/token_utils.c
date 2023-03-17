@@ -15,16 +15,16 @@ int tok_len(char *str, int len)
 			if (i == 0 && ((is_set(str[i], QUOTES))))
 			{
 				i = (1 + length_til_match(str, str[i]));
-				if (is_set(str[i], QUOTES))
+				if (str[i] && is_set(str[i], QUOTES))
 					i += tok_len(&str[i], (ft_strlen(str) - i));
 			}
 			if (i == 0 && (is_set(str[i], METACHAR)))
 				i = (length_til_set(str, WHITESPACE));
 			if (i == 0 && (is_set(str[i], "$")))
 				i = (length_for_dollar(str));
-			else if (i == 0)
-				i = 1;
-			return (i);
+			// else if (i == 0)
+			// 	i = 1;
+			// return (i);
 		}
 		else if (is_set(str[i], WHITESPACE))
 			break ;
