@@ -7,10 +7,15 @@ void	ft_echo(char **cmd, char **env, int i)
 	j = -1;
 	while (cmd[i] != NULL)
 	{
-        if (ft_strcmp(cmd[i], "~") == 0)
+        if (ft_strncmp(cmd[i], "~", ft_strlen(cmd[i])) == 0)
         {
             print_env_var(env, "HOME");
             return ;
+        }
+        else if (ft_strncmp(cmd[i], "~/", 2) == 0)
+        {
+            print_env_var(env, "HOME");
+            j += 2;
         }
 		while (cmd[i][++j] != '\0')
         	write(1, &cmd[i][j], 1);
@@ -38,7 +43,7 @@ void	echo_handler(char **instruct, t_data *data)
 		}
 		if (instruct[i] != NULL && check_n(instruct[i]) == 0)
 		{
-			while (check_n(instruct[i]) == 0)
+			while (instruct[i] != NULL && check_n(instruct[i]) == 0)
 				i++;
 			ft_echo(instruct, data->envp_cp, i);
 		}
