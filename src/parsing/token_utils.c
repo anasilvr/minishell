@@ -22,9 +22,9 @@ int tok_len(char *str, int len)
 				i = (length_til_set(str, WHITESPACE));
 			if (i == 0 && (is_set(str[i], "$")))
 				i = (length_for_dollar(str));
-//			else if (i == 0)
-//				i = 1;
-//			return (i);
+			else if (i == 0)
+				i = 1;
+			return (i);
 		}
 		else if (is_set(str[i], WHITESPACE))
 			break ;
