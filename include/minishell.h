@@ -200,7 +200,7 @@ t_tok	*delmidnode_toklist(t_tok *node_to_remove);
 
 // init.c
 t_data	*get_data(void);
-t_data	*init_data(char **envp, t_data *data, bool tester);
+t_data	*init_data(char **envp, t_data *data);
 char	**init_path(t_data *data);
 char	**backup_env(char **envp);
 
