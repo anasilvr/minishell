@@ -68,10 +68,10 @@ void	wtshell(t_data *data)
 		signal(SIGQUIT, SIG_IGN);
         if (data->tester == false)
             data->input = rl_gets();
+        else if (data->tester == true)
+            data->input = tester();
         if (!data->input)
             readline_exit(data);
-        else
-            data->input = tester();
 		while (!data->syntax_err && !is_empty(data->input))
 		{
 			lexer(data, data->input);
