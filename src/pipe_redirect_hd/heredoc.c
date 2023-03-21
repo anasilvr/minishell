@@ -48,7 +48,8 @@ void	heredoc_subparsing(t_data *data)
 			data->token = delmidnode_toklist(data->token);
 			tok_pointer_keeper = get_first_tok(data->token);
 		}
-		data->token = data->token->next;
+		if (data->token != NULL)
+			data->token = data->token->next;
 	}
 	data->token = tok_pointer_keeper;
 	data->cmd_lst = cmd_pointer_keeper;
