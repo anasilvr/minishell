@@ -33,6 +33,7 @@ t_tok	*delmidnode_toklist(t_tok *node_to_remove)
 	t_tok	*prev_node_cpy;
 	t_tok	*r_adjacent_node;
 
+	// FIX A METTRE ICI
 	next_node_cpy = node_to_remove->next;
 	prev_node_cpy = node_to_remove->prev;
 	delnode_toklist(node_to_remove);
