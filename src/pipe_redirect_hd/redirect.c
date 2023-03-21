@@ -118,6 +118,33 @@ int	open_to_readwrite(char *filepath, int additional_flag)
 	return (file_fd);
 }
 
+int	open_handling(t_data *data)
+{
+	if (data->token->type == APPEND || data->token->type == REDIR_OUT || data->token->type == REDIR_IN)
+	{
+		if (data->token->type == APPEND) // >>
+		{
+			data->cmd_lst->filefd[1] = open_to_readwrite(data->token->next->token, O_APPEND);
+			if (data->cmd_lst->filefd[1] == -1)
+				return (-1);
+		}
+		else if (data->token->type == REDIR_OUT) // >
+		{
+			data->cmd_lst->filefd[1] = open_to_readwrite(data->token->next->token, O_TRUNC);
+			if (data->cmd_lst->filefd[1] == -1)
+				return (-1);
+		}
+		else if (data->token->type == REDIR_IN) // <
+		{
+			data->cmd_lst->filefd[0] = open_to_read(data->token->next->token, 0);
+			if (data->cmd_lst->filefd[0] == -1)
+				return (-1);
+		}
+		data->token = delmidnode_toklist(data->token);
+		data->token = delmidnode_toklist(data->token);
+	}
+}
+
 /* La fonction traite les redirections d'input (<) et d'output (>, >>) depuis la liste de tokens.
  * Elle permet l'ouverture des fichiers spécifier pour la redirection en leur attribuant chacun 
  * un file-descriptor. Les fds sont ainsi enregistrés dans les différents noeuds de la liste 
@@ -135,7 +162,7 @@ int	open_to_readwrite(char *filepath, int additional_flag)
  * 
  * DETAILS	: N/A
  */
-void	redirect_subparsing(t_data *data)
+int	redirect_subparsing(t_data *data)
 {
 	t_tok *r_token;
 	t_cmd *r_cmd;
@@ -148,18 +175,9 @@ void	redirect_subparsing(t_data *data)
 			data->cmd_lst = data->cmd_lst->next;
 			data->token = data->token->next;
 		}
-		if (data->token->type == APPEND || data->token->type == REDIR_OUT || data->token->type == REDIR_IN)
+		if (open_handling(data) == -1)
 		{
-			if (data->token->type == APPEND) // >>
-				data->cmd_lst->filefd[1] = open_to_readwrite(data->token->next->token, O_APPEND);
-			else if (data->token->type == REDIR_OUT) // >
-				data->cmd_lst->filefd[1] = open_to_readwrite(data->token->next->token, O_TRUNC);
-			else if (data->token->type == REDIR_IN) // <
-				data->cmd_lst->filefd[0] = open_to_read(data->token->next->token, 0);
-			data->token = delmidnode_toklist(data->token);
-			data->token = delmidnode_toklist(data->token);
-			// if (data->token->next == NULL)
-			// 	r_token = get_first_tok(data->token);
+			return (-1);
 		}
 		if (data->token->next == NULL)
 		{
@@ -169,6 +187,7 @@ void	redirect_subparsing(t_data *data)
 	}
 	data->token = r_token;
 	data->cmd_lst = r_cmd;
+	return (0);
 }
 
 // tchalifo@c2r1p11 minishell % echo salut >> file.txt > toto.sh

@@ -85,12 +85,12 @@ static void split_args(t_cmd *cmd_lst, t_tok *token)
 	cmd_lst = head;
 }
 
-void	parser(t_data *data)
+int	parser(t_data *data)
 {
 	data->cmd_lst = create_cmdlist(data);
 	count_expand(data->cmd_lst, data->token);
-	// Traitement des redirection
-	redirect_subparsing(data);
+	if (redirect_subparsing(data) == -1)
+		return (-1);
 	heredoc_subparsing(data);
 	printf("\033[1m\033[31m[At parser.c]\nAFTER REDIRECTION:\033[0m\n");
 	print_toklist(data->token);
@@ -100,6 +100,7 @@ void	parser(t_data *data)
 	{
 		perror("Minishell :");
 	}
+	return (0);
 }
 
 /*	argv[0] of each node a valid command? (access call),

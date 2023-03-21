@@ -77,7 +77,8 @@ void	wtshell(t_data *data)
 			lexer(data, data->input);
 			if (data->syntax_err || !data->token)
 				break ;
-			parser(data);
+			if (parser(data) == -1)
+				break;
 			if (data->syntax_err || !data->cmd_lst)
 				break ;
 			printf("\033[1m\033[31m----------START OF CMDLIST_DETAILS----------\033[0m\n");
