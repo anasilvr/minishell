@@ -1,0 +1,3 @@
+echo -nnn patate
+ls > out
+echo FENI!
