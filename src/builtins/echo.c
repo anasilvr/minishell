@@ -7,21 +7,24 @@ void	ft_echo(char **cmd, char **env, int i)
 	j = -1;
 	while (cmd[i] != NULL)
 	{
-        if (ft_strncmp(cmd[i], "~", ft_strlen(cmd[i])) == 0)
-        {
-            print_env_var(env, "HOME");
-            return ;
-        }
-        else if (ft_strncmp(cmd[i], "~/", 2) == 0)
-        {
-            print_env_var(env, "HOME");
-            j += 2;
-        }
-		while (cmd[i][++j] != '\0')
-        	write(1, &cmd[i][j], 1);
+		if (ft_strlen(cmd[i]) > 0)
+		{
+			if (ft_strncmp(cmd[i], "~", ft_strlen(cmd[i])) == 0)
+        	{
+           		print_env_var(env, "HOME");
+           		return ;
+        	}
+        	else if (ft_strncmp(cmd[i], "~/", 2) == 0)
+        	{
+            	print_env_var(env, "HOME");
+            	j += 2;
+        	}
+			while (cmd[i][++j] != '\0')
+        		write(1, &cmd[i][j], 1);
+		}
 		j = -1;
 		i++;
-		if (cmd[i] != NULL)
+		if (cmd[i] != NULL && ft_strlen(cmd[i - 1]) > 0)
 			write(1, " ", 1);
 	}
 }
