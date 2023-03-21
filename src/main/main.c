@@ -40,9 +40,7 @@ static void	err_msg(t_data *data)
 int	main(int argc, char **argv, char **envp)
 {
 	t_data		*data;
-    bool        tester;
 
-    tester = false;
 	if (!envp || !(*envp))
 	{
 		ft_putstr_fd("Error: ENVP missing. Please restart your terminal before trying again.\n", STDERR_FILENO);
@@ -50,16 +48,11 @@ int	main(int argc, char **argv, char **envp)
 	}
 	if (argc > 1)
 	{
-        if (argc == 2 && ft_strcmp(argv[1], "test") == 0)
-            tester = true;
-        else
-        {
             ft_putstr_fd("Error: Program call doesn't support any arguments. Try again.\n", STDERR_FILENO);
             exit(EXIT_FAILURE);
-        }
 	}
 	data = NULL;
-	data = init_data(envp, data, tester);
+	data = init_data(envp, data);
 	stdio_cpy(data);
 	print_intro();
 	wtshell(data);
@@ -73,12 +66,12 @@ void	wtshell(t_data *data)
 	{
 		signal(SIGINT, signal_handler);
 		signal(SIGQUIT, SIG_IGN);
-		if (data->tester == true)
-			data->input = easy_gnl();
-		else
-			data->input = rl_gets();
-		if (!data->input)
-			readline_exit(data);
+        if (data->tester == false)
+            data->input = rl_gets();
+        else if (data->tester == true)
+            data->input = tester();
+        if (!data->input)
+            readline_exit(data);
 		while (!data->syntax_err && !is_empty(data->input))
 		{
 			lexer(data, data->input);

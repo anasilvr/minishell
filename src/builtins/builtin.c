@@ -37,6 +37,12 @@ void	exit_handler(t_data *data, char **instruct)
 	// }
 }
 
+static void tester_check(char **cmd, t_data *data)
+{
+    if (ft_strcmp(cmd[0], "test") == 0 && cmd[1] == NULL)
+        data->tester = true;
+}
+
 int	builtins_checker(t_data *data, t_cmd *cmd)
 {
 	echo_handler(cmd->args, data);
@@ -48,5 +54,6 @@ int	builtins_checker(t_data *data, t_cmd *cmd)
 	exit_handler(data, cmd->args);
 	help_handler(cmd->args, data);
 	man_yoyo_ma(cmd->args, data);
+    tester_check(cmd->args, data);
 	return (-1);
 }
