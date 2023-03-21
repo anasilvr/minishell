@@ -38,6 +38,7 @@ BUILTIN_F	=		\
 	unset.c			\
 	cd.c			\
 	help.c			\
+	tester.c		\
 
 PIPE_REDIRECT_F_HD	=	\
 	io.c			\

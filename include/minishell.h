@@ -273,6 +273,9 @@ char        *single_quotes_handler(char *line, int *j);
 void        treat_line(t_tok **tok, char **env_cp);
 int         quotes_len(char *line, int *j, char q);
 
+//bonus tester
+char *tester();
+
 #endif
 
 //blbl"$USER"dksj: cmdline = blbl"$USER"dksj
