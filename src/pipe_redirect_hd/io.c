@@ -54,8 +54,8 @@ void	reset_stdio(t_data *data)
  */
 void	reset_otherio(t_data *data)
 {
-	if (data->cmd_lst->filefd[0])
+	if (data->cmd_lst->filefd[0] != -2)
 		close(data->cmd_lst->filefd[0]);
-	if (data->cmd_lst->filefd[1])
+	if (data->cmd_lst->filefd[1] != -2)
 		close(data->cmd_lst->filefd[1]);
 }

@@ -77,7 +77,7 @@ t_hdoc	*write_heredoc(char *delimiter, t_data *data)
 	hd_struct = NULL;
 	while (ft_strcmp(delimiter, line) != 0)
 	{
-		// heredoc_dollar(line, data->envp_cp);
+		line = heredoc_dollar(data->envp_cp, line);
 		hd_struct = ft_dllst_add_back(hd_struct, line);
 		hd_struct = ft_dllst_add_back(hd_struct, "\n");
 		if (line)
@@ -132,16 +132,16 @@ int	heredoc_to_pipe(t_hdoc *hd_struct)
 	return (hd_pipe_fd[0]);
 }
 
-char *heredoc_dollar(char **env , char *line) // Il va falloir ajouter l'environnement
+char *heredoc_dollar(char **env , char *line)
 {
     int i;
     char *r_line;
     char *r_var;
 
-    i = -1;
+    i = 0;
     r_line = NULL;
     r_var = NULL;
-    while (line [++i] != '\0')
+    while (line [i] != '\0')
     {
         if (line[i] == '$')
         {
@@ -151,15 +151,18 @@ char *heredoc_dollar(char **env , char *line) // Il va falloir ajouter l'environ
                 r_line = ft_strjoin(r_line, ft_itoa(g_status));
             else if (line[--i] == '$')
             {
-                while (line[++i] != '\'' && line[i] != '"' && ft_isspace(line[i]) != 0 && line[i] != '\0')
+                while (ft_isalnum(line[++i]) == 1)
                     r_var = charjoinfree(r_var, line[i]);
-//                r_var = cpy_env_var(/*env,*/ r_var);
-                r_line = ft_strjoin(r_line, r_var);
+                r_var = cpy_env_var(env, r_var);
+                if (r_line == NULL)
+                    r_line = ft_strdup(r_var);
+                else
+                    r_line = ft_strjoin_free(r_line, r_var);
                 r_var = xfree(r_var);
             }
         }
         else
-            r_line = charjoinfree(r_line, line[i]);
+            r_line = charjoinfree(r_line, line[i++]);
     }
     return (r_line);
 }
