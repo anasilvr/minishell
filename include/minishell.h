@@ -153,7 +153,7 @@ void    man_yoyo_ma(char **instruct, t_data *data);
 void	redirect_parsing(char *line, int *file_fd);
 int		open_to_read(char *filepath, int additional_flag);
 int		open_to_readwrite(char *filepath, int additional_flag);
-void	redirect_subparsing(t_data *data);
+int		redirect_subparsing(t_data *data);
 
 //redirection_utils.c
 int		first_word_len(char *str);
@@ -241,7 +241,7 @@ int		is_set(char s, char *set);
 bool	is_empty(char *str);
 
 // parser.c and parser_utils.c
-void	parser(t_data *data);
+int		parser(t_data *data);
 t_cmd	*create_cmdlist(t_data *data);
 t_cmd	*new_cmdline(char *line);
 void	addback_cmdline(t_cmd **cmdlist, t_cmd *line);
