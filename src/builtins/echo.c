@@ -1,26 +1,38 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   echo.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jgagnon <marvin@42quebec.com>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/27 09:48:45 by jgagnon           #+#    #+#             */
+/*   Updated: 2023/03/27 09:48:46 by jgagnon          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 void	ft_echo(char **cmd, char **env, int i)
 {
 	int		j;
-	
+
 	j = -1;
 	while (cmd[i] != NULL)
 	{
 		if (ft_strlen(cmd[i]) > 0)
 		{
 			if (ft_strncmp(cmd[i], "~", ft_strlen(cmd[i])) == 0)
-        	{
-           		print_env_var(env, "HOME");
-           		return ;
-        	}
-        	else if (ft_strncmp(cmd[i], "~/", 2) == 0)
-        	{
-            	print_env_var(env, "HOME");
-            	j += 2;
-        	}
+			{
+				print_env_var(env, "HOME");
+				return ;
+			}
+			else if (ft_strncmp(cmd[i], "~/", 2) == 0)
+			{
+				print_env_var(env, "HOME");
+				j += 2;
+			}
 			while (cmd[i][++j] != '\0')
-        		write(1, &cmd[i][j], 1);
+				write(1, &cmd[i][j], 1);
 		}
 		j = -1;
 		i++;

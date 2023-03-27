@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jgagnon <marvin@42quebec.com>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/27 09:52:34 by jgagnon           #+#    #+#             */
+/*   Updated: 2023/03/27 09:52:36 by jgagnon          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 char	**add_var(char **env, char *n_var)
@@ -75,22 +87,23 @@ int	export_pars(char *n_var, char **env)
 void	export_handler(char **instruct, t_data *data)
 {
 	int	i;
-    int index;
+	int	index;
 
 	i = 0;
-    index = -1;
+	index = -1;
 	if (ft_cmp_builtin(instruct[i], "export", 6) == 0)
 	{
 		data->cmd_lst->is_builtin = true;
 		while (instruct[++i] != NULL)
 		{
-            index = export_pars(instruct[i], data->envp_cp);
+			index = export_pars(instruct[i], data->envp_cp);
 			if (index == -1)
 				data->envp_cp = add_var(data->envp_cp, instruct[i]);
-			else if (index >= 0){
-                data->envp_cp[index] = xfree(data->envp_cp[index]);
-                data->envp_cp[index] = ft_strdup(instruct[i]);
-            }
+			else if (index >= 0)
+			{
+				data->envp_cp[index] = xfree(data->envp_cp[index]);
+				data->envp_cp[index] = ft_strdup(instruct[i]);
+			}
 		}
 		if (data->fork_pid == 0)
 		{

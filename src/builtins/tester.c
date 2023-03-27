@@ -35,3 +35,26 @@ char *tester()
         close(fd);
     return (r_gnl);
 }
+
+void	man_yoyo_ma(char **instruct, t_data *data)
+{
+	int		fd;
+    char	*r_gnl;
+
+	r_gnl = NULL;
+	if (instruct[1] == NULL)
+		return ;
+	if (ft_cmp_builtin(instruct[0], "man", 3) == 0 && ft_cmp_builtin(instruct[1], "yoyoma", 6) == 0)
+	{
+		data->cmd_lst->is_builtin = true;
+		fd = open("yoyo_ma.txt", O_RDONLY);
+		if (!fd)
+			return ;
+		r_gnl = easy_gnl(fd);
+		while (r_gnl != NULL)
+		{
+			printf("%s\n", r_gnl);
+    		r_gnl = easy_gnl(fd);
+		}
+    }
+}
