@@ -29,7 +29,7 @@ static char	*recup_the_bin_path(char *bin_name, char **p_envp)
 	trimmed_path = path_env_var_to_str(p_envp);
 	splitted_path = ft_split(trimmed_path, ':');
 	xfree(trimmed_path);
-	while (splitted_path[i])
+	while (splitted_path != NULL && splitted_path[i])
 	{
 		complete_bin_path = ft_strjoin(splitted_path[i], "/");
 		complete_bin_path = ft_strjoin_free(complete_bin_path, bin_name);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cd.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jgagnon <marvin@42quebec.com>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/27 09:47:01 by jgagnon           #+#    #+#             */
+/*   Updated: 2023/03/27 09:47:02 by jgagnon          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 static void	update_pwd(char **env)
@@ -47,9 +59,8 @@ static	void	update_oldpwd(char **env)
 void	cd_handler(char **instruct, t_data *data)
 {
 	int	i;
-//	int	j;
+
 	i = 0;
-//	j = -1;
 	if (ft_cmp_builtin(instruct[i], "cd", 2) == 0)
 	{
 		data->cmd_lst->is_builtin = true;
