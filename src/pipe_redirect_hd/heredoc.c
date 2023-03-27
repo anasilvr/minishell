@@ -28,10 +28,10 @@ void	heredoc_subparsing(t_data *data)
 {
 	char	*delimiter;
 	// t_hdoc	*hd_data;
-	t_tok	*tok_pointer_keeper;
+	t_tok	*token_ptrcpy;
 	t_cmd	*cmd_pointer_keeper;
 
-	tok_pointer_keeper = data->token;
+	token_ptrcpy = data->token;
 	cmd_pointer_keeper = data->cmd_lst;
 	while (data->token != NULL)
 	{
@@ -46,12 +46,12 @@ void	heredoc_subparsing(t_data *data)
 			data->hd_struct = write_heredoc(delimiter, data);
 			data->token = delmidnode_toklist(data->token);
 			data->token = delmidnode_toklist(data->token);
-			tok_pointer_keeper = get_first_tok(data->token);
+			token_ptrcpy = get_first_tok(data->token);
 		}
 		if (data->token != NULL)
 			data->token = data->token->next;
 	}
-	data->token = tok_pointer_keeper;
+	data->token = token_ptrcpy;
 	data->cmd_lst = cmd_pointer_keeper;
 }
 

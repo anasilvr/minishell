@@ -143,6 +143,7 @@ int	open_handling(t_data *data)
 		data->token = delmidnode_toklist(data->token);
 		data->token = delmidnode_toklist(data->token);
 	}
+	return (0);
 }
 
 /* La fonction traite les redirections d'input (<) et d'output (>, >>) depuis la liste de tokens.

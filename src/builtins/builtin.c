@@ -45,15 +45,14 @@ static void tester_check(char **cmd, t_data *data)
 
 int	builtins_checker(t_data *data, t_cmd *cmd)
 {
-		echo_handler(cmd->args, data);
-		pwd_handler(cmd->args, data);
-		env_handler(cmd->args, data);
-		cd_handler(cmd->args, data);
-		export_handler(cmd->args, data);
-		unset_handler(cmd->args, data);
-		exit_handler(data, cmd->args);
-		help_handler(cmd->args, data);
-		man_yoyo_ma(cmd->args, data);
-	    tester_check(cmd->args, data);
-	return (-1);
+	echo_handler(cmd->args, data);
+	pwd_handler(cmd->args, data);
+	env_handler(cmd->args, data);
+	cd_handler(cmd->args, data);
+	export_handler(cmd->args, data);
+	unset_handler(cmd->args, data);
+	exit_handler(data, cmd->args);
+	help_handler(cmd->args, data);
+	man_yoyo_ma(cmd->args, data);
+	tester_check(cmd->args, data);
 }

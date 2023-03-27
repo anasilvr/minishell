@@ -86,19 +86,21 @@ static void	external_bin_exec(t_data *prog_data, char **argv)
 
 void	execution_time(t_data *prog_data)
 {
-	builtins_checker(prog_data, prog_data->cmd_lst);
-	if (prog_data->cmd_lst->is_builtin == false)
+	if (prog_data->cmd_lst->args)
 	{
-		prog_data->cmd_lst->path =
-		recup_the_bin_path(prog_data->cmd_lst->args[0], prog_data->envp_cp);
-		external_bin_exec (prog_data, prog_data->cmd_lst->args);
+		builtins_checker(prog_data, prog_data->cmd_lst);
+		if (prog_data->cmd_lst->is_builtin == false)
+		{
+			prog_data->cmd_lst->path =
+			recup_the_bin_path(prog_data->cmd_lst->args[0], prog_data->envp_cp);
+			external_bin_exec (prog_data, prog_data->cmd_lst->args);
+		}
 	}
 }
 
 void	execution_manager(t_data *prog_data)
 {
 	t_cmd *head = prog_data->cmd_lst;
-	// stdio_cpy(prog_data);
 	prog_data->fork_pid = -2;
 	if (prog_data->cmd_lst != NULL)
 	{
