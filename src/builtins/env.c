@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jgagnon <marvin@42quebec.com>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/27 09:49:22 by jgagnon           #+#    #+#             */
+/*   Updated: 2023/03/27 09:49:23 by jgagnon          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 void	print_env(char **env)
@@ -19,12 +31,10 @@ void	print_env(char **env)
 
 void	env_handler(char **instruct, t_data *data)
 {
-//	int	i;
 	if (ft_cmp_builtin(instruct[0], "env", 3) == 0)
 	{
 		data->cmd_lst->is_builtin = true;
 		print_env(data->envp_cp);
-//		i = -1;
 		if (data->fork_pid == 0)
 		{
 			clean_exit(data);
