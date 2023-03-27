@@ -132,7 +132,7 @@ typedef struct s_hdoc
 enum	e_bultins {echo, cd, pwd, export, unset, env};
 void	ft_echo(char **cmd, char **env, int i);
 void	echo_handler(char **instruct, t_data *data);
-int		builtins_checker(t_data *data, t_cmd *cmd);
+void	builtins_checker(t_data *data, t_cmd *cmd);
 void	pwd_handler(char **instruct, t_data *data);
 void	unset_handler(char **intruct, t_data *data);
 void	export_handler(char **instruct, t_data *data);

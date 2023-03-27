@@ -1,34 +1,12 @@
-Makefile
-capybara.txt
-code.notes.tom
-edge_cases.txt
-ignore_rdl_leaks.txt
-include
-minishell
-minishell.dSYM
-obj
-src
-test.txt
-
 echo -nnn patate
 ls > out
-
 echo "Les prochains tests seront pour les redirections"
 echo "Commencons par un fichier sans droit"
-
 touch bob
 chmod 0000 bob
 cat < bob
 echo BobIntoTheBob > bob
-
 echo "Ensuite, avec des quotes et des expands"
 echo $USER  $USER91"text"$USER abab$USERabc > outfile.txt
 rm -f outfile.txt
-
-
-
-
-
-
-
-echo FENI!
+diff outfile.txt <("$USER text$USER abab")

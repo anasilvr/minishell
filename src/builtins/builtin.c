@@ -43,7 +43,7 @@ static void tester_check(char **cmd, t_data *data)
         data->tester = true;
 }
 
-int	builtins_checker(t_data *data, t_cmd *cmd)
+void	builtins_checker(t_data *data, t_cmd *cmd)
 {
 	echo_handler(cmd->args, data);
 	pwd_handler(cmd->args, data);

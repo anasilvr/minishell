@@ -55,6 +55,17 @@ void	heredoc_subparsing(t_data *data)
 	data->cmd_lst = cmd_pointer_keeper;
 }
 
+static void	hd_signal_handler(int sig)
+{
+	if (sig == SIGINT)
+	{
+		printf("\n");
+		rl_replace_line("", 1);
+		rl_on_new_line();
+		rl_redisplay();
+	}	
+}
+
 /* La fonction permet simplement de créer la liste chainée pour stocker chaque 
  * entrée de l'utilisateur dans un nouveau node jusqu'a ce que le delimiter 
  * soit rencontré.
@@ -75,8 +86,21 @@ t_hdoc	*write_heredoc(char *delimiter, t_data *data)
 
 	line = readline("> ");
 	hd_struct = NULL;
-	while (ft_strcmp(delimiter, line) != 0)
+	signal(SIGINT, hd_signal_handler);
+	if (errno == 4)
 	{
+		xfree(line);
+		line = NULL;
+	}
+	while (line != NULL && ft_strcmp(delimiter, line) != 0 && signal(SIGINT, hd_signal_handler) != SIG_ERR)
+	{
+		printf("%d\n", errno);
+		if (!line || errno == 4)
+		{
+			xfree(line);
+			line = NULL;
+			break;
+		}
 		line = heredoc_dollar(data->envp_cp, line);
 		hd_struct = ft_dllst_add_back(hd_struct, line);
 		hd_struct = ft_dllst_add_back(hd_struct, "\n");
