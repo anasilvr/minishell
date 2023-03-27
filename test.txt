@@ -1,3 +1,15 @@
+Makefile
+capybara.txt
+code.notes.tom
+edge_cases.txt
+ignore_rdl_leaks.txt
+include
+minishell
+minishell.dSYM
+obj
+src
+test.txt
+
 echo -nnn patate
 ls > out
 
