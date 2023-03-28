@@ -101,6 +101,7 @@ void	execution_time(t_data *prog_data)
 void	execution_manager(t_data *prog_data)
 {
 	t_cmd *head = prog_data->cmd_lst;
+	
 	prog_data->fork_pid = -2;
 	if (prog_data->cmd_lst != NULL)
 	{

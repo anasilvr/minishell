@@ -141,7 +141,7 @@ int	open_handling(t_data *data)
 				return (-1);
 		}
 		data->token = delmidnode_toklist(data->token);
-		data->token = delmidnode_toklist(data->token);
+//		data->token = delmidnode_toklist(data->token);
 	}
 	return (0);
 }
@@ -180,11 +180,12 @@ int	redirect_subparsing(t_data *data)
 		{
 			return (-1);
 		}
-		if (data->token->next == NULL)
+		if (data->token != NULL && data->token->next == NULL)
 		{
 			r_token = get_first_tok(data->token);
 		}
-		data->token = data->token->next;
+		if (data->token != NULL)
+			data->token = data->token->next;
 	}
 	data->token = r_token;
 	data->cmd_lst = r_cmd;
