@@ -169,6 +169,7 @@ int	redirect_subparsing(t_data *data)
 	t_cmd *r_cmd;
 
 	r_cmd = data->cmd_lst;
+	r_token = NULL;
 	while (data->token != NULL)
 	{
 		if (data->token->type == PIPE)
@@ -180,11 +181,14 @@ int	redirect_subparsing(t_data *data)
 		{
 			return (-1);
 		}
-		if (data->token->next == NULL)
+		if (data->token != NULL)
 		{
-			r_token = get_first_tok(data->token);
+			if (data->token->next == NULL) //segfault
+			{
+				r_token = get_first_tok(data->token);
+			}
+			data->token = data->token->next;
 		}
-		data->token = data->token->next;
 	}
 	data->token = r_token;
 	data->cmd_lst = r_cmd;

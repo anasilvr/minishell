@@ -59,14 +59,8 @@ static void	hd_signal_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
-		// printf("\n");
 		g_status = 4;
-		// printf("errno = %d", errno);
-		// printf("g_status = %d", g_status);
-		// rl_replace_line("", 1);
-/*		rl_on_new_line();
-		rl_redisplay();*/
-	}
+	}	
 }
 
 // char	*easy_readline(int buf_size)
@@ -110,26 +104,11 @@ t_hdoc	*write_heredoc(char *delimiter, t_data *data)
 	t_hdoc	*hd_struct;
 
 	signal(SIGINT, hd_signal_handler);
-	if (g_status != 4)
-		line = easy_readline(100000);
-	// printf("Hello\n");
 	hd_struct = NULL;
-	if (g_status == 4)
+	while (g_status != 4 && (line = readline("> ")) != NULL && ft_strcmp(delimiter, line) != 0)
 	{
-		xfree(line);
-		line = NULL;
-		g_status = 0;
-	}
-	while (line != NULL && ft_strcmp(delimiter, line) != 0)
-	{
-		// printf("%d\n", errno);
-		if (g_status == 4 || !line)
-		{
-			xfree(line);
-			line = NULL;
-			break;
-		}
-		line = heredoc_dollar(data->envp_cp, line);
+		if (delimiter[0] != '\'' && delimiter[0] != '"')
+			line = heredoc_dollar(data->envp_cp, line);
 		hd_struct = ft_dllst_add_back(hd_struct, line);
 		hd_struct = ft_dllst_add_back(hd_struct, "\n");
 		if (line)
@@ -137,7 +116,7 @@ t_hdoc	*write_heredoc(char *delimiter, t_data *data)
 			xfree(line);
 			line = NULL;
 		}
-		line = easy_readline(100000);
+		// line = easy_readline(100000);
 	}
 	// print_hd(hd_struct);
 	return (hd_struct);
