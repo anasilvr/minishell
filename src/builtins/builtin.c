@@ -54,5 +54,4 @@ void	builtins_checker(t_data *data, t_cmd *cmd)
 	help_handler(cmd->args, data);
 	man_yoyo_ma(cmd->args, data);
 	tester_check(cmd->args, data);
-	return (-1);
 }
