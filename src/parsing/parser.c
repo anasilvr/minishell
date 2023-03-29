@@ -65,15 +65,15 @@ char	**create_args(t_tok **token)
 	return (args);
 }
 
-static void split_args(t_cmd *cmd_lst, t_tok *token)
+static void	split_args(t_cmd *cmd_lst, t_tok *token)
 {
-	t_cmd *lst;
-	t_cmd *head;
+	t_cmd	*lst;
+	t_cmd	*head;
+	int		i;
 
 	head = cmd_lst;
 	lst = cmd_lst;
-
-	int i = 1;
+	i = 1;
 	while (lst && token)
 	{
 		lst->args = create_args(&token);
@@ -92,8 +92,8 @@ int	parser(t_data *data)
 	if (redirect_subparsing(data) == -1)
 		return (-1);
 	heredoc_subparsing(data);
-	// printf("\033[1m\033[31m[At parser.c]\nAFTER REDIRECTION:\033[0m\n");
-	// print_toklist(data->token);
+//	printf("\033[1m\033[31m[At parser.c]\nAFTER REDIRECTION:\033[0m\n");
+//	print_toklist(data->token);
 	split_args(data->cmd_lst, data->token);
 	if (data->cmd_lst->filefd[0] == -1 || \
 	(data->cmd_lst->filefd[1] == -1 && errno == EACCES))
@@ -102,9 +102,3 @@ int	parser(t_data *data)
 	}
 	return (0);
 }
-
-/*	argv[0] of each node a valid command? (access call),
-	is the arg related to a redirection a valid file? (open call)
-the access call can be used to set a valid path
-since you'll have to use access with a path to check its validity.
-when access ((path, F_OK | X_OK) == 0)), store this path at data.cmd_lst.path */

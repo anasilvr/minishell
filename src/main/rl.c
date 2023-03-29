@@ -7,6 +7,36 @@ void	readline_exit(t_data *data)
 	exit(0);
 }
 
+char	*charjoinfree(const char *s1, const char c)
+{
+	char	*r_str;
+	int		len;
+	int		i;
+
+	if (!s1)
+		len = 0;
+	else
+		len = ft_strlen(s1);
+	i = -1;
+	r_str = NULL;
+	if (len < 1)
+	{
+		r_str = malloc(sizeof(char) * 2);
+		r_str[0] = c;
+		r_str[1] = '\0';
+	}
+	else if (len > 0)
+	{
+		r_str = malloc(sizeof(char) * (len + 2));
+		while (s1[++i] != '\0')
+			r_str[i] = s1[i];
+		r_str[i] = c;
+		r_str[i + 1] = '\0';
+	}
+	xfree((char*) s1);
+	return (r_str);
+}
+
 void treat_line(t_tok **tok, char **env_cp)
 {
     int i;

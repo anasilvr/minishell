@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   unset.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jgagnon <marvin@42quebec.com>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/29 10:04:53 by jgagnon           #+#    #+#             */
+/*   Updated: 2023/03/29 10:04:54 by jgagnon          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 int	check_env_var(char **env, char *var)
@@ -35,14 +47,14 @@ static char	**cpy_unset(char **env, int line)
 	i = 0;
 	while (env[i] != NULL)
 	{
-        while (env[i] != NULL)
-        {
-            if (i != line)
-                r_env[k] = ft_strdup(env[i]);
-            if (i != line)
-                k++;
-            i++;
-        }
+		while (env[i] != NULL)
+		{
+			if (i != line)
+				r_env[k] = ft_strdup(env[i]);
+			if (i != line)
+				k++;
+			i++;
+		}
 	}
 	r_env[k] = NULL;
 	free_tab(env);
@@ -63,11 +75,11 @@ void	unset_handler(char **instruct, t_data *data)
 		{
 			r_check = check_env_var(data->envp_cp, instruct[i]);
 			if (r_check >= 0)
-            {
-                data->envp_cp[r_check] = xfree(data->envp_cp[r_check]);
-                data->envp_cp[r_check] = ft_strdup(instruct[i]);
-            }
-				data->envp_cp = cpy_unset(data->envp_cp, r_check);
+			{
+				data->envp_cp[r_check] = xfree(data->envp_cp[r_check]);
+				data->envp_cp[r_check] = ft_strdup(instruct[i]);
+			}
+			data->envp_cp = cpy_unset(data->envp_cp, r_check);
 		}
 		if (data->fork_pid == 0)
 		{

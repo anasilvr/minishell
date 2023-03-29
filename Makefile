@@ -66,12 +66,14 @@ PARSE_F	=			\
 	lexer.c			\
 	parser_utils.c 	\
 	parser.c		\
-	safesplit.c		\
 	token_check.c	\
 	token_utils.c	\
 	handler.c		\
 	handler_utils.c \
-
+	tok_dll_del.c \
+#	tok_dll_addnode.c \
+	tok_dll_utils.c \
+	
 SIGNAL_F	=
 
 # ADDPREFIX TO FILES #

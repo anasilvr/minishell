@@ -1,30 +1,32 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jgagnon <marvin@42quebec.com>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/29 10:20:40 by jgagnon           #+#    #+#             */
+/*   Updated: 2023/03/29 10:20:42 by jgagnon          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 void	exec_set(t_data *data)
 {
 	int	hd_pipe_out_fd;
-	// char	*buffer;
-	// buffer = malloc(sizeof(char *) * (1 + 1));
-	/* Si il sagit d'un heredoc, un pipe est créé. Il sera connecté
-	 * du bord écriture à la fonction ft_putstr_fd qui, depuis un processus
-	 * enfant au préalablement créé, lira la string de chaque nodes que
-	 * comprend le heredoc et l'enverra dans le pipe. Ensuite, le processus
-	 * parent, qui n'attendra pas le fin de son processus enfant, connectera
-	 * le bord lecture du pipe à l'entrée standard (stdin) du système.
-	 */
+
 	if (data->heredoc == true)
 	{
 		hd_pipe_out_fd = heredoc_to_pipe(data->hd_struct);
 		dup2 (hd_pipe_out_fd, 0);
 		close (hd_pipe_out_fd);
 	}
-	/* Verifier si il y a une redir d'input */
 	if (data->cmd_lst->filefd[0] != -2)
 	{
 		dup2 (data->cmd_lst->filefd[0], 0);
 		close (data->cmd_lst->filefd[0]);
 	}
-	/* Verifier si il y a une redir d'output */
 	if (data->cmd_lst->filefd[1] != -2)
 	{
 		dup2 (data->cmd_lst->filefd[1], 1);
