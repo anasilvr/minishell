@@ -132,12 +132,8 @@ t_hdoc	*write_heredoc(char *delimiter, t_data *data)
 	r_trim = trim_delim(delimiter);
 	signal(SIGINT, hd_signal_handler);
 	hd_struct = NULL;
-<<<<<<< HEAD
-	while (g_status != 4 && (line = readline("> ")) != NULL && (ft_strcmp(ft_strtrim(delimiter, "'"), line) != 0 || ft_strcmp(ft_strtrim(delimiter, "\""), line) != 0))
-=======
 	while (g_status != 4 && (line = readline("> ")) != NULL
 		&& ft_strncmp(r_trim, line, ft_strlen(r_trim)) != 0)
->>>>>>> 349db385ad8db91496883f24f28fc3d3776696c2
 	{
 		if (delimiter[0] != '\'' && delimiter[0] != '"')
 			line = heredoc_dollar(data->envp_cp, line);
