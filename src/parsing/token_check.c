@@ -85,21 +85,3 @@ void	verify_dollartype(t_tok **list)
 	}
 	return ;
 }
-
-/* bash-3.2$ 
-USER // strip $, strip quotes, print literal str (ECHO FUNCTION)
-bash-3.2$ echo "$USER"
-	anarodri // strip quotes, expands envvar
-bash-3.2$ echo $$"USER" *****
-	4619USER // prints PID and literal str -> in our case, prints $$USER cause PID won't be implemented.
-bash-3.2$ echo $"$USER"
-	anarodri // strip $ and quotes, expands envvar even if it is between quotes. (data.expand = true!)
-bash-3.2$ echo $"ana"
-	ana // strip $ and quotes, prints literal.
-bash-3.2$ echo "$ana"
-		// envvar doesn't exist, prints a newline.
-bash-3.2$ echo $ LUIZA $"ROD" $"$USER"
-	$ LUIZA ROD anarodri // prints literal $ LUIZA, strips $ and quotes, prints literal ROD, strips $ and strips quotes, expand $USER
-bash-3.2$ echo $?$USER
-	0anarodri // exit code and expands envvar
-*/

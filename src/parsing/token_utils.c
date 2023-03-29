@@ -6,8 +6,8 @@ int	tok_len(char *str, int len)
 
 	if (!str)
 		return (0);
-	i = 0;
-	while (i < len)
+	i = -1;
+	while (++i < len && !is_set(str[i], WHITESPACE))
 	{
 		if (is_set(str[i], METACHAR) || is_set(str[i], QUOTES)
 			|| is_set(str[i], "$"))
@@ -26,9 +26,6 @@ int	tok_len(char *str, int len)
 				i = 1;
 			return (i);
 		}
-		else if (is_set(str[i], WHITESPACE))
-			break ;
-		i++;
 	}
 	return (i);
 }
