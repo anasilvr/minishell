@@ -141,7 +141,7 @@ int	open_handling(t_data *data)
 				return (-1);
 		}
 		data->token = delmidnode_toklist(data->token);
-//		data->token = delmidnode_toklist(data->token);
+		data->token = delmidnode_toklist(data->token);
 	}
 	return (0);
 }
@@ -178,9 +178,7 @@ int	redirect_subparsing(t_data *data)
 			data->token = data->token->next;
 		}
 		if (open_handling(data) == -1)
-		{
 			return (-1);
-		}
 		if (data->token != NULL)
 		{
 			if (data->token->next == NULL) //segfault

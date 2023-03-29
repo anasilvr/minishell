@@ -43,13 +43,15 @@ int	main(int argc, char **argv, char **envp)
 
 	if (!envp || !(*envp))
 	{
-		ft_putstr_fd("Error: ENVP missing. Please restart your terminal before trying again.\n", STDERR_FILENO);
+		ft_putstr_fd("Error: ENVP missing. Please restart your terminal\
+			 before trying again.\n", STDERR_FILENO);
 		exit(EXIT_FAILURE);
 	}
 	if (argc > 1)
 	{
-            ft_putstr_fd("Error: Program call doesn't support any arguments. Try again.\n", STDERR_FILENO);
-            exit(EXIT_FAILURE);
+		ft_putstr_fd("Error: Program call doesn't support any arguments.\
+			 Try again.\n", STDERR_FILENO);
+		exit(EXIT_FAILURE);
 	}
 	data = NULL;
 	data = init_data(envp, data);
@@ -66,28 +68,26 @@ void	wtshell(t_data *data)
 	{
 		signal(SIGINT, signal_handler);
 		signal(SIGQUIT, SIG_IGN);
-        if (data->tester == false)
-            data->input = rl_gets();
-        else if (data->tester == true)
-            data->input = tester();
-        if (!data->input)
-            readline_exit(data);
+		if (data->tester == false)
+			data->input = rl_gets();
+		else if (data->tester == true)
+			data->input = tester();
+		if (!data->input)
+			readline_exit(data);
 		while (!data->syntax_err && !is_empty(data->input))
 		{
 			lexer(data, data->input);
 			if (data->syntax_err || !data->token)
 				break ;
-			if (parser(data) == -1)
-				break;
-			if (data->syntax_err || !data->cmd_lst)
+			if (parser(data) == -1 && (data->syntax_err || !data->cmd_lst))
 				break ;
-			printf("\033[1m\033[31m----------START OF CMDLIST_DETAILS----------\033[0m\n");
-			cmdlist_details(data->cmd_lst);
-			printf("\033[1m\033[31m----------END OF CMDLIST_DETAILS----------\033[0m\n");
-			printf("\t\033[1m\033[32m[Starting execution...]\033[0m\n");
+//			printf("\033[1m\033[31m----------START OF CMDLIST_DETAILS----------\033[0m\n");
+//			cmdlist_details(data->cmd_lst);
+//			printf("\033[1m\033[31m----------END OF CMDLIST_DETAILS----------\033[0m\n");
+//			printf("\t\033[1m\033[32m[Starting execution...]\033[0m\n");
 			if (data->cmd_lst->err != -1)
 				execution_manager(data);
-			printf("\t\033[1m\033[32m[DONE! Starting reset...]\033[0m\n\n");
+//			printf("\t\033[1m\033[32m[DONE! Starting reset...]\033[0m\n\n");
 			reset(data);
 		}
 		if (data->syntax_err)

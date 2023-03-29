@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jgagnon <marvin@42quebec.com>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/29 10:42:48 by jgagnon           #+#    #+#             */
+/*   Updated: 2023/03/29 10:42:50 by jgagnon          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 t_data	*get_data(void)
@@ -13,7 +25,6 @@ t_data	*init_data(char **envp, t_data *data)
 {
 	data = get_data();
 	data->envp_cp = backup_env(envp);
-	// data->path = init_path(data);
 	data->pwd = NULL;
 	data->input = NULL;
 	data->token = ft_xcalloc(1, sizeof(t_tok));
@@ -25,23 +36,9 @@ t_data	*init_data(char **envp, t_data *data)
 	data->stdio[1] = STDOUT_FILENO;
 	data->stdio[2] = STDERR_FILENO;
 	data->heredoc = false;
-    data->tester = false;
+	data->tester = false;
 	return (data);
 }
-
-// char	**init_path(t_data *data)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (data->envp_cp[i] && ft_strnstr(data->envp_cp[i], "PATH=", 5) == 0)
-// 		i++;
-// 	if (!data->envp_cp[i])
-// 		return (NULL);
-// 	else
-// 		data->path = ft_split(data->envp_cp[i], ':');
-// 	return (data->path);
-// }
 
 char	**backup_env(char **envp)
 {
@@ -61,5 +58,3 @@ char	**backup_env(char **envp)
 	copy[i] = NULL;
 	return (copy);
 }
-
-//maybe init pwd here?

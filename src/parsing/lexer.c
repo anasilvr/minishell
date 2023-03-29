@@ -44,29 +44,7 @@ char *charjoinfree(const char *s1, const char c)
 	return (r_str);
 }
 
-/*char *charjoinfree(const char *s1, const char c)
-{
-    char    *str;
-    size_t     len;
-
-	if (!s1)
-		len = 0;
-	else
-	    len = ft_strlen(s1);
-    str = ft_calloc(len + 2, sizeof(char));
-    len = 0;
-    while (s1[len])
-    {
-        str[len] = s1[len];
-        len++;
-    }
-    str[len] = c;
-    str[len + 1] = '\0';
-   xfree((char *) s1);
-    return (str);
-}*/
-
-static char *clean_empty_quotes(char *input)
+static char	*clean_empty_quotes(char *input)
 {
 	char	*tmp;
 	int		i;
