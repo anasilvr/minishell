@@ -63,6 +63,28 @@ static void	hd_signal_handler(int sig)
 	}	
 }
 
+// char	*easy_readline(int buf_size)
+// {
+// 	char    *line;
+//     char    buf[buf_size];
+//     int     read_ret;
+
+// 	write(1, ">", 1);
+// 	if (g_status == 4)
+// 	{
+// 		xfree(line);
+// 		line = NULL;
+// 		g_status = 0;
+// 	}
+// 	else
+// 	{
+//     	read_ret = read(0, &buf, buf_size);
+// 		printf("%d\n", read_ret);
+//  		line = ft_strdup(buf);
+// 	}
+// 	return (line);
+// }
+
 /* La fonction permet simplement de créer la liste chainée pour stocker chaque 
  * entrée de l'utilisateur dans un nouveau node jusqu'a ce que le delimiter 
  * soit rencontré.
@@ -94,11 +116,52 @@ t_hdoc	*write_heredoc(char *delimiter, t_data *data)
 			xfree(line);
 			line = NULL;
 		}
-		line = readline("> ");
+		// line = easy_readline(100000);
 	}
 	// print_hd(hd_struct);
 	return (hd_struct);
 }
+
+
+
+// t_hdoc	*write_heredoc(char *delimiter, t_data *data)
+// {
+// 	char	*line;
+// 	t_hdoc	*hd_struct;
+
+// 	signal(SIGINT, hd_signal_handler);
+// 	printf("g_status = %d\n", g_status);
+// 	if (errno != 4)
+// 		line = readline("> ");
+// 	printf("Hello\n");
+// 	hd_struct = NULL;
+// 	if (errno == 4)
+// 	{
+// 		xfree(line);
+// 		line = NULL;
+// 	}
+// 	while (line != NULL && ft_strcmp(delimiter, line) != 0)
+// 	{
+// 		printf("%d\n", errno);
+// 		if (errno == 4 || !line)
+// 		{
+// 			xfree(line);
+// 			line = NULL;
+// 			break;
+// 		}
+// 		line = heredoc_dollar(data->envp_cp, line);
+// 		hd_struct = ft_dllst_add_back(hd_struct, line);
+// 		hd_struct = ft_dllst_add_back(hd_struct, "\n");
+// 		if (line)
+// 		{
+// 			xfree(line);
+// 			line = NULL;
+// 		}
+// 		line = readline("> ");
+// 	}
+// 	// print_hd(hd_struct);
+// 	return (hd_struct);
+// }
 
 /* La fonction permet, dans l'éventualité qu'un heredoc est été présent dans 
  * la série de commande, de pousser les différents ligne du heredoc dans le 

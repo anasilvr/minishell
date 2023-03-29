@@ -40,7 +40,7 @@
 # define READ_ENDPIPE 0
 # define WRITE_ENDPIPE 1
 
-extern int	g_status;
+extern volatile int	g_status;
 
 typedef enum e_builtins
 {

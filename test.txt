@@ -8,5 +8,6 @@ cat < bob
 echo BobIntoTheBob > bob
 echo "Ensuite, avec des quotes et des expands"
 echo $USER  $USER91"text"$USER abab$USERabc > outfile.txt
+
 rm -f outfile.txt
 diff outfile.txt <("$USER text$USER abab")

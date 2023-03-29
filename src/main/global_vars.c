@@ -1,3 +1,3 @@
 #include "../../include/minishell.h"
 
-int		g_status;
+volatile int		g_status;

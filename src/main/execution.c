@@ -103,7 +103,7 @@ void	execution_manager(t_data *prog_data)
 	t_cmd *head = prog_data->cmd_lst;
 	
 	prog_data->fork_pid = -2;
-	if (prog_data->cmd_lst != NULL)
+	if (prog_data->cmd_lst->args != NULL)
 	{
 		prog_data->cmd_lst->is_builtin = false;
 		if (prog_data->nb_pipes == 0)
