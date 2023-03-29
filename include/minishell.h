@@ -260,7 +260,7 @@ char	*charjoinfree(const char *s1, const char c);
 
 //line handler
 int		space_handler(char *str, int i);
-char	*double_quote_handler(char *cmd, char **env, int *j);
+char	*double_quote_handler(char *line, char **env, int* j);
 char	*dollar_handler(char *cmd, char **env, int *j);
 char	*cpy_env_var(char **env, char *var);
 char	*single_quotes_handler(char *line, int *j);

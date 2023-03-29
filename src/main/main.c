@@ -86,7 +86,7 @@ void	wtshell(t_data *data)
 			// printf("\033[1m\033[31m----------END OF CMDLIST_DETAILS----------\033[0m\n");
 			// printf("\t\033[1m\033[32m[Starting execution...]\033[0m\n");
 //			printf("\033[1m\033[31m----------START OF CMDLIST_DETAILS----------\033[0m\n");
-//			cmdlist_details(data->cmd_lst);
+			cmdlist_details(data->cmd_lst);
 //			printf("\033[1m\033[31m----------END OF CMDLIST_DETAILS----------\033[0m\n");
 //			printf("\t\033[1m\033[32m[Starting execution...]\033[0m\n");
 			if (data->cmd_lst->err != -1)
