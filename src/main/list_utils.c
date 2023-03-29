@@ -51,9 +51,20 @@ t_tok	*get_lasttok(t_tok *node)
 
 t_tok	*get_first_tok(t_tok *node)
 {
-	if (!node)
+	t_tok *node_ptr;
+
+	node_ptr = node;
+	if (!node_ptr)
 		return (NULL);
 	while (node->prev)
 		node = node->prev;
 	return (node);
 }
+// t_tok	*get_first_tok(t_tok *node)
+// {
+// 	if (!node)
+// 		return (NULL);
+// 	while (node_ptr->prev)
+// 		node_ptr = node_ptr->prev;
+// 	return (node_ptr);
+// }

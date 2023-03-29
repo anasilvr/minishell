@@ -120,7 +120,7 @@ int	open_to_readwrite(char *filepath, int additional_flag)
 
 int	open_handling(t_data *data)
 {
-	if (data->token->type == APPEND || data->token->type == REDIR_OUT || data->token->type == REDIR_IN)
+	while (data->token->type == APPEND || data->token->type == REDIR_OUT || data->token->type == REDIR_IN)
 	{
 		if (data->token->type == APPEND) // >>
 		{
@@ -181,7 +181,7 @@ int	redirect_subparsing(t_data *data)
 			return (-1);
 		if (data->token != NULL)
 		{
-			if (data->token->next == NULL) //segfault
+			if (data->token->next == NULL)
 			{
 				r_token = get_first_tok(data->token);
 			}
@@ -192,7 +192,6 @@ int	redirect_subparsing(t_data *data)
 	data->cmd_lst = r_cmd;
 	return (0);
 }
-
 // tchalifo@c2r1p11 minishell % echo salut >> file.txt > toto.sh
 
 // tchalifo@c2r1p11 minishell % cat file.txt
