@@ -66,7 +66,6 @@ PARSE_F	=			\
 	lexer.c			\
 	parser_utils.c 	\
 	parser.c		\
-	safesplit.c		\
 	token_check.c	\
 	token_utils.c	\
 	handler.c		\
