@@ -2,14 +2,14 @@
 
 int	space_handler(char *str, int i)
 {
-    int	j;
+	int	j;
 
-    j = i;
-    while (ft_isspace(str[i]) == 0 && str[i] != '\0')
-        i++;
-    if (str[i] == '\0')
-        return (i - 1);
-    return (j);
+	j = i;
+	while (ft_isspace(str[i]) == 0 && str[i] != '\0')
+		i++;
+	if (str[i] == '\0')
+		return (i - 1);
+	return (j);
 }
 
 char *double_quote_handler(char *line, char **env, int* j)

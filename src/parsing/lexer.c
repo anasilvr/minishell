@@ -1,22 +1,22 @@
 #include "../../include/minishell.h"
 
-static void find_match(t_data *data, int *i, bool *trigger, char *quote)
+static void	find_match(t_data *data, int *i, bool *trigger, char *quote)
 {
-    while (data->input[*i])
-    {
-        if (data->input[*i] == *quote)
-        {
-            *trigger = false;
-            *quote = 0;
-            break ;
-        }
-    *i += 1;
-    }
+	while (data->input[*i])
+	{
+		if (data->input[*i] == *quote)
+		{
+			*trigger = false;
+			*quote = 0;
+			break ;
+		}
+	*i += 1;
+	}
 }
 
-char *charjoinfree(const char *s1, const char c)
+char	*charjoinfree(const char *s1, const char c)
 {
-	char 	*r_str;
+	char	*r_str;
 	int		len;
 	int		i;
 
@@ -40,7 +40,7 @@ char *charjoinfree(const char *s1, const char c)
 		r_str[i] = c;
 		r_str[i + 1] = '\0';
 	}
-	xfree((char*)s1);
+	xfree((char*) s1);
 	return (r_str);
 }
 
