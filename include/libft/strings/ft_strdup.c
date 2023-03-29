@@ -6,7 +6,7 @@
 /*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/27 11:00:41 by anarodri          #+#    #+#             */
-/*   Updated: 2022/12/15 12:51:09 by anarodri         ###   ########.fr       */
+/*   Updated: 2023/03/29 10:23:06 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ char	*ft_strdup(const char *str)
 	size_t	len;
 	size_t	i;
 
-    if (str == NULL)
-        return (NULL);
+	if (str == NULL)
+		return (NULL);
 	len = ft_strlen(str) + 1;
 	temp = (char *)malloc(len * sizeof(char));
 	i = 0;

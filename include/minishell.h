@@ -69,26 +69,24 @@ typedef enum e_type
 	INVALID,
 }	t_type;
 
-typedef struct s_tok		t_tok;
-typedef struct s_data		t_data;
-typedef struct s_cmd		t_cmd;
-typedef struct s_hdoc		t_hdoc;
+typedef struct s_tok	t_tok;
+typedef struct s_data	t_data;
+typedef struct s_cmd	t_cmd;
+typedef struct s_hdoc	t_hdoc;
 
-//Metachars are used as reference to change io_flag and are not included in the cmdline.
-//If a metachar is encountered inside cmdline, it should be treated as a literal character.
 typedef struct s_cmd
 {
-	char		*cmdline; // echo bonjour
+	char		*cmdline;
 	char		**args;
 	char		*path;
-	int			cmdiofd[2]; // Ce sont les assignations qui devrons etre dup dans les stds in et out respectivement.
+	int			cmdiofd[2];
 	int			filefd[2];
 	int			pipefd[2];
-	int			err; // exit code of cmd;
-	int			io_flag; // if there's a redirection to be done, this is its type
+	int			err;
+	int			io_flag;
 	bool		is_builtin;
 	char		*hd_delimiter;
-	int			expand; // changed to an int that indicates the exact number of expansions to be done
+	int			expand;
 	t_cmd		*prev;
 	t_cmd		*next;
 }	t_cmd;
@@ -105,7 +103,6 @@ typedef struct s_tok
 typedef struct s_data
 {
 	char		**envp_cp;
-	// char		**path; not used anymore =, i have my proper get path from env cpy
 	char		*pwd;
 	char		*input;
 	t_tok		*token;
@@ -117,7 +114,7 @@ typedef struct s_data
 	int			stdio[3];
 	bool		heredoc;
 	int			fork_pid;
-    bool        tester;
+	bool		tester;
 }	t_data;
 
 typedef struct s_hdoc
@@ -145,9 +142,8 @@ void	print_env_var(char **env, char *var);
 void	print_env(char **env);
 int		check_env_var(char **env, char *var);
 char	**add_var(char **env, char *n_var);
-void    help_handler(char **instruct, t_data *data);
-void    man_yoyo_ma(char **instruct, t_data *data);
-
+void	help_handler(char **instruct, t_data *data);
+void	man_yoyo_ma(char **instruct, t_data *data);
 
 //redirection.c
 void	redirect_parsing(char *line, int *file_fd);
@@ -162,7 +158,7 @@ int		*init_itab(int init_value, int init_size);
 //heredoc.c
 void	heredoc_subparsing(t_data *data);
 t_hdoc	*write_heredoc(char *delimiter, t_data *data);
-char	*heredoc_dollar(char **env , char *line);
+char	*heredoc_dollar(char **env, char *line);
 int		heredoc_to_pipe(t_hdoc *hd_struct);
 t_hdoc	*ft_dllst_new(char *str);
 t_hdoc	*ft_dllst_add_back(t_hdoc *p_lst, char *str);
@@ -188,7 +184,6 @@ t_cmd	*jobs_loop(t_data *data);
 
 // exec_utils.c
 void	exec_set(t_data *data);
-
 
 // MAIN
 // exit.c
@@ -260,25 +255,20 @@ int		is_valid(char *tok);
 void	verify_dollartype(t_tok **list);
 
 //extra
-char	**safesplit(char const *s, char c); // split that conserves all characters
 char	*ft_strjoin_free2(char const *s1, char const *s2);
 char	*charjoinfree(const char *s1, const char c);
 
 //line handler
-int	        space_handler(char *str, int i);
-char        *double_quote_handler(char *cmd, char **env, int* j);
-char        *dollar_handler(char *cmd, char **env, int* j);
-char		*cpy_env_var(char **env, char *var);
-char        *single_quotes_handler(char *line, int *j);
-void        treat_line(t_tok **tok, char **env_cp);
-int         quotes_len(char *line, int *j, char q);
+int		space_handler(char *str, int i);
+char	*double_quote_handler(char *cmd, char **env, int *j);
+char	*dollar_handler(char *cmd, char **env, int *j);
+char	*cpy_env_var(char **env, char *var);
+char	*single_quotes_handler(char *line, int *j);
+void	treat_line(t_tok **tok, char **env_cp);
+int		quotes_len(char *line, int *j, char q);
 
 //bonus tester
-char	*tester();
+char	*tester(void);
 void	man_yoyo_ma(char **instruct, t_data *data);
 
 #endif
-
-//blbl"$USER"dksj: cmdline = blbl"$USER"dksj
-//					expands the user (after heredoc check)
-//					blblusernamedksj is not a valid command (error 127: command not found)
