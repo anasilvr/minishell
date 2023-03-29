@@ -166,11 +166,11 @@ void    lexer(t_data *data, char *input)
     if (g_status)
         return ;
     verify_dollartype(&data->token);
-	printf("\033[1m\033[31m[At lexer.c]\nBEFORE TREAT LINE:\033[0m\n");
-	print_toklist(data->token);
+	// printf("\033[1m\033[31m[At lexer.c]\nBEFORE TREAT LINE:\033[0m\n");
+	// print_toklist(data->token);
 	treat_line(&data->token, data->envp_cp);
-	printf("\033[1m\033[31mAFTER TREAT LINE:\033[0m\n");
-	print_toklist(data->token);
+	// printf("\033[1m\033[31mAFTER TREAT LINE:\033[0m\n");
+	// print_toklist(data->token);
     return ;
 }
 
@@ -194,7 +194,7 @@ t_tok   *tokenize(t_data *data, char *str)
 			str += ft_strlen(str);
 		else
         	str += data->token->toksize;
-		printf("max: %zu / len = %zu / str = %s\n", max, len, str);
+		// printf("max: %zu / len = %zu / str = %s\n", max, len, str);
        	skip_whitespaces(&str);
     }
     free_toklist(data->token);

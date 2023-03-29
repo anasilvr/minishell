@@ -1,4 +1,7 @@
 echo -nnn patate
+bash <("Execution du echo -nnn patate")
+
+echo -nnn patate
 ls > out
 echo "Les prochains tests seront pour les redirections"
 echo "Commencons par un fichier sans droit"
@@ -8,6 +11,6 @@ cat < bob
 echo BobIntoTheBob > bob
 echo "Ensuite, avec des quotes et des expands"
 echo $USER  $USER91"text"$USER abab$USERabc > outfile.txt
-
 rm -f outfile.txt
 diff outfile.txt <("$USER text$USER abab")
+env | grep "_="

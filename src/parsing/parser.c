@@ -92,8 +92,8 @@ int	parser(t_data *data)
 	if (redirect_subparsing(data) == -1)
 		return (-1);
 	heredoc_subparsing(data);
-	printf("\033[1m\033[31m[At parser.c]\nAFTER REDIRECTION:\033[0m\n");
-	print_toklist(data->token);
+	// printf("\033[1m\033[31m[At parser.c]\nAFTER REDIRECTION:\033[0m\n");
+	// print_toklist(data->token);
 	split_args(data->cmd_lst, data->token);
 	if (data->cmd_lst->filefd[0] == -1 || \
 	(data->cmd_lst->filefd[1] == -1 && errno == EACCES))

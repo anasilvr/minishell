@@ -72,7 +72,7 @@ void	wtshell(t_data *data)
             data->input = tester();
         if (!data->input)
             readline_exit(data);
-		while (!data->syntax_err && !is_empty(data->input))
+		if (!data->syntax_err && !is_empty(data->input))
 		{
 			lexer(data, data->input);
 			if (data->syntax_err || !data->token)
@@ -81,13 +81,13 @@ void	wtshell(t_data *data)
 				break;
 			if (data->syntax_err || !data->cmd_lst)
 				break ;
-			printf("\033[1m\033[31m----------START OF CMDLIST_DETAILS----------\033[0m\n");
-			cmdlist_details(data->cmd_lst);
-			printf("\033[1m\033[31m----------END OF CMDLIST_DETAILS----------\033[0m\n");
-			printf("\t\033[1m\033[32m[Starting execution...]\033[0m\n");
+			// printf("\033[1m\033[31m----------START OF CMDLIST_DETAILS----------\033[0m\n");
+			// cmdlist_details(data->cmd_lst);
+			// printf("\033[1m\033[31m----------END OF CMDLIST_DETAILS----------\033[0m\n");
+			// printf("\t\033[1m\033[32m[Starting execution...]\033[0m\n");
 			if (data->cmd_lst->err != -1)
 				execution_manager(data);
-			printf("\t\033[1m\033[32m[DONE! Starting reset...]\033[0m\n\n");
+			// printf("\t\033[1m\033[32m[DONE! Starting reset...]\033[0m\n\n");
 			reset(data);
 		}
 		if (data->syntax_err)
