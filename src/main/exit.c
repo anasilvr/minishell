@@ -121,10 +121,8 @@ void	reset(t_data *data)
 	if (data->cmd_lst->path)
 		free (data->cmd_lst->path);
 	if (data->token)
-	{
 		free_toklist(data->token);
-		data->token = ft_xcalloc(1, sizeof(t_tok));
-	}
+	data->token = ft_xcalloc(1, sizeof(t_tok));
 	if (data->cmd_lst)
 	{
 		free_cmdlist(data->cmd_lst);
