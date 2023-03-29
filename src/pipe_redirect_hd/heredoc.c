@@ -105,7 +105,7 @@ t_hdoc	*write_heredoc(char *delimiter, t_data *data)
 
 	signal(SIGINT, hd_signal_handler);
 	hd_struct = NULL;
-	while (g_status != 4 && (line = readline("> ")) != NULL && ft_strcmp(delimiter, line) != 0)
+	while (g_status != 4 && (line = readline("> ")) != NULL && (ft_strcmp(ft_strtrim(delimiter, "'"), line) != 0 || ft_strcmp(ft_strtrim(delimiter, "\""), line) != 0))
 	{
 		if (delimiter[0] != '\'' && delimiter[0] != '"')
 			line = heredoc_dollar(data->envp_cp, line);
