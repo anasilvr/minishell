@@ -54,11 +54,11 @@ void treat_line(t_tok **tok, char **env_cp)
         {
             if (node->type != WORD && node->type != D_EXPAND)
                 break ;
-            if (node->token[i] == '$')
+            if (node->token[i] == '$' && node->prev && node->prev->type != 3)
                 r_var = dollar_handler(node->token, env_cp, &i);
-            if (node->token[i] == '\'' && r_var == NULL)
+            if (node->token[i] == '\'' && r_var == NULL && node->prev && node->prev->type != 3)
                 r_var = single_quotes_handler(node->token, &i);
-            else if (node->token[i] == '"' && r_var == NULL)
+            else if (node->token[i] == '"' && r_var == NULL && node->prev && node->prev->type != 3)
                 r_var = double_quote_handler(node->token, env_cp, &i);
             if (r_var != NULL && r_line == NULL)
                 r_line = ft_strdup(r_var);
