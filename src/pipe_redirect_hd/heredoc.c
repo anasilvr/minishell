@@ -98,14 +98,42 @@ static void	hd_signal_handler(int sig)
  * 
  * DETAILS	: Le delimiter, ne sera pas copié dans un node. 
  */
+static char *trim_delim(const char *delim)
+{
+	int 	i;
+	int		j;
+	char	*r_delim;
+	char	quote;
+
+	i = 0;
+	j = -1;
+	r_delim = NULL;
+	if (delim[i] == '"' || delim[i] == '\'')
+	{
+		quote = delim[i];
+		while (delim[++i] != quote)
+			;
+		r_delim = malloc(sizeof(char) * i);
+		i = 0;
+		while (delim[++i] != quote)
+			r_delim[++j] = delim[i];
+		r_delim[j] = '\0';
+		return (r_delim);
+	}
+	return ((char*)delim);
+}
+
 t_hdoc	*write_heredoc(char *delimiter, t_data *data)
 {
 	char	*line;
 	t_hdoc	*hd_struct;
+	char	*r_trim;
 
+	r_trim = trim_delim(delimiter);
 	signal(SIGINT, hd_signal_handler);
 	hd_struct = NULL;
-	while (g_status != 4 && (line = readline("> ")) != NULL && ft_strcmp(delimiter, line) != 0)
+	while (g_status != 4 && (line = readline("> ")) != NULL
+		&& ft_strncmp(r_trim, line, ft_strlen(r_trim)) != 0)
 	{
 		if (delimiter[0] != '\'' && delimiter[0] != '"')
 			line = heredoc_dollar(data->envp_cp, line);
@@ -118,6 +146,7 @@ t_hdoc	*write_heredoc(char *delimiter, t_data *data)
 		}
 		// line = easy_readline(100000);
 	}
+	free(r_trim);
 	// print_hd(hd_struct);
 	return (hd_struct);
 }
