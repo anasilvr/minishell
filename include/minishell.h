@@ -190,7 +190,7 @@ void	exec_set(t_data *data);
 void	clean_exit(t_data *data);
 void	free_cmdlist(t_cmd *lst);
 void	reset(t_data *data);
-void	delnode_toklist(t_tok *token_lst);
+t_tok	*delnode_toklist(t_tok *token_lst);
 t_tok	*delmidnode_toklist(t_tok *node_to_remove);
 
 // init.c
@@ -264,7 +264,7 @@ char	*double_quote_handler(char *line, char **env, int* j);
 char	*dollar_handler(char *cmd, char **env, int *j);
 char	*cpy_env_var(char **env, char *var);
 char	*single_quotes_handler(char *line, int *j);
-void	treat_line(t_tok **tok, char **env_cp);
+void	treat_line(t_tok *tok, char **env_cp);
 int		quotes_len(char *line, int *j, char q);
 
 //bonus tester

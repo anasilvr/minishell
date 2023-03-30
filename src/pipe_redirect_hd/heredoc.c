@@ -24,6 +24,20 @@ static void	print_hd(t_hdoc *hd)
  * DETAILS	: La focntion pasera toutes les token pour s'assurer de traiter 
  * toutes les heredocs advenant la présence de plusieurs heredocs dans la job.
  */
+
+char *ft_strdup2(char *str)
+{
+	char	*r_str;
+	int		i;
+
+	i = -1;
+	r_str = malloc(sizeof(char) * (ft_strlen(str) + 1));
+	while (str[++i] != '\0')
+		r_str[i] = str[i];
+	r_str[i] = '\0';
+	return (r_str);
+}
+
 void	heredoc_subparsing(t_data *data)
 {
 	char	*delimiter;
@@ -42,7 +56,7 @@ void	heredoc_subparsing(t_data *data)
 		}
 		if (data->token->type == HEREDOC)
 		{
-			delimiter = data->token->next->token;
+			delimiter = ft_strdup2(data->token->next->token);
 			data->hd_struct = write_heredoc(delimiter, data);
 			data->token = delmidnode_toklist(data->token);
 			data->token = delmidnode_toklist(data->token);
@@ -53,6 +67,9 @@ void	heredoc_subparsing(t_data *data)
 	}
 	data->token = token_ptrcpy;
 	data->cmd_lst = cmd_pointer_keeper;
+	//xfree(delimiter);
+	printf("%s\n", delimiter);
+//	free(delimiter);
 }
 
 static void	hd_signal_handler(int sig)

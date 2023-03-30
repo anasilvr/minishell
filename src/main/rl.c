@@ -37,7 +37,7 @@ char	*charjoinfree(const char *s1, const char c)
 	return (r_str);
 }
 
-void treat_line(t_tok **tok, char **env_cp)
+void treat_line(t_tok *tok, char **env_cp)
 {
     int i;
     char *r_line;
@@ -46,7 +46,7 @@ void treat_line(t_tok **tok, char **env_cp)
 
     r_line = NULL;
     r_var = NULL;
-    node = *tok;
+    node = tok;
     while (node != NULL)
     {
         i = 0;
@@ -75,7 +75,7 @@ void treat_line(t_tok **tok, char **env_cp)
         }
 		if (node->type == WORD || node->type == D_EXPAND || node->type == D_LITERAL)
 		{
-			xfree(node->token);
+			node->token = xfree(node->token);
         	node->token = ft_strdup(r_line);
             if (node->token == NULL)
                 node = delmidnode_toklist(node);
