@@ -84,7 +84,7 @@ void	wtshell(t_data *data)
 			cmdlist_details(data->cmd_lst);
 			if (data->cmd_lst->err != -1)
 				execution_manager(data);
-			reset(data);
+			// reset(data);
 		}
 		if (data->syntax_err)
 			err_msg(data);

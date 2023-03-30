@@ -68,8 +68,9 @@ void	heredoc_subparsing(t_data *data)
 	data->token = token_ptrcpy;
 	data->cmd_lst = cmd_pointer_keeper;
 	//xfree(delimiter);
-	printf("%s\n", delimiter);
-//	free(delimiter);
+	// printf("%s\n", delimiter);
+	if (delimiter)
+		free(delimiter);
 }
 
 static void	hd_signal_handler(int sig)

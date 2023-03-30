@@ -94,6 +94,10 @@ void	reset(t_data *data)
 		free_cmdlist(data->cmd_lst);
 		data->cmd_lst = ft_xcalloc(1, sizeof(t_cmd));
 	}
+	if (data->hd_struct)
+	{
+		ft_dllst_clear(data->hd_struct);
+	}
 	reset_io(data);
 	reset_stdio(data);
 }
