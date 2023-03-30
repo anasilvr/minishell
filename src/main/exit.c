@@ -28,6 +28,7 @@ void	clean_exit(t_data *data)
 	free_toklist(data->token);
 	free_cmdlist(data->cmd_lst);
 	xfree(data);
+	close_fdcpy(data);
 }
 
 void	free_cmdlist(t_cmd *lst)
@@ -47,6 +48,37 @@ void	free_cmdlist(t_cmd *lst)
 	}
 }
 
+void	close_fdcpy(t_data *data)
+{
+	close (data->stdio[0]);
+	close (data->stdio[1]);
+	close (data->stdio[2]);
+}
+
+void	reset_io(t_data *data)
+{
+	if (data->cmd_lst->filefd[0] != -2)
+	{
+		close (data->cmd_lst->filefd[0]);
+		data->cmd_lst->filefd[0] = -2;
+	}
+	if (data->cmd_lst->filefd[1] != -2)
+	{
+		close (data->cmd_lst->filefd[1]);
+		data->cmd_lst->filefd[1] = -2;
+	}
+	if (data->cmd_lst->pipefd[0] != -2)
+	{
+		close (data->cmd_lst->pipefd[0]);
+		data->cmd_lst->pipefd[0] = -2;
+	}
+	if (data->cmd_lst->pipefd[1] != -2)
+	{
+		close (data->cmd_lst->pipefd[1]);
+		data->cmd_lst->pipefd[1] = -2;
+	}
+}
+
 void	reset(t_data *data)
 {
 	data->input = xfree(data->input);
@@ -62,5 +94,6 @@ void	reset(t_data *data)
 		free_cmdlist(data->cmd_lst);
 		data->cmd_lst = ft_xcalloc(1, sizeof(t_cmd));
 	}
+	reset_io(data);
 	reset_stdio(data);
 }

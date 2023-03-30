@@ -79,7 +79,7 @@ typedef struct s_cmd
 	char		*cmdline;
 	char		**args;
 	char		*path;
-	int			cmdiofd[2];
+	//int			cmdiofd[2];
 	int			filefd[2];
 	int			pipefd[2];
 	int			err;
@@ -189,6 +189,8 @@ void	exec_set(t_data *data);
 // exit.c
 void	clean_exit(t_data *data);
 void	free_cmdlist(t_cmd *lst);
+void	close_fdcpy(t_data *data);
+void	reset_io(t_data *data);
 void	reset(t_data *data);
 t_tok	*delnode_toklist(t_tok *token_lst);
 t_tok	*delmidnode_toklist(t_tok *node_to_remove);

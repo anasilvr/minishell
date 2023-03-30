@@ -67,8 +67,6 @@ void	cmdlist_details(t_cmd *cmdlst)
 			j++;
 		}
 		printf("\t[path] %s\n", cmdlst->path);
-		printf("\t#cmdiofd[0] %d\n", cmdlst->cmdiofd[0]);
-		printf("\t#cmdiofd[1] %d\n", cmdlst->cmdiofd[1]);
 		printf("\t#filefd[0] %d\n", cmdlst->filefd[0]);
 		printf("\t#filefd[1] %d\n", cmdlst->filefd[1]);
 		printf("\t#pipefd[0] %d\n", cmdlst->pipefd[0]);
