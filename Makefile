@@ -61,6 +61,7 @@ MAIN_F =			\
 	print_utils.c	\
 	rl.c			\
 	global_vars.c \
+	reset.c \
 
 PARSE_F	=			\
 	lexer_utils.c	\

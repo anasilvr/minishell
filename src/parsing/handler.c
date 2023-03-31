@@ -94,7 +94,6 @@ char    *dollar_handler(char *line, char **env, int* j)
         *j += 1;
         r_var = double_quote_handler(line, env, j);
 		*j += 1;
-		r_var = charjoinfree(r_var, 0x20);
     }
     else if (line[*j] == '$' && (ft_isspace(line[*j + 1]) == 0 || line[*j + 1] == '\0'))
     {

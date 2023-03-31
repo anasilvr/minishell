@@ -51,7 +51,7 @@ t_tok	*get_lasttok(t_tok *node)
 
 t_tok	*get_first_tok(t_tok *node)
 {
-	t_tok *node_ptr;
+	t_tok	*node_ptr;
 
 	node_ptr = node;
 	if (!node_ptr)

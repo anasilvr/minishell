@@ -77,15 +77,12 @@ void	wtshell(t_data *data)
 		if (!data->syntax_err && !is_empty(data->input))
 		{
 			lexer(data, data->input);
-			// if (data->syntax_err || !data->token)
-			// 	break ;
-			if (parser(data) != -1 && data->cmd_lst && g_status == 0) // || data->syntax_err))
+			if (parser(data) != -1 && data->cmd_lst && g_status == 0)
 			{
 				cmdlist_details(data->cmd_lst);
 				if (data->cmd_lst->err != -1)
 					execution_manager(data);
 			}
-			// reset(data);
 		}
 		if (data->syntax_err)
 			err_msg(data);

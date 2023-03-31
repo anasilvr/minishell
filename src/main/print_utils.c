@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   print_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jgagnon <marvin@42quebec.com>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/31 16:54:20 by jgagnon           #+#    #+#             */
+/*   Updated: 2023/03/31 16:54:22 by jgagnon          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 void	print_intro(void)
@@ -27,7 +39,8 @@ void	print_toklist(t_tok *list)
 	i = 0;
 	while (list)
 	{
-		printf("token[%d] [type = %u / len = %zu] [ %s ]\n", i, list->type, ft_strlen(list->token), list->token);
+		printf("token[%d] [type = %u / len = %zu]\
+		 [ %s ]\n", i, list->type, ft_strlen(list->token), list->token);
 		list = list->next;
 		i++;
 	}
@@ -66,17 +79,13 @@ void	cmdlist_details(t_cmd *cmdlst)
 			printf("\t[arg %d] %s \n", j, cmdlst->args[j]);
 			j++;
 		}
-		printf("\t[path] %s\n", cmdlst->path);
-		printf("\t#filefd[0] %d\n", cmdlst->filefd[0]);
+		printf("\t[path] %s\n\t#filefd[0] %d\n", cmdlst->path, cmdlst->filefd[0]);
 		printf("\t#filefd[1] %d\n", cmdlst->filefd[1]);
 		printf("\t#pipefd[0] %d\n", cmdlst->pipefd[0]);
-		printf("\t#pipefd[1] %d\n", cmdlst->pipefd[1]);
-		printf("\t[err] %d\n", cmdlst->err);
-		printf("\t[expand] %d\n", cmdlst->expand);
-		printf("\t[io_flag] %d\n", cmdlst->io_flag);
+		printf("\t#pipefd[1] %d\n\t[err] %d\n", cmdlst->pipefd[1], cmdlst->err);
+		printf("\t[expand] %d\n\t[io_flag] %d\n", cmdlst->expand, cmdlst->io_flag);
 		printf("\t[hd_delimiter] %s\n", cmdlst->hd_delimiter);
-		printf("\t[prev] %p\n", cmdlst->prev);
-		printf("\t[next]  %p\n\n", cmdlst->next);
+		printf("\t[prev] %p\n\t[next]  %p\n\n", cmdlst->prev, cmdlst->next);
 		i++;
 		cmdlst = cmdlst->next;
 	}
