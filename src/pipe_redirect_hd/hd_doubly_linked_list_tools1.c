@@ -25,25 +25,6 @@ int	ft_dllst_size(t_hdoc *p_lst)
 	return (count);
 }
 
-void	ft_dllst_print_single_node(t_hdoc *p_lst)
-{
-	(void) p_lst;
-	if (p_lst != NULL)
-	{
-		// ft_putstr(new_node->the_line);
-		// ft_putstr("\n");
-	}
-}
-
-void	ft_dllst_print_lst(t_hdoc *p_lst)
-{
-	while (p_lst != NULL)
-	{
-		ft_dllst_print_single_node(p_lst);
-		p_lst = p_lst->next;
-	}
-}
-
 t_hdoc	*ft_dllist_go_to_left(t_hdoc *p_lst)
 {
 	while (p_lst->previous != NULL)

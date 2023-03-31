@@ -17,7 +17,7 @@ void	ft_dllst_delone(t_hdoc *p_lst)
 	if (p_lst)
 	{
 		ft_dllst_secure_del(p_lst);
-		if (p_lst->previous)
+		if (p_lst && p_lst->previous)
 			p_lst->previous->next = NULL;
 		free(p_lst);
 	}
@@ -36,6 +36,7 @@ void	ft_dllst_clear(t_hdoc *p_lst)
 		ft_dllst_delone(p_lst);
 		p_lst = tmp;
 	}
+
 }
 
 void	ft_dllst_secure_del(t_hdoc *p_lst)

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/31 13:41:47 by tchalifo          #+#    #+#             */
+/*   Updated: 2023/03/31 15:04:06 by tchalifo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 static void	print_hd(t_hdoc *hd)
@@ -25,7 +37,7 @@ static void	print_hd(t_hdoc *hd)
  * toutes les heredocs advenant la présence de plusieurs heredocs dans la job.
  */
 
-static char *ft_strdup2(char *str)
+static char	*ft_strdup2(char *str)
 {
 	char	*r_str;
 	int		i;
@@ -40,8 +52,6 @@ static char *ft_strdup2(char *str)
 
 void	heredoc_subparsing(t_data *data)
 {
-	char	*delimiter;
-	// t_hdoc	*hd_data;
 	t_tok	*token_ptrcpy;
 	t_cmd	*cmd_pointer_keeper;
 
@@ -56,10 +66,7 @@ void	heredoc_subparsing(t_data *data)
 		}
 		if (data->token->type == HEREDOC)
 		{
-			printf("TEST\n");
-			delimiter = ft_strdup2(data->token->next->token);
-			data->hd_struct = write_heredoc(delimiter, data);
-			free(delimiter);
+			data->hd_struct = write_heredoc(data);
 			data->token = delmidnode_toklist(data->token);
 			data->token = delmidnode_toklist(data->token);
 			token_ptrcpy = get_first_tok(data->token);
@@ -78,28 +85,6 @@ static void	hd_signal_handler(int sig)
 		g_status = 4;
 	}	
 }
-
-// char	*easy_readline(int buf_size)
-// {
-// 	char    *line;
-//     char    buf[buf_size];
-//     int     read_ret;
-
-// 	write(1, ">", 1);
-// 	if (g_status == 4)
-// 	{
-// 		xfree(line);
-// 		line = NULL;
-// 		g_status = 0;
-// 	}
-// 	else
-// 	{
-//     	read_ret = read(0, &buf, buf_size);
-// 		printf("%d\n", read_ret);
-//  		line = ft_strdup(buf);
-// 	}
-// 	return (line);
-// }
 
 /* La fonction permet simplement de créer la liste chainée pour stocker chaque 
  * entrée de l'utilisateur dans un nouveau node jusqu'a ce que le delimiter 
@@ -139,12 +124,14 @@ static char *trim_delim(const char *delim)
 	return (ft_strdup(delim));
 }
 
-t_hdoc	*write_heredoc(char *delimiter, t_data *data)
+t_hdoc	*write_heredoc(t_data *data)
 {
 	char	*line;
 	t_hdoc	*hd_struct;
 	char	*r_trim;
+	char	*delimiter;
 
+	delimiter = ft_strdup2(data->token->next->token);
 	r_trim = trim_delim(delimiter);
 	signal(SIGINT, hd_signal_handler);
 	hd_struct = NULL;
@@ -160,10 +147,9 @@ t_hdoc	*write_heredoc(char *delimiter, t_data *data)
 			xfree(line);
 			line = NULL;
 		}
-		// line = easy_readline(100000);
 	}
 	free(r_trim);
-	// print_hd(hd_struct);
+	free(delimiter);
 	return (hd_struct);
 }
 
