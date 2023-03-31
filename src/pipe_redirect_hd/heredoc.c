@@ -6,20 +6,11 @@
 /*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 13:41:47 by tchalifo          #+#    #+#             */
-/*   Updated: 2023/03/31 15:04:06 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/03/31 15:53:02 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-static void	print_hd(t_hdoc *hd)
-{
-	while (hd != NULL)
-	{
-		printf("%s\n", hd->the_line);
-		hd = hd->next;
-	}
-}
 
 /* La fonction permet de trouver un heredoc (<<EOF) et de le traiter depuis la 
  * liste des tokens. Lorsqu'un heredoc est trouvé, la focntion write_heredoc() 
@@ -36,20 +27,6 @@ static void	print_hd(t_hdoc *hd)
  * DETAILS	: La focntion pasera toutes les token pour s'assurer de traiter 
  * toutes les heredocs advenant la présence de plusieurs heredocs dans la job.
  */
-
-static char	*ft_strdup2(char *str)
-{
-	char	*r_str;
-	int		i;
-
-	i = -1;
-	r_str = malloc(sizeof(char) * (ft_strlen(str) + 1));
-	while (str[++i] != '\0')
-		r_str[i] = str[i];
-	r_str[i] = '\0';
-	return (r_str);
-}
-
 void	heredoc_subparsing(t_data *data)
 {
 	t_tok	*token_ptrcpy;
@@ -78,19 +55,24 @@ void	heredoc_subparsing(t_data *data)
 	data->cmd_lst = cmd_pointer_keeper;
 }
 
-static void	hd_signal_handler(int sig)
+static char	*ft_strdup2(char *str)
 {
-	if (sig == SIGINT)
-	{
-		g_status = 4;
-	}	
+	char	*r_str;
+	int		i;
+
+	i = -1;
+	r_str = malloc(sizeof(char) * (ft_strlen(str) + 1));
+	while (str[++i] != '\0')
+		r_str[i] = str[i];
+	r_str[i] = '\0';
+	return (r_str);
 }
 
 /* La fonction permet simplement de créer la liste chainée pour stocker chaque 
  * entrée de l'utilisateur dans un nouveau node jusqu'a ce que le delimiter 
  * soit rencontré.
  * 
- * PROTOTYPE	: int	heredoc_to_pipe(t_hdoc *hd_struct);
+ * PROTOTYPE	: t_hdoc	*write_heredoc(t_data *data)
  * 
  * PARAMÈTRES	: La fonction prend en paramètre la structure principal de 
  * notre programme ainsi que le delimiter souhaité par l'utilisateur.
@@ -99,31 +81,6 @@ static void	hd_signal_handler(int sig)
  * 
  * DETAILS	: Le delimiter, ne sera pas copié dans un node. 
  */
-static char *trim_delim(const char *delim)
-{
-	int 	i;
-	int		j;
-	char	*r_delim;
-	char	quote;
-
-	i = 0;
-	j = -1;
-	r_delim = NULL;
-	if (delim[i] == '"' || delim[i] == '\'')
-	{
-		quote = delim[i];
-		while (delim[++i] != quote)
-			;
-		r_delim = malloc(sizeof(char) * i);
-		i = 0;
-		while (delim[++i] != quote)
-			r_delim[++j] = delim[i];
-		r_delim[j] = '\0';
-		return (r_delim);
-	}
-	return (ft_strdup(delim));
-}
-
 t_hdoc	*write_heredoc(t_data *data)
 {
 	char	*line;
@@ -152,47 +109,6 @@ t_hdoc	*write_heredoc(t_data *data)
 	free(delimiter);
 	return (hd_struct);
 }
-
-
-
-// t_hdoc	*write_heredoc(char *delimiter, t_data *data)
-// {
-// 	char	*line;
-// 	t_hdoc	*hd_struct;
-
-// 	signal(SIGINT, hd_signal_handler);
-// 	printf("g_status = %d\n", g_status);
-// 	if (errno != 4)
-// 		line = readline("> ");
-// 	printf("Hello\n");
-// 	hd_struct = NULL;
-// 	if (errno == 4)
-// 	{
-// 		xfree(line);
-// 		line = NULL;
-// 	}
-// 	while (line != NULL && ft_strcmp(delimiter, line) != 0)
-// 	{
-// 		printf("%d\n", errno);
-// 		if (errno == 4 || !line)
-// 		{
-// 			xfree(line);
-// 			line = NULL;
-// 			break;
-// 		}
-// 		line = heredoc_dollar(data->envp_cp, line);
-// 		hd_struct = ft_dllst_add_back(hd_struct, line);
-// 		hd_struct = ft_dllst_add_back(hd_struct, "\n");
-// 		if (line)
-// 		{
-// 			xfree(line);
-// 			line = NULL;
-// 		}
-// 		line = readline("> ");
-// 	}
-// 	// print_hd(hd_struct);
-// 	return (hd_struct);
-// }
 
 /* La fonction permet, dans l'éventualité qu'un heredoc est été présent dans 
  * la série de commande, de pousser les différents ligne du heredoc dans le 
@@ -233,39 +149,4 @@ int	heredoc_to_pipe(t_hdoc *hd_struct)
 	close(hd_pipe_fd[1]);
 	waitpid(hd_fork_pid, NULL, 0);
 	return (hd_pipe_fd[0]);
-}
-
-char *heredoc_dollar(char **env , char *line)
-{
-    int i;
-    char *r_line;
-    char *r_var;
-
-    i = 0;
-    r_line = NULL;
-    r_var = NULL;
-    while (line [i] != '\0')
-    {
-        if (line[i] == '$')
-        {
-            if (line[++i] == '$')
-                ;
-            else if (line[i] == '?')
-                r_line = ft_strjoin(r_line, ft_itoa(g_status));
-            else if (line[--i] == '$')
-            {
-                while (ft_isalnum(line[++i]) == 1)
-                    r_var = charjoinfree(r_var, line[i]);
-                r_var = cpy_env_var(env, r_var);
-                if (r_line == NULL)
-                    r_line = ft_strdup(r_var);
-                else
-                    r_line = ft_strjoin_free(r_line, r_var);
-                r_var = xfree(r_var);
-            }
-        }
-        else
-            r_line = charjoinfree(r_line, line[i++]);
-    }
-    return (r_line);
 }

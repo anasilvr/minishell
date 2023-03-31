@@ -157,9 +157,14 @@ int		*init_itab(int init_value, int init_size);
 
 //heredoc.c
 void	heredoc_subparsing(t_data *data);
-t_hdoc	*write_heredoc(char *delimiter, t_data *data);
-char	*heredoc_dollar(char **env, char *line);
+t_hdoc	*write_heredoc(t_data *data);
 int		heredoc_to_pipe(t_hdoc *hd_struct);
+
+//heredoc_utils.c
+void	hd_signal_handler(int sig);
+char	*trim_delim(const char *delim);
+char	*heredoc_dollar(char **env, char *line);
+
 t_hdoc	*ft_dllst_new(char *str);
 t_hdoc	*ft_dllst_add_back(t_hdoc *p_lst, char *str);
 void	ft_dllst_delone(t_hdoc *p_lst);
@@ -167,8 +172,6 @@ void	ft_dllst_clear(t_hdoc *p_lst);
 void	ft_dllst_secure_del(t_hdoc *p_lst);
 bool	ft_dllst_isempty(t_hdoc *p_lst);
 int		ft_dllst_size(t_hdoc *p_lst);
-void	ft_dllst_print_single_node(t_hdoc *p_lst);
-void	ft_dllst_print_lst(t_hdoc *p_lst);
 t_hdoc	*ft_dllist_go_to_left(t_hdoc *p_lst);
 t_hdoc	*ft_dllist_go_to_right(t_hdoc *p_lst);
 

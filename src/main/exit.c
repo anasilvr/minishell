@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgagnon <marvin@42quebec.com>              +#+  +:+       +#+        */
+/*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 10:38:11 by jgagnon           #+#    #+#             */
-/*   Updated: 2023/03/29 10:38:12 by jgagnon          ###   ########.fr       */
+/*   Updated: 2023/03/31 15:24:49 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void	reset(t_data *data)
 	if (data->hd_struct)
 	{
 		ft_dllst_clear(data->hd_struct);
+		data->hd_struct = NULL;
 	}
 	reset_io(data);
 	reset_stdio(data);

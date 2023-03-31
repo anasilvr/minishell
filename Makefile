@@ -45,6 +45,7 @@ PIPE_REDIRECT_F_HD	=	\
 	pipe.c			\
 	redirect.c		\
 	heredoc.c		\
+	heredoc_utils.c	\
 	hd_doubly_linked_list_addnodes.c \
 	hd_doubly_linked_list_del.c \
 	hd_doubly_linked_list_tools1.c \
@@ -107,7 +108,7 @@ obj:
 			@mkdir -p $(OBJ_DIR)
 
 leak:		obj $(NAME)
-			@valgrind --suppressions=ignore_rdl_leaks.txt --partial-loads-ok=yes --leak-check=full --show-leak-kinds=all --trace-children=yes --track-fds=yes ./minishell
+			@exec 3<>report.txt;valgrind --suppressions=ignore_rdl_leaks.txt --partial-loads-ok=yes --leak-check=full --show-leak-kinds=all --trace-children=yes --track-fds=yes --log-fd=3 ./minishell
 
 clean:
 			@$(RM) $(OBJ_DIR)
