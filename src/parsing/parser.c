@@ -87,18 +87,22 @@ static void	split_args(t_cmd *cmd_lst, t_tok *token)
 
 int	parser(t_data *data)
 {
-	data->cmd_lst = create_cmdlist(data);
-	count_expand(data->cmd_lst, data->token);
-	if (redirect_subparsing(data) == -1)
-		return (-1);
-	heredoc_subparsing(data);
-//	printf("\033[1m\033[31m[At parser.c]\nAFTER REDIRECTION:\033[0m\n");
-//	print_toklist(data->token);
-	split_args(data->cmd_lst, data->token);
-	if (data->cmd_lst->filefd[0] == -1 || \
-	(data->cmd_lst->filefd[1] == -1 && errno == EACCES))
+	if (data->token)
 	{
-		perror("Minishell :");
+		data->cmd_lst = create_cmdlist(data);
+		count_expand(data->cmd_lst, data->token);
+		if (redirect_subparsing(data) == -1)
+			return (-1);
+		heredoc_subparsing(data);
+	//	printf("\033[1m\033[31m[At parser.c]\nAFTER REDIRECTION:\033[0m\n");
+	//	print_toklist(data->token);
+		split_args(data->cmd_lst, data->token);
+		if (data->cmd_lst->filefd[0] == -1 || \
+		(data->cmd_lst->filefd[1] == -1 && errno == EACCES))
+		{
+			perror("Minishell :");
+		}
+		return (0);
 	}
-	return (0);
+	return (-1);
 }

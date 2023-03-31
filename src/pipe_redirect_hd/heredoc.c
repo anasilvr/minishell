@@ -25,7 +25,7 @@ static void	print_hd(t_hdoc *hd)
  * toutes les heredocs advenant la présence de plusieurs heredocs dans la job.
  */
 
-char *ft_strdup2(char *str)
+static char *ft_strdup2(char *str)
 {
 	char	*r_str;
 	int		i;
@@ -56,8 +56,10 @@ void	heredoc_subparsing(t_data *data)
 		}
 		if (data->token->type == HEREDOC)
 		{
+			printf("TEST\n");
 			delimiter = ft_strdup2(data->token->next->token);
 			data->hd_struct = write_heredoc(delimiter, data);
+			free(delimiter);
 			data->token = delmidnode_toklist(data->token);
 			data->token = delmidnode_toklist(data->token);
 			token_ptrcpy = get_first_tok(data->token);
@@ -67,10 +69,6 @@ void	heredoc_subparsing(t_data *data)
 	}
 	data->token = token_ptrcpy;
 	data->cmd_lst = cmd_pointer_keeper;
-	//xfree(delimiter);
-	// printf("%s\n", delimiter);
-	if (delimiter)
-		free(delimiter);
 }
 
 static void	hd_signal_handler(int sig)
@@ -138,7 +136,7 @@ static char *trim_delim(const char *delim)
 		r_delim[j] = '\0';
 		return (r_delim);
 	}
-	return ((char*)delim);
+	return (ft_strdup(delim));
 }
 
 t_hdoc	*write_heredoc(char *delimiter, t_data *data)
