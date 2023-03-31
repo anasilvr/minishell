@@ -79,7 +79,7 @@ void	wtshell(t_data *data)
 			lexer(data, data->input);
 			// if (data->syntax_err || !data->token)
 			// 	break ;
-			if (parser(data) != -1 && data->cmd_lst) // || data->syntax_err))
+			if (parser(data) != -1 && data->cmd_lst && g_status == 0) // || data->syntax_err))
 			{
 				cmdlist_details(data->cmd_lst);
 				if (data->cmd_lst->err != -1)

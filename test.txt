@@ -1,6 +1,5 @@
+bash -c echo "echo "Execution du echo -nnn patate"
 echo -nnn patate
-bash <("Execution du echo -nnn patate")
-
 echo -nnn patate
 ls > out
 echo "Les prochains tests seront pour les redirections"
@@ -14,3 +13,73 @@ echo $USER  $USER91"text"$USER abab$USERabc > outfile.txt
 rm -f outfile.txt
 diff outfile.txt <("$USER text$USER abab")
 env | grep "_="
+
+bash -c echo "Testing cd and pwd"
+cd ~
+pwd
+cd
+pwd
+cd ~
+cd ..
+cd .
+pwd
+cd /Users
+pwd
+cd ~
+cd //
+pwd
+cd ~
+cd '//'
+pwd
+cd ~
+cd //////
+pwd
+cd ~
+cd ./././
+pwd
+cd ~
+cd /
+pwd
+cd ~
+cd '/////' 2>/dev/null
+pwd
+cd ~
+cd '/etc'
+pwd
+cd ~
+cd '/var'
+pwd
+cd ~
+cd "$PWD/filetests"
+pwd
+cd ~
+cd "doesntexist"
+pwd
+cd ~
+cd "doesntexist" 2>/dev/null
+pwd
+cd ~
+cd ../../..
+pwd
+cd ~
+cd "wtf" 2>/dev/null
+pwd
+cd ~
+cd ..
+cd ..
+pwd
+cd ~
+cd ?
+cd +
+cd 
+cd woof
+cd bark bark
+cd '/'
+pwd
+cd ~
+cd $PWD/file_tests
+pwd
+cd ~
+cd $OLDPWD/something
+pwd
+cd ~

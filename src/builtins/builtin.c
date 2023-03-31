@@ -36,10 +36,13 @@ void	exit_handler(t_data *data, char **instruct)
 	}
 }
 
-static void	tester_check(char **cmd, t_data *data)
+static void	tester_check(char **instruct, t_data *data)
 {
-	if (ft_strncmp(cmd[0], "test", 4) == 0 && cmd[1] == NULL)
+	if (ft_strncmp(instruct[0], "test", 4) == 0 && instruct[1] == NULL)
+	{
 		data->tester = true;
+		data->cmd_lst->is_builtin = true;
+	}
 }
 
 void	builtins_checker(t_data *data, t_cmd *cmd)
