@@ -17,15 +17,18 @@ static void	update_pwd(char **env)
 	int		i;
 	int		j;
 	char	*n_path;
+	char	*r_cwd;
 
 	n_path = NULL;
+	if ((r_cwd = getcwd(NULL, 0)) == NULL)
+		return ;
 	i = check_env_var(env, "PWD");
 	if (i >= 0)
 	{
 		j = -1;
 		xfree(env[i]);
 		n_path = ft_strjoin_free2("PWD=", getcwd(n_path, \
-			ft_free_strlen(getcwd(NULL, 0)) + 1));
+			ft_free_strlen(r_cwd) + 1));
 		env[i] = malloc(sizeof(char) * (ft_strlen(n_path) + 1));
 		while (n_path[++j] != '\0')
 			env[i][j] = n_path[j];
@@ -37,17 +40,20 @@ static void	update_pwd(char **env)
 static	void	update_oldpwd(char **env)
 {
 	char	*n_path;
+	char	*r_cwd;
 	int		i;
 	int		j;
 
 	n_path = NULL;
+	if ((r_cwd = getcwd(NULL, 0)) == NULL)
+		return ;
 	i = check_env_var(env, "OLDPWD");
 	if (i >= 0)
 	{
 		j = -1;
 		xfree(env[i]);
 		n_path = ft_strjoin_free2("OLDPWD=", getcwd(n_path, \
-			ft_free_strlen(getcwd(NULL, 0)) + 1));
+			ft_free_strlen(r_cwd) + 1));
 		env[i] = malloc(sizeof(char) * (ft_strlen(n_path) + 1));
 		while (n_path[++j] != '\0')
 			env[i][j] = n_path[j];

@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-char *heredoc_dollar(char **env , char *line)
+char	*heredoc_dollar(char **env , char *line)
 {
     int i;
     char *r_line;
@@ -66,7 +66,7 @@ char	*trim_delim(const char *delim)
 		i = 0;
 		while (delim[++i] != quote)
 			r_delim[++j] = delim[i];
-		r_delim[j] = '\0';
+		r_delim[++j] = '\0';
 		return (r_delim);
 	}
 	return (ft_strdup(delim));

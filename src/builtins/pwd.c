@@ -17,14 +17,17 @@ void	pwd_handler(char **instruct, t_data *data)
 	int		i;
 	int		j;
 	char	*pwd;
+	char	*r_cwd;
 
 	i = 0;
 	pwd = NULL;
 	if (ft_cmp_builtin(instruct[i], "pwd", 3) == 0)
 	{
+		if ((r_cwd = getcwd(NULL, 0)) == NULL)
+			return ;
 		data->cmd_lst->is_builtin = true;
 		j = -1;
-		pwd = getcwd(pwd, ft_free_strlen(getcwd(NULL, 0)));
+		pwd = getcwd(pwd, ft_free_strlen(r_cwd));
 		while (pwd[++j] != '\0')
 			write(1, &pwd[j], 1);
 		write(1, "\n", 1);

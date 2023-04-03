@@ -61,10 +61,10 @@ static char	*token_handler(t_tok *node, char **envp_cp)
 	r_line = NULL;
 	while (node->token[i] != '\0')
 	{
-		if (node->token[i] == '$')
-			r_var = dollar_handler(node->token, envp_cp, &i);
-		if (node->prev && node->prev->type == 3)
+		if (node->prev && node->prev->type == 3) //Ajouter fonction gestion token HEREDOC
 			;
+		else if (node->token[i] == '$')
+			r_var = dollar_handler(node->token, envp_cp, &i);
 		else if (node->token[i] == '\'' && r_var == NULL)
 			r_var = single_quotes_handler(node->token, &i);
 		else if (node->token[i] == '"' && r_var == NULL)
