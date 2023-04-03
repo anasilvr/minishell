@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/03 14:45:43 by tchalifo          #+#    #+#             */
+/*   Updated: 2023/04/03 14:45:56 by tchalifo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 static	void	count_expand(t_cmd *cmd_lst, t_tok *token)
@@ -94,8 +106,6 @@ int	parser(t_data *data)
 		if (redirect_subparsing(data) == -1)
 			return (-1);
 		heredoc_subparsing(data);
-	//	printf("\033[1m\033[31m[At parser.c]\nAFTER REDIRECTION:\033[0m\n");
-	//	print_toklist(data->token);
 		split_args(data->cmd_lst, data->token);
 		if (data->cmd_lst->filefd[0] == -1 || \
 		(data->cmd_lst->filefd[1] == -1 && errno == EACCES))

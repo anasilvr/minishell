@@ -1,13 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/03 14:16:03 by tchalifo          #+#    #+#             */
+/*   Updated: 2023/04/03 14:23:07 by tchalifo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 int	tok_len(char *str, int len)
 {
 	int	i;
 
-	if (!str)
-		return (0);
 	i = -1;
-	while (++i < len && !is_set(str[i], WHITESPACE))
+	while (++i < len && str && !is_set(str[i], WHITESPACE))
 	{
 		if (is_set(str[i], METACHAR) || is_set(str[i], QUOTES)
 			|| is_set(str[i], "$"))

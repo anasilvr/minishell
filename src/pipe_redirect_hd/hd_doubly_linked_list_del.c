@@ -36,7 +36,6 @@ void	ft_dllst_clear(t_hdoc *p_lst)
 		ft_dllst_delone(p_lst);
 		p_lst = tmp;
 	}
-
 }
 
 void	ft_dllst_secure_del(t_hdoc *p_lst)

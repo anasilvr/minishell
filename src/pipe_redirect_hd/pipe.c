@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:01:02 by tchalifo          #+#    #+#             */
-/*   Updated: 2023/02/20 14:42:09 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/03 11:18:31 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,6 @@ static void	job_set(t_data *data, int pipe_fd[2])
 {
 	int	hd_pipe_out_fd;
 
-	/* Si il sagit d'un heredoc, Un nouveau pipe est créé. Il sera connecté
-	 * du bord écriture à la fonction ft_putstr_fd qui, depuis un processus
-	 * enfant au préalablement créé, lira la string de chaque nodes que
-	 * comprend le heredoc et l'enverra dans le pipe. Ensuite, le processus
-	 * parent, qui n'attendra pas le fin de son processus enfant, connectera
-	 * le bord lecture du pipe à l'entrée standard (stdin) du système.
-	 */
 	if (data->heredoc == true)
 	{
 		hd_pipe_out_fd = heredoc_to_pipe(data->hd_struct);
@@ -73,9 +66,9 @@ static void	job_set(t_data *data, int pipe_fd[2])
  * 
  * DETAILS	: N/A
  */
-t_cmd *jobs_loop(t_data *data)
+t_cmd	*jobs_loop(t_data *data)
 {
-	int		pipe_fd[2] = {-2, -2};
+	int		pipe_fd[2];
 	int		exit_status;
 	int		i;
 
@@ -96,13 +89,8 @@ t_cmd *jobs_loop(t_data *data)
 		close(pipe_fd[1]);
 		dup2(pipe_fd[0], 0);
 		close(pipe_fd[0]);
-		// reset_otherio(data);
 		data->cmd_lst = data->cmd_lst->next;
 	}
-	/* Bash n'attendra que le dernier processus créé, puisque pipe de par sont principe attend
-	qu'un signal soit envoyé depuis le processus ou il y a écriture indiquand qu'il n'y a plus
-	de données a écrire pour que le processus suivant puis terminer la lecture. Le sigint envoyé
-	(^d) n'affectera que le dernier processus) */
 	waitpid(data->fork_pid, &exit_status, 0);
 	return (data->cmd_lst);
 }

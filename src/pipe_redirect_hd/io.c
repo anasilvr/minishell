@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   io.c                                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/03 11:10:01 by tchalifo          #+#    #+#             */
+/*   Updated: 2023/04/03 11:11:46 by tchalifo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 /* La fonction permet de dupliquer les descripteurs de fichier standard du 
@@ -17,7 +29,6 @@ void	stdio_cpy(t_data *data)
 	data->stdio[0] = dup(0);
 	data->stdio[1] = dup(1);
 	data->stdio[2] = dup(2);
-
 }
 
 /* La fonction permet de rétablir les descripteurs de fichier standard 

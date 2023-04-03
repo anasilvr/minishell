@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchalifo <tchalifo@student.42quebec.com    +#+  +:+       +#+        */
+/*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 15:56:26 by anarodri          #+#    #+#             */
-/*   Updated: 2023/02/20 11:08:17 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/03 15:58:32 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,5 @@ int	ft_strcmp(const char *str1, const char *str2)
 		str1++;
 		str2++;
 	}
-	return (0);
+	return (*(unsigned char *)str1 - *(unsigned char *)str2);
 }

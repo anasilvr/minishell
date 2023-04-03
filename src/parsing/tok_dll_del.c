@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tok_dll_del.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/03 14:30:19 by tchalifo          #+#    #+#             */
+/*   Updated: 2023/04/03 14:40:43 by tchalifo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 void	free_toklist(t_tok *lst)
@@ -14,35 +26,35 @@ void	free_toklist(t_tok *lst)
 	}
 }
 
-t_tok *delnode_toklist(t_tok *token_lst)
+t_tok	*delnode_toklist(t_tok *token_lst)
 {
 	if (token_lst)
 	{
 		free(token_lst->token);
-        token_lst->next = NULL;
-        token_lst->prev = NULL;
+		token_lst->next = NULL;
+		token_lst->prev = NULL;
 		free(token_lst);
-        token_lst = NULL;
+		token_lst = NULL;
 	}
-    return (token_lst);
+	return (token_lst);
 }
 
-t_tok *node_cpy(t_tok *cpy)
-{
-	t_tok *r_tok;
+// t_tok *node_cpy(t_tok *cpy)
+// {
+// 	t_tok *r_tok;
 
-	r_tok = NULL;
-	if (cpy == NULL)
-		return (r_tok);
-	r_tok = malloc(sizeof(t_tok));
-	r_tok->token = ft_strdup(cpy->token);
-	r_tok->type = cpy->type;
-	r_tok->toksize = cpy->toksize;
-	r_tok->prev = cpy->prev;
-	r_tok->next = cpy->next;
-	return (r_tok);
+// 	r_tok = NULL;
+// 	if (cpy == NULL)
+// 		return (r_tok);
+// 	r_tok = malloc(sizeof(t_tok));
+// 	r_tok->token = ft_strdup(cpy->token);
+// 	r_tok->type = cpy->type;
+// 	r_tok->toksize = cpy->toksize;
+// 	r_tok->prev = cpy->prev;
+// 	r_tok->next = cpy->next;
+// 	return (r_tok);
 
-}
+// }
 
 t_tok	*delmidnode_toklist(t_tok *node_to_remove)
 {
@@ -58,13 +70,11 @@ t_tok	*delmidnode_toklist(t_tok *node_to_remove)
 		r_adjacent_node->prev = prev_node_cpy;
 		if (prev_node_cpy != NULL)
 			prev_node_cpy->next = r_adjacent_node;
-
 	}
 	else if (prev_node_cpy != NULL)
 	{
 		r_adjacent_node = prev_node_cpy;
 		r_adjacent_node->next = next_node_cpy;
-
 	}
 	else
 		r_adjacent_node = NULL;

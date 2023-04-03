@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/03 14:55:57 by tchalifo          #+#    #+#             */
+/*   Updated: 2023/04/03 14:55:59 by tchalifo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 static void	find_match(t_data *data, int *i, bool *trigger, char *quote)
@@ -81,8 +93,6 @@ void	lexer(t_data *data, char *input)
 	if (g_status)
 		return ;
 	verify_dollartype(&data->token);
-//	// printf("\033[1m\033[31m[At lexer.c]\nBEFORE TREAT LINE:\033[0m\n");
-//	// print_toklist(data->token);
 	treat_line(data->token, data->envp_cp);
 	printf("\033[1m\033[31mAFTER TREAT LINE:\033[0m\n");
 	print_toklist(data->token);

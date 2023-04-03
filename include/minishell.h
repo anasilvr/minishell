@@ -79,7 +79,6 @@ typedef struct s_cmd
 	char		*cmdline;
 	char		**args;
 	char		*path;
-	//int			cmdiofd[2];
 	int			filefd[2];
 	int			pipefd[2];
 	int			err;
@@ -148,7 +147,7 @@ void	man_yoyo_ma(char **instruct, t_data *data);
 //redirection.c
 void	redirect_parsing(char *line, int *file_fd);
 int		open_to_read(char *filepath, int additional_flag);
-int		open_to_readwrite(char *filepath, int additional_flag);
+int		open_to_rw(char *filepath, int additional_flag);
 int		redirect_subparsing(t_data *data);
 
 //redirection_utils.c
@@ -164,7 +163,8 @@ int		heredoc_to_pipe(t_hdoc *hd_struct);
 //heredoc_utils.c
 void	hd_signal_handler(int sig);
 char	*trim_delim(const char *delim);
-char	*heredoc_dollar(char **env, char *line);
+char	*heredoc_special_handling(char **env, char *line);
+char	*heredoc_dollar(int *i, char **env, char *line);
 
 t_hdoc	*ft_dllst_new(char *str);
 t_hdoc	*ft_dllst_add_back(t_hdoc *p_lst, char *str);

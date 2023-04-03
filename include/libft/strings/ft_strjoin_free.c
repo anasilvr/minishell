@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin_free.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 15:56:05 by anarodri          #+#    #+#             */
-/*   Updated: 2022/12/15 12:51:09 by anarodri         ###   ########.fr       */
+/*   Updated: 2023/04/03 16:05:52 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ char	*ft_strjoin_free(char const *s1, char const *s2)
 		index_src++;
 	}
 	temp[index_dst] = '\0';
-	free((void *)s1);
+	if (s1)
+		free((void *)s1);
 	return (temp);
 }
