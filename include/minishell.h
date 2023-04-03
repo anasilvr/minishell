@@ -158,6 +158,7 @@ int		*init_itab(int init_value, int init_size);
 //heredoc.c
 void	heredoc_subparsing(t_data *data);
 t_hdoc	*write_heredoc(t_data *data);
+t_hdoc	*write_heredoc_loop(t_data *data, char *line, char *delimiter, t_hdoc *hd_struct);
 int		heredoc_to_pipe(t_hdoc *hd_struct);
 
 //heredoc_utils.c

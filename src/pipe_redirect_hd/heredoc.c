@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 13:41:47 by tchalifo          #+#    #+#             */
-/*   Updated: 2023/03/31 15:53:02 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/03/31 16:58:41 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,18 +81,13 @@ static char	*ft_strdup2(char *str)
  * 
  * DETAILS	: Le delimiter, ne sera pas copié dans un node. 
  */
-t_hdoc	*write_heredoc(t_data *data)
+t_hdoc	*write_heredoc_loop(t_data *data, char *line, \
+	char *delimiter, t_hdoc *hd_struct)
 {
-	char	*line;
-	t_hdoc	*hd_struct;
 	char	*r_trim;
-	char	*delimiter;
 
-	delimiter = ft_strdup2(data->token->next->token);
 	r_trim = trim_delim(delimiter);
-	signal(SIGINT, hd_signal_handler);
-	hd_struct = NULL;
-	while (g_status != 4 && (line = readline("> ")) != NULL
+	while (g_status != 4 && line != NULL
 		&& ft_strncmp(r_trim, line, ft_strlen(r_trim)) != 0)
 	{
 		if (delimiter[0] != '\'' && delimiter[0] != '"')
@@ -104,8 +99,23 @@ t_hdoc	*write_heredoc(t_data *data)
 			xfree(line);
 			line = NULL;
 		}
+		line = readline("> ");
 	}
 	free(r_trim);
+	return (hd_struct);
+}
+
+t_hdoc	*write_heredoc(t_data *data)
+{
+	char	*line;
+	char	*delimiter;
+	t_hdoc	*hd_struct;
+
+	hd_struct = NULL;
+	delimiter = ft_strdup2(data->token->next->token);
+	signal(SIGINT, hd_signal_handler);
+	line = readline("> ");
+	hd_struct = write_heredoc_loop(data, line, delimiter, hd_struct);
 	free(delimiter);
 	return (hd_struct);
 }
@@ -133,13 +143,12 @@ int	heredoc_to_pipe(t_hdoc *hd_struct)
 		return (errno);
 	hd_fork_pid = fork();
 	if (hd_fork_pid == -1)
-	  return (errno);
+		return (errno);
 	if (hd_fork_pid == 0)
 	{
 		close(hd_pipe_fd[0]);
 		while (hd_struct != NULL)
 		{
-			// write(hd_pipe_fd[1], hd_struct->the_line, ft_strlen(hd_struct->the_line));
 			ft_putstr_fd(hd_struct->the_line, hd_pipe_fd[1]);
 			hd_struct = hd_struct->next;
 		}
