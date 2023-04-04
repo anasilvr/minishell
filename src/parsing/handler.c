@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 14:56:37 by tchalifo          #+#    #+#             */
-/*   Updated: 2023/04/04 15:54:40 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/04 16:24:20 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,18 @@ char	*single_quotes_handler(char *line, int *j)
 	return (r_val);
 }
 
+char	*quotes_handler(char *line, char **env, int *j)
+{
+	char	*r_var;
+
+	r_var = NULL;
+	if (line[++(*j)] == '\'')
+		r_var = single_quotes_handler(line, j);
+	else if (line[*j] == '"')
+		r_var = double_quote_handler(line, env, j);
+	return (r_var);
+}
+
 char	*dollar_handler(char *line, char **env, int *j)
 {
 	int	i;
@@ -97,14 +109,13 @@ char	*dollar_handler(char *line, char **env, int *j)
         *j += 2;
     if (line[*j] == '$' && (ft_isspace(line[*j + 1]) == 0 || line[*j + 1] != '\0'))
     {
-        r_var = quotes_handler(line, )
-/*        if (line[++(*j)] == '\'')
-            r_var = single_quotes_handler(line, j);
-        else if (line[*j] == '"')
-            r_var = double_quote_handler(line, env, j);*/
-        else if (line[*j] == '?')
-            ;
-        else
+        r_var = quotes_handler(line, env, j);
+		if (line[*j] == '?')
+		{
+			(*j)++;
+			r_var = ft_itoa(g_status);
+		}
+		else if (r_var == NULL)
         {
             while (ft_isalnum(line[*j + i]) == 1 && line[*j + i] != '\0')
                 i++;
@@ -112,8 +123,8 @@ char	*dollar_handler(char *line, char **env, int *j)
         }
         (*j) += i;
     }
-    if (line[*j] == '?' && (*j)++)
-        r_var = ft_itoa(g_status);
+    // if (line[*j] == '?' && (*j)++)
+    //     r_var = ft_itoa(g_status);
     return (r_var);
 }
 
