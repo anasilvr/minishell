@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rl.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgagnon <marvin@42quebec.com>              +#+  +:+       +#+        */
+/*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:55:35 by jgagnon           #+#    #+#             */
-/*   Updated: 2023/03/31 16:55:36 by jgagnon          ###   ########.fr       */
+/*   Updated: 2023/04/04 15:57:09 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static char	*token_handler(t_tok *node, char **envp_cp)
 			r_var = double_quote_handler(node->token, envp_cp, &i);
 		if (r_var != NULL)
 			r_line = add_line(r_var, r_line);
-		else if (r_var == NULL)
+		else if (r_var == NULL && node->token[i] != '\0')
 			r_line = charjoinfree(r_line, node->token[i++]);
 		if (r_var != NULL)
 			r_var = xfree(r_var);
