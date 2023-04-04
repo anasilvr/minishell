@@ -39,12 +39,12 @@ char	*dollard_env_finder(char **env, char *r_quotes)
 			r_line = ft_strdup(r_env);
 		else if (r_env != NULL && r_line != NULL)
 			r_line = ft_strjoin_free(r_line, r_env);
-		r_env = xfree(r_env);
 		if (r_env == NULL && r_quotes[i] != '\0')
 		{
 			r_line = charjoinfree(r_line, r_quotes[i]);
 			i++;
 		}
+		r_env = xfree(r_env);
 	}
 	return (r_line);
 }
@@ -100,39 +100,32 @@ char *single_quotes_handler(char *line, int* j)
 
 char    *dollar_handler(char *line, char **env, int* j)
 {
-	int	i;
-	char	*r_var;
+    int     i;
+    char    *r_var;
 
-	i = 0;
-	r_var = NULL;
-	while (line[*j] == '$' && line[*j + 1] == '$')
-		*j += 2;
-	if (line[*j] == '$' && line[*j + 1] == '\'')
-	{
-		*j += 1;
-		r_var = single_quotes_handler(line, j);
-	}
-	else if (line[*j] == '$' && line[*j + 1] == '"')
-	{
-		*j += 1;
-		r_var = double_quote_handler(line, env, j);
-		*j += 1;
-	}
-	else if (line[*j] == '$' && (ft_isspace(line[*j + 1]) == 0 || line[*j + 1] == '\0'))
-	{
-		r_var = ft_strdup("$");
-		*j += 1;
-	}
-	else if (line[*j] == '$')
-	{
-		*j += 1;
-		while (ft_isalnum(line[*j + i]) == 1 && line[*j + i] != '\0')
-			i++;
-		r_var = ft_substr(line, *j, i);
-		r_var = cpy_env_var(env, r_var);
-		*j += i;
-	}
-	return (r_var);
+    i = 0;
+    r_var = NULL;
+    while (line[*j] == '$' && line[*j + 1] == '$')
+        *j += 2;
+    if (line[*j] == '$')
+    {
+        if (line[++(*j)] == '\'')
+            r_var = single_quotes_handler(line, j);
+        else if (line[*j] == '"')
+            r_var = double_quote_handler(line, env, j);
+        else if ((ft_isspace(line[*j + 1]) == 0 || line[*j + 1] == '\0'))
+            r_var = ft_strdup("$");
+        else if (line[*j] == '?')
+            r_var = ft_itoa(g_status);
+        else
+        {
+            while (ft_isalnum(line[*j + i]) == 1 && line[*j + i] != '\0')
+                i++;
+            r_var = cpy_env_var(env, ft_substr(line, *j, i));
+        }
+        (*j) += i;
+    }
+    return (r_var);
 }
 
 char	*cpy_env_var(char **env, char *var)

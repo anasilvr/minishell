@@ -87,7 +87,7 @@ void	verify_dollartype(t_tok **list)
 			{
 				if (is_set(node->token[1], QUOTES))
 					check_hidden_dollars(node);
-				else if (!ft_isalpha(node->token[1]))
+				else if (!ft_isalnum(node->token[1]))
 					check_if_return(node);
 				else
 				node->type = D_EXPAND;
