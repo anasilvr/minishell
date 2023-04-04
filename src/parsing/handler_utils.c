@@ -31,3 +31,15 @@ int	quotes_len(char *line, int *j, char q)
 	}
 	return (len);
 }
+
+int	space_handler(char *str, int i)
+{
+    int	j;
+
+    j = i;
+    while (ft_isspace(str[i]) == 0 && str[i] != '\0')
+        i++;
+    if (str[i] == '\0')
+        return (i - 1);
+    return (j);
+}

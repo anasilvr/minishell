@@ -12,18 +12,6 @@
 
 #include "../../include/minishell.h"
 
-int	space_handler(char *str, int i)
-{
-	int	j;
-
-	j = i;
-	while (ft_isspace(str[i]) == 0 && str[i] != '\0')
-		i++;
-	if (str[i] == '\0')
-		return (i - 1);
-	return (j);
-}
-
 char	*dollard_env_finder(char **env, char *r_quotes)
 {
 	char	*r_env;
@@ -107,14 +95,12 @@ char    *dollar_handler(char *line, char **env, int* j)
     r_var = NULL;
     while (line[*j] == '$' && line[*j + 1] == '$')
         *j += 2;
-    if (line[*j] == '$')
+    if (line[*j] == '$' && (ft_isspace(line[*j + 1]) == 0 || line[*j + 1] != '\0'))
     {
         if (line[++(*j)] == '\'')
             r_var = single_quotes_handler(line, j);
         else if (line[*j] == '"')
             r_var = double_quote_handler(line, env, j);
-        else if ((ft_isspace(line[*j + 1]) == 0 || line[*j + 1] == '\0'))
-            r_var = ft_strdup("$");
         else if (line[*j] == '?')
             r_var = ft_itoa(g_status);
         else
