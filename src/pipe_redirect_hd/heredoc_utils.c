@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 15:47:35 by tchalifo          #+#    #+#             */
-/*   Updated: 2023/04/04 09:35:33 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/04 15:20:16 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,15 @@ char	*heredoc_dollar(int *i, char **env, char *line)
 {
 	char	*r_line;
 	char	*r_var;
+    char    *r_status;
 
 	r_var = NULL;
 	r_line = NULL;
+    r_status = ft_itoa(g_status);
 	if (line[++(*i)] == '$')
 		;
 	else if (line[(*i)] == '?')
-		r_line = ft_strjoin(r_line, ft_itoa(g_status));
+		r_line = ft_strjoin_free(r_line, r_status);
 	else if (line[--(*i)] == '$')
 	{
 		while (ft_isalnum(line[++(*i)]) == 1)
@@ -34,6 +36,7 @@ char	*heredoc_dollar(int *i, char **env, char *line)
 			r_line = ft_strjoin_free(r_line, r_var);
 		r_var = xfree(r_var);
 	}
+    xfree(r_status);
 	return (r_line);
 }
 
@@ -41,13 +44,22 @@ char	*heredoc_special_handling(char **env, char *line)
 {
 	int		i;
 	char	*r_line;
+	char	*r_dollar;
 
 	i = 0;
 	r_line = NULL;
+	r_dollar = NULL;
 	while (line [i] != '\0')
 	{
 		if (line[i] == '$')
-			r_line = heredoc_dollar(&i, env, line);
+		{
+			r_dollar = heredoc_dollar(&i, env, line);
+			if (r_dollar != NULL && r_line == NULL)
+				r_line = ft_strdup(r_dollar);
+			else if (r_dollar != NULL)
+				r_line = ft_strjoin_free(r_line, r_dollar);
+			r_dollar = xfree(r_dollar);
+		}
 		else
 			r_line = charjoinfree(r_line, line[i++]);
 	}

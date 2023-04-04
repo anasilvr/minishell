@@ -61,7 +61,7 @@ static char	*token_handler(t_tok *node, char **envp_cp)
 	r_line = NULL;
 	while (node->token[i] != '\0')
 	{
-		if (node->prev && node->prev->type == 3) //Ajouter fonction gestion token HEREDOC
+		if (node->prev && node->prev->type == 3)
 			;
 		else if (node->token[i] == '$')
 			r_var = dollar_handler(node->token, envp_cp, &i);
@@ -71,7 +71,7 @@ static char	*token_handler(t_tok *node, char **envp_cp)
 			r_var = double_quote_handler(node->token, envp_cp, &i);
 		if (r_var != NULL)
 			r_line = add_line(r_var, r_line);
-		else if (r_var == NULL)
+		else if (r_var == NULL && (node->token[i] != '$' && node->token[i] != '\0'))
 			r_line = charjoinfree(r_line, node->token[i++]);
 		if (r_var != NULL)
 			r_var = xfree(r_var);
@@ -100,9 +100,12 @@ void	treat_line(t_tok *tok, char **env_cp)
 			node->token = ft_strdup(r_line);
 			if (node->token == NULL)
 				node = delmidnode_toklist(node);
+			else if (node->token != NULL)
+				node = node->next;
 			r_line = xfree(r_line);
 		}
-		node = node->next;
+		else
+			node = node->next;
 	}
 }
 

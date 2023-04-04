@@ -18,7 +18,9 @@ static char	*easy_gnl(int fd)
 	char	read_ret[2];
 
 	line = NULL;
-	while (read(fd, &read_ret, 1) != 0)
+	read_ret[0] = '\0';
+	read_ret[1] = '\0';
+	while (read(fd, &read_ret[0], 1) != 0)
 	{
 		if (read_ret[0] == '\n')
 			return (line);

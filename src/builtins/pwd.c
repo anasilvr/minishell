@@ -23,7 +23,8 @@ void	pwd_handler(char **instruct, t_data *data)
 	pwd = NULL;
 	if (ft_cmp_builtin(instruct[i], "pwd", 3) == 0)
 	{
-		if ((r_cwd = getcwd(NULL, 0)) == NULL)
+		r_cwd = getcwd(NULL, 0);
+		if (r_cwd == NULL)
 			return ;
 		data->cmd_lst->is_builtin = true;
 		j = -1;
