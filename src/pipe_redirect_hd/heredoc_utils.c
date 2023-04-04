@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 15:47:35 by tchalifo          #+#    #+#             */
-/*   Updated: 2023/04/04 15:20:16 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/04 16:32:46 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ char	*heredoc_dollar(int *i, char **env, char *line)
 {
 	char	*r_line;
 	char	*r_var;
-    char    *r_status;
+	char	*r_status;
 
 	r_var = NULL;
 	r_line = NULL;
-    r_status = ft_itoa(g_status);
+	r_status = ft_itoa(g_status);
 	if (line[++(*i)] == '$')
 		;
 	else if (line[(*i)] == '?')
@@ -36,7 +36,7 @@ char	*heredoc_dollar(int *i, char **env, char *line)
 			r_line = ft_strjoin_free(r_line, r_var);
 		r_var = xfree(r_var);
 	}
-    xfree(r_status);
+	xfree(r_status);
 	return (r_line);
 }
 

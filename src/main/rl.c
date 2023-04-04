@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:55:35 by jgagnon           #+#    #+#             */
-/*   Updated: 2023/04/04 15:57:09 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/04 16:35:22 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,10 @@ void	treat_line(t_tok *tok, char **env_cp)
 	while (node != NULL)
 	{
 		i = 0;
-		if (node->type == WORD || node->type == D_EXPAND
-			|| node->type == D_RETURN)
+		if (node->type == 1 || node->type == 8 || node->type == 10)
 			r_line = token_handler(node, env_cp);
-		if (node->type == WORD || node->type == D_EXPAND
-			|| node->type == D_LITERAL || node->type == D_RETURN)
+		if (node->type == 1 || node->type == 8 || node->type == 9 \
+			|| node->type == 10)
 		{
 			node->token = xfree(node->token);
 			node->token = ft_strdup(r_line);
