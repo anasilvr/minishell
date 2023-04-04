@@ -97,12 +97,13 @@ char    *dollar_handler(char *line, char **env, int* j)
         *j += 2;
     if (line[*j] == '$' && (ft_isspace(line[*j + 1]) == 0 || line[*j + 1] != '\0'))
     {
-        if (line[++(*j)] == '\'')
+        r_var = quotes_handler(line, )
+/*        if (line[++(*j)] == '\'')
             r_var = single_quotes_handler(line, j);
         else if (line[*j] == '"')
-            r_var = double_quote_handler(line, env, j);
+            r_var = double_quote_handler(line, env, j);*/
         else if (line[*j] == '?')
-            r_var = ft_itoa(g_status);
+            ;
         else
         {
             while (ft_isalnum(line[*j + i]) == 1 && line[*j + i] != '\0')
@@ -111,6 +112,8 @@ char    *dollar_handler(char *line, char **env, int* j)
         }
         (*j) += i;
     }
+    if (line[*j] == '?' && (*j)++)
+        r_var = ft_itoa(g_status);
     return (r_var);
 }
 

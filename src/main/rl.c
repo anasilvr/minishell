@@ -71,7 +71,7 @@ static char	*token_handler(t_tok *node, char **envp_cp)
 			r_var = double_quote_handler(node->token, envp_cp, &i);
 		if (r_var != NULL)
 			r_line = add_line(r_var, r_line);
-		else if (r_var == NULL)
+		else if (r_var == NULL && node->token[i] != '\0')
 			r_line = charjoinfree(r_line, node->token[i++]);
 		if (r_var != NULL)
 			r_var = xfree(r_var);
