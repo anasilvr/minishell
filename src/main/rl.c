@@ -61,7 +61,7 @@ static char	*token_handler(t_tok *node, char **envp_cp)
 	r_line = NULL;
 	while (node->token[i] != '\0')
 	{
-		if (node->prev && node->prev->type == 3) //Ajouter fonction gestion token HEREDOC
+		if (node->prev && node->prev->type == 3)
 			;
 		else if (node->token[i] == '$')
 			r_var = dollar_handler(node->token, envp_cp, &i);
