@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 14:56:37 by tchalifo          #+#    #+#             */
-/*   Updated: 2023/04/03 15:15:14 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/04 14:55:07 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ int	space_handler(char *str, int i)
 	return (j);
 }
 
-char	*dollard_env_finder(char **env, char *r_quotes)
+char	*dollar_env_finder(char **env, char *r_quotes)
 {
 	char	*r_env;
-	char    *r_line;
+	char	*r_line;
 	int		i;
-	
+
 	r_line = NULL;
 	i = 0;
 	while (r_quotes[i] != '\0')
@@ -49,13 +49,13 @@ char	*dollard_env_finder(char **env, char *r_quotes)
 	return (r_line);
 }
 
-char *double_quote_handler(char *line, char **env, int* j)
+char	*double_quote_handler(char *line, char **env, int *j)
 {
-	int     i;
-	int     len;
-	char    *r_quotes;
+	int		i;
+	int		len;
+	char	*r_quotes;
 	char	*r_env;
-	char    *r_line;
+	char	*r_line;
 
 	i = -1;
 	len = 0;
@@ -67,17 +67,17 @@ char *double_quote_handler(char *line, char **env, int* j)
 		return (r_env);
 	else if (len > 0)
 	{
-		r_quotes = ft_calloc(sizeof(char) , (len + 1));
+		r_quotes = ft_calloc(sizeof(char), (len + 1));
 		while (len > ++i)
 			r_quotes[i] = line[*j + i];
 		*j += len + 1;
 	}
-	r_line = dollard_env_finder(env, r_quotes);
+	r_line = dollar_env_finder(env, r_quotes);
 	xfree(r_quotes);
 	return (r_line);
 }
 
-char *single_quotes_handler(char *line, int* j)
+char	*single_quotes_handler(char *line, int *j)
 {
 	int		i;
 	int		len;
@@ -98,9 +98,9 @@ char *single_quotes_handler(char *line, int* j)
 	return (r_val);
 }
 
-char    *dollar_handler(char *line, char **env, int* j)
+char	*dollar_handler(char *line, char **env, int *j)
 {
-	int	i;
+	int		i;
 	char	*r_var;
 
 	i = 0;

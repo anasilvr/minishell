@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 15:47:35 by tchalifo          #+#    #+#             */
-/*   Updated: 2023/04/03 11:09:34 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/04 09:35:33 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ char	*heredoc_dollar(int *i, char **env, char *line)
 	char	*r_var;
 
 	r_var = NULL;
+	r_line = NULL;
 	if (line[++(*i)] == '$')
 		;
 	else if (line[(*i)] == '?')

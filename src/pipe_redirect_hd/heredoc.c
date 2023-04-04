@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 13:41:47 by tchalifo          #+#    #+#             */
-/*   Updated: 2023/04/03 15:49:11 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/04 14:53:30 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,6 @@ t_hdoc	*write_heredoc_loop(t_data *data, char *line, \
 	char	*r_trim;
 
 	r_trim = trim_delim(delimiter);
-	// while (g_status != 4 && line != NULL
-	// 	&& ft_strncmp(r_trim, line, ft_strlen(r_trim)) != 0)
 	while (g_status != 4 && line != NULL \
 		&& ft_strcmp(r_trim, line) != 0)
 	{

@@ -1,5 +1,14 @@
 
 {
+	dyld_shared_cache.*.dylib
+	Memcheck:Leak
+	...
+	fun:readline
+	fun:malloc
+	fun:calloc
+	fun:free
+}
+{
     leak readline
     Memcheck:Leak
     ...
@@ -22,4 +31,16 @@
     Memcheck:Leak
     ...
     fun:fork
+}
+{
+	leak start
+	Memcheck:Leak
+	...
+	fun:start
+}
+{
+	leak ???
+	Memcheck:Leak
+	...
+	fun:???
 }
