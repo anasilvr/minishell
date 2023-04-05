@@ -77,7 +77,7 @@ void	wtshell(t_data *data)
 		if (!data->syntax_err && !is_empty(data->input))
 		{
 			lexer(data, data->input);
-			if (parser(data) != -1 && data->cmd_lst && g_status == 0)
+			if (g_status == 0 && data->cmd_lst && parser(data) != -1)
 			{
 				cmdlist_details(data->cmd_lst);
 				if (data->cmd_lst->err != -1)

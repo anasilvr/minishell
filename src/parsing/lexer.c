@@ -94,7 +94,6 @@ void	lexer(t_data *data, char *input)
 		return ;
 	verify_dollartype(&data->token);
 	treat_line(data->token, data->envp_cp);
-	printf("\033[1m\033[31mAFTER TREAT LINE:\033[0m\n");
 	print_toklist(data->token);
 	return ;
 }
