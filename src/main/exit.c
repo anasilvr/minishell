@@ -27,8 +27,8 @@ void	clean_exit(t_data *data)
 	xfree(data->input);
 	free_toklist(data->token);
 	free_cmdlist(data->cmd_lst);
-	xfree(data);
 	close_fdcpy(data);
+	xfree(data);
 }
 
 void	free_cmdlist(t_cmd *lst)
@@ -50,9 +50,16 @@ void	free_cmdlist(t_cmd *lst)
 
 void	close_fdcpy(t_data *data)
 {
-	close (data->stdio[0]);
-	close (data->stdio[1]);
-	close (data->stdio[2]);
+	struct stat	*f_info;
+
+	f_info = malloc(sizeof(struct stat));
+	if (fstat(data->stdio[0], f_info) == 0)
+		close (data->stdio[0]);
+	if (fstat(data->stdio[1], f_info) == 0)
+		close (data->stdio[1]);
+	if (fstat(data->stdio[2], f_info) == 0)
+		close (data->stdio[2]);
+	f_info = xfree(f_info);
 }
 
 void	readline_exit(t_data *data)

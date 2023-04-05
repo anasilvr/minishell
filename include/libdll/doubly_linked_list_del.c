@@ -34,12 +34,6 @@ void	ft_dllst_clear(t_hdoc *p_lst)
 	}
 }
 
-void	ft_dllst_secure_del(t_hdoc *p_lst)
-{
-	(void) p_lst;
-	/*data to delete*/
-}
-
 bool	ft_dllst_isempty(t_hdoc *p_lst)
 {
 	if (p_lst == NULL)

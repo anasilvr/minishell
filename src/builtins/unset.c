@@ -39,10 +39,10 @@ static char	**cpy_unset(char **env, int line)
 	int		k;
 	char	**r_env;
 
-	i = -1;
+	i = 0;
 	k = 0;
-	while (env[++i] != NULL)
-		;
+	while (env[i] != NULL)
+		i++;
 	r_env = malloc(sizeof(char *) * i);
 	i = 0;
 	while (env[i] != NULL)

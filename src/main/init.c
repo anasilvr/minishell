@@ -16,8 +16,8 @@ t_data	*get_data(void)
 {
 	static t_data	*data;
 
-	if (!data)
-		data = ft_xcalloc(1, sizeof(t_data));
+	data = NULL;
+	data = ft_xcalloc(1, sizeof(t_data));
 	return (data);
 }
 

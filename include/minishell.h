@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jgagnon <marvin@42quebec.com>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/05 11:30:19 by jgagnon           #+#    #+#             */
+/*   Updated: 2023/04/05 11:30:25 by jgagnon          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -69,52 +81,30 @@ typedef enum e_type
 	INVALID,
 }	t_type;
 
-typedef struct s_tok	t_tok;
-typedef struct s_data	t_data;
-typedef struct s_cmd	t_cmd;
-typedef struct s_hdoc	t_hdoc;
-
 typedef struct s_cmd
 {
-	char		*cmdline;
-	char		**args;
-	char		*path;
-	int			filefd[2];
-	int			pipefd[2];
-	int			err;
-	int			io_flag;
-	bool		is_builtin;
-	char		*hd_delimiter;
-	int			expand;
-	t_cmd		*prev;
-	t_cmd		*next;
+	char			*cmdline;
+	char			**args;
+	char			*path;
+	int				filefd[2];
+	int				pipefd[2];
+	int				err;
+	int				io_flag;
+	bool			is_builtin;
+	char			*hd_delimiter;
+	int				expand;
+	struct s_cmd	*prev;
+	struct s_cmd	*next;
 }	t_cmd;
 
 typedef struct s_tok
 {
-	char		*token;
-	t_type		type;
-	int			toksize;
-	t_tok		*prev;
-	t_tok		*next;
+	char			*token;
+	t_type			type;
+	int				toksize;
+	struct s_tok	*prev;
+	struct s_tok	*next;
 }	t_tok;
-
-typedef struct s_data
-{
-	char		**envp_cp;
-	char		*pwd;
-	char		*input;
-	t_tok		*token;
-	t_cmd		*cmd_lst;
-	t_hdoc		*hd_struct;
-	int			nb_cmds;
-	int			nb_pipes;
-	int			syntax_err;
-	int			stdio[3];
-	bool		heredoc;
-	int			fork_pid;
-	bool		tester;
-}	t_data;
 
 typedef struct s_hdoc
 {
@@ -122,6 +112,23 @@ typedef struct s_hdoc
 	struct s_hdoc	*next;
 	struct s_hdoc	*previous;
 }	t_hdoc;
+
+typedef struct s_data
+{
+	char			**envp_cp;
+	char			*pwd;
+	char			*input;
+	struct s_tok	*token;
+	struct s_cmd	*cmd_lst;
+	struct s_hdoc	*hd_struct;
+	int				nb_cmds;
+	int				nb_pipes;
+	int				syntax_err;
+	int				stdio[3];
+	bool			heredoc;
+	int				fork_pid;
+	bool			tester;
+}	t_data;
 
 // FUNCTIONS
 // BUILTINS
@@ -157,7 +164,8 @@ int		*init_itab(int init_value, int init_size);
 //heredoc.c
 void	heredoc_subparsing(t_data *data);
 t_hdoc	*write_heredoc(t_data *data);
-t_hdoc	*write_heredoc_loop(t_data *data, char *line, char *delimiter, t_hdoc *hd_struct);
+t_hdoc	*write_heredoc_loop(t_data *data, char *line,
+			char *delimiter, t_hdoc *hd_struct);
 int		heredoc_to_pipe(t_hdoc *hd_struct);
 
 //heredoc_utils.c
@@ -266,7 +274,7 @@ char	*charjoinfree(const char *s1, const char c);
 
 //line handler
 int		space_handler(char *str, int i);
-char	*double_quote_handler(char *line, char **env, int* j);
+char	*double_quote_handler(char *line, char **env, int *j);
 char	*dollar_handler(char *cmd, char **env, int *j);
 char	*cpy_env_var(char **env, char *var);
 char	*single_quotes_handler(char *line, int *j);
