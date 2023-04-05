@@ -91,7 +91,12 @@ void	export_handler(char **instruct, t_data *data)
 
 	i = 0;
 	index = -1;
-	if (ft_cmp_builtin(instruct[i], "export", 6) == 0)
+    if (ft_cmp_builtin(instruct[i], "export", 6) == 0 && instruct[i + 1] == NULL)
+    {
+        data->cmd_lst->is_builtin = true;
+        print_env(data->envp_cp);
+    }
+	else if (ft_cmp_builtin(instruct[i], "export", 6) == 0)
 	{
 		data->cmd_lst->is_builtin = true;
 		while (instruct[++i] != NULL)
@@ -104,11 +109,6 @@ void	export_handler(char **instruct, t_data *data)
 				data->envp_cp[index] = xfree(data->envp_cp[index]);
 				data->envp_cp[index] = ft_strdup(instruct[i]);
 			}
-		}
-		if (data->fork_pid == 0)
-		{
-			clean_exit(data);
-			exit(g_status);
 		}
 	}
 }

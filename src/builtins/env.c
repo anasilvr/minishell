@@ -35,11 +35,6 @@ void	env_handler(char **instruct, t_data *data)
 	{
 		data->cmd_lst->is_builtin = true;
 		print_env(data->envp_cp);
-		if (data->fork_pid == 0)
-		{
-			clean_exit(data);
-			exit(g_status);
-		}
 	}
 }
 

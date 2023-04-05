@@ -62,11 +62,6 @@ void	echo_handler(char **instruct, t_data *data)
 				i++;
 			ft_echo(instruct, data->envp_cp, i);
 		}
-		if (data->fork_pid == 0)
-		{
-			clean_exit(data);
-			exit(g_status);
-		}
 	}
 }
 

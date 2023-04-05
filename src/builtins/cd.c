@@ -75,17 +75,12 @@ void	cd_handler(char **instruct, t_data *data)
 	{
 		data->cmd_lst->is_builtin = true;
 		update_oldpwd(data->envp_cp);
-		if (instruct[i + 1] != NULL && chdir(instruct[++i]) == 0)
+		if (instruct[++i] != NULL && chdir(instruct[i]) == 0)
 			update_pwd(data->envp_cp);
 		else if (instruct[i] == NULL || ft_strcmp(instruct[i], "~") == 0)
 		{
 			chdir(getenv("HOME"));
 			update_pwd(data->envp_cp);
-		}
-		if (data->fork_pid == 0)
-		{
-			clean_exit(data);
-			exit(g_status);
 		}
 	}
 }

@@ -33,10 +33,5 @@ void	pwd_handler(char **instruct, t_data *data)
 			write(1, &pwd[j], 1);
 		write(1, "\n", 1);
 		xfree(pwd);
-		if (data->fork_pid == 0)
-		{
-			clean_exit(data);
-			exit(g_status);
-		}
 	}
 }

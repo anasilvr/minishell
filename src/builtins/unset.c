@@ -81,10 +81,5 @@ void	unset_handler(char **instruct, t_data *data)
 			}
 			data->envp_cp = cpy_unset(data->envp_cp, r_check);
 		}
-		if (data->fork_pid == 0)
-		{
-			clean_exit(data);
-			exit(g_status);
-		}
 	}
 }
