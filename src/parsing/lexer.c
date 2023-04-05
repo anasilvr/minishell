@@ -94,7 +94,6 @@ void	lexer(t_data *data, char *input)
 		return ;
 	verify_dollartype(&data->token);
 	treat_line(data->token, data->envp_cp);
-	print_toklist(data->token);
 	return ;
 }
 
