@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgagnon <marvin@42quebec.com>              +#+  +:+       +#+        */
+/*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 09:47:01 by jgagnon           #+#    #+#             */
-/*   Updated: 2023/03/27 09:47:02 by jgagnon          ###   ########.fr       */
+/*   Updated: 2023/04/05 14:47:27 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	cd_handler(char **instruct, t_data *data)
 	{
 		data->cmd_lst->is_builtin = true;
 		update_oldpwd(data->envp_cp);
-		if (instruct[i + 1] != NULL && chdir(instruct[++i]) == 0)
+		if (instruct[++i] != NULL && chdir(instruct[i]) == 0)
 			update_pwd(data->envp_cp);
 		else if (instruct[i] == NULL || ft_strcmp(instruct[i], "~") == 0)
 		{
