@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgagnon <marvin@42quebec.com>              +#+  +:+       +#+        */
+/*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:55:14 by jgagnon           #+#    #+#             */
-/*   Updated: 2023/03/31 16:55:15 by jgagnon          ###   ########.fr       */
+/*   Updated: 2023/04/06 09:47:37 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,28 +34,70 @@ void	reset(t_data *data)
 	}
 	reset_io(data);
 	reset_stdio(data);
+	data->token->type = 0;
+	data->heredoc = false;
 }
 
 void	reset_io(t_data *data)
 {
-	if (data->cmd_lst->filefd[0] != -2)
-	{
+	struct stat	*f_info;
+
+	f_info = malloc(sizeof(struct stat));
+	if (fstat(data->cmd_lst->filefd[0], f_info) == 0)
 		close (data->cmd_lst->filefd[0]);
-		data->cmd_lst->filefd[0] = -2;
-	}
-	if (data->cmd_lst->filefd[1] != -2)
-	{
+	if (fstat(data->cmd_lst->filefd[1], f_info) == 0)
 		close (data->cmd_lst->filefd[1]);
-		data->cmd_lst->filefd[1] = -2;
-	}
-	if (data->cmd_lst->pipefd[0] != -2)
-	{
+	if (fstat(data->cmd_lst->pipefd[0], f_info) == 0)
 		close (data->cmd_lst->pipefd[0]);
-		data->cmd_lst->pipefd[0] = -2;
-	}
-	if (data->cmd_lst->pipefd[1] != -2)
-	{
+	if (fstat(data->cmd_lst->pipefd[1], f_info) == 0)
 		close (data->cmd_lst->pipefd[1]);
-		data->cmd_lst->pipefd[1] = -2;
-	}
+	f_info = xfree(f_info);
+	// if (data->cmd_lst->filefd[0] != -2)
+	// {
+	// 	close (data->cmd_lst->filefd[0]);
+	// 	data->cmd_lst->filefd[0] = -2;
+	// }
+	// if (data->cmd_lst->filefd[1] != -2)
+	// {
+	// 	close (data->cmd_lst->filefd[1]);
+	// 	data->cmd_lst->filefd[1] = -2;
+	// }
+	// if (data->cmd_lst->pipefd[0] != -2)
+	// {
+	// 	close (data->cmd_lst->pipefd[0]);
+	// 	data->cmd_lst->pipefd[0] = -2;
+	// }
+	// if (data->cmd_lst->pipefd[1] != -2)
+	// {
+	// 	close (data->cmd_lst->pipefd[1]);
+	// 	data->cmd_lst->pipefd[1] = -2;
+	// }
 }
+
+
+
+
+
+// void	reset_io(t_data *data)
+// {
+// 	if (data->cmd_lst->filefd[0] != -2)
+// 	{
+// 		close (data->cmd_lst->filefd[0]);
+// 		data->cmd_lst->filefd[0] = -2;
+// 	}
+// 	if (data->cmd_lst->filefd[1] != -2)
+// 	{
+// 		close (data->cmd_lst->filefd[1]);
+// 		data->cmd_lst->filefd[1] = -2;
+// 	}
+// 	if (data->cmd_lst->pipefd[0] != -2)
+// 	{
+// 		close (data->cmd_lst->pipefd[0]);
+// 		data->cmd_lst->pipefd[0] = -2;
+// 	}
+// 	if (data->cmd_lst->pipefd[1] != -2)
+// 	{
+// 		close (data->cmd_lst->pipefd[1]);
+// 		data->cmd_lst->pipefd[1] = -2;
+// 	}
+// }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgagnon <marvin@42quebec.com>              +#+  +:+       +#+        */
+/*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 10:23:47 by jgagnon           #+#    #+#             */
-/*   Updated: 2023/03/29 10:23:48 by jgagnon          ###   ########.fr       */
+/*   Updated: 2023/04/05 15:59:28 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,10 @@ void	execution_manager(t_data *prog_data)
 			prog_data->cmd_lst = prog_data->cmd_lst->next;
 		}
 		else
+		{
 			prog_data->cmd_lst = jobs_loop(prog_data);
+			reset_otherio(prog_data);
+		}
 	}
 	reset_stdio(prog_data);
 	prog_data->cmd_lst = head;
