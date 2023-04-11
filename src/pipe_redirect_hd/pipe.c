@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:01:02 by tchalifo          #+#    #+#             */
-/*   Updated: 2023/04/03 11:18:31 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/11 16:10:18 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ t_cmd	*jobs_loop(t_data *data)
 		close(pipe_fd[1]);
 		dup2(pipe_fd[0], 0);
 		close(pipe_fd[0]);
+		reset_otherio(data);
 		data->cmd_lst = data->cmd_lst->next;
 	}
 	waitpid(data->fork_pid, &exit_status, 0);

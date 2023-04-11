@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgagnon <marvin@42quebec.com>              +#+  +:+       +#+        */
+/*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 09:45:03 by jgagnon           #+#    #+#             */
-/*   Updated: 2023/03/27 09:45:04 by jgagnon          ###   ########.fr       */
+/*   Updated: 2023/04/11 15:54:29 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	builtins_checker(t_data *data, t_cmd *cmd)
 	help_handler(cmd->args, data);
 	man_yoyo_ma(cmd->args, data);
 	tester_check(cmd->args, data);
-	if (data->fork_pid == 0)
+	if (data->cmd_lst->is_builtin == true && data->fork_pid == 0)
 	{
 		clean_exit(data);
 		exit(g_status);
