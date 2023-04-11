@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:44:57 by anarodri          #+#    #+#             */
-/*   Updated: 2023/04/05 15:20:28 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/11 14:24:48 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ void	wtshell(t_data *data)
 			lexer(data, data->input);
 			if (g_status == 0 && data->cmd_lst && parser(data) != -1)
 			{
-				cmdlist_details(data->cmd_lst);
 				if (data->cmd_lst->err != -1)
 					execution_manager(data);
 			}
