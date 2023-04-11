@@ -84,30 +84,30 @@ int	export_pars(char *n_var, char **env)
 	return (-2);
 }
 
-void	export_handler(char **instruct, t_data *data)
+void	export_handler(char **instruc, t_data *data)
 {
 	int	i;
 	int	index;
 
 	i = 0;
 	index = -1;
-	if (ft_cmp_builtin(instruct[i], "export", 6) == 0 && instruct[i + 1] == NULL)
+	if (ft_cmp_builtin(instruc[i], "export", 6) == 0 && instruc[i + 1] == NULL)
 	{
 		data->cmd_lst->is_builtin = true;
 		print_env(data->envp_cp);
 	}
-	else if (ft_cmp_builtin(instruct[i], "export", 6) == 0)
+	else if (ft_cmp_builtin(instruc[i], "export", 6) == 0)
 	{
 		data->cmd_lst->is_builtin = true;
-		while (instruct[++i] != NULL)
+		while (instruc[++i] != NULL)
 		{
-			index = export_pars(instruct[i], data->envp_cp);
+			index = export_pars(instruc[i], data->envp_cp);
 			if (index == -1)
-				data->envp_cp = add_var(data->envp_cp, instruct[i]);
+				data->envp_cp = add_var(data->envp_cp, instruc[i]);
 			else if (index >= 0)
 			{
 				data->envp_cp[index] = xfree(data->envp_cp[index]);
-				data->envp_cp[index] = ft_strdup(instruct[i]);
+				data->envp_cp[index] = ft_strdup(instruc[i]);
 			}
 		}
 	}
