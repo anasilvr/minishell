@@ -91,11 +91,11 @@ void	export_handler(char **instruct, t_data *data)
 
 	i = 0;
 	index = -1;
-    if (ft_cmp_builtin(instruct[i], "export", 6) == 0 && instruct[i + 1] == NULL)
-    {
-        data->cmd_lst->is_builtin = true;
-        print_env(data->envp_cp);
-    }
+	if (ft_cmp_builtin(instruct[i], "export", 6) == 0 && instruct[i + 1] == NULL)
+	{
+		data->cmd_lst->is_builtin = true;
+		print_env(data->envp_cp);
+	}
 	else if (ft_cmp_builtin(instruct[i], "export", 6) == 0)
 	{
 		data->cmd_lst->is_builtin = true;
