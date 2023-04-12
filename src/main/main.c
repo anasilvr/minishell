@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:44:57 by anarodri          #+#    #+#             */
-/*   Updated: 2023/04/12 09:59:17 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/12 15:49:42 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ static void	err_msg(t_data *data)
 int	main(int argc, char **argv, char **envp)
 {
 	t_data		*data;
+	(void)		argv;
 
 	if (!envp || !(*envp))
 	{

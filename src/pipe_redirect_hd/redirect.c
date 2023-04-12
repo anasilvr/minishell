@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:34:45 by tchalifo          #+#    #+#             */
-/*   Updated: 2023/04/03 13:46:02 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/12 16:10:48 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,25 +122,17 @@ int	open_handling(t_cmd *cmd_lst, t_data *data)
 	data->token->type == REDIR_IN)
 	{
 		if (data->token->type == APPEND)
-		{
 			cmd_lst->filefd[1] = open_to_rw(data->token->next->token, 0x0008);
-			if (cmd_lst->filefd[1] == -1)
-				return (-1);
-		}
 		else if (data->token->type == REDIR_OUT)
-		{
 			cmd_lst->filefd[1] = open_to_rw(data->token->next->token, 0x0400);
-			if (cmd_lst->filefd[1] == -1)
-				return (-1);
-		}
 		else if (data->token->type == REDIR_IN)
-		{
 			cmd_lst->filefd[0] = open_to_read(data->token->next->token, 0);
-			if (cmd_lst->filefd[0] == -1)
-				return (-1);
-		}
+		if (cmd_lst->filefd[0] == -1 || cmd_lst->filefd[1] == -1)
+			return (-1);
 		data->token = delmidnode_toklist(data->token);
 		data->token = delmidnode_toklist(data->token);
+		if (data->token == NULL)
+			return (-1);
 	}
 	return (0);
 }
