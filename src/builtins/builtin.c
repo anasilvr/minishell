@@ -6,30 +6,15 @@
 /*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 09:45:03 by jgagnon           #+#    #+#             */
-/*   Updated: 2023/04/11 15:54:29 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/12 10:09:16 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	ft_cmp_builtin(const char *str1, const char *str2, size_t n)
-{
-	unsigned int	i;
-
-	i = -1;
-	if (n == 0)
-		return (-1);
-	while (++i <= (n - 1) && (str1[i] != '\0'
-			&& str2[i] != '\0') && str1[i] == str2[i])
-		;
-	if (str2[i] == '\0' && str1[i] == '\0')
-		return (0);
-	return (-1);
-}
-
 void	exit_handler(t_data *data, char **instruct)
 {
-	if (ft_cmp_builtin(instruct[0], "exit", 4) == 0)
+	if (ft_strncmp(instruct[0], "exit", 5) == 0)
 	{
 		clean_exit(data);
 		exit(g_status);
@@ -38,7 +23,7 @@ void	exit_handler(t_data *data, char **instruct)
 
 static void	tester_check(char **instruct, t_data *data)
 {
-	if (ft_strncmp(instruct[0], "test", 4) == 0 && instruct[1] == NULL)
+	if (ft_strncmp(instruct[0], "test", 5) == 0 && instruct[1] == NULL)
 	{
 		data->tester = true;
 		data->cmd_lst->is_builtin = true;

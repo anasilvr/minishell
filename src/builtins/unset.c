@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgagnon <marvin@42quebec.com>              +#+  +:+       +#+        */
+/*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 10:04:53 by jgagnon           #+#    #+#             */
-/*   Updated: 2023/03/29 10:04:54 by jgagnon          ###   ########.fr       */
+/*   Updated: 2023/04/12 10:13:38 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,7 @@ void	unset_handler(char **instruct, t_data *data)
 	int	r_check;
 
 	i = 0;
-	if (ft_cmp_builtin(instruct[i], "unset", 5) == 0
-		&& instruct[i + 1] != NULL)
+	if ((ft_strncmp(instruct[i], "unset", 6) == 0) && instruct[i + 1] != NULL)
 	{
 		data->cmd_lst->is_builtin = true;
 		while (instruct[++i] != NULL)

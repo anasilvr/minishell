@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgagnon <marvin@42quebec.com>              +#+  +:+       +#+        */
+/*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 09:47:57 by jgagnon           #+#    #+#             */
-/*   Updated: 2023/03/29 09:47:58 by jgagnon          ###   ########.fr       */
+/*   Updated: 2023/04/12 10:13:32 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,12 @@
 
 void	pwd_handler(char **instruct, t_data *data)
 {
-	int		i;
 	int		j;
 	char	*pwd;
 	char	*r_cwd;
 
-	i = 0;
 	pwd = NULL;
-	if (ft_cmp_builtin(instruct[i], "pwd", 3) == 0)
+	if (ft_strncmp(instruct[0], "pwd", 4) == 0)
 	{
 		r_cwd = getcwd(NULL, 0);
 		if (r_cwd == NULL)

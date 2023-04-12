@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:01:02 by tchalifo          #+#    #+#             */
-/*   Updated: 2023/04/11 16:10:18 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/12 09:52:30 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,7 @@ t_cmd	*jobs_loop(t_data *data)
 {
 	int		pipe_fd[2];
 	int		exit_status;
-	int		i;
 
-	i = 0;
 	while (data->cmd_lst != NULL)
 	{
 		if (data->cmd_lst->next != NULL)

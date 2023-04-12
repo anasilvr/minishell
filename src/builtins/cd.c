@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 09:47:01 by jgagnon           #+#    #+#             */
-/*   Updated: 2023/04/05 14:47:27 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/12 10:12:51 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	cd_handler(char **instruct, t_data *data)
 	int	i;
 
 	i = 0;
-	if (ft_cmp_builtin(instruct[i], "cd", 2) == 0)
+	if (ft_strncmp(instruct[i], "cd", 3) == 0)
 	{
 		data->cmd_lst->is_builtin = true;
 		update_oldpwd(data->envp_cp);

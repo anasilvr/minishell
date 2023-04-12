@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgagnon <marvin@42quebec.com>              +#+  +:+       +#+        */
+/*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 09:48:45 by jgagnon           #+#    #+#             */
-/*   Updated: 2023/03/27 09:48:46 by jgagnon          ###   ########.fr       */
+/*   Updated: 2023/04/12 10:12:30 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	echo_handler(char **instruct, t_data *data)
 	int	i;
 
 	i = -1;
-	if (ft_cmp_builtin(instruct[++i], "echo", 4) == 0)
+	if (ft_strncmp(instruct[++i], "echo", 5) == 0)
 	{
 		data->cmd_lst->is_builtin = true;
 		if (instruct[++i] == NULL)

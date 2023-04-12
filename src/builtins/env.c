@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgagnon <marvin@42quebec.com>              +#+  +:+       +#+        */
+/*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 09:49:22 by jgagnon           #+#    #+#             */
-/*   Updated: 2023/03/27 09:49:23 by jgagnon          ###   ########.fr       */
+/*   Updated: 2023/04/12 10:04:45 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	print_env(char **env)
 
 void	env_handler(char **instruct, t_data *data)
 {
-	if (ft_cmp_builtin(instruct[0], "env", 3) == 0)
+	if (ft_strncmp(instruct[0], "env", 4) == 0)
 	{
 		data->cmd_lst->is_builtin = true;
 		print_env(data->envp_cp);

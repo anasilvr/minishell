@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tester.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgagnon <marvin@42quebec.com>              +#+  +:+       +#+        */
+/*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 10:02:06 by jgagnon           #+#    #+#             */
-/*   Updated: 2023/03/29 10:02:07 by jgagnon          ###   ########.fr       */
+/*   Updated: 2023/04/12 10:12:15 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,8 @@ void	man_yoyo_ma(char **instruct, t_data *data)
 	r_gnl = NULL;
 	if (instruct[1] == NULL)
 		return ;
-	if (ft_cmp_builtin(instruct[0], "man", 3) == 0
-		&& ft_cmp_builtin(instruct[1], "yoyoma", 6) == 0)
+	if (ft_strncmp(instruct[0], "man", 4) == 0
+		&& ft_strncmp(instruct[1], "yoyoma", 7) == 0)
 	{
 		data->cmd_lst->is_builtin = true;
 		fd = open("yoyo_ma.txt", O_RDONLY);
