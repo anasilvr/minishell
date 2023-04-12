@@ -114,7 +114,7 @@ char	*rl_gets(void)
 	char	*r_line;
 
 	line = (char *) NULL;
-	line = readline("\033[0;97m\xF0\x9F\x90\x8CWTS$\033[0m ");
+	line = readline("WTS$ ");
 	if (line && *line)
 		add_history(line);
 	r_line = ft_strdup(line);

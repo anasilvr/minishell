@@ -77,10 +77,13 @@ int	export_pars(char *n_var, char **env)
 	int	i;
 
 	i = 0;
-	while (n_var[i] != '=' && n_var[i] != '\0')
-		i++;
-	if (n_var[i] == '=')
-		return (env_dup(n_var, env));
+	if (ft_isalpha(n_var[i]) == 1 || n_var[i] == '_')
+	{
+		while (n_var[i] != '=' && n_var[i] != '\0')
+			i++;
+		if (n_var[i] == '=')
+			return (env_dup(n_var, env));
+	}
 	return (-2);
 }
 
