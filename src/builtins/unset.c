@@ -78,7 +78,6 @@ void	unset_handler(char **instruct, t_data *data)
 				data->envp_cp[r_check] = xfree(data->envp_cp[r_check]);
 				data->envp_cp[r_check] = ft_strdup(instruct[i]);
 			}
-			data->envp_cp = cpy_unset(data->envp_cp, r_check);
 		}
 	}
 }
