@@ -74,27 +74,22 @@ int	check_syntax(t_tok **list)
 	return (0);
 }
 
-void	lexer(t_data *data, char *input)
+int	lexer(t_data *data, char *input)
 {
-	if (!data)
-		return ;
-	if (!input || !*input)
-		return ;
-	g_status = valid_quotation(data);
-	if (g_status)
-	{
-		data->syntax_err = 90;
-		return ;
-	}
+	if (!data || !input || !*input)
+		return (0);
+	data->syntax_err = valid_quotation(data);
+	if (data->syntax_err != 0)
+		return (128) ;
 	data->token = tokenize(data, data->input);
 	if (!data->token)
-		return ;
-	g_status = id_tokens(&data->token, data);
-	if (g_status)
-		return ;
+		return (128);
+	data->syntax_err = id_tokens(&data->token, data);
+	if (data->syntax_err)
+		return (128);
 	verify_dollartype(&data->token);
-	treat_line(data->token, data->envp_cp);
-	return ;
+	treat_line(data->token, data->envp_cp, data->exit_code);
+	return (0);
 }
 
 t_tok	*tokenize(t_data *data, char *str)

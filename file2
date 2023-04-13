@@ -1,0 +1,11 @@
+total 888
+-rw-r--r--   1 jgagnon  2021_quebec    2991 Apr 12 16:05 Makefile
+-rw-r--r--   1 jgagnon  2021_quebec       4 Apr 12 16:27 file1
+-rw-r--r--   1 jgagnon  2021_quebec       0 Apr 12 16:27 file2
+-rw-r--r--   1 jgagnon  2021_quebec     453 Apr 12 15:41 ignore_rdl_leaks.txt
+drwxr-xr-x   7 jgagnon  2021_quebec     238 Apr 12 15:41 include
+-rwxr-xr-x   1 jgagnon  2021_quebec  433416 Apr 12 16:02 minishell
+drwxr-xr-x  39 jgagnon  2021_quebec    1326 Apr 12 16:02 obj
+drwxr-xr-x   7 jgagnon  2021_quebec     238 Apr 12 15:41 src
+-rw-r--r--   1 jgagnon  2021_quebec    2545 Apr 12 15:41 test.txt
+-rw-r--r--   1 jgagnon  2021_quebec    2540 Apr 12 15:41 yoyo_ma.txt

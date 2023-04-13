@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-char	*dollar_env_finder(char **env, char *r_quotes)
+char	*dollar_env_finder(char **env, char *r_quotes, int err_code)
 {
 	char	*r_env;
 	char	*r_line;
@@ -22,7 +22,7 @@ char	*dollar_env_finder(char **env, char *r_quotes)
 	i = 0;
 	while (r_quotes[i] != '\0')
 	{
-		r_env = dollar_handler(r_quotes, env, &i);
+		r_env = dollar_handler(r_quotes, env, &i, err_code);
 		if (r_env != NULL && r_line == NULL)
 			r_line = ft_strdup(r_env);
 		else if (r_env != NULL && r_line != NULL)
@@ -37,7 +37,7 @@ char	*dollar_env_finder(char **env, char *r_quotes)
 	return (r_line);
 }
 
-char	*double_quote_handler(char *line, char **env, int *j)
+char	*double_quote_handler(char *line, char **env, int *j, int err_code)
 {
 	int		i;
 	int		len;
@@ -60,7 +60,7 @@ char	*double_quote_handler(char *line, char **env, int *j)
 			r_quotes[i] = line[*j + i];
 		*j += len + 1;
 	}
-	r_line = dollar_env_finder(env, r_quotes);
+	r_line = dollar_env_finder(env, r_quotes, err_code);
 	xfree(r_quotes);
 	return (r_line);
 }
@@ -86,7 +86,7 @@ char	*single_quotes_handler(char *line, int *j)
 	return (r_val);
 }
 
-char	*quotes_handler(char *line, char **env, int *j)
+static char	*quotes_handler(char *line, char **env, int *j, int err_code)
 {
 	char	*r_var;
 
@@ -94,11 +94,11 @@ char	*quotes_handler(char *line, char **env, int *j)
 	if (line[++(*j)] == '\'')
 		r_var = single_quotes_handler(line, j);
 	else if (line[*j] == '"')
-		r_var = double_quote_handler(line, env, j);
+		r_var = double_quote_handler(line, env, j, err_code);
 	return (r_var);
 }
 
-char	*dollar_handler(char *line, char **env, int *j)
+char	*dollar_handler(char *line, char **env, int *j, int err_code)
 {
 	int		i;
 	char	*r_var;
@@ -110,11 +110,11 @@ char	*dollar_handler(char *line, char **env, int *j)
 	if (line[*j] == '$' && (ft_isspace(line[*j + 1]) == 0 || \
 		line[*j + 1] != '\0'))
 	{
-		r_var = quotes_handler(line, env, j);
+		r_var = quotes_handler(line, env, j, err_code);
 		if (line[*j] == '?')
 		{
 			(*j)++;
-			r_var = ft_itoa(g_status);
+			r_var = ft_itoa(err_code);
 		}
 		else if (r_var == NULL)
 		{
