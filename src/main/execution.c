@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 10:23:47 by jgagnon           #+#    #+#             */
-/*   Updated: 2023/04/11 16:10:33 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/13 12:42:45 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ static void	external_bin_exec(t_data *prog_data, char **argv)
 			ft_putstr_fd(argv[0], 2);
 			ft_putstr_fd("\n", 2);
 			clean_exit(prog_data);
+			g_status = 127;
 			exit (127);
 		}
 	}
@@ -103,8 +104,11 @@ void	execution_time(t_data *prog_data)
 		builtins_checker(prog_data, prog_data->cmd_lst);
 		if (prog_data->cmd_lst->is_builtin == false)
 		{
-			prog_data->cmd_lst->path = recup_the_bin_path(
+			if (access(prog_data->cmd_lst->args[0], X_OK) == -1)
+				prog_data->cmd_lst->path = recup_the_bin_path(
 					prog_data->cmd_lst->args[0], prog_data->envp_cp);
+			else
+				prog_data->cmd_lst->path = ft_strdup(prog_data->cmd_lst->args[0]);
 			external_bin_exec (prog_data, prog_data->cmd_lst->args);
 		}
 	}

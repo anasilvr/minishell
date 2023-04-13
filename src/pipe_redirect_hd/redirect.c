@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:34:45 by tchalifo          #+#    #+#             */
-/*   Updated: 2023/04/12 16:10:48 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/13 10:47:34 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,10 @@ int	open_handling(t_cmd *cmd_lst, t_data *data)
 			return (-1);
 		data->token = delmidnode_toklist(data->token);
 		data->token = delmidnode_toklist(data->token);
+		if (data->token->type == PIPE)
+		{
+			data->cmd_lst = data->cmd_lst->next;
+		}
 		if (data->token == NULL)
 			return (-1);
 	}
