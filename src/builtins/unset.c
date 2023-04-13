@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 10:04:53 by jgagnon           #+#    #+#             */
-/*   Updated: 2023/04/12 10:13:38 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/12 16:30:31 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,34 +31,6 @@ int	check_env_var(char **env, char *var)
 	if (env[i] == NULL)
 		return (-1);
 	return (i);
-}
-
-static char	**cpy_unset(char **env, int line)
-{
-	int		i;
-	int		k;
-	char	**r_env;
-
-	i = 0;
-	k = 0;
-	while (env[i] != NULL)
-		i++;
-	r_env = malloc(sizeof(char *) * i);
-	i = 0;
-	while (env[i] != NULL)
-	{
-		while (env[i] != NULL)
-		{
-			if (i != line)
-				r_env[k] = ft_strdup(env[i]);
-			if (i != line)
-				k++;
-			i++;
-		}
-	}
-	r_env[k] = NULL;
-	free_tab(env);
-	return (r_env);
 }
 
 void	unset_handler(char **instruct, t_data *data)
