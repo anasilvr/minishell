@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgagnon <marvin@42quebec.com>              +#+  +:+       +#+        */
+/*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:30:19 by jgagnon           #+#    #+#             */
-/*   Updated: 2023/04/05 11:30:25 by jgagnon          ###   ########.fr       */
+/*   Updated: 2023/04/13 17:00:36 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@
 # include <unistd.h>
 
 // MACROS, GLOBAL VARIABLE AND STRUCTS
-# define WTS "\033[1;95m\xF0\x9F\x90\x8CWTS$\033[a \033[0m"
 # define PIPE_READ 0
 # define PIPE_WRITE 1
 # define WHITESPACE " \n\t\v\r\f"
@@ -44,6 +43,7 @@
 # define QUOTES "\'\""
 
 # define ERR_QUOTES "Error: Unclosed quotes. Try again." // $? = 1
+# define ERR_TOK "Error: Tokenization failed." // $? = 1
 # define ERR_SYNTAX "Syntax error near unexpected token" // $? = 258
 # define ERR_CMD ": command not found" // $? = 127
 # define ERR_OPEN ": no such file or directory"

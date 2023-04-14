@@ -6,7 +6,7 @@
 /*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:44:57 by anarodri          #+#    #+#             */
-/*   Updated: 2023/04/13 16:44:40 by anarodri         ###   ########.fr       */
+/*   Updated: 2023/04/13 18:20:24 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,10 @@ static	void	signal_handler(int sig)
 
 static void	err_msg(t_data *data)
 {
-	if (data->syntax_err == 90)
+	if (data->syntax_err == 128)
 		printf("[%d / %d] %s\n", g_status, data->syntax_err, ERR_QUOTES);
+	else if (data->syntax_err == 129)
+		printf("[%d / %d] %s\n", g_status, data->syntax_err, ERR_TOK);
 	else if (data->syntax_err == 258)
 		printf("[%d / %d] %s\n", g_status, data->syntax_err, ERR_SYNTAX);
 	else

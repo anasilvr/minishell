@@ -6,18 +6,19 @@
 /*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 14:16:03 by tchalifo          #+#    #+#             */
-/*   Updated: 2023/04/13 11:59:32 by anarodri         ###   ########.fr       */
+/*   Updated: 2023/04/13 18:22:42 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	tok_len(char *str, int len)
+int tok_len(char *str, int len)
 {
-	int	i;
-
-	i = -1;
-	while (++i < len && str && !is_set(str[i], WHITESPACE))
+    int i;
+	if (!str)
+		return (0);
+	i = 0;
+	while (i < len)
 	{
 		if (is_set(str[i], METACHAR) || is_set(str[i], QUOTES)
 			|| is_set(str[i], "$"))
@@ -25,6 +26,8 @@ int	tok_len(char *str, int len)
 			if (i == 0 && ((is_set(str[i], QUOTES))))
 			{
 				i = (1 + length_til_match(str, str[i]));
+				if (!str[i] || is_set(str[i], WHITESPACE))
+					break ;
 				if (str[i] && is_set(str[i], QUOTES))
 					i += tok_len(&str[i], (ft_strlen(str) - i));
 			}
@@ -32,9 +35,13 @@ int	tok_len(char *str, int len)
 				i = (length_til_set(str, WHITESPACE));
 			if (i == 0 && (is_set(str[i], "$")))
 				i = (length_for_dollar(str));
-			 else if (i == 0)
-			 	i = 1;
+			// else if (i == 0)
+			// 	i = 1;
+			// return (i);
 		}
+		else if (is_set(str[i], WHITESPACE))
+			break ;
+		i++;
 	}
 	return (i);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 10:23:47 by jgagnon           #+#    #+#             */
-/*   Updated: 2023/04/13 12:42:45 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/13 16:57:52 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static void	external_bin_exec(t_data *prog_data, char **argv)
 	{
 		prog_data->fork_pid = fork();
 		if (prog_data->fork_pid == -1)
-			perror("Minishell");
+			perror("WTS");
 		else if (prog_data->fork_pid != 0)
 			waitpid(prog_data->fork_pid, NULL, 0);
 	}
@@ -86,7 +86,7 @@ static void	external_bin_exec(t_data *prog_data, char **argv)
 	{
 		if (execve(prog_data->cmd_lst->path, argv, prog_data->envp_cp) == -1)
 		{
-			ft_putstr_fd("Minishell: ", 2);
+			ft_putstr_fd("WTS: ", 2);
 			ft_putstr_fd("command not found: ", 2);
 			ft_putstr_fd(argv[0], 2);
 			ft_putstr_fd("\n", 2);
