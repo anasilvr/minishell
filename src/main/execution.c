@@ -53,6 +53,7 @@ static char	*recup_the_bin_path(char *bin_name, char **p_envp)
 		i++;
 		free (complete_bin_path);
 	}
+	g_status = 127;
 	free_tab(splitted_path);
 	return (NULL);
 }

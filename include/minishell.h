@@ -172,8 +172,8 @@ int		heredoc_to_pipe(t_hdoc *hd_struct);
 //heredoc_utils.c
 void	hd_signal_handler(int sig);
 char	*trim_delim(const char *delim);
-char	*heredoc_special_handling(char **env, char *line);
-char	*heredoc_dollar(int *i, char **env, char *line);
+char	*heredoc_special_handling(char **env, char *line, int err_code);
+char	*heredoc_dollar(int *i, char **env, char *line, int err_code);
 
 t_hdoc	*ft_dllst_new(char *str);
 t_hdoc	*ft_dllst_add_back(t_hdoc *p_lst, char *str);
