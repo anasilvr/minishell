@@ -6,7 +6,7 @@
 /*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 14:46:08 by tchalifo          #+#    #+#             */
-/*   Updated: 2023/04/14 11:12:53 by anarodri         ###   ########.fr       */
+/*   Updated: 2023/04/14 11:57:04 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,12 @@ void	skip_whitespaces(char **str)
 {
 	if (!*str || !**str)
 		return ;
-	while (**str && is_set(**str, WHITESPACE) && (*str + 1))
+	while (**str && is_set(**str, WHITESPACE))
+	{
+		if (**str == '\0')
+			break ;
 		*str += 1;
+	}
 	return ;
 }
 

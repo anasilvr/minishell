@@ -6,7 +6,7 @@
 /*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 14:55:57 by tchalifo          #+#    #+#             */
-/*   Updated: 2023/04/13 18:34:21 by anarodri         ###   ########.fr       */
+/*   Updated: 2023/04/14 12:12:54 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	lexer(t_data *data, char *input)
 		return (0);
 	data->syntax_err = valid_quotation(data);
 	if (data->syntax_err != 0)
-		return (128) ;
+		return (128);
 	data->token = tokenize(data, data->input);
 	if (!data->token)
 		return (129);
@@ -94,18 +94,18 @@ int	lexer(t_data *data, char *input)
 	return (0);
 }
 
-t_tok   *tokenize(t_data *data, char *str)
+t_tok	*tokenize(t_data *data, char *str)
 {
     t_tok   *lst;
 	size_t	len;
 	size_t	max;
 
     lst = NULL;
-    len = ft_strlen(str);
 	max = 0;
 	skip_whitespaces(&str);
     while (*str)
     {
+		len = ft_strlen(str);
         data->token->toksize = tok_len(str, ft_strlen(str));
         addback_toklist(&lst, \
             new_toklist(ft_substr(str, 0, data->token->toksize)));
@@ -113,10 +113,10 @@ t_tok   *tokenize(t_data *data, char *str)
 		if (max > len)
 			str += ft_strlen(str);
 		else
-        	str += data->token->toksize;
+			str += data->token->toksize;
 		if (str)
-	       	skip_whitespaces(&str);
-    }
-    free_toklist(data->token);
-    return (lst);
+			skip_whitespaces(&str);
+	}
+	free_toklist(data->token);
+	return (lst);
 }

@@ -1,13 +1,15 @@
 bash -c echo "Testing cd and pwd"
+echo $USER
+echo ~/123/456
+echo ~/123
+echo '~'
+echo ~123
+echo 123~
+echo "-n -n -n"-n bonjour
+echo "-n '-n'" bonjour
+echo ~
+echo "~"
 echo "Tests de echo"
-echo
-echo echo
-eCho
-eChO
-eCHO
-ECHO
-echo rhobebou
-echo stop barking
 echo "bonjour"
 echo bonjour
 echo 'bonjour'
@@ -18,16 +20,15 @@ echo -n -n -n bonjour
 echo "-n" bonjour
 echo -n"-n" bonjour
 echo "-nnnn" bonjour
-echo "-n -n -n"-n bonjour
-echo "-n '-n'" bonjour
-echo ~
-echo "~"
-echo '~'
-echo ~123
-echo 123~
-echo ~/123
-echo ~/123/456
-echo $USER
+echo \\\" \\\" \\\" \\\"\\\"\\\" \\\'\\\'\\\'
+echo
+echo echo
+eCho
+eChO
+eCHO
+ECHO
+echo rhobebou
+echo stop barking
 echo "$USER"
 echo "'$USER'"
 echo " '$USER' "
@@ -42,7 +43,6 @@ echo $USER'$USER'text oui oui     oui  oui $USER oui      $USER ''
 echo $USER '' $USER $USER '' $USER '' $USER -n $USER
 echo ' \' ' \'
 echo '\" ' " \"\""
-echo \\\" \\\" \\\" \\\"\\\"\\\" \\\'\\\'\\\'
 echo "$USER""$USER""$USER"
 echo text"$USER"test
 echo '$USER' "$USER" "text \' text"
@@ -70,7 +70,6 @@ echo $PWD/file
 echo "$PWD/file"
 echo "text" "text$USER" ... "$USER"
 echo $PWD
-
 echo "Test de cd et pwd"
 cd ~
 pwd 
@@ -140,7 +139,6 @@ cd ~
 cd $OLDPWD/something
 pwd
 cd ~
-
 bash -c echo "echo "Execution du echo -nnn patate"
 echo -nnn patate
 echo -nnn patate
@@ -149,6 +147,7 @@ echo "Les prochains tests seront pour les redirections"
 echo "Commencons par un fichier sans droit"
 touch bob
 chmod 0000 bob
+
 cat < bob
 echo BobIntoTheBob > bob
 echo "Ensuite, avec des quotes et des expands"

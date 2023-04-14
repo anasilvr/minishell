@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tester.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 10:02:06 by jgagnon           #+#    #+#             */
-/*   Updated: 2023/04/12 10:12:15 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/14 11:27:35 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*tester(void)
 	r_gnl = NULL;
 	if (fd == 0)
 		fd = open("test.txt", O_RDONLY);
-	sleep(1);
+//	sleep(1);
 	if (!fd)
 		return (r_gnl);
 	r_gnl = easy_gnl(fd);
