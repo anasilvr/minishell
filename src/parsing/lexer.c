@@ -6,7 +6,7 @@
 /*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 14:55:57 by tchalifo          #+#    #+#             */
-/*   Updated: 2023/04/14 12:12:54 by anarodri         ###   ########.fr       */
+/*   Updated: 2023/04/14 15:56:40 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,34 @@ int	check_syntax(t_tok **list)
 	return (0);
 }
 
+static char *clean_empty_quotes(char *input)
+{
+	char	*tmp;
+	int		i;
+	char	q;
+
+	tmp = ft_xcalloc(1, 1);
+	i = -1;
+	q = '\0';
+	while (input[++i])
+	{
+		while (is_set(input[i], QUOTES))
+		{
+			q = input[i];
+			if (input [i + 1] && input [i + 1] == q)
+				i += 2 ;
+			else
+				break ;
+		}
+		if (!input[i])
+			break ;
+		tmp = charjoinfree(tmp, input[i]);
+	}
+	tmp = charjoinfree(tmp, '\0');
+	xfree(input);
+	return (tmp);
+}
+
 int	lexer(t_data *data, char *input)
 {
 	if (!data || !input || !*input)
@@ -81,6 +109,7 @@ int	lexer(t_data *data, char *input)
 	data->syntax_err = valid_quotation(data);
 	if (data->syntax_err != 0)
 		return (128);
+	data->input = clean_empty_quotes(input);
 	data->token = tokenize(data, data->input);
 	if (!data->token)
 		return (129);
