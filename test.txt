@@ -10,7 +10,6 @@ echo $USER  $USER91"text"$USER abab$USERabc > outfile.txt
 rm -f outfile.txt
 diff outfile.txt <("$USER text$USER abab")
 env | grep "_="
-
 echo text"$USER"
 echo "'$USER'"
 echo " '$USER' "
