@@ -1,15 +1,29 @@
-bash -c echo "Testing cd and pwd"
+bash -c echo "Testing echo"
+echo "Les prochains tests seront pour les redirections"
+echo "Commencons par un fichier sans droit"
+touch bob
+chmod 0000 bob
+cat < bob
+echo BobIntoTheBob > bob
+echo "Ensuite, avec des quotes et des expands"
+echo $USER  $USER91"text"$USER abab$USERabc > outfile.txt
+rm -f outfile.txt
+diff outfile.txt <("$USER text$USER abab")
+env | grep "_="
+
+echo text"$USER"
+echo "'$USER'"
+echo " '$USER' "
 echo $USER
-echo ~/123/456
-echo ~/123
-echo '~'
-echo ~123
-echo 123~
-echo "-n -n -n"-n bonjour
-echo "-n '-n'" bonjour
-echo ~
-echo "~"
-echo "Tests de echo"
+echo "$USER"
+echo
+echo echo
+eCho 
+eChO
+eCHO
+ECHO
+echo rhobebou
+echo stop barking
 echo "bonjour"
 echo bonjour
 echo 'bonjour'
@@ -20,15 +34,19 @@ echo -n -n -n bonjour
 echo "-n" bonjour
 echo -n"-n" bonjour
 echo "-nnnn" bonjour
-echo \\\" \\\" \\\" \\\"\\\"\\\" \\\'\\\'\\\'
-echo
-echo echo
-eCho
-eChO
-eCHO
-ECHO
-echo rhobebou
-echo stop barking
+echo "-n -n -n"-n bonjour
+echo "-n '-n'" bonjour
+echo ~
+echo "~"
+echo '~'
+echo ~123
+echo 123~
+echo ~/123
+echo ~/123/456
+echo $USER
+echo "$USER"
+echo "'$USER'"
+echo $USER
 echo "$USER"
 echo "'$USER'"
 echo " '$USER' "
@@ -43,6 +61,7 @@ echo $USER'$USER'text oui oui     oui  oui $USER oui      $USER ''
 echo $USER '' $USER $USER '' $USER '' $USER -n $USER
 echo ' \' ' \'
 echo '\" ' " \"\""
+echo \\\" \\\" \\\" \\\"\\\"\\\" \\\'\\\'\\\'
 echo "$USER""$USER""$USER"
 echo text"$USER"test
 echo '$USER' "$USER" "text \' text"
@@ -70,88 +89,63 @@ echo $PWD/file
 echo "$PWD/file"
 echo "text" "text$USER" ... "$USER"
 echo $PWD
-echo "Test de cd et pwd"
-cd ~
-pwd 
-cd
-pwd
-cd ~
-cd ..
-cd .
-pwd
-cd /Users
-pwd
-cd ~
-cd //
-pwd
-cd ~
-cd '//'
-pwd
-cd ~
-cd //////
-pwd
-cd ~
-cd ./././
-pwd
-cd ~
+
+echo "Testing cd"
+cd 
+cd .. 
+cd . 
+cd /Users 
+cd // 
+cd '//' 
+cd ////// 
+cd ./././ 
 cd /
-pwd
-cd ~
-cd '/////' 2>/dev/null
-pwd
-cd ~
-cd '/etc'
-pwd
-cd ~
-cd '/var'
-pwd
-cd ~
-cd "$PWD/filetests"
-pwd
-cd ~
-cd "doesntexist"
-pwd
-cd ~
-cd "doesntexist" 2>/dev/null
-pwd
-cd ~
+cd '/////' 2>/dev/null 
+cd '/etc' 
+cd '/var' 
+cd "$PWD/file_tests" 
+cd "doesntexist" 
+cd "doesntexist" 2>/dev/null 
 cd ../../..
-pwd
-cd ~
-cd "wtf" 2>/dev/null
-pwd
-cd ~
+cd "wtf" 2>/dev/null 
+cd .. 
 cd ..
-cd ..
-pwd
-cd ~
 cd ?
 cd +
-cd 
+cd _
 cd woof
 cd bark bark
-cd '/'
-pwd
-cd ~
-cd $PWD/file_tests
-pwd
-cd ~
-cd $OLDPWD/something
-pwd
-cd ~
-bash -c echo "echo "Execution du echo -nnn patate"
-echo -nnn patate
-echo -nnn patate
-ls > out
-echo "Les prochains tests seront pour les redirections"
-echo "Commencons par un fichier sans droit"
-touch bob
-chmod 0000 bob
+cd '/' 
+cd $PWD/file_tests 
+cd $OLDPWD/something 
 
-cat < bob
-echo BobIntoTheBob > bob
-echo "Ensuite, avec des quotes et des expands"
-echo $USER  $USER91"text"$USER abab$USERabc > outfile.txt
-rm -f outfile.txt
-diff outfile.txt <("$USER text$USER abab")
+echo "Testing pipes"
 env | grep "_="
+env | grep "SHLVL"
+echo oui | cat -e
+echo oui | echo non | echo something | grep oui
+echo oui | echo non | echo something | grep non
+echo oui | echo non | echo something | grep something
+cd .. | echo "something"
+cd .. | echo "something"
+cd / | echo "something"
+cd .. | pwd
+ifconfig | grep ":"
+ifconfig | grep nothing
+whoami | grep $USER
+whoami | grep $USER > tmp/file
+whoami | cat -e | cat -e > tmp/file 
+cat Makefile | grep "FLAGS"
+cat Makefile | cat -e | cat -e
+cat Makefile | grep "FLAGS" | grep "FLAGS" | cat -e
+export TEST=123 | cat -e | cat -e
+unset TEST | cat -e
+echo test | cat -e | cat -e | cat -e
+whereis ls | cat -e | cat -e > test
+echo test | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e | cat -e
+ls -la | grep "."
+whereis grep > tmp/file 
+whereis grep > tmp/file
+ls -la > tmp/file
+ls -la > tmp/file 
+ls > out

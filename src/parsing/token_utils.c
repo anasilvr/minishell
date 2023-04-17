@@ -6,7 +6,7 @@
 /*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 14:16:03 by tchalifo          #+#    #+#             */
-/*   Updated: 2023/04/14 16:08:42 by anarodri         ###   ########.fr       */
+/*   Updated: 2023/04/17 11:50:10 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,28 +19,34 @@
 int	tok_len(char *str, int len)
 {
 	int	i;
+	char q;
 
 	if (!str)
 		return (0);
-	i = -1;
-	while (++i < len && !is_set(str[i], WHITESPACE))
+	i = 0;
+	q = '\0';
+	while (i < len && str[i])
 	{
-		if (is_set(str[i], METACHAR) || is_set(str[i], QUOTES)
-			|| is_set(str[i], "$"))
+		//printf("str: %s\n", &str[i]);
+		if (i == 0 && is_set(str[i], METACHAR))
 		{
-			if (i == 0 && ((is_set(str[i], QUOTES))))
-			{
-				i = (1 + length_til_match(str, str[i]));
-				if (str[i] && is_set(str[i], QUOTES))
-					i += tok_len(&str[i], (ft_strlen(str) - i));
-			}
-			else if (i == 0 && (is_set(str[i], METACHAR)))
-				i = (length_til_set(str, WHITESPACE));
-			else if (i == 0 && (is_set(str[i], "$")))
-				i = (length_for_dollar(str));
-			else if (i == 0)
-				i = 1;
+			i += (length_til_set(str, WHITESPACE));
+			return (i);
 		}
+		if ((i == 0 && is_set(str[i], "$")))
+		{
+			i = (length_for_dollar(str));
+		}
+		if (str[i] && is_set(str[i], QUOTES))
+		{
+			i++;
+			i += (length_til_match(&str[i], str[i - 1]));
+			if (str[i] && is_set(str[i], QUOTES))
+				i += tok_len(&str[i], (ft_strlen(str) - i));
+		}
+		if (str[i] == '\0' || is_set(str[i], WHITESPACE) || is_set(str[i], METACHAR))
+			break;
+		i++;
 	}
 	return (i);
 }
@@ -96,10 +102,11 @@ int	length_til_match(char *str, char c)
 	if (!str)
 		return (0);
 	i = 1;
+	printf("str: %s | c: %c\n", str, c);
 	while (str[i])
 	{
 		if ((str[i]) == c)
-			break ;
+			return (i) ;
 		i++;
 	}
 	return (i);

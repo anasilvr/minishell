@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rl.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:55:35 by jgagnon           #+#    #+#             */
-/*   Updated: 2023/04/04 16:35:22 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/17 11:21:56 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char	*charjoinfree(const char *s1, const char c)
 {
-	char	*r_str;
-	int		len;
+	char		*r_str;
+	size_t		len;
 	int		i;
 
 	len = 0;
@@ -25,13 +25,13 @@ char	*charjoinfree(const char *s1, const char c)
 	r_str = NULL;
 	if (len < 1)
 	{
-		r_str = malloc(sizeof(char) * 2);
+		r_str = ft_calloc(2, sizeof(char));
 		r_str[0] = c;
 		r_str[1] = '\0';
 	}
 	else if (len > 0)
 	{
-		r_str = malloc(sizeof(char) * (len + 2));
+		r_str = ft_calloc((len + 2), sizeof(char));
 		while (s1[++i] != '\0')
 			r_str[i] = s1[i];
 		r_str[i] = c;

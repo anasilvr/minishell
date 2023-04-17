@@ -6,7 +6,7 @@
 /*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 14:55:57 by tchalifo          #+#    #+#             */
-/*   Updated: 2023/04/14 15:56:40 by anarodri         ###   ########.fr       */
+/*   Updated: 2023/04/17 11:16:10 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ t_tok	*tokenize(t_data *data, char *str)
         data->token->toksize = tok_len(str, ft_strlen(str));
         addback_toklist(&lst, \
             new_toklist(ft_substr(str, 0, data->token->toksize)));
-		max += data->token->toksize;
+		max = data->token->toksize;
 		if (max > len)
 			str += ft_strlen(str);
 		else
