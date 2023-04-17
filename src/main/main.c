@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 16:44:57 by anarodri          #+#    #+#             */
-/*   Updated: 2023/04/12 15:49:42 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/13 18:20:24 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ static	void	signal_handler(int sig)
 
 static void	err_msg(t_data *data)
 {
-	if (data->syntax_err == 1)
+	if (data->syntax_err == 128)
 		printf("[%d / %d] %s\n", g_status, data->syntax_err, ERR_QUOTES);
+	else if (data->syntax_err == 129)
+		printf("[%d / %d] %s\n", g_status, data->syntax_err, ERR_TOK);
 	else if (data->syntax_err == 258)
 		printf("[%d / %d] %s\n", g_status, data->syntax_err, ERR_SYNTAX);
-	else if (data->syntax_err == 127)
-		printf("[%d / %d] %s\n", g_status, data->syntax_err, ERR_CMD);
 	else
-		printf("[%d / %d] Error\n", g_status, data->syntax_err);
+		printf("Error\n");
 	data->syntax_err = 0;
 	return ;
 }
@@ -77,8 +77,8 @@ void	wtshell(t_data *data)
 			readline_exit(data);
 		if (!data->syntax_err && !is_empty(data->input))
 		{
-			lexer(data, data->input);
-			if (g_status == 0 && data->cmd_lst && parser(data) != -1)
+			g_status = lexer(data, data->input);
+			if (data->syntax_err == 0 && data->cmd_lst && parser(data) != -1)
 			{
 				if (data->tester == true)
 					cmdlist_details(data->cmd_lst);

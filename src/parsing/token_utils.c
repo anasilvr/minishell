@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 14:16:03 by tchalifo          #+#    #+#             */
-/*   Updated: 2023/04/03 14:23:07 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/17 12:08:16 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,28 @@
 
 int	tok_len(char *str, int len)
 {
-	int	i;
+	int		i;
 
+	if (!str)
+		return (0);
 	i = -1;
-	while (++i < len && str && !is_set(str[i], WHITESPACE))
+	while (++i < len && str[i])
 	{
-		if (is_set(str[i], METACHAR) || is_set(str[i], QUOTES)
-			|| is_set(str[i], "$"))
+		if (i == 0 && is_set(str[i], METACHAR))
 		{
-			if (i == 0 && ((is_set(str[i], QUOTES))))
-			{
-				i = (1 + length_til_match(str, str[i]));
-				if (str[i] && is_set(str[i], QUOTES))
-					i += tok_len(&str[i], (ft_strlen(str) - i));
-			}
-			if (i == 0 && (is_set(str[i], METACHAR)))
-				i = (length_til_set(str, WHITESPACE));
-			if (i == 0 && (is_set(str[i], "$")))
-				i = (length_for_dollar(str));
-			else if (i == 0)
-				i = 1;
+			i += (length_til_set(str, WHITESPACE));
 			return (i);
 		}
+		if ((i == 0 && is_set(str[i], "$")))
+			i = (length_for_dollar(str));
+		if (str[i] && is_set(str[i], QUOTES))
+		{
+			i++;
+			i += (length_til_match(&str[i], str[i - 1]));
+		}
+		if (str[i] == '\0' || is_set(str[i], WHITESPACE)
+			|| is_set(str[i], METACHAR))
+			break ;
 	}
 	return (i);
 }
@@ -94,7 +94,7 @@ int	length_til_match(char *str, char c)
 	while (str[i])
 	{
 		if ((str[i]) == c)
-			break ;
+			return (i);
 		i++;
 	}
 	return (i);

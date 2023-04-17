@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 14:55:57 by tchalifo          #+#    #+#             */
-/*   Updated: 2023/04/03 14:55:59 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/17 11:59:24 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,51 +74,51 @@ int	check_syntax(t_tok **list)
 	return (0);
 }
 
-void	lexer(t_data *data, char *input)
+static char	*clean_empty_quotes(char *input)
 {
-	if (!data)
-		return ;
-	if (!input || !*input)
-		return ;
-	g_status = valid_quotation(data);
-	if (g_status)
+	char	*tmp;
+	int		i;
+	char	q;
+
+	tmp = ft_xcalloc(1, 1);
+	i = -1;
+	q = '\0';
+	while (input[++i])
 	{
-		data->syntax_err = 90;
-		return ;
+		while (is_set(input[i], QUOTES))
+		{
+			q = input[i];
+			if (input [i + 1] && input [i + 1] == q)
+				i += 2 ;
+			else
+				break ;
+		}
+		if (!input[i])
+			break ;
+		tmp = charjoinfree(tmp, input[i]);
 	}
-	data->token = tokenize(data, data->input);
-	if (!data->token)
-		return ;
-	g_status = id_tokens(&data->token, data);
-	if (g_status)
-		return ;
-	verify_dollartype(&data->token);
-	treat_line(data->token, data->envp_cp);
-	return ;
+	tmp = charjoinfree(tmp, '\0');
+	xfree(input);
+	return (tmp);
 }
 
-t_tok	*tokenize(t_data *data, char *str)
+int	lexer(t_data *data, char *input)
 {
-	t_tok	*lst;
-	size_t	len;
-	size_t	max;
-
-	lst = NULL;
-	len = ft_strlen(str);
-	max = 0;
-	skip_whitespaces(&str);
-	while (*str)
-	{
-		data->token->toksize = tok_len(str, ft_strlen(str));
-		addback_toklist(&lst, \
-			new_toklist(ft_substr(str, 0, data->token->toksize)));
-		max += data->token->toksize;
-		if (max > len)
-			str += ft_strlen(str);
-		else
-			str += data->token->toksize;
-		skip_whitespaces(&str);
-	}
-	free_toklist(data->token);
-	return (lst);
+	if (!data || !input || !*input)
+		return (0);
+	data->syntax_err = valid_quotation(data);
+	if (data->syntax_err != 0)
+		return (128);
+	data->input = clean_empty_quotes(input);
+	data->token = tokenize(data, data->input);
+	if (!data->token)
+		return (129);
+	data->syntax_err = id_tokens(&data->token, data);
+	print_toklist(data->token);
+	if (data->syntax_err)
+		return (258);
+	verify_dollartype(&data->token);
+	treat_line(data->token, data->envp_cp, data->exit_code);
+	print_toklist(data->token);
+	return (0);
 }

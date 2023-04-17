@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rl.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:55:35 by jgagnon           #+#    #+#             */
-/*   Updated: 2023/04/04 16:35:22 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/17 11:21:56 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char	*charjoinfree(const char *s1, const char c)
 {
-	char	*r_str;
-	int		len;
+	char		*r_str;
+	size_t		len;
 	int		i;
 
 	len = 0;
@@ -25,13 +25,13 @@ char	*charjoinfree(const char *s1, const char c)
 	r_str = NULL;
 	if (len < 1)
 	{
-		r_str = malloc(sizeof(char) * 2);
+		r_str = ft_calloc(2, sizeof(char));
 		r_str[0] = c;
 		r_str[1] = '\0';
 	}
 	else if (len > 0)
 	{
-		r_str = malloc(sizeof(char) * (len + 2));
+		r_str = ft_calloc((len + 2), sizeof(char));
 		while (s1[++i] != '\0')
 			r_str[i] = s1[i];
 		r_str[i] = c;
@@ -50,7 +50,7 @@ static char	*add_line(char *r_var, char *r_line)
 	return (r_line);
 }
 
-static char	*token_handler(t_tok *node, char **envp_cp)
+static char	*token_handler(t_tok *node, char **envp_cp, int err_code)
 {
 	char	*r_line;
 	char	*r_var;
@@ -64,11 +64,11 @@ static char	*token_handler(t_tok *node, char **envp_cp)
 		if (node->prev && node->prev->type == 3)
 			;
 		else if (node->token[i] == '$')
-			r_var = dollar_handler(node->token, envp_cp, &i);
+			r_var = dollar_handler(node->token, envp_cp, &i, err_code);
 		else if (node->token[i] == '\'' && r_var == NULL)
 			r_var = single_quotes_handler(node->token, &i);
 		else if (node->token[i] == '"' && r_var == NULL)
-			r_var = double_quote_handler(node->token, envp_cp, &i);
+			r_var = double_quote_handler(node->token, envp_cp, &i, err_code);
 		if (r_var != NULL)
 			r_line = add_line(r_var, r_line);
 		else if (r_var == NULL && node->token[i] != '\0')
@@ -79,7 +79,7 @@ static char	*token_handler(t_tok *node, char **envp_cp)
 	return (r_line);
 }
 
-void	treat_line(t_tok *tok, char **env_cp)
+void	treat_line(t_tok *tok, char **env_cp, int err_code)
 {
 	int		i;
 	char	*r_line;
@@ -91,7 +91,7 @@ void	treat_line(t_tok *tok, char **env_cp)
 	{
 		i = 0;
 		if (node->type == 1 || node->type == 8 || node->type == 10)
-			r_line = token_handler(node, env_cp);
+			r_line = token_handler(node, env_cp, err_code);
 		if (node->type == 1 || node->type == 8 || node->type == 9 \
 			|| node->type == 10)
 		{

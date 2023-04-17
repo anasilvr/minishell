@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgagnon <marvin@42quebec.com>              +#+  +:+       +#+        */
+/*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:30:19 by jgagnon           #+#    #+#             */
-/*   Updated: 2023/04/05 11:30:25 by jgagnon          ###   ########.fr       */
+/*   Updated: 2023/04/13 17:00:36 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@
 # include <unistd.h>
 
 // MACROS, GLOBAL VARIABLE AND STRUCTS
-# define WTS "\033[1;95m\xF0\x9F\x90\x8CWTS$\033[a \033[0m"
 # define PIPE_READ 0
 # define PIPE_WRITE 1
 # define WHITESPACE " \n\t\v\r\f"
@@ -44,6 +43,7 @@
 # define QUOTES "\'\""
 
 # define ERR_QUOTES "Error: Unclosed quotes. Try again." // $? = 1
+# define ERR_TOK "Error: Tokenization failed." // $? = 1
 # define ERR_SYNTAX "Syntax error near unexpected token" // $? = 258
 # define ERR_CMD ": command not found" // $? = 127
 # define ERR_OPEN ": no such file or directory"
@@ -128,6 +128,7 @@ typedef struct s_data
 	bool			heredoc;
 	int				fork_pid;
 	bool			tester;
+    int             exit_code;
 }	t_data;
 
 // FUNCTIONS
@@ -171,8 +172,8 @@ int		heredoc_to_pipe(t_hdoc *hd_struct);
 //heredoc_utils.c
 void	hd_signal_handler(int sig);
 char	*trim_delim(const char *delim);
-char	*heredoc_special_handling(char **env, char *line);
-char	*heredoc_dollar(int *i, char **env, char *line);
+char	*heredoc_special_handling(char **env, char *line, int err_code);
+char	*heredoc_dollar(int *i, char **env, char *line, int err_code);
 
 t_hdoc	*ft_dllst_new(char *str);
 t_hdoc	*ft_dllst_add_back(t_hdoc *p_lst, char *str);
@@ -241,7 +242,7 @@ char	*var_trim(char *n_var);
 int		ft_free_strlen(char *str);
 
 //lexer.c and lexer_utils.c
-void	lexer(t_data *data, char *input);
+int	lexer(t_data *data, char *input);
 int		check_syntax(t_tok **list);
 t_tok	*tokenize(t_data *data, char *str);
 void	skip_whitespaces(char **str);
@@ -274,11 +275,11 @@ char	*charjoinfree(const char *s1, const char c);
 
 //line handler
 int		space_handler(char *str, int i);
-char	*double_quote_handler(char *line, char **env, int *j);
-char	*dollar_handler(char *cmd, char **env, int *j);
+char	*double_quote_handler(char *line, char **env, int *j, int err_code);
+char	*dollar_handler(char *cmd, char **env, int *j, int err_code);
 char	*cpy_env_var(char **env, char *var);
 char	*single_quotes_handler(char *line, int *j);
-void	treat_line(t_tok *tok, char **env_cp);
+void	treat_line(t_tok *tok, char **env_cp, int err_code);
 int		quotes_len(char *line, int *j, char q);
 
 //bonus tester

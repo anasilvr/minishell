@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-char	*heredoc_dollar(int *i, char **env, char *line)
+char	*heredoc_dollar(int *i, char **env, char *line, int err_code)
 {
 	char	*r_line;
 	char	*r_var;
@@ -20,12 +20,12 @@ char	*heredoc_dollar(int *i, char **env, char *line)
 
 	r_var = NULL;
 	r_line = NULL;
-	r_status = ft_itoa(g_status);
+	r_status = ft_itoa(err_code);
 	if (line[++(*i)] == '$')
 		;
-	else if (line[(*i)] == '?')
-		r_line = ft_strjoin_free(r_line, r_status);
-	else if (line[--(*i)] == '$')
+    else if (line[(*i)] == '?')
+        r_line = ft_strdup(r_status);
+	else if (line[--(*i)] == '$' && r_line != NULL)
 	{
 		while (ft_isalnum(line[++(*i)]) == 1)
 			r_var = charjoinfree(r_var, line[(*i)]);
@@ -36,11 +36,11 @@ char	*heredoc_dollar(int *i, char **env, char *line)
 			r_line = ft_strjoin_free(r_line, r_var);
 		r_var = xfree(r_var);
 	}
-	xfree(r_status);
+	r_status = xfree(r_status);
 	return (r_line);
 }
 
-char	*heredoc_special_handling(char **env, char *line)
+char	*heredoc_special_handling(char **env, char *line, int err_code)
 {
 	int		i;
 	char	*r_line;
@@ -53,7 +53,7 @@ char	*heredoc_special_handling(char **env, char *line)
 	{
 		if (line[i] == '$')
 		{
-			r_dollar = heredoc_dollar(&i, env, line);
+			r_dollar = heredoc_dollar(&i, env, line, err_code);
 			if (r_dollar != NULL && r_line == NULL)
 				r_line = ft_strdup(r_dollar);
 			else if (r_dollar != NULL)

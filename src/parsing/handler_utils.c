@@ -17,6 +17,11 @@ int	quotes_len(char *line, int *j, char q)
 	int	len;
 
 	len = 0;
+	if (line[*j] == q && line[*j + 1] == q)
+	{
+		*j += 2;
+		return (len);
+	}
 	while (line[*j] != '\0')
 	{
 		if (line[*j] == q)
