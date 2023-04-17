@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 10:23:47 by jgagnon           #+#    #+#             */
-/*   Updated: 2023/04/17 15:18:20 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/17 15:29:18 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ void	execution_manager(t_data *prog_data)
 	t_cmd	*head;
 
 	head = prog_data->cmd_lst;
-	prog_data->0 = -2;
+	prog_data->fork_pid = -2;
 	if (prog_data->cmd_lst->args != NULL)
 	{
 		prog_data->cmd_lst->is_builtin = false;

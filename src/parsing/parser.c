@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 14:45:43 by tchalifo          #+#    #+#             */
-/*   Updated: 2023/04/03 14:45:56 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/17 15:45:52 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int	parser(t_data *data)
 		if (data->cmd_lst->filefd[0] == -1 || \
 		(data->cmd_lst->filefd[1] == -1 && errno == EACCES))
 		{
-			perror("Minishell :");
+			perror("wts:");
 		}
 		return (0);
 	}
