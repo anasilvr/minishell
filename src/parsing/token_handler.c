@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token_handler.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jgagnon <marvin@42quebec.com>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/18 14:01:00 by jgagnon           #+#    #+#             */
+/*   Updated: 2023/04/18 14:01:01 by jgagnon          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../include/minishell.h"
 
 char	*expand_dollar(char *line, char **env, int *i, int err)
@@ -26,21 +38,15 @@ char	*expand_dollar(char *line, char **env, int *i, int err)
 	return (r_var);
 }
 
-char	*expand_token(char *token, char **env, int *i, int err, bool *treat)
+char	*expand_token(char *token, char **env, int *i, int err)
 {
-	char *r_var;
+	char	*r_var;
 
 	r_var = NULL;
 	if (token[*i] == '$')
-	{
 		r_var = expand_dollar(token, env, i, err);
-		*treat = true;
-	}
 	else if (token[*i] == '\'' || token[*i] == '"')
-	{
 		r_var = quotes_handler(token, env, i, err);
-		*treat = true;
-	}
 	return (r_var);
 }
 

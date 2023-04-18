@@ -40,7 +40,7 @@ char	*tester(void)
 	r_gnl = NULL;
 	if (fd == 0)
 		fd = open("test.txt", O_RDONLY);
-//	sleep(1);
+	sleep(1);
 	if (!fd)
 		return (r_gnl);
 	r_gnl = easy_gnl(fd);

@@ -95,34 +95,3 @@ char	*quotes_handler(char *line, char **env, int *j, int err_code)
 		r_var = double_quote_handler(line, env, j, err_code);
 	return (r_var);
 }
-
-char	*dollar_handler(char *line, char **env, int *j, int err_code)
-{
-	int		i;
-	char	*r_var;
-
-	i = 0;
-	r_var = NULL;
-	while (line[*j] == '$' && line[*j + 1] == '$')
-		*j += 2;
-	if (line[*j] == '$' && (ft_isspace(line[++(*j)]) == 0 || \
-		line[*j] != '\0'))
-	{
-		r_var = quotes_handler(line, env, j, err_code);
-		if (line[*j] == '?')
-		{
-			(*j)++;
-			r_var = ft_itoa(err_code);
-		}
-		else if (r_var == NULL && ft_isdigit(line[*j]) != 1)
-		{
-			while ((ft_isalnum(line[*j + i]) == 1 && line[*j + i] != '\0'))
-				i++;
-			r_var = cpy_env_var(env, ft_substr(line, *j, i));
-			(*j) += i;
-		}
-		else if (r_var == NULL && ft_isdigit(line[*j]) == 1)
-			(*j) += 1;
-	}
-	return (r_var);
-}

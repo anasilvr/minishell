@@ -106,10 +106,11 @@ void	execution_time(t_data *prog_data)
 		if (prog_data->cmd_lst->is_builtin == false)
 		{
 			if (access(prog_data->cmd_lst->args[0], X_OK) == -1)
-				prog_data->cmd_lst->path = recup_the_bin_path(
+				prog_data->cmd_lst->path = recup_the_bin_path(\
 					prog_data->cmd_lst->args[0], prog_data->envp_cp);
 			else
-				prog_data->cmd_lst->path = ft_strdup(prog_data->cmd_lst->args[0]);
+				prog_data->cmd_lst->path = \
+					ft_strdup(prog_data->cmd_lst->args[0]);
 			external_bin_exec (prog_data, prog_data->cmd_lst->args);
 		}
 	}

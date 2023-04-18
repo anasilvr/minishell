@@ -91,7 +91,8 @@ t_hdoc	*write_heredoc_loop(t_data *data, char *line, \
 		&& ft_strcmp(r_trim, line) != 0)
 	{
 		if (delimiter[0] != '\'' && delimiter[0] != '"')
-			line = heredoc_special_handling(data->envp_cp, line, data->exit_code);
+			line = heredoc_special_handling(data->envp_cp, line, \
+				data->exit_code);
 		hd_struct = ft_dllst_add_back(hd_struct, line);
 		hd_struct = ft_dllst_add_back(hd_struct, "\n");
 		if (line)
