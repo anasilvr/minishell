@@ -55,26 +55,24 @@ static char	*token_handler(t_tok *node, char **envp_cp, int err_code)
 	char	*r_line;
 	char	*r_var;
 	int		i;
+	bool	treat;
 
 	i = 0;
 	r_var = NULL;
 	r_line = NULL;
+	treat = false;
 	while (node->token[i] != '\0')
 	{
 		if (node->prev && node->prev->type == 3)
 			;
-		else if (node->token[i] == '$')
-			r_var = dollar_handler(node->token, envp_cp, &i, err_code);
-		else if (node->token[i] == '\'' && r_var == NULL)
-			r_var = single_quotes_handler(node->token, &i);
-		else if (node->token[i] == '"' && r_var == NULL)
-			r_var = double_quote_handler(node->token, envp_cp, &i, err_code);
+		r_var = expand_token(node->token, envp_cp, &i, err_code, &treat);
 		if (r_var != NULL)
 			r_line = add_line(r_var, r_line);
-		else if (r_var == NULL && node->token[i] != '\0')
+		else if (r_var == NULL && node->token[i] != '\0' && treat == false)
 			r_line = charjoinfree(r_line, node->token[i++]);
 		if (r_var != NULL)
 			r_var = xfree(r_var);
+		treat = false;
 	}
 	return (r_line);
 }

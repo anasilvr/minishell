@@ -281,6 +281,10 @@ char	*cpy_env_var(char **env, char *var);
 char	*single_quotes_handler(char *line, int *j);
 void	treat_line(t_tok *tok, char **env_cp, int err_code);
 int		quotes_len(char *line, int *j, char q);
+char	*quotes_handler(char *line, char **env, int *j, int err_code);
+char	*expand_token(char *token, char **env, int *i, int err, bool *treat);
+char	*dollar_env_handler(char *line, char **env, int *i);
+char	*expand_dollar(char *line, char **env, int *i, int err);
 
 //bonus tester
 char	*tester(void);
