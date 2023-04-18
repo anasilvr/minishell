@@ -38,15 +38,21 @@ char	*expand_dollar(char *line, char **env, int *i, int err)
 	return (r_var);
 }
 
-char	*expand_token(char *token, char **env, int *i, int err)
+char	*expand_token(char *token, t_data *data, int *i)
 {
 	char	*r_var;
 
 	r_var = NULL;
 	if (token[*i] == '$')
-		r_var = expand_dollar(token, env, i, err);
+	{
+		r_var = expand_dollar(token, data->envp_cp, i, data->exit_code);
+		data->treat = true;
+	}
 	else if (token[*i] == '\'' || token[*i] == '"')
-		r_var = quotes_handler(token, env, i, err);
+	{
+		r_var = quotes_handler(token, data->envp_cp, i, data->exit_code);
+		data->treat = true;
+	}
 	return (r_var);
 }
 

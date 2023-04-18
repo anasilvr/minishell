@@ -50,7 +50,7 @@ static char	*add_line(char *r_var, char *r_line)
 	return (r_line);
 }
 
-static char	*token_handler(t_tok *node, char **envp_cp, int err_code)
+static char	*token_handler(t_tok *node, t_data *data)
 {
 	char	*r_line;
 	char	*r_var;
@@ -63,18 +63,20 @@ static char	*token_handler(t_tok *node, char **envp_cp, int err_code)
 	{
 		if (node->prev && node->prev->type == 3)
 			;
-		r_var = expand_token(node->token, envp_cp, &i, err_code);
+		r_var = expand_token(node->token, data, &i);
 		if (r_var != NULL)
 			r_line = add_line(r_var, r_line);
-		else if (r_var == NULL && node->token[i] != '\0')
+		else if (r_var == NULL && node->token[i] != '\0'\
+			&& data->treat == false)
 			r_line = charjoinfree(r_line, node->token[i++]);
 		if (r_var != NULL)
 			r_var = xfree(r_var);
+		data->treat = false;
 	}
 	return (r_line);
 }
 
-void	treat_line(t_tok *tok, char **env_cp, int err_code)
+void	treat_line(t_tok *tok, t_data *data)
 {
 	int		i;
 	char	*r_line;
@@ -86,7 +88,7 @@ void	treat_line(t_tok *tok, char **env_cp, int err_code)
 	{
 		i = 0;
 		if (node->type == 1 || node->type == 8 || node->type == 10)
-			r_line = token_handler(node, env_cp, err_code);
+			r_line = token_handler(node, data);
 		if (node->type == 1 || node->type == 8 || node->type == 9 \
 			|| node->type == 10)
 		{
