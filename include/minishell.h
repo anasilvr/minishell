@@ -279,12 +279,13 @@ int		space_handler(char *str, int i);
 char	*double_quote_handler(char *line, char **env, int *j, int err_code);
 char	*cpy_env_var(char **env, char *var);
 char	*single_quotes_handler(char *line, int *j);
-void	treat_line(t_tok *tok, t_data *data);
+void	treat_line(t_data *data);
 int		quotes_len(char *line, int *j, char q);
 char	*quotes_handler(char *line, char **env, int *j, int err_code);
 char	*expand_token(char *token, t_data *data, int *i);
 char	*dollar_env_handler(char *line, char **env, int *i);
 char	*expand_dollar(char *line, char **env, int *i, int err);
+t_tok	*token_token_changr(t_tok *node);
 
 //bonus tester
 char	*tester(void);

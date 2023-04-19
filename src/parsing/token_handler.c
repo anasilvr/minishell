@@ -69,3 +69,12 @@ char	*dollar_env_handler(char *line, char **env, int *i)
 	(*i) += j;
 	return (r_var);
 }
+
+t_tok	*token_token_changr(t_tok *node)
+{
+	if (node->type == INVALID)
+		node = delmidnode_toklist(node);
+	else if (node->token != NULL && node->next != NULL)
+		node = node->next;
+	return (node);
+}

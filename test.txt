@@ -1,5 +1,6 @@
 echo $USER  $USER91"text"$USER abab$USERabc > outfile.txt
 echo text"$USER"
+$9
 echo "'$USER'"
 echo " '$USER' "
 echo $USER
@@ -15,6 +16,7 @@ echo stop barking
 echo "bonjour"
 echo bonjour
 echo 'bonjour'
+$gdfhgjdfhjk
 echo -n bonjour
 echo -nn bonjour
 echo -n -n -n bonjour
@@ -49,6 +51,7 @@ echo $USER'$USER'text oui oui     oui  oui $USER oui      $USER ''
 echo $USER '' $USER $USER '' $USER '' $USER -n $USER
 echo ' \' ' \'
 echo '\" ' " \"\""
+$gfdjkghdfjk
 echo \\\" \\\" \\\" \\\"\\\"\\\" \\\'\\\'\\\'
 echo "$USER""$USER""$USER"
 echo text"$USER"test
@@ -77,8 +80,7 @@ echo $PWD/file
 echo "$PWD/file"
 echo "text" "text$USER" ... "$USER"
 echo $PWD
-
-
+$ghdfjkgf
 bash -c echo "Testing echo"
 echo "Les prochains tests seront pour les redirections"
 echo "Commencons par un fichier sans droit"
@@ -133,6 +135,8 @@ echo ~123
 echo 123~
 echo ~/123
 echo ~/123/456
+$hjkdfhgjkdf
+$hjkgdfhgjkdf
 echo $USER
 echo "$USER"
 echo "'$USER'"
@@ -149,6 +153,7 @@ echo ''''''''''$USER''''''''''
 echo """"""""$USER""""""""
 echo $USER'$USER'text oui oui     oui  oui $USER oui      $USER ''
 echo $USER '' $USER $USER '' $USER '' $USER -n $USER
+$hgjkhgdf
 echo ' \' ' \'
 echo '\" ' " \"\""
 echo \\\" \\\" \\\" \\\"\\\"\\\" \\\'\\\'\\\'

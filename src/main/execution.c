@@ -100,7 +100,7 @@ static void	external_bin_exec(t_data *prog_data, char **argv)
 
 void	execution_time(t_data *prog_data)
 {
-	if (prog_data->cmd_lst->args)
+	if (prog_data->cmd_lst->args && *prog_data->cmd_lst->args)
 	{
 		builtins_checker(prog_data, prog_data->cmd_lst);
 		if (prog_data->cmd_lst->is_builtin == false)

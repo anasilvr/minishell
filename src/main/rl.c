@@ -73,35 +73,36 @@ static char	*token_handler(t_tok *node, t_data *data)
 			r_var = xfree(r_var);
 		data->treat = false;
 	}
+	if (r_line == NULL)
+		node->type = INVALID;
 	return (r_line);
 }
 
-void	treat_line(t_tok *tok, t_data *data)
+void	treat_line(t_data *data)
 {
 	int		i;
 	char	*r_line;
-	t_tok	*node;
 
 	r_line = NULL;
-	node = tok;
-	while (node != NULL)
+	while (data->token != NULL)
 	{
 		i = 0;
-		if (node->type == 1 || node->type == 8 || node->type == 10)
-			r_line = token_handler(node, data);
-		if (node->type == 1 || node->type == 8 || node->type == 9 \
-			|| node->type == 10)
+		if (data->token->type == 1 || data->token->type == 8 || data->token->type == 10)
+			r_line = token_handler(data->token, data);
+		if (data->token->type == 1 || (data->token->type >= 8 && data->token->type <= 10))
 		{
-			node->token = xfree(node->token);
-			node->token = ft_strdup(r_line);
-			if (node->token == NULL)
-				node = delmidnode_toklist(node);
-			else if (node->token != NULL)
-				node = node->next;
-			r_line = xfree(r_line);
+			if (r_line == NULL)
+				data->token = delmidnode_toklist(data->token);
+			else if (r_line != NULL)
+			{
+				data->token->token = xfree(data->token->token);
+				data->token->token = ft_strdup(r_line);
+				r_line = xfree(r_line);
+				data->token = data->token->next;
+			}
 		}
 		else
-			node = node->next;
+			data->token = data->token->next;
 	}
 }
 
