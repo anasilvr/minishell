@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgagnon <marvin@42quebec.com>              +#+  +:+       +#+        */
+/*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 14:01:00 by jgagnon           #+#    #+#             */
-/*   Updated: 2023/04/18 14:01:01 by jgagnon          ###   ########.fr       */
+/*   Updated: 2023/04/19 15:29:09 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,22 @@ char	*dollar_env_handler(char *line, char **env, int *i)
 	return (r_var);
 }
 
-t_tok	*token_token_changr(t_tok *node)
+t_tok	*token_token_changr(t_data *data, char *r_line, t_tok **keep_first_node)
 {
-	if (node->type == INVALID)
-		node = delmidnode_toklist(node);
-	else if (node->token != NULL && node->next != NULL)
-		node = node->next;
-	return (node);
+	if (r_line == NULL)
+	{
+		data->token = delmidnode_toklist(data->token);
+		*keep_first_node = data->token;
+	}
+	else if (r_line != NULL)
+	{
+		data->token->token = xfree(data->token->token);
+		data->token->token = ft_strdup(r_line);
+		r_line = xfree(r_line);
+		if (data->token->type == INVALID)
+			data->token = delmidnode_toklist(data->token);
+		if (data->token)
+			data->token = data->token->next;
+	}
+	return (data->token);
 }

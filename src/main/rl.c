@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rl.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:55:35 by jgagnon           #+#    #+#             */
-/*   Updated: 2023/04/17 11:21:56 by anarodri         ###   ########.fr       */
+/*   Updated: 2023/04/19 15:40:32 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,28 +82,23 @@ void	treat_line(t_data *data)
 {
 	int		i;
 	char	*r_line;
+	t_tok	*keep_first_node;
 
 	r_line = NULL;
+	keep_first_node = data->token;
 	while (data->token != NULL)
 	{
 		i = 0;
-		if (data->token->type == 1 || data->token->type == 8 || data->token->type == 10)
+		if (data->token->type == 1 || data->token->type == 8 || \
+			data->token->type == 10)
 			r_line = token_handler(data->token, data);
-		if (data->token->type == 1 || (data->token->type >= 8 && data->token->type <= 10))
-		{
-			if (r_line == NULL)
-				data->token = delmidnode_toklist(data->token);
-			else if (r_line != NULL)
-			{
-				data->token->token = xfree(data->token->token);
-				data->token->token = ft_strdup(r_line);
-				r_line = xfree(r_line);
-				data->token = data->token->next;
-			}
-		}
+		if (data->token->type == 1 || (data->token->type >= 8 && \
+			data->token->type <= 11))
+			data->token = token_token_changr(data, r_line, &keep_first_node);
 		else
 			data->token = data->token->next;
 	}
+	data->token = keep_first_node;
 }
 
 char	*rl_gets(void)

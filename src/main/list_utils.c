@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgagnon <marvin@42quebec.com>              +#+  +:+       +#+        */
+/*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 10:43:12 by jgagnon           #+#    #+#             */
-/*   Updated: 2023/03/29 10:43:14 by jgagnon          ###   ########.fr       */
+/*   Updated: 2023/04/19 13:01:50 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,3 @@ t_tok	*get_first_tok(t_tok *node)
 		node = node->prev;
 	return (node);
 }
-// t_tok	*get_first_tok(t_tok *node)
-// {
-// 	if (!node)
-// 		return (NULL);
-// 	while (node_ptr->prev)
-// 		node_ptr = node_ptr->prev;
-// 	return (node_ptr);
-// }

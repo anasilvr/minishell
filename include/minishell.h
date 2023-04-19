@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:30:19 by jgagnon           #+#    #+#             */
-/*   Updated: 2023/04/19 08:48:37 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/19 15:41:34 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -286,7 +286,8 @@ char	*quotes_handler(char *line, char **env, int *j, int err_code);
 char	*expand_token(char *token, t_data *data, int *i);
 char	*dollar_env_handler(char *line, char **env, int *i);
 char	*expand_dollar(char *line, char **env, int *i, int err);
-t_tok	*token_token_changr(t_tok *node);
+t_tok	*token_token_changr(t_data *data, char *r_line, \
+	t_tok **keep_first_node);
 
 //bonus tester
 char	*tester(void);
