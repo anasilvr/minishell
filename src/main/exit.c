@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 10:38:11 by jgagnon           #+#    #+#             */
-/*   Updated: 2023/03/31 15:24:49 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/19 08:48:32 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ void	clean_exit(t_data *data)
 	xfree(data);
 }
 
-void	free_cmdlist(t_cmd *lst)
+void	*free_cmdlist(t_cmd *lst)
 {
 	t_cmd	*tmp;
 
 	if (!lst)
-		return ;
+		return (NULL);
 	while (lst)
 	{
 		tmp = lst->next;
@@ -46,6 +46,7 @@ void	free_cmdlist(t_cmd *lst)
 		xfree(lst);
 		lst = tmp;
 	}
+	return (lst);
 }
 
 void	close_fdcpy(t_data *data)

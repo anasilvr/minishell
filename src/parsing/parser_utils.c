@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 14:45:25 by tchalifo          #+#    #+#             */
-/*   Updated: 2023/04/17 12:07:33 by anarodri         ###   ########.fr       */
+/*   Updated: 2023/04/19 08:48:09 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_cmd	*create_cmdlist(t_data *data)
 		skip_whitespaces(&str);
 		skip_meta(&str);
 	}
-	free_cmdlist(data->cmd_lst);
+	data->cmd_lst = free_cmdlist(data->cmd_lst);
 	return (cmdlst);
 }
 

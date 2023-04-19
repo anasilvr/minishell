@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 14:45:43 by tchalifo          #+#    #+#             */
-/*   Updated: 2023/04/17 15:45:52 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/19 09:37:54 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ static void	split_args(t_cmd *cmd_lst, t_tok *token)
 
 int	parser(t_data *data)
 {
-	if (data->token)
+	if (data->token && data->token->token)
 	{
 		data->cmd_lst = create_cmdlist(data);
 		count_expand(data->cmd_lst, data->token);

@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 14:30:19 by tchalifo          #+#    #+#             */
-/*   Updated: 2023/04/03 14:40:43 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/19 09:41:13 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ t_tok	*delnode_toklist(t_tok *token_lst)
 {
 	if (token_lst)
 	{
-		free(token_lst->token);
+		if (token_lst->token)
+			free(token_lst->token);
 		token_lst->next = NULL;
 		token_lst->prev = NULL;
 		free(token_lst);

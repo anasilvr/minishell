@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:30:19 by jgagnon           #+#    #+#             */
-/*   Updated: 2023/04/13 17:00:36 by anarodri         ###   ########.fr       */
+/*   Updated: 2023/04/19 08:48:37 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,12 +201,13 @@ void	exec_set(t_data *data);
 // MAIN
 // exit.c
 void	clean_exit(t_data *data);
-void	free_cmdlist(t_cmd *lst);
+// void	free_cmdlist(t_cmd *lst);
 void	close_fdcpy(t_data *data);
 void	reset_io(t_data *data);
 void	reset(t_data *data);
 t_tok	*delnode_toklist(t_tok *token_lst);
 t_tok	*delmidnode_toklist(t_tok *node_to_remove);
+void	*free_cmdlist(t_cmd *lst);
 
 // init.c
 t_data	*get_data(void);
