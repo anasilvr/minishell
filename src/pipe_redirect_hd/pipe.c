@@ -91,6 +91,6 @@ t_cmd	*jobs_loop(t_data *data)
 		data->cmd_lst = data->cmd_lst->next;
 	}
 	waitpid(data->fork_pid, &exit_status, 0);
-    g_status = exit_status;
+	g_status = exit_status;
 	return (data->cmd_lst);
 }

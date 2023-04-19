@@ -23,8 +23,8 @@ char	*heredoc_dollar(int *i, char **env, char *line, int err_code)
 	r_status = ft_itoa(err_code);
 	if (line[++(*i)] == '$')
 		;
-    else if (line[(*i)] == '?')
-        r_line = ft_strdup(r_status);
+	else if (line[(*i)] == '?')
+		r_line = ft_strdup(r_status);
 	else if (line[--(*i)] == '$' && r_line != NULL)
 	{
 		while (ft_isalnum(line[++(*i)]) == 1)

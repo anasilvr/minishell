@@ -36,8 +36,8 @@ void	reset(t_data *data)
 	reset_stdio(data);
 	data->token->type = 0;
 	data->heredoc = false;
-    data->exit_code = g_status;
-    g_status = 0;
+	data->exit_code = g_status;
+	g_status = 0;
 }
 
 void	reset_io(t_data *data)

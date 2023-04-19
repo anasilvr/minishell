@@ -16,7 +16,7 @@ char	*charjoinfree(const char *s1, const char c)
 {
 	char		*r_str;
 	size_t		len;
-	int		i;
+	int			i;
 
 	len = 0;
 	if (s1)
@@ -50,7 +50,7 @@ static char	*add_line(char *r_var, char *r_line)
 	return (r_line);
 }
 
-static char	*token_handler(t_tok *node, char **envp_cp, int err_code)
+static char	*token_handler(t_tok *node, t_data *data)
 {
 	char	*r_line;
 	char	*r_var;
@@ -63,48 +63,46 @@ static char	*token_handler(t_tok *node, char **envp_cp, int err_code)
 	{
 		if (node->prev && node->prev->type == 3)
 			;
-		else if (node->token[i] == '$')
-			r_var = dollar_handler(node->token, envp_cp, &i, err_code);
-		else if (node->token[i] == '\'' && r_var == NULL)
-			r_var = single_quotes_handler(node->token, &i);
-		else if (node->token[i] == '"' && r_var == NULL)
-			r_var = double_quote_handler(node->token, envp_cp, &i, err_code);
+		r_var = expand_token(node->token, data, &i);
 		if (r_var != NULL)
 			r_line = add_line(r_var, r_line);
-		else if (r_var == NULL && node->token[i] != '\0')
+		else if (r_var == NULL && node->token[i] != '\0'\
+			&& data->treat == false)
 			r_line = charjoinfree(r_line, node->token[i++]);
 		if (r_var != NULL)
 			r_var = xfree(r_var);
+		data->treat = false;
 	}
+	if (r_line == NULL)
+		node->type = INVALID;
 	return (r_line);
 }
 
-void	treat_line(t_tok *tok, char **env_cp, int err_code)
+void	treat_line(t_data *data)
 {
 	int		i;
 	char	*r_line;
-	t_tok	*node;
 
 	r_line = NULL;
-	node = tok;
-	while (node != NULL)
+	while (data->token != NULL)
 	{
 		i = 0;
-		if (node->type == 1 || node->type == 8 || node->type == 10)
-			r_line = token_handler(node, env_cp, err_code);
-		if (node->type == 1 || node->type == 8 || node->type == 9 \
-			|| node->type == 10)
+		if (data->token->type == 1 || data->token->type == 8 || data->token->type == 10)
+			r_line = token_handler(data->token, data);
+		if (data->token->type == 1 || (data->token->type >= 8 && data->token->type <= 10))
 		{
-			node->token = xfree(node->token);
-			node->token = ft_strdup(r_line);
-			if (node->token == NULL)
-				node = delmidnode_toklist(node);
-			else if (node->token != NULL)
-				node = node->next;
-			r_line = xfree(r_line);
+			if (r_line == NULL)
+				data->token = delmidnode_toklist(data->token);
+			else if (r_line != NULL)
+			{
+				data->token->token = xfree(data->token->token);
+				data->token->token = ft_strdup(r_line);
+				r_line = xfree(r_line);
+				data->token = data->token->next;
+			}
 		}
 		else
-			node = node->next;
+			data->token = data->token->next;
 	}
 }
 

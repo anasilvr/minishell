@@ -118,7 +118,9 @@ int	lexer(t_data *data, char *input)
 	if (data->syntax_err)
 		return (258);
 	verify_dollartype(&data->token);
-	treat_line(data->token, data->envp_cp, data->exit_code);
+	treat_line(data);
 	print_toklist(data->token);
+	if (data->token == NULL)
+		return (18);
 	return (0);
 }

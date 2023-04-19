@@ -128,7 +128,8 @@ typedef struct s_data
 	bool			heredoc;
 	int				fork_pid;
 	bool			tester;
-    int             exit_code;
+	bool			treat;
+	int				exit_code;
 }	t_data;
 
 // FUNCTIONS
@@ -243,7 +244,7 @@ char	*var_trim(char *n_var);
 int		ft_free_strlen(char *str);
 
 //lexer.c and lexer_utils.c
-int	lexer(t_data *data, char *input);
+int		lexer(t_data *data, char *input);
 int		check_syntax(t_tok **list);
 t_tok	*tokenize(t_data *data, char *str);
 void	skip_whitespaces(char **str);
@@ -277,11 +278,15 @@ char	*charjoinfree(const char *s1, const char c);
 //line handler
 int		space_handler(char *str, int i);
 char	*double_quote_handler(char *line, char **env, int *j, int err_code);
-char	*dollar_handler(char *cmd, char **env, int *j, int err_code);
 char	*cpy_env_var(char **env, char *var);
 char	*single_quotes_handler(char *line, int *j);
-void	treat_line(t_tok *tok, char **env_cp, int err_code);
+void	treat_line(t_data *data);
 int		quotes_len(char *line, int *j, char q);
+char	*quotes_handler(char *line, char **env, int *j, int err_code);
+char	*expand_token(char *token, t_data *data, int *i);
+char	*dollar_env_handler(char *line, char **env, int *i);
+char	*expand_dollar(char *line, char **env, int *i, int err);
+t_tok	*token_token_changr(t_tok *node);
 
 //bonus tester
 char	*tester(void);

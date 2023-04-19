@@ -72,6 +72,7 @@ PARSE_F	=			\
 	handler.c		\
 	handler_utils.c \
 	tok_dll_del.c \
+	token_handler.c
 #	tok_dll_addnode.c \
 	tok_dll_utils.c \
 	

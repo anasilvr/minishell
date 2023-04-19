@@ -37,6 +37,7 @@ t_data	*init_data(char **envp, t_data *data)
 	data->stdio[2] = STDERR_FILENO;
 	data->heredoc = false;
 	data->tester = false;
+	data->treat = false;
 	return (data);
 }
 

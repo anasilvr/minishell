@@ -40,8 +40,8 @@ static void	err_msg(t_data *data)
 int	main(int argc, char **argv, char **envp)
 {
 	t_data		*data;
-	(void)		argv;
 
+	(void) argv;
 	if (!envp || !(*envp))
 	{
 		ft_putstr_fd("Error: ENVP missing. Please restart your terminal\
