@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 10:23:47 by jgagnon           #+#    #+#             */
-/*   Updated: 2023/04/17 15:29:18 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/21 15:37:49 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,10 @@ static void	external_bin_exec(t_data *prog_data, char **argv)
 		if (prog_data->fork_pid == -1)
 			perror("WTS");
 		else if (prog_data->fork_pid != 0)
-			waitpid(prog_data->fork_pid, NULL, 0);
+		{
+			waitpid(prog_data->fork_pid, &prog_data->errno_code, 0);
+			g_status = prog_data->errno_code >> 8;
+		}
 	}
 	if (prog_data->fork_pid == 0)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:01:02 by tchalifo          #+#    #+#             */
-/*   Updated: 2023/04/12 09:52:30 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/21 14:39:15 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,6 @@ t_cmd	*jobs_loop(t_data *data)
 		data->cmd_lst = data->cmd_lst->next;
 	}
 	waitpid(data->fork_pid, &exit_status, 0);
-	g_status = exit_status;
+	g_status = exit_status >> 8;
 	return (data->cmd_lst);
 }

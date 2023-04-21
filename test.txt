@@ -1,113 +1,3 @@
-echo $USER  $USER91"text"$USER abab$USERabc > outfile.txt
-echo text"$USER"
-$9
-echo "'$USER'"
-echo " '$USER' "
-echo $USER
-echo "$USER"
-echo
-echo echo
-eCho 
-eChO
-eCHO
-ECHO
-echo rhobebou
-echo stop barking
-echo "bonjour"
-echo bonjour
-echo 'bonjour'
-$gdfhgjdfhjk
-echo -n bonjour
-echo -nn bonjour
-echo -n -n -n bonjour
-echo -n -n -n bonjour
-echo "-n" bonjour
-echo -n"-n" bonjour
-echo "-nnnn" bonjour
-echo "-n -n -n"-n bonjour
-echo "-n '-n'" bonjour
-echo ~
-echo "~"
-echo '~'
-echo ~123
-echo 123~
-echo ~/123
-echo ~/123/456
-echo $USER
-echo "$USER"
-echo "'$USER'"
-echo $USER
-echo "$USER"
-echo "'$USER'"
-echo " '$USER' "
-echo text"$USER"
-echo text"'$USER'" ' $USER '
-echo "text"   "$USER"    "$USER"
-echo '              $USER          '
-echo               text "$USER"            "$USER"text
-echo ''''''''''$USER''''''''''
-echo """"""""$USER""""""""
-echo $USER'$USER'text oui oui     oui  oui $USER oui      $USER ''
-echo $USER '' $USER $USER '' $USER '' $USER -n $USER
-echo ' \' ' \'
-echo '\" ' " \"\""
-$gfdjkghdfjk
-echo \\\" \\\" \\\" \\\"\\\"\\\" \\\'\\\'\\\'
-echo "$USER""$USER""$USER"
-echo text"$USER"test
-echo '$USER' "$USER" "text \' text"
-echo '$USER'
-echo $USER " "
-echo "$USER""Users/$USER/file""'$USER'"'$USER'
-echo "$USER$USER$USER"
-echo '$USER'"$USER"'$USER'
-echo '"$USER"''$USER'"""$USER"
-echo " $USER  "'$PWD'
-echo " $USER  \$ "'$PWD'
-echo $USER=4
-echo $USER=thallard
-echo $USER
-echo $?
-echo $USER213
-echo $USER$12USER$USER=4$USER12
-echo $USER $123456789USER $USER123456789
-echo $USER $9999USER $8888USER $7777USER
-echo $USER $USER9999 $USER8888 $USER7777
-echo $USER $USER9999 $USER8888 $USER7777 "$USER"
-echo "$USER=12$USER"
-echo "$9USER" "'$USER=12$SOMETHING'"
-echo $PWD/file
-echo "$PWD/file"
-echo "text" "text$USER" ... "$USER"
-echo $PWD
-$ghdfjkgf
-bash -c echo "Testing echo"
-echo "Les prochains tests seront pour les redirections"
-echo "Commencons par un fichier sans droit"
-touch bob
-chmod 000 bob
-cat < bob
-echo BobIntoTheBob > bob
-echo "Ensuite, avec des quotes et des expands"
-diff outfile.txt <("$USER text$USER abab")
-rm -f outfile.txt
-env | grep "_="
-echo "Les prochains tests seront pour les redirections"
-echo "Commencons par un fichier sans droit"
-touch bob
-chmod 0000 bob
-cat < bob
-echo BobIntoTheBob > bob
-echo "Ensuite, avec des quotes et des expands"
-echo $USER  $USER91"text"$USER abab$USERabc > outfile.txt
-rm -f outfile.txt
-diff outfile.txt <("$USER text$USER abab")
-env | grep "_="
-echo text"$USER"
-echo "'$USER'"
-echo " '$USER' "
-echo $USER
-echo "$USER"
 echo
 echo echo
 eCho 
@@ -135,11 +25,6 @@ echo ~123
 echo 123~
 echo ~/123
 echo ~/123/456
-$hjkdfhgjkdf
-$hjkgdfhgjkdf
-echo $USER
-echo "$USER"
-echo "'$USER'"
 echo $USER
 echo "$USER"
 echo "'$USER'"
@@ -153,7 +38,6 @@ echo ''''''''''$USER''''''''''
 echo """"""""$USER""""""""
 echo $USER'$USER'text oui oui     oui  oui $USER oui      $USER ''
 echo $USER '' $USER $USER '' $USER '' $USER -n $USER
-$hgjkhgdf
 echo ' \' ' \'
 echo '\" ' " \"\""
 echo \\\" \\\" \\\" \\\"\\\"\\\" \\\'\\\'\\\'
@@ -185,7 +69,6 @@ echo "$PWD/file"
 echo "text" "text$USER" ... "$USER"
 echo $PWD
 
-echo "Testing cd"
 cd 
 cd .. 
 cd . 
@@ -213,7 +96,7 @@ cd bark bark
 cd '/' 
 cd $PWD/file_tests 
 cd $OLDPWD/something 
-echo "Testing pipes"
+
 env | grep "_="
 env | grep "SHLVL"
 echo oui | cat -e
@@ -241,5 +124,4 @@ ls -la | grep "."
 whereis grep > tmp/file 
 whereis grep > tmp/file
 ls -la > tmp/file
-ls -la > tmp/file 
-ls > out
+ls -la > tmp/file

@@ -6,7 +6,7 @@
 /*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 14:55:57 by tchalifo          #+#    #+#             */
-/*   Updated: 2023/04/17 11:59:24 by anarodri         ###   ########.fr       */
+/*   Updated: 2023/04/21 14:38:33 by anarodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,12 +114,10 @@ int	lexer(t_data *data, char *input)
 	if (!data->token)
 		return (129);
 	data->syntax_err = id_tokens(&data->token, data);
-	print_toklist(data->token);
 	if (data->syntax_err)
 		return (258);
 	verify_dollartype(&data->token);
 	treat_line(data);
-	print_toklist(data->token);
 	if (data->token == NULL)
 		return (18);
 	return (0);
