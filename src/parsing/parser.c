@@ -105,7 +105,7 @@ int	parser(t_data *data)
 		count_expand(data->cmd_lst, data->token);
 		if (redirect_subparsing(data) == -1)
 		{
-			perror("wts");
+			perror("WTS");
 			g_status = errno;
 			return (-1);
 		}

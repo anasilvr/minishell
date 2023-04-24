@@ -93,7 +93,7 @@ static void	external_bin_exec(t_data *prog_data, char **argv)
 	{
 		if (execve(prog_data->cmd_lst->path, argv, prog_data->envp_cp) == -1)
 		{
-			ft_putstr_fd("WTS: command not found:", 2);
+			ft_putstr_fd("WTS: command not found: ", 2);
 			ft_putstr_fd(argv[0], 2);
 			ft_putstr_fd("\n", 2);
 			clean_exit(prog_data);
@@ -115,7 +115,15 @@ void	execution_time(t_data *prog_data)
 			else
 				prog_data->cmd_lst->path = \
 					ft_strdup(prog_data->cmd_lst->args[0]);
-			external_bin_exec (prog_data, prog_data->cmd_lst->args);
+			if (prog_data->cmd_lst->path != NULL)
+				external_bin_exec (prog_data, prog_data->cmd_lst->args);
+			else
+			{
+				ft_putstr_fd("WTS: command not found: ", 2);
+				ft_putstr_fd(prog_data->cmd_lst->args[0], 2);
+				ft_putstr_fd("\n", 2);
+				g_status = 127;
+			}
 		}
 	}
 }
