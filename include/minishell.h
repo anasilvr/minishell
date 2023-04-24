@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:30:19 by jgagnon           #+#    #+#             */
-/*   Updated: 2023/04/19 15:41:34 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/24 13:17:41 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,13 @@ typedef enum e_type
 	INVALID,
 }	t_type;
 
+typedef struct s_hdoc
+{
+	char			*the_line;
+	struct s_hdoc	*next;
+	struct s_hdoc	*previous;
+}	t_hdoc;
+
 typedef struct s_cmd
 {
 	char			*cmdline;
@@ -91,6 +98,7 @@ typedef struct s_cmd
 	int				err;
 	int				io_flag;
 	bool			is_builtin;
+	struct s_hdoc	*hd_struct;
 	char			*hd_delimiter;
 	int				expand;
 	struct s_cmd	*prev;
@@ -106,13 +114,6 @@ typedef struct s_tok
 	struct s_tok	*next;
 }	t_tok;
 
-typedef struct s_hdoc
-{
-	char			*the_line;
-	struct s_hdoc	*next;
-	struct s_hdoc	*previous;
-}	t_hdoc;
-
 typedef struct s_data
 {
 	char			**envp_cp;
@@ -120,7 +121,6 @@ typedef struct s_data
 	char			*input;
 	struct s_tok	*token;
 	struct s_cmd	*cmd_lst;
-	struct s_hdoc	*hd_struct;
 	int				nb_cmds;
 	int				nb_pipes;
 	int				syntax_err;

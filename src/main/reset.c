@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:55:14 by jgagnon           #+#    #+#             */
-/*   Updated: 2023/04/06 09:47:37 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/24 13:25:34 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ void	reset(t_data *data)
 		free_cmdlist(data->cmd_lst);
 		data->cmd_lst = ft_xcalloc(1, sizeof(t_cmd));
 	}
-	if (data->hd_struct)
+	if (data->cmd_lst->hd_struct)
 	{
-		ft_dllst_clear(data->hd_struct);
-		data->hd_struct = NULL;
+		ft_dllst_clear(data->cmd_lst->hd_struct);
+		data->cmd_lst->hd_struct = NULL;
 	}
 	reset_io(data);
 	reset_stdio(data);

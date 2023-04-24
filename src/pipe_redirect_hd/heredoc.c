@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 13:41:47 by tchalifo          #+#    #+#             */
-/*   Updated: 2023/04/04 14:53:30 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/24 12:30:19 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	heredoc_subparsing(t_data *data)
 		}
 		if (data->token->type == HEREDOC)
 		{
-			data->hd_struct = write_heredoc(data);
+			data->cmd_lst->hd_struct = write_heredoc(data);
 			data->token = delmidnode_toklist(data->token);
 			data->token = delmidnode_toklist(data->token);
 			token_ptrcpy = get_first_tok(data->token);

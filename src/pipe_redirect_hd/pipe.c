@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:01:02 by tchalifo          #+#    #+#             */
-/*   Updated: 2023/04/24 09:32:15 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/24 12:36:26 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	job_set(t_data *data, int pipe_fd[2])
 
 	if (data->heredoc == true)
 	{
-		hd_pipe_out_fd = heredoc_to_pipe(data->hd_struct);
+		hd_pipe_out_fd = heredoc_to_pipe(data->cmd_lst->hd_struct);
 		dup2 (hd_pipe_out_fd, 0);
 		close (hd_pipe_out_fd);
 	}
