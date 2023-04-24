@@ -26,11 +26,11 @@ static	void	signal_handler(int sig)
 static void	err_msg(t_data *data)
 {
 	if (data->syntax_err == 128)
-		printf("[%d / %d] %s\n", g_status, data->syntax_err, ERR_QUOTES);
+		printf("Error: %s\n", ERR_QUOTES);
 	else if (data->syntax_err == 129)
-		printf("[%d / %d] %s\n", g_status, data->syntax_err, ERR_TOK);
+		printf("Error: %s\n", ERR_TOK);
 	else if (data->syntax_err == 258)
-		printf("[%d / %d] %s\n", g_status, data->syntax_err, ERR_SYNTAX);
+		printf("Error: %s\n", ERR_SYNTAX);
 	else
 		printf("Error\n");
 	data->syntax_err = 0;
