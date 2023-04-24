@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 10:23:47 by jgagnon           #+#    #+#             */
-/*   Updated: 2023/04/17 15:29:18 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/24 09:34:59 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,25 +75,29 @@ static char	*recup_the_bin_path(char *bin_name, char **p_envp)
  */
 static void	external_bin_exec(t_data *prog_data, char **argv)
 {
+	int	status;
+
+	status = 0;
 	if (prog_data->fork_pid != 0)
 	{
 		prog_data->fork_pid = fork();
 		if (prog_data->fork_pid == -1)
 			perror("WTS");
 		else if (prog_data->fork_pid != 0)
-			waitpid(prog_data->fork_pid, NULL, 0);
+		{
+			waitpid(prog_data->fork_pid, &status, 0);
+			g_status = ((status & 0xff00) >> 8);
+		}
 	}
 	if (prog_data->fork_pid == 0)
 	{
 		if (execve(prog_data->cmd_lst->path, argv, prog_data->envp_cp) == -1)
 		{
-			ft_putstr_fd("WTS: ", 2);
-			ft_putstr_fd("command not found: ", 2);
+			ft_putstr_fd("WTS: command not found:", 2);
 			ft_putstr_fd(argv[0], 2);
 			ft_putstr_fd("\n", 2);
 			clean_exit(prog_data);
-			g_status = 127;
-			exit (127);
+			exit(127);
 		}
 	}
 }

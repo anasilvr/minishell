@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/05 11:34:45 by tchalifo          #+#    #+#             */
-/*   Updated: 2023/04/17 15:46:30 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/24 08:54:02 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,18 +101,12 @@ int	open_to_rw(char *filepath, int additional_flag)
 	int	file_fd;
 
 	if (access(filepath, R_OK | W_OK) == -1 && errno == EACCES)
-	{
-		perror(NULL);
 		return (-1);
-	}
 	else
 		file_fd = open(filepath, O_RDWR | additional_flag | O_CREAT, \
 				S_IWUSR | S_IWGRP | S_IWOTH | S_IRUSR | S_IRGRP | S_IROTH);
 	if (file_fd == -1)
-	{
-		perror(NULL);
 		return (-1);
-	}
 	return (file_fd);
 }
 

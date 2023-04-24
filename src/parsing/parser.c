@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 14:45:43 by tchalifo          #+#    #+#             */
-/*   Updated: 2023/04/19 09:37:54 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/24 09:41:50 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,14 +104,13 @@ int	parser(t_data *data)
 		data->cmd_lst = create_cmdlist(data);
 		count_expand(data->cmd_lst, data->token);
 		if (redirect_subparsing(data) == -1)
+		{
+			perror("wts");
+			g_status = errno;
 			return (-1);
+		}
 		heredoc_subparsing(data);
 		split_args(data->cmd_lst, data->token);
-		if (data->cmd_lst->filefd[0] == -1 || \
-		(data->cmd_lst->filefd[1] == -1 && errno == EACCES))
-		{
-			perror("wts:");
-		}
 		return (0);
 	}
 	return (-1);
