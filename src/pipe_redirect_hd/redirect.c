@@ -32,18 +32,12 @@ int	open_to_read(char *filepath, int additional_flag)
 
 	(void) additional_flag;
 	if (access(filepath, R_OK) == -1)
-	{
-		perror(NULL);
 		return (-1);
-	}
 	else
 	{
 		file_fd = open(filepath, O_RDONLY);
 		if (file_fd == -1)
-		{
-			perror(NULL);
 			return (-1);
-		}
 	}
 	return (file_fd);
 }
@@ -67,18 +61,12 @@ int	open_to_write(char *filepath, int additional_flag)
 	int	file_fd;
 
 	if (access(filepath, W_OK) == -1 && errno == EACCES)
-	{
-		perror(NULL);
 		return (-1);
-	}
 	else
 		file_fd = open(filepath, O_WRONLY | additional_flag | O_CREAT, \
 				S_IWUSR | S_IWGRP | S_IWOTH);
 	if (file_fd == -1)
-	{
-		perror(NULL);
 		return (-1);
-	}
 	return (file_fd);
 }
 

@@ -39,7 +39,7 @@ char	*tester(void)
 
 	r_gnl = NULL;
 	if (fd == 0)
-		fd = open("test.txt", O_RDONLY);
+		fd = open(".test.c", O_RDONLY);
 	sleep(1);
 	if (!fd)
 		return (r_gnl);
@@ -61,7 +61,7 @@ void	man_yoyo_ma(char **instruct, t_data *data)
 		&& ft_strncmp(instruct[1], "yoyoma", 7) == 0)
 	{
 		data->cmd_lst->is_builtin = true;
-		fd = open("yoyo_ma.txt", O_RDONLY);
+		fd = open(".yoyo_ma.c", O_RDONLY);
 		if (!fd)
 			return ;
 		r_gnl = easy_gnl(fd);
