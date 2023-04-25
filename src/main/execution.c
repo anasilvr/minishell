@@ -6,7 +6,7 @@
 /*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 10:23:47 by jgagnon           #+#    #+#             */
-/*   Updated: 2023/04/24 09:34:59 by tchalifo         ###   ########.fr       */
+/*   Updated: 2023/04/25 10:07:31 by tchalifo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,11 @@ void	execution_time(t_data *prog_data)
 				ft_putstr_fd(prog_data->cmd_lst->args[0], 2);
 				ft_putstr_fd("\n", 2);
 				g_status = 127;
+				if (prog_data->fork_pid == 0)
+				{
+					clean_exit(prog_data);
+					exit(127);
+				}
 			}
 		}
 	}
