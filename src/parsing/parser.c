@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 14:45:43 by tchalifo          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/04/24 09:41:50 by tchalifo         ###   ########.fr       */
+=======
+/*   Updated: 2023/04/21 15:37:58 by anarodri         ###   ########.fr       */
+>>>>>>> d27766c5c36e6d3c4b4a8cc15950f72e8a055a20
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +115,14 @@ int	parser(t_data *data)
 		}
 		heredoc_subparsing(data);
 		split_args(data->cmd_lst, data->token);
+<<<<<<< HEAD
+=======
+		if (data->cmd_lst->filefd[0] == -1 || \
+		(data->cmd_lst->filefd[1] == -1 && errno == EACCES))
+		{
+			perror("WTS: ");
+		}
+>>>>>>> d27766c5c36e6d3c4b4a8cc15950f72e8a055a20
 		return (0);
 	}
 	return (-1);

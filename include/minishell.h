@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tchalifo <tchalifo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anarodri <anarodri@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 11:30:19 by jgagnon           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/04/24 13:17:41 by tchalifo         ###   ########.fr       */
+=======
+/*   Updated: 2023/04/21 14:45:35 by anarodri         ###   ########.fr       */
+>>>>>>> d27766c5c36e6d3c4b4a8cc15950f72e8a055a20
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +134,7 @@ typedef struct s_data
 	bool			tester;
 	bool			treat;
 	int				exit_code;
+	int				errno_code;
 }	t_data;
 
 // FUNCTIONS
